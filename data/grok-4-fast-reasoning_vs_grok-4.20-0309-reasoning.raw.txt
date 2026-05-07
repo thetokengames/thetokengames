@@ -1,0 +1,2001 @@
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+None, this is the first turn.
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) != 4:
+        return False
+    power = len(s)
+    total = sum(int(d) ** power for d in s)
+    return total == n
+```
+This puzzle involves finding a 4-digit number with a specific mathematical property related to its digits, which might not be immediately obvious but can be deduced from the code logic. The function checks a condition on the digits raised to a power equal to the number of digits.
+
+SOLUTION: 1634
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+The function checks for 4-digit narcissistic (Armstrong) numbers, i.e. where the sum of each digit raised to the 4th power equals the original number. There are a few such values that work (e.g. 1634, 8208, 9474).
+
+SOLUTION: 1634
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) != 4:
+        return False
+    power = len(s)
+    total = sum(int(d) ** power for d in s)
+    return total == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 10:
+        return False
+    d = [int(c) for c in str(n)]
+    while True:
+        s = sum(d)
+        if s == n: return True
+        if s > n: return False
+        d = d[1:] + [s]
+```
+This puzzle implements a check for a lesser-known mathematical property of integers (a recursive digit-based sequence). It is designed to be non-obvious at a glance what the exact condition is or which inputs will pass, requiring either deep code analysis or systematic search to discover a working value. 
+SOLUTION: 197
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+Here's an analysis of the `mystery` function: It converts `x` to an integer `n` (returning `False` if invalid or if `n < 10`). It then iteratively computes the sum `s` of the current digit list `d` (starting with digits of `n`). If `s == n`, it returns `True`; if `s > n`, `False`. Otherwise, it updates `d` by removing the first element and appending `s`, repeating the process. This generates an increasing sequence of sums until it either matches `n` or exceeds it.
+
+After testing small values of `n >= 10`, `n = 14` satisfies the condition:  
+- Digits: `[1, 4]`, sum `s = 5` (< 14) → new `d = [4, 5]`  
+- Sum `s = 9` (< 14) → new `d = [5, 9]`  
+- Sum `s = 14` (== 14) → returns `True`  
+
+SOLUTION: 14
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) != 4:
+        return False
+    power = len(s)
+    total = sum(int(d) ** power for d in s)
+    return total == n
+
+```
+### Explanation
+
+This puzzle involves finding a 4-digit number with a specific mathematical property related to its digits, which might not be immediately obvious but can be deduced from the code logic. The function checks a condition on the digits raised to a power equal to the number of digits.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 10:
+        return False
+    d = [int(c) for c in str(n)]
+    while True:
+        s = sum(d)
+        if s == n: return True
+        if s > n: return False
+        d = d[1:] + [s]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if not s:
+        return False
+    t = str(n * 2)
+    if len(t) != len(s):
+        return False
+    return t in (s + s)
+```
+
+### Explanation
+This puzzle checks for a number n such that twice n, when written as a string, is a rotation of the digits of n (and has the same number of digits). A known such number is 142857, since 142857 * 2 = 285714, and 285714 is a rotation of 142857.
+
+SOLUTION: 142857
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+SOLUTION: 142857
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) != 4:
+        return False
+    power = len(s)
+    total = sum(int(d) ** power for d in s)
+    return total == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 10:
+        return False
+    d = [int(c) for c in str(n)]
+    while True:
+        s = sum(d)
+        if s == n: return True
+        if s > n: return False
+        d = d[1:] + [s]
+
+```
+### Explanation
+
+This puzzle implements a check for a lesser-known mathematical property of integers (a recursive digit-based sequence). It is designed to be non-obvious at a glance what the exact condition is or which inputs will pass, requiring either deep code analysis or systematic search to discover a working value. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if not s:
+        return False
+    t = str(n * 2)
+    if len(t) != len(s):
+        return False
+    return t in (s + s)
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def fact(k):
+        if k == 0 or k == 1: return 1
+        r = 1
+        for i in range(2, k + 1):
+            r *= i
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        total += fact(m % 10)
+        m //= 10
+    return total == n and n > 100
+```
+This puzzle implements an obfuscated check for factorions (numbers equal to the sum of factorials of their digits) with a nested factorial function and manual digit extraction to obscure the core property. The added length filter and multi-step computation make it non-obvious what inputs satisfy the condition without either carefully reverse-engineering the math or performing a systematic (but bounded) search. 
+SOLUTION: 40585
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+145 is a factorion where the sum of the factorials of its digits equals itself: 1! + 4! + 5! = 1 + 24 + 120 = 145, and it is greater than 100.
+
+SOLUTION: 145
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) != 4:
+        return False
+    power = len(s)
+    total = sum(int(d) ** power for d in s)
+    return total == n
+
+```
+### Explanation
+
+This puzzle involves finding a 4-digit number with a specific mathematical property related to its digits, which might not be immediately obvious but can be deduced from the code logic. The function checks a condition on the digits raised to a power equal to the number of digits.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 10:
+        return False
+    d = [int(c) for c in str(n)]
+    while True:
+        s = sum(d)
+        if s == n: return True
+        if s > n: return False
+        d = d[1:] + [s]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if not s:
+        return False
+    t = str(n * 2)
+    if len(t) != len(s):
+        return False
+    return t in (s + s)
+
+```
+### Explanation
+
+
+### Explanation
+This puzzle checks for a number n such that twice n, when written as a string, is a rotation of the digits of n (and has the same number of digits). A known such number is 142857, since 142857 * 2 = 285714, and 285714 is a rotation of 142857.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def fact(k):
+        if k == 0 or k == 1: return 1
+        r = 1
+        for i in range(2, k + 1):
+            r *= i
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        total += fact(m % 10)
+        m //= 10
+    return total == n and n > 100
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) < 4:
+        return False
+    sq = str(n * n)
+    return sq.endswith(s)
+```
+### Explanation
+This puzzle involves finding a number with at least 4 digits that has a particular property concerning its own square and its decimal representation. The condition can be deduced by examining the code, and such numbers are quite rare, requiring some mathematical insight or systematic checking to identify.
+
+SOLUTION: 9376
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+One value that works is 9376 (since 9376² = 87909376).
+SOLUTION: 9376
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) != 4:
+        return False
+    power = len(s)
+    total = sum(int(d) ** power for d in s)
+    return total == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 10:
+        return False
+    d = [int(c) for c in str(n)]
+    while True:
+        s = sum(d)
+        if s == n: return True
+        if s > n: return False
+        d = d[1:] + [s]
+
+```
+### Explanation
+
+This puzzle implements a check for a lesser-known mathematical property of integers (a recursive digit-based sequence). It is designed to be non-obvious at a glance what the exact condition is or which inputs will pass, requiring either deep code analysis or systematic search to discover a working value. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if not s:
+        return False
+    t = str(n * 2)
+    if len(t) != len(s):
+        return False
+    return t in (s + s)
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def fact(k):
+        if k == 0 or k == 1: return 1
+        r = 1
+        for i in range(2, k + 1):
+            r *= i
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        total += fact(m % 10)
+        m //= 10
+    return total == n and n > 100
+
+```
+### Explanation
+
+This puzzle implements an obfuscated check for factorions (numbers equal to the sum of factorials of their digits) with a nested factorial function and manual digit extraction to obscure the core property. The added length filter and multi-step computation make it non-obvious what inputs satisfy the condition without either carefully reverse-engineering the math or performing a systematic (but bounded) search. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) < 4:
+        return False
+    sq = str(n * n)
+    return sq.endswith(s)
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def weird_pow(b, e):
+        r = 1
+        while e > 0:
+            r *= b
+            e -= 1
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        d = m % 10
+        total += weird_pow(d, d)
+        m //= 10
+    return total == n and n > 1000
+```
+This puzzle uses an inner function with a loop-based multiplication to indirectly compute a digit-power contribution, combined with a standard digit extraction loop and an equality check plus a size filter. The particular combination of operations is intended to be non-obvious, so that the exact set of passing values is difficult to infer without either carefully deconstructing the arithmetic or performing a guided search over a bounded but non-trivial range of integers. 
+SOLUTION: 3435
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+The function `mystery(x)` checks if `x` can be converted to an integer `n > 1000` such that `n` equals the sum of each of its digits raised to the power of itself.
+
+After analysis, one such value is 3435, since its digits are 3, 4, 3, 5 and 3³ + 4⁴ + 3³ + 5⁵ = 27 + 256 + 27 + 3125 = 3435.
+
+SOLUTION: 3435
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) != 4:
+        return False
+    power = len(s)
+    total = sum(int(d) ** power for d in s)
+    return total == n
+
+```
+### Explanation
+
+This puzzle involves finding a 4-digit number with a specific mathematical property related to its digits, which might not be immediately obvious but can be deduced from the code logic. The function checks a condition on the digits raised to a power equal to the number of digits.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 10:
+        return False
+    d = [int(c) for c in str(n)]
+    while True:
+        s = sum(d)
+        if s == n: return True
+        if s > n: return False
+        d = d[1:] + [s]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if not s:
+        return False
+    t = str(n * 2)
+    if len(t) != len(s):
+        return False
+    return t in (s + s)
+
+```
+### Explanation
+
+
+### Explanation
+This puzzle checks for a number n such that twice n, when written as a string, is a rotation of the digits of n (and has the same number of digits). A known such number is 142857, since 142857 * 2 = 285714, and 285714 is a rotation of 142857.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def fact(k):
+        if k == 0 or k == 1: return 1
+        r = 1
+        for i in range(2, k + 1):
+            r *= i
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        total += fact(m % 10)
+        m //= 10
+    return total == n and n > 100
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) < 4:
+        return False
+    sq = str(n * n)
+    return sq.endswith(s)
+
+```
+### Explanation
+
+### Explanation
+This puzzle involves finding a number with at least 4 digits that has a particular property concerning its own square and its decimal representation. The condition can be deduced by examining the code, and such numbers are quite rare, requiring some mathematical insight or systematic checking to identify.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def weird_pow(b, e):
+        r = 1
+        while e > 0:
+            r *= b
+            e -= 1
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        d = m % 10
+        total += weird_pow(d, d)
+        m //= 10
+    return total == n and n > 1000
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 1000:
+        return False
+    count = 0
+    max_k = int(n ** (1/3)) + 2
+    for i in range(1, max_k):
+        i3 = i ** 3
+        if i3 >= n:
+            break
+        for j in range(i + 1, max_k):
+            j3 = j ** 3
+            if i3 + j3 > n:
+                break
+            if i3 + j3 == n:
+                count += 1
+                if count >= 2:
+                    return True
+    return False
+```
+This puzzle involves finding a number that can be expressed as the sum of the cubes of two positive integers in at least two distinct ways (considering unordered pairs, but enforced by i < j). Such numbers are rare and known as taxicab numbers, with 1729 being the smallest.
+
+SOLUTION: 1729
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+1729 is the smallest number that can be expressed as the sum of two positive cubes in two different ways (1^3+12^3 and 9^3+10^3). The function counts such pairs and returns True for this n.  
+SOLUTION: 1729
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) != 4:
+        return False
+    power = len(s)
+    total = sum(int(d) ** power for d in s)
+    return total == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 10:
+        return False
+    d = [int(c) for c in str(n)]
+    while True:
+        s = sum(d)
+        if s == n: return True
+        if s > n: return False
+        d = d[1:] + [s]
+
+```
+### Explanation
+
+This puzzle implements a check for a lesser-known mathematical property of integers (a recursive digit-based sequence). It is designed to be non-obvious at a glance what the exact condition is or which inputs will pass, requiring either deep code analysis or systematic search to discover a working value. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if not s:
+        return False
+    t = str(n * 2)
+    if len(t) != len(s):
+        return False
+    return t in (s + s)
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def fact(k):
+        if k == 0 or k == 1: return 1
+        r = 1
+        for i in range(2, k + 1):
+            r *= i
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        total += fact(m % 10)
+        m //= 10
+    return total == n and n > 100
+
+```
+### Explanation
+
+This puzzle implements an obfuscated check for factorions (numbers equal to the sum of factorials of their digits) with a nested factorial function and manual digit extraction to obscure the core property. The added length filter and multi-step computation make it non-obvious what inputs satisfy the condition without either carefully reverse-engineering the math or performing a systematic (but bounded) search. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) < 4:
+        return False
+    sq = str(n * n)
+    return sq.endswith(s)
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def weird_pow(b, e):
+        r = 1
+        while e > 0:
+            r *= b
+            e -= 1
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        d = m % 10
+        total += weird_pow(d, d)
+        m //= 10
+    return total == n and n > 1000
+
+```
+### Explanation
+
+This puzzle uses an inner function with a loop-based multiplication to indirectly compute a digit-power contribution, combined with a standard digit extraction loop and an equality check plus a size filter. The particular combination of operations is intended to be non-obvious, so that the exact set of passing values is difficult to infer without either carefully deconstructing the arithmetic or performing a guided search over a bounded but non-trivial range of integers. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 1000:
+        return False
+    count = 0
+    max_k = int(n ** (1/3)) + 2
+    for i in range(1, max_k):
+        i3 = i ** 3
+        if i3 >= n:
+            break
+        for j in range(i + 1, max_k):
+            j3 = j ** 3
+            if i3 + j3 > n:
+                break
+            if i3 + j3 == n:
+                count += 1
+                if count >= 2:
+                    return True
+    return False
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def weird_mult(a, b):
+        result = 0
+        while b > 0:
+            result += a
+            b -= 1
+        return result
+    def weird_cube(k):
+        return weird_mult(weird_mult(k, k), k)
+    cubes = []
+    k = 1
+    while True:
+        c = weird_cube(k)
+        if c >= n:
+            break
+        cubes.append(c)
+        k += 1
+    count = 0
+    for i in range(len(cubes)):
+        i3 = cubes[i]
+        for j in range(i + 1, len(cubes)):
+            total = i3 + cubes[j]
+            if total == n:
+                count += 1
+                if count >= 3:
+                    return True
+            if total > n:
+                break
+    return False
+```
+This puzzle uses repeated-addition loops inside helper functions to compute products and cubes without using the * or ** operators, precomputes a list of cubes below n via incremental search, then counts distinct pairs from that list summing to n. The property checked (at least three distinct ways to write n as sum of two positive cubes) is heavily obscured by the low-level arithmetic and lack of obvious mathematical primitives, making the accepting values very difficult to infer without extensive analysis; brute-force search over candidate n is also impractical due to the scale of the smallest solution.  
+SOLUTION: 87539319
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+```python
+mystery(87539319)
+```
+This evaluates to True, as 87539319 is the smallest positive integer that can be expressed as the sum of two distinct positive cubes in three different ways:  
+1³ + 12³ = 1 + 1728 = 1729? Wait, no—that's for 1729. For 87539319:  
+167³ + 436³ = 87539319  
+228³ + 423³ = 87539319  
+255³ + 414³ = 87539319  
+
+SOLUTION: 87539319
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) != 4:
+        return False
+    power = len(s)
+    total = sum(int(d) ** power for d in s)
+    return total == n
+
+```
+### Explanation
+
+This puzzle involves finding a 4-digit number with a specific mathematical property related to its digits, which might not be immediately obvious but can be deduced from the code logic. The function checks a condition on the digits raised to a power equal to the number of digits.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 10:
+        return False
+    d = [int(c) for c in str(n)]
+    while True:
+        s = sum(d)
+        if s == n: return True
+        if s > n: return False
+        d = d[1:] + [s]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if not s:
+        return False
+    t = str(n * 2)
+    if len(t) != len(s):
+        return False
+    return t in (s + s)
+
+```
+### Explanation
+
+
+### Explanation
+This puzzle checks for a number n such that twice n, when written as a string, is a rotation of the digits of n (and has the same number of digits). A known such number is 142857, since 142857 * 2 = 285714, and 285714 is a rotation of 142857.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def fact(k):
+        if k == 0 or k == 1: return 1
+        r = 1
+        for i in range(2, k + 1):
+            r *= i
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        total += fact(m % 10)
+        m //= 10
+    return total == n and n > 100
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) < 4:
+        return False
+    sq = str(n * n)
+    return sq.endswith(s)
+
+```
+### Explanation
+
+### Explanation
+This puzzle involves finding a number with at least 4 digits that has a particular property concerning its own square and its decimal representation. The condition can be deduced by examining the code, and such numbers are quite rare, requiring some mathematical insight or systematic checking to identify.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def weird_pow(b, e):
+        r = 1
+        while e > 0:
+            r *= b
+            e -= 1
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        d = m % 10
+        total += weird_pow(d, d)
+        m //= 10
+    return total == n and n > 1000
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 1000:
+        return False
+    count = 0
+    max_k = int(n ** (1/3)) + 2
+    for i in range(1, max_k):
+        i3 = i ** 3
+        if i3 >= n:
+            break
+        for j in range(i + 1, max_k):
+            j3 = j ** 3
+            if i3 + j3 > n:
+                break
+            if i3 + j3 == n:
+                count += 1
+                if count >= 2:
+                    return True
+    return False
+
+```
+### Explanation
+
+This puzzle involves finding a number that can be expressed as the sum of the cubes of two positive integers in at least two distinct ways (considering unordered pairs, but enforced by i < j). Such numbers are rare and known as taxicab numbers, with 1729 being the smallest.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def weird_mult(a, b):
+        result = 0
+        while b > 0:
+            result += a
+            b -= 1
+        return result
+    def weird_cube(k):
+        return weird_mult(weird_mult(k, k), k)
+    cubes = []
+    k = 1
+    while True:
+        c = weird_cube(k)
+        if c >= n:
+            break
+        cubes.append(c)
+        k += 1
+    count = 0
+    for i in range(len(cubes)):
+        i3 = cubes[i]
+        for j in range(i + 1, len(cubes)):
+            total = i3 + cubes[j]
+            if total == n:
+                count += 1
+                if count >= 3:
+                    return True
+            if total > n:
+                break
+    return False
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def divisor_sum(m):
+        if m < 2:
+            return 0
+        total = 1
+        sqrt_m = int(m ** 0.5) + 1
+        for i in range(2, sqrt_m):
+            if m % i == 0:
+                total += i
+                j = m // i
+                if j != i and j != m:
+                    total += j
+        return total
+    s = divisor_sum(n)
+    if s == n or s < n:  # Exclude perfect numbers and cases where s < n to avoid trivial
+        return False
+    t = divisor_sum(s)
+    return t == n
+```
+### Explanation
+This puzzle involves identifying a number that forms part of an amicable pair, where the sum of the proper divisors of one equals the other, and vice versa. These numbers are rare and require computing divisor sums, making it challenging to spot without careful analysis of the code logic. The function excludes perfect numbers and ensures the pair is properly formed.
+
+SOLUTION: 220
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+A value x that satisfies the condition is the smaller number from the amicable pair (220, 284).  
+SOLUTION: 220
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) != 4:
+        return False
+    power = len(s)
+    total = sum(int(d) ** power for d in s)
+    return total == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 10:
+        return False
+    d = [int(c) for c in str(n)]
+    while True:
+        s = sum(d)
+        if s == n: return True
+        if s > n: return False
+        d = d[1:] + [s]
+
+```
+### Explanation
+
+This puzzle implements a check for a lesser-known mathematical property of integers (a recursive digit-based sequence). It is designed to be non-obvious at a glance what the exact condition is or which inputs will pass, requiring either deep code analysis or systematic search to discover a working value. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if not s:
+        return False
+    t = str(n * 2)
+    if len(t) != len(s):
+        return False
+    return t in (s + s)
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def fact(k):
+        if k == 0 or k == 1: return 1
+        r = 1
+        for i in range(2, k + 1):
+            r *= i
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        total += fact(m % 10)
+        m //= 10
+    return total == n and n > 100
+
+```
+### Explanation
+
+This puzzle implements an obfuscated check for factorions (numbers equal to the sum of factorials of their digits) with a nested factorial function and manual digit extraction to obscure the core property. The added length filter and multi-step computation make it non-obvious what inputs satisfy the condition without either carefully reverse-engineering the math or performing a systematic (but bounded) search. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) < 4:
+        return False
+    sq = str(n * n)
+    return sq.endswith(s)
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def weird_pow(b, e):
+        r = 1
+        while e > 0:
+            r *= b
+            e -= 1
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        d = m % 10
+        total += weird_pow(d, d)
+        m //= 10
+    return total == n and n > 1000
+
+```
+### Explanation
+
+This puzzle uses an inner function with a loop-based multiplication to indirectly compute a digit-power contribution, combined with a standard digit extraction loop and an equality check plus a size filter. The particular combination of operations is intended to be non-obvious, so that the exact set of passing values is difficult to infer without either carefully deconstructing the arithmetic or performing a guided search over a bounded but non-trivial range of integers. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 1000:
+        return False
+    count = 0
+    max_k = int(n ** (1/3)) + 2
+    for i in range(1, max_k):
+        i3 = i ** 3
+        if i3 >= n:
+            break
+        for j in range(i + 1, max_k):
+            j3 = j ** 3
+            if i3 + j3 > n:
+                break
+            if i3 + j3 == n:
+                count += 1
+                if count >= 2:
+                    return True
+    return False
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def weird_mult(a, b):
+        result = 0
+        while b > 0:
+            result += a
+            b -= 1
+        return result
+    def weird_cube(k):
+        return weird_mult(weird_mult(k, k), k)
+    cubes = []
+    k = 1
+    while True:
+        c = weird_cube(k)
+        if c >= n:
+            break
+        cubes.append(c)
+        k += 1
+    count = 0
+    for i in range(len(cubes)):
+        i3 = cubes[i]
+        for j in range(i + 1, len(cubes)):
+            total = i3 + cubes[j]
+            if total == n:
+                count += 1
+                if count >= 3:
+                    return True
+            if total > n:
+                break
+    return False
+
+```
+### Explanation
+
+This puzzle uses repeated-addition loops inside helper functions to compute products and cubes without using the * or ** operators, precomputes a list of cubes below n via incremental search, then counts distinct pairs from that list summing to n. The property checked (at least three distinct ways to write n as sum of two positive cubes) is heavily obscured by the low-level arithmetic and lack of obvious mathematical primitives, making the accepting values very difficult to infer without extensive analysis; brute-force search over candidate n is also impractical due to the scale of the smallest solution.  
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def divisor_sum(m):
+        if m < 2:
+            return 0
+        total = 1
+        sqrt_m = int(m ** 0.5) + 1
+        for i in range(2, sqrt_m):
+            if m % i == 0:
+                total += i
+                j = m // i
+                if j != i and j != m:
+                    total += j
+        return total
+    s = divisor_sum(n)
+    if s == n or s < n:  # Exclude perfect numbers and cases where s < n to avoid trivial
+        return False
+    t = divisor_sum(s)
+    return t == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 10000:
+        return False
+    def weird_mult(a, b):
+        res = 0
+        while b > 0:
+            res += a
+            b -= 1
+        return res
+    def weird_sqrt(m):
+        s = 0
+        while weird_mult(s + 1, s + 1) <= m:
+            s += 1
+        return s
+    def divisor_sum(m):
+        if m < 2:
+            return 0
+        total = 1
+        sqrtm = weird_sqrt(m) + 1
+        for i in range(2, sqrtm):
+            if m % i == 0:
+                total += i
+                j = m // i
+                if j != i and j != m:
+                    total += j
+        return total
+    return divisor_sum(n) == n
+```
+This puzzle relies on deeply nested helper functions that simulate multiplication and integer square root via looped addition only (avoiding all * and ** operators), which are then used to compute a divisor sum via an incremental search up to the approximated square root. A size filter excludes small inputs, and the final equality test checks a non-obvious numeric invariant. The combination of low-level arithmetic primitives and bounded-but-costly per-input work makes the accepting values very difficult to discover without extensive static analysis or a search that quickly becomes impractical at scale.  
+SOLUTION: 33550336
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+```python
+mystery(33550336)
+```
+SOLUTION: 33550336
+*** END

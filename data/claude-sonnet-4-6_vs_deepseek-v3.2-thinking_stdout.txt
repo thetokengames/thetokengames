@@ -1,0 +1,531 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) < 5:
+        return False
+    w = x.lower()
+    if not w.isalpha():
+        return False
+    from collections import Counter
+    c = Counter(w)
+    return len(c) >= 3 and all(c[k] == ord(k) - 96 for k in c)
+```
+
+**Explanation of the puzzle:**
+
+I'm asking you to find a string `x` such that:
+1. It's at least 5 characters long and contains only letters.
+2. It has at least 3 distinct letters.
+3. A certain relationship holds between each letter's count and its encoded value via `ord(k) - 96`.
+
+The condition `all(c[k] == ord(k) - 96 for k in c)` is the key — you'll need to figure out what `ord(k) - 96` represents for each character `k`, and then construct a string satisfying that constraint for all letters present.
+
+Good luck!
+
+SOLUTION: "abbccc" 
+Checking sample solution  "abbccc"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "abbccc". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 395 in / 23,450 out
+  deepseek-v3.2-thinking (solver): 181 in / 1,679 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 3:
+        return False
+    if not x.isdigit():
+        return False
+    n = int(x)
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    if x != x[::-1]:
+        return False
+    square = n * n
+    if str(square) != str(square)[::-1]:
+        return False
+    return True
+```
+
+SOLUTION: "101" 
+Checking sample solution  "101"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "101". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 467 in / 10,384 out
+  claude-sonnet-4-6 (solver): 288 in / 697 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not x.isdigit() or len(x) != 4:
+        return False
+    n = int(x)
+
+    def is_prime(k):
+        if k < 2: return False
+        if k == 2: return True
+        if k % 2 == 0: return False
+        for i in range(3, int(k**0.5)+1, 2):
+            if k % i == 0: return False
+        return True
+
+    if not is_prime(n):
+        return False
+
+    rev = int(x[::-1])
+    if rev == n or not is_prime(rev):
+        return False
+
+    dsum = sum(int(d) for d in x)
+    if not is_prime(dsum):
+        return False
+
+    if (n + rev) % dsum != 0:
+        return False
+
+    return True
+```
+
+**Explanation of the puzzle:**
+
+You need to find a 4-digit string representing a number `n` such that:
+1. `n` itself is prime
+2. The digit-reversal of `n` is also prime (and different from `n`)
+3. The sum of `n`'s digits is prime
+4. The sum of `n` and its reversal is divisible by the digit sum
+
+Four interacting constraints — each one eliminates most candidates, and satisfying all four simultaneously is tricky without systematic search.
+
+SOLUTION: "1091" 
+Checking sample solution  "1091"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "1019". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 868 in / 24,102 out
+  deepseek-v3.2-thinking (solver): 301 in / 6,612 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not x.isdigit():
+        return False
+    n = int(x)
+    if n <= 0:
+        return False
+    if len(x) != 3:
+        return False
+    digit_cube_sum = sum(int(d)**3 for d in x)
+    if digit_cube_sum != n:
+        return False
+    digit_sum = sum(int(d) for d in x)
+    if n % digit_sum != 0:
+        return False
+    import math
+    t = 8 * n + 1
+    if int(math.sqrt(t)) ** 2 != t:
+        return False
+    if int(math.sqrt(n)) ** 2 == n:
+        return False
+    return True
+```
+
+SOLUTION: "153" 
+Checking sample solution  "153"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "153". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 866 in / 8,620 out
+  claude-sonnet-4-6 (solver): 340 in / 1,198 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    import math
+    if not isinstance(x, int) or x <= 0:
+        return False
+    s = str(x)
+    if len(s) != 4:
+        return False
+    if '0' in s or len(set(s)) != 4:
+        return False
+    sq = math.isqrt(x)
+    if sq * sq != x:
+        return False
+    for d in s:
+        if x % int(d) != 0:
+            return False
+    dsum = sum(int(d) for d in s)
+    if sq % dsum != 0:
+        return False
+    return True
+```
+
+**Puzzle Explanation:**
+
+You need to find a positive integer `x` satisfying all of these conditions simultaneously:
+
+1. `x` must be exactly 4 digits long.
+2. All four digits must be **distinct** and **non-zero**.
+3. `x` must be a **perfect square**.
+4. `x` must be **divisible by each of its own digits**.
+5. The **square root** of `x` must be divisible by the **sum of `x`'s digits**.
+
+Five interacting constraints — each one severely limits the candidates, and finding a value satisfying all five without a systematic approach is quite tricky. Good luck!
+
+SOLUTION: 1296 
+Checking sample solution  1296
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 1296. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,504 in / 12,624 out
+  deepseek-v3.2-thinking (solver): 240 in / 6,747 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    import math
+
+    # Helper: perfect square check
+    def is_sq(n):
+        if n < 0:
+            return False
+        r = math.isqrt(n)
+        return r * r == n
+
+    # Convert input to string if possible
+    if isinstance(x, int):
+        s = str(x)
+    elif isinstance(x, str):
+        s = x
+    else:
+        return False
+
+    # Must be exactly 4 digits, no leading zero
+    if len(s) != 4 or not s.isdigit() or s[0] == '0':
+        return False
+
+    n = int(s)
+    digits = [int(ch) for ch in s]
+
+    # Exactly one zero
+    if s.count('0') != 1:
+        return False
+
+    # Not a palindrome
+    if s == s[::-1]:
+        return False
+
+    # Sum and product of digits
+    dsum = sum(digits)
+    dprod = 1
+    for d in digits:
+        dprod *= d
+
+    # Sum must be prime
+    if dsum < 2:
+        return False
+    for i in range(2, int(math.isqrt(dsum)) + 1):
+        if dsum % i == 0:
+            return False
+
+    # Product must be a perfect square
+    if not is_sq(dprod):
+        return False
+
+    # n divisible by sum
+    if n % dsum != 0:
+        return False
+
+    # n must be a perfect square
+    if not is_sq(n):
+        return False
+
+    # Square root of n must be a perfect square
+    sqrt_n = math.isqrt(n)
+    if not is_sq(sqrt_n):
+        return False
+
+    # Reverse must NOT be a perfect square
+    rev_n = int(s[::-1])
+    if is_sq(rev_n):
+        return False
+
+    return True
+```
+
+SOLUTION: 2401 
+Checking sample solution  2401
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 2401. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 1,238 in / 13,760 out
+  claude-sonnet-4-6 (solver): 609 in / 1,358 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    import math
+    if not isinstance(x, int) or x <= 0:
+        return False
+    s = str(x)
+    if len(s) != 5:
+        return False
+    if '0' in s or len(set(s)) != 5:
+        return False
+    disc = 1 + 8 * x
+    sq = math.isqrt(disc)
+    if sq * sq != disc:
+        return False
+    if (sq - 1) % 2 != 0:
+        return False
+    n = (sq - 1) // 2
+    if n < 2:
+        return False
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    dsum = sum(int(d) for d in s)
+    if dsum % 3 != 0:
+        return False
+    dprod = 1
+    for d in s:
+        dprod *= int(d)
+    sq2 = math.isqrt(dprod)
+    if sq2 * sq2 != dprod:
+        return False
+    return True
+```
+
+**Puzzle Explanation (public):**
+
+You need to find a positive integer `x` satisfying all of the following:
+1. Exactly **5 digits**, all **distinct** and **non-zero**
+2. Some hidden structural property encoded through the discriminant `1 + 8*x` — you'll need to figure out what it means
+3. An index derived from the discriminant must satisfy a primality condition
+4. The **sum of digits** must be divisible by 3
+5. The **product of digits** must be a perfect square
+
+Five interacting constraints — good luck figuring out the hidden structure!
+
+SOLUTION: 39621 
+Checking sample solution  39621
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 39621. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 2,371 in / 5,933 out
+  deepseek-v3.2-thinking (solver): 351 in / 5,842 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    import math
+
+    def is_prime(n):
+        if n < 2:
+            return False
+        for i in range(2, int(math.isqrt(n)) + 1):
+            if n % i == 0:
+                return False
+        return True
+
+    def is_perfect_cube(n):
+        if n < 0:
+            return False
+        r = round(n ** (1/3))
+        return r * r * r == n
+
+    if isinstance(x, int):
+        s = str(x)
+    elif isinstance(x, str):
+        s = x
+    else:
+        return False
+
+    if len(s) != 4 or not s.isdigit() or s[0] == '0':
+        return False
+
+    n = int(s)
+    digits = [int(ch) for ch in s]
+
+    # Condition 1: perfect square
+    sqrt_n = math.isqrt(n)
+    if sqrt_n * sqrt_n != n:
+        return False
+
+    # Condition 2: digit sum prime
+    dsum = sum(digits)
+    if not is_prime(dsum):
+        return False
+
+    # Condition 3: digit product perfect cube
+    dprod = 1
+    for d in digits:
+        dprod *= d
+    if not is_perfect_cube(dprod):
+        return False
+
+    # Condition 4: square root's digit sum prime
+    sqrt_digits_sum = sum(int(ch) for ch in str(sqrt_n))
+    if not is_prime(sqrt_digits_sum):
+        return False
+
+    # Condition 5: exactly two distinct digits
+    if len(set(s)) != 2:
+        return False
+
+    return True
+```
+SOLUTION: 1444 
+Checking sample solution  1444
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 1444. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 1,965 in / 8,398 out
+  claude-sonnet-4-6 (solver): 562 in / 1,163 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    import math
+
+    def is_prime(n):
+        if n < 2: return False
+        if n == 2: return True
+        if n % 2 == 0: return False
+        for i in range(3, int(math.isqrt(n)) + 1, 2):
+            if n % i == 0: return False
+        return True
+
+    if not isinstance(x, int) or x <= 0:
+        return False
+
+    s = str(x)
+    if len(s) != 4:
+        return False
+
+    # Condition 1: x must be prime
+    if not is_prime(x):
+        return False
+
+    # Condition 2: x ≡ 1 (mod 4)
+    if x % 4 != 1:
+        return False
+
+    digits = [int(d) for d in s]
+
+    # Condition 3: sum of all digits must be prime
+    dsum = sum(digits)
+    if not is_prime(dsum):
+        return False
+
+    # Condition 4: first digit + last digit must be prime
+    if not is_prime(digits[0] + digits[-1]):
+        return False
+
+    # Condition 5: the number formed by the middle two digits must be prime
+    mid = int(s[1:3])
+    if not is_prime(mid):
+        return False
+
+    return True
+```
+
+**Explanation:**
+
+You need to find a 4-digit integer `x` satisfying **five simultaneous conditions**:
+1. `x` itself is **prime**
+2. `x ≡ 1 (mod 4)`
+3. The **sum of all four digits** is prime
+4. The **sum of the first and last digit** is prime
+5. The **two middle digits** (taken together as a number, e.g., for `x = 1234`, this would be `23`) form a prime
+
+All five conditions must hold simultaneously — each one eliminates large swaths of candidates, and the interactions between them make finding a valid `x` non-trivial.
+
+SOLUTION: 2029 
+Checking sample solution  2029
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 4133. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 3,311 in / 24,402 out
+  deepseek-v3.2-thinking (solver): 399 in / 2,771 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    # Accept either string or int, convert to int
+    if isinstance(x, str):
+        if not x.isdigit():
+            return False
+        if len(x) > 1 and x[0] == '0':
+            return False
+        x_int = int(x)
+    elif isinstance(x, int):
+        x_int = x
+    else:
+        return False
+
+    # Must be a 4-digit number
+    if not (1000 <= x_int <= 9999):
+        return False
+
+    # Condition 1: perfect cube
+    cube_root = round(x_int ** (1/3))
+    if cube_root ** 3 != x_int:
+        return False
+
+    s = str(x_int)
+    dsum = sum(int(d) for d in s)
+
+    # Condition 2: cube of digit sum equals the number
+    if dsum ** 3 != x_int:
+        return False
+
+    # Condition 3: digit sum is prime
+    if dsum < 2:
+        return False
+    for i in range(2, int(dsum ** 0.5) + 1):
+        if dsum % i == 0:
+            return False
+
+    return True
+```
+
+SOLUTION: 4913 
+Checking sample solution  4913
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 4913. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 2,690 in / 22,791 out
+  claude-sonnet-4-6 (solver): 441 in / 833 out
+Logs written to runs/classic/claude-sonnet-4-6_vs_deepseek-v3.2-thinking.log and runs/classic/claude-sonnet-4-6_vs_deepseek-v3.2-thinking.jsonl
+
+=== Token Usage Summary ===
+Turn 0: claude-sonnet-4-6 vs deepseek-v3.2-thinking - 576 in / 25,129 out (?) [success]
+Turn 1: deepseek-v3.2-thinking vs claude-sonnet-4-6 - 755 in / 11,081 out (?) [success]
+Turn 2: claude-sonnet-4-6 vs deepseek-v3.2-thinking - 1,169 in / 30,714 out (?) [failure]
+Turn 3: deepseek-v3.2-thinking vs claude-sonnet-4-6 - 1,206 in / 9,818 out (?) [success]
+Turn 4: claude-sonnet-4-6 vs deepseek-v3.2-thinking - 1,744 in / 19,371 out (?) [success]
+Turn 5: deepseek-v3.2-thinking vs claude-sonnet-4-6 - 1,847 in / 15,118 out (?) [success]
+Turn 6: claude-sonnet-4-6 vs deepseek-v3.2-thinking - 2,722 in / 11,775 out (?) [success]
+Turn 7: deepseek-v3.2-thinking vs claude-sonnet-4-6 - 2,527 in / 9,561 out (?) [success]
+Turn 8: claude-sonnet-4-6 vs deepseek-v3.2-thinking - 3,710 in / 27,173 out (?) [success]
+Turn 9: deepseek-v3.2-thinking vs claude-sonnet-4-6 - 3,131 in / 23,624 out (?) [success]
+
+=== Totals by Model ===
+claude-sonnet-4-6: 10,689 in / 95,760 out
+deepseek-v3.2-thinking: 8,698 in / 87,604 out

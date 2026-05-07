@@ -1,0 +1,122 @@
+[
+  {
+    "id": "gemini-3.1-pro-preview",
+    "avg": 0.529,
+    "hle": 0.459,
+    "arc_agi": 0.733,
+    "swe_bench_pro": 0.467,
+    "textquests": 0.458,
+    "gpqa_diamond": 0.941,
+    "ttg_match_elo": 1103.4,
+    "ttg_proposer_elo": 1051.6,
+    "ttg_solver_elo": 1129.4
+  },
+  {
+    "id": "gpt-5.5",
+    "avg": 0.541,
+    "hle": 0.436,
+    "arc_agi": 0.775,
+    "swe_bench_pro": 0.534,
+    "textquests": 0.42,
+    "gpqa_diamond": 0.935,
+    "ttg_match_elo": 1300.7,
+    "ttg_proposer_elo": 1084.5,
+    "ttg_solver_elo": 1167.4
+  },
+  {
+    "id": "claude-opus-4-7",
+    "avg": 0.469,
+    "hle": 0.39,
+    "arc_agi": 0.508,
+    "swe_bench_pro": 0.609,
+    "textquests": 0.37,
+    "gpqa_diamond": 0.914,
+    "ttg_match_elo": 1245.5,
+    "ttg_proposer_elo": 1060.6,
+    "ttg_solver_elo": 1100.1
+  },
+  {
+    "id": "gemini-3-flash-preview",
+    "avg": 0.356,
+    "hle": 0.366,
+    "arc_agi": 0.308,
+    "swe_bench_pro": 0.386,
+    "textquests": 0.364,
+    "gpqa_diamond": 0.898,
+    "ttg_match_elo": 935.9,
+    "ttg_proposer_elo": 931.6,
+    "ttg_solver_elo": 1010.5
+  },
+  {
+    "id": "grok-4.20-0309-reasoning",
+    "avg": 0.325,
+    "hle": 0.302,
+    "arc_agi": 0.55,
+    "swe_bench_pro": 0.263,
+    "textquests": 0.185,
+    "gpqa_diamond": 0.885,
+    "ttg_match_elo": 935.9,
+    "ttg_proposer_elo": 1014.1,
+    "ttg_solver_elo": 1057.1
+  },
+  {
+    "id": "grok-4-fast-reasoning",
+    "avg": 0.133,
+    "hle": 0.178,
+    "arc_agi": 0.033,
+    "swe_bench_pro": 0.12,
+    "textquests": 0.201,
+    "gpqa_diamond": 0.847,
+    "ttg_match_elo": 754.4,
+    "ttg_proposer_elo": 939.0,
+    "ttg_solver_elo": 992.3
+  },
+  {
+    "id": "gpt-5.4-mini",
+    "avg": 0.242,
+    "hle": 0.235,
+    "arc_agi": 0.058,
+    "swe_bench_pro": 0.379,
+    "textquests": 0.296,
+    "gpqa_diamond": 0.875,
+    "ttg_match_elo": 914.9,
+    "ttg_proposer_elo": 1001.7,
+    "ttg_solver_elo": 1067.8
+  },
+  {
+    "id": "deepseek-v3.2-thinking",
+    "avg": 0.203,
+    "hle": 0.218,
+    "arc_agi": 0.05,
+    "swe_bench_pro": 0.331,
+    "textquests": 0.212,
+    "gpqa_diamond": 0.84,
+    "ttg_match_elo": 754.4,
+    "ttg_proposer_elo": 953.5,
+    "ttg_solver_elo": 1006.9
+  },
+  {
+    "id": "claude-sonnet-4-6",
+    "avg": 0.326,
+    "hle": 0.211,
+    "arc_agi": 0.242,
+    "swe_bench_pro": 0.538,
+    "textquests": 0.315,
+    "gpqa_diamond": 0.875,
+    "ttg_match_elo": 1060.5,
+    "ttg_proposer_elo": 1015.9,
+    "ttg_solver_elo": 1042.9
+  },
+  {
+    "id": "claude-haiku-4-5",
+    "avg": 0.174,
+    "hle": 0.097,
+    "arc_agi": 0.04,
+    "swe_bench_pro": 0.41,
+    "textquests": 0.151,
+    "gpqa_diamond": 0.672,
+    "ttg_match_elo": 1000,
+    "ttg_proposer_elo": 1000,
+    "ttg_solver_elo": 1000
+  }
+]

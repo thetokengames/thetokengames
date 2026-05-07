@@ -1,0 +1,298 @@
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 15:
+        return False
+    if not all('A' <= c <= 'Z' for c in x):
+        return False
+    p = 1000000007
+    h = 0
+    for i, c in enumerate(x):
+        h = (h + ord(c) * pow(2, i, p)) % p
+    return h == 2555841
+```
+
+SOLUTION: "ABCDEFGHIJKLMNO" 
+Checking sample solution  "ABCDEFGHIJKLMNO"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "ABAAAAAAAAAAACZ". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 357 in / 15,995 out
+  grok-4.20-0309-reasoning (solver): 326 in / 2,950 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+UNHANDLED EXCEPTION, error: Inventer message format wrong.
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+UNHANDLED EXCEPTION, error: Inventer message format wrong.
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all('A' <= c <= 'Z' for c in x):
+        return False
+    p = 1000000007
+    h = 0
+    for i, c in enumerate(x):
+        h = (h + ord(c) * pow(3, i, p)) % p
+    s = sum(ord(c) for c in x)
+    h = (h * s) % p
+    return h == 582037582
+```
+This puzzle requires finding a 10-character uppercase string that satisfies a non-linear modular polynomial hash condition (using base-3 powers combined with a dependent multiplier). Brute force is intractable; it demands either advanced constraint-solving techniques or deep insight into the equation structure to invert.  
+SOLUTION: "IMPOSSIBLE" 
+Checking sample solution  "IMPOSSIBLE"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "CCBUSPPSQRA". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  grok-4.20-0309-reasoning (inventer): 596 in / 14,624 out
+  deepseek-v3.2-thinking (solver): 232 in / 21,014 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 12:
+        return False
+    if not all('A' <= c <= 'Z' for c in x):
+        return False
+    p = 1000000007
+    h1 = 0
+    for i, c in enumerate(x):
+        h1 = (h1 + ord(c) * pow(2, i, p)) % p
+    h2 = 1
+    for c in x:
+        h2 = (h2 * (ord(c) - 64)) % p
+    return (h1 ^ h2) == 574495075
+```
+
+SOLUTION: "MYSTERYSOLVE" 
+Checking sample solution  "MYSTERYSOLVE"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "WHATISTHEKEY". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 1 (1-0)
+  deepseek-v3.2-thinking (inventer): 653 in / 12,482 out
+  grok-4.20-0309-reasoning (solver): 367 in / 40,946 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 7:
+        return False
+    if not all('A' <= c <= 'Z' for c in x):
+        return False
+    p = 1000000007
+    h = 0
+    for i, c in enumerate(x):
+        h = (h + ord(c) * pow(7, i, p)) % p
+    s = sum(ord(c) for c in x)
+    h = (h * s) % p
+    return h == 285727702
+```
+This puzzle requires finding a 7-character uppercase string whose base-7 polynomial hash (modulo large prime), when multiplied by the sum of character codes, matches a specific target. The non-linearity and modulus make algebraic inversion non-trivial and brute-force search computationally expensive, requiring either heuristic search, constraint solvers like Z3, or custom algebraic attacks to locate a preimage.  
+SOLUTION: "COMPLEX" 
+Checking sample solution  "COMPLEX"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all('A' <= c <= 'Z' for c in x):
+        return False
+    p = 1000000007
+    h = 0
+    for i, c in enumerate(x):
+        h = (h + ord(c) * pow(7, i, p)) % p
+    s = sum(ord(c) for c in x)
+    h = (h * s) % p
+    return h == 223976883
+```
+This puzzle requires finding a 10-character uppercase string that satisfies a non-linear modular polynomial hash condition (using base-7 powers combined with a dependent multiplier). Brute force is intractable; it demands either advanced constraint-solving techniques or deep insight into the equation structure to invert.
+SOLUTION: "ABCDEABCDE" 
+Checking sample solution  "ABCDEABCDE"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "MYSTERYKEY". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 2 (2-0)
+  grok-4.20-0309-reasoning (inventer): 997 in / 11,648 out
+  deepseek-v3.2-thinking (solver): 232 in / 11,760 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not all('A' <= c <= 'Z' for c in x):
+        return False
+    p = 1000000007
+    h1 = 0
+    for i, c in enumerate(x):
+        h1 = (h1 + ord(c) * pow(11, i, p)) % p
+    h2 = 1
+    for c in x:
+        h2 = (h2 * (ord(c) - 64)) % p
+    return (h1 * h2) % p == 593814679
+```
+
+SOLUTION: "MYSTERYX" 
+Checking sample solution  "MYSTERYX"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "AAAAAAAA". Checking.
+Failure!
+New score after this turn: 2 (2-0) vs 2 (2-0)
+  deepseek-v3.2-thinking (inventer): 993 in / 12,850 out
+  grok-4.20-0309-reasoning (solver): 369 in / 35,959 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all('A' <= c <= 'Z' for c in x):
+        return False
+    p = 1000000007
+    h = 0
+    for i, c in enumerate(x):
+        h = (h + ord(c) * pow(19, i, p)) % p
+    s = sum(ord(c) for c in x)
+    h = (h * s) % p
+    return h == 865488182
+```
+This puzzle requires finding a 10-character uppercase string that satisfies a non-linear modular polynomial hash condition (using base-19 powers combined with a dependent multiplier). Brute force is intractable; it demands either advanced constraint-solving techniques or deep insight into the equation structure to invert.
+SOLUTION: "AAAAAAAAAA" 
+Checking sample solution  "AAAAAAAAAA"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "KRUGERSCTY". Checking.
+Failure!
+New score after this turn: 2 (2-0) vs 3 (3-0)
+  grok-4.20-0309-reasoning (inventer): 1,399 in / 7,287 out
+  deepseek-v3.2-thinking (solver): 238 in / 5,990 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 12:
+        return False
+    if not all('A' <= c <= 'Z' for c in x):
+        return False
+    p = 1000000007
+    h1 = 1
+    h2 = 0
+    for c in x:
+        a = ord(c) - 64
+        h1 = (h1 * a + ord(c)) % p
+        h2 = (h2 * 31 + ord(c)) % p
+    return (h1 ^ h2) == 926428406
+```
+
+This puzzle requires finding a 12-character uppercase string that satisfies a non-linear hash condition. The function computes two separate hashes over the string: one is a recurrence that multiplies by a character-dependent value and adds the character's ordinal, the other is a linear polynomial hash with base 31. The final condition is the bitwise XOR of these two hashes equals a specific constant. The combination of non-linear multiplication and linear addition, joined by XOR, makes algebraic inversion challenging.
+
+SOLUTION: "MYSTERYPUZZL" 
+Checking sample solution  "MYSTERYPUZZL"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "ZZZZZZZZZZZZ". Checking.
+Failure!
+New score after this turn: 3 (3-0) vs 3 (3-0)
+  deepseek-v3.2-thinking (inventer): 1,341 in / 15,201 out
+  grok-4.20-0309-reasoning (solver): 359 in / 45,795 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all('A' <= c <= 'Z' for c in x):
+        return False
+    p = 1000000007
+    h = 0
+    for i, c in enumerate(x):
+        h = (h + ord(c) * pow(13, i, p)) % p
+    s = sum(ord(c) for c in x)
+    h = (h * s) % p
+    return h == 769983868
+```
+This puzzle requires finding a 10-character uppercase string that satisfies a non-linear modular polynomial hash condition (using base-13 powers combined with a dependent multiplier). Brute force is intractable; it demands either advanced constraint-solving techniques or deep insight into the equation structure to invert.
+SOLUTION: "AAAAAAAAAA" 
+Checking sample solution  "AAAAAAAAAA"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "BWGVZQYHXJ". Checking.
+Failure!
+New score after this turn: 3 (3-0) vs 4 (4-0)
+  grok-4.20-0309-reasoning (inventer): 1,791 in / 5,214 out
+  deepseek-v3.2-thinking (solver): 232 in / 20,943 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 13:
+        return False
+    if not all('A' <= c <= 'Z' for c in x):
+        return False
+    p = 1000000007
+    h1 = 0
+    for i, c in enumerate(x):
+        h1 = (h1 + ord(c) * pow(3, i, p)) % p
+    h2 = 0
+    for i, c in enumerate(x):
+        h2 = (h2 + ord(c) * pow(5, i, p)) % p
+    h3 = 1
+    for c in x:
+        h3 = (h3 * (ord(c) - 64)) % p
+    return (h1 * h2 + h3) % p == 411758156
+```
+
+SOLUTION: "MYSTERYPUZZLE" 
+Checking sample solution  "MYSTERYPUZZLE"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "ABCDEFGHIJKLM". Checking.
+Failure!
+New score after this turn: 4 (4-0) vs 4 (4-0)
+  deepseek-v3.2-thinking (inventer): 1,782 in / 10,879 out
+  grok-4.20-0309-reasoning (solver): 411 in / 33,716 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    p = 1000000007
+    val = (pow(x, 10, p) + 2 * pow(x, 9, p) + 3 * pow(x, 8, p) + 5 * pow(x, 7, p) + 7 * pow(x, 6, p) + 11 * pow(x, 5, p) + 13 * pow(x, 4, p) + 17 * pow(x, 3, p) + 19 * pow(x, 2, p) + 23 * x + 680862432) % p
+    return val == 0
+```
+This puzzle requires finding an integer x that satisfies a high-degree non-linear modular polynomial equation. Brute force is intractable; it demands either advanced constraint-solving techniques or deep insight into the equation structure to invert.
+SOLUTION: 42 
+Checking sample solution  42
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says -680862432. Checking.
+Failure!
+New score after this turn: 4 (4-0) vs 5 (5-0)
+  grok-4.20-0309-reasoning (inventer): 2,235 in / 13,585 out
+  deepseek-v3.2-thinking (solver): 263 in / 14,694 out
+Turn 0: deepseek-v3.2-thinking vs grok-4.20-0309-reasoning - 683 in / 18,945 out (?) [success]
+Turn 1: grok-4.20-0309-reasoning vs deepseek-v3.2-thinking - 828 in / 35,638 out (?) [failure]
+Turn 2: deepseek-v3.2-thinking vs grok-4.20-0309-reasoning - 1,020 in / 53,428 out (?) [failure]
+Turn 3: grok-4.20-0309-reasoning vs deepseek-v3.2-thinking - 1,229 in / 23,408 out (?) [failure]
+Turn 4: deepseek-v3.2-thinking vs grok-4.20-0309-reasoning - 1,362 in / 48,809 out (?) [failure]
+Turn 5: grok-4.20-0309-reasoning vs deepseek-v3.2-thinking - 1,637 in / 13,277 out (?) [failure]
+Turn 6: deepseek-v3.2-thinking vs grok-4.20-0309-reasoning - 1,700 in / 60,996 out (?) [failure]
+Turn 7: grok-4.20-0309-reasoning vs deepseek-v3.2-thinking - 2,023 in / 26,157 out (?) [failure]
+Turn 8: deepseek-v3.2-thinking vs grok-4.20-0309-reasoning - 2,193 in / 44,595 out (?) [failure]
+Turn 9: grok-4.20-0309-reasoning vs deepseek-v3.2-thinking - 2,498 in / 28,279 out (?) [failure]
+deepseek-v3.2-thinking: 6,561 in / 177,470 out
+grok-4.20-0309-reasoning: 11,039 in / 238,753 out
+deepseek-v3.2-thinking ./. grok-4.20-0309-reasoning     (4-0) vs (5-0)     [3 failed, see runs/classic/deepseek-v3.2-thinking_vs_grok-4.20-0309-reasoning.log]

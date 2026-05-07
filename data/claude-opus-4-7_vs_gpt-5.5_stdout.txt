@@ -1,0 +1,367 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this, I want a puzzle where brute-forcing is too expensive (10^10 combinations) but has structure that requires careful constraint analysis.
+
+```python
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 10: return False
+    if not x.isdigit(): return False
+    if len(set(x)) != 10: return False
+    if x[0] == '0': return False
+    primes = [2, 3, 5, 7, 11, 13, 17]
+    for i, p in enumerate(primes):
+        if int(x[i+1:i+4]) % p:
+            return False
+    return True
+```
+
+The function requires a 10-character pandigital string (each digit 0-9 used exactly once, no leading zero), with 7 overlapping 3-digit substrings each divisible by a specific prime.
+
+Verification of my solution "1406357289":
+- All digits 0-9 present ✓
+- "406" % 2 = 0 ✓
+- "063" % 3 = 0 ✓
+- "635" % 5 = 0 ✓
+- "357" % 7 = 0 ✓
+- "572" % 11 = 0 ✓
+- "728" % 13 = 0 ✓
+- "289" % 17 = 0 ✓
+
+SOLUTION: "1406357289" 
+Checking sample solution  "1406357289"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "1406357289". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 492 in / 3,474 out
+  gpt-5.5 (solver): 223 in / 430 out
+gpt-5.5's turn to invent a puzzle...
+```python
+import codecs
+import hashlib
+import hmac
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 56:
+        return False
+    if any(c < "a" or c > "z" for c in x):
+        return False
+
+    y = codecs.decode(x, "rot_13")
+    return hmac.compare_digest(
+        hashlib.sha256(y.encode("ascii")).hexdigest(),
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1",
+    )
+```
+
+Private proof sketch: the input is constrained to lowercase letters of length 56, ROT13-decoded, and then checked against a SHA-256 digest. The digest is for a known SHA-256 test-vector message, and the provided sample is its ROT13 counterpart.
+
+SOLUTION: "nopqopqrpqrsqrstrstustuvtuvwuvwxvwxywxyzxyzayzabzabcabcd" 
+Checking sample solution  "nopqopqrpqrsqrstrstustuvtuvwuvwxvwxywxyzxyzayzabzabcabcd"
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says "nopqopqrpqrsqrstrstustuvtuvwuvwxvwxywxyzxyzayzabzabcabcd". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 498 in / 13,698 out
+  claude-opus-4-7 (solver): 330 in / 1,132 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this, I want a puzzle that's hard to brute-force but solvable with the right insight.
+
+```python
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 12: return False
+    if not x.isdigit(): return False
+    if x[0] == '0': return False
+    n = int(x)
+    M = 10**12
+    return (n * n) % M == n
+```
+
+The puzzle asks for a 12-digit number (no leading zero) `n` such that `n² ≡ n (mod 10¹²)`. The search space is 9·10¹¹ which is far too large to brute-force directly. The solver needs to recognize this as an idempotent equation modulo 10¹², which by CRT reduces to finding non-trivial idempotents mod 2¹² and mod 5¹². Solutions can be lifted via Hensel's lemma or extended Euclidean algorithm.
+
+The only 12-digit candidates without leading zeros are the non-trivial idempotents; one of them (81787109376) is only 11 digits, leaving exactly one valid answer.
+
+SOLUTION: "918212890625" 
+Checking sample solution  "918212890625"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "918212890625". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 1,146 in / 8,523 out
+  gpt-5.5 (solver): 180 in / 2,085 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if not (10**14 < x < 10**15):
+        return False
+
+    def ok(n, a):
+        if n % a == 0:
+            return n == a
+
+        d = n - 1
+        s = 0
+        while d % 2 == 0:
+            s += 1
+            d //= 2
+
+        y = pow(a, d, n)
+        if y == 1 or y == n - 1:
+            return True
+
+        for _ in range(s - 1):
+            y = (y * y) % n
+            if y == n - 1:
+                return True
+
+        return False
+
+    if x % 10670053 != 0:
+        return False
+
+    return all(ok(x, a) for a in (2, 3, 5, 7, 11, 13, 17))
+```
+
+Private proof sketch: the helper is a strong probable-prime test for one base. The sample number is a classic composite strong pseudoprime to the listed bases, and it has the required factor.
+
+SOLUTION: 341550071728321 
+Checking sample solution  341550071728321
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says 341550071728321. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 835 in / 21,485 out
+  claude-opus-4-7 (solver): 381 in / 909 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at the history, the solver handled hash, modular arithmetic, idempotent, and Miller-Rabin puzzles. Let me try classical number theory — Pell equations have notoriously huge fundamental solutions even for small D, so brute force is hopeless and solver needs to know/derive the continued-fraction algorithm.
+
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if x <= 1 or x >= 10**12:
+        return False
+    D = 73
+    diff = x * x - 1
+    if diff % D != 0:
+        return False
+    y2 = diff // D
+    y = int(round(y2 ** 0.5))
+    # adjust for float imprecision
+    while y > 0 and y * y > y2:
+        y -= 1
+    while (y + 1) * (y + 1) <= y2:
+        y += 1
+    return y > 0 and y * y == y2
+```
+
+The puzzle: find an integer x in (1, 10^12) such that x² - 73·y² = 1 for some positive integer y. This is the Pell equation for D=73. The fundamental solution requires running the continued-fraction expansion of √73 to find period elements, then constructing convergents until we hit a solution. Brute force is futile (~10^12 candidates with virtually no hits), but with the right algorithm the answer is reachable. The next solution exceeds 10^12, so the answer in range is unique.
+
+Verification of 2281249² − 73·267000² = 5,204,097,000,001 − 5,204,097,000,000 = 1 ✓
+
+SOLUTION: 2281249 
+Checking sample solution  2281249
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 2281249. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 1,825 in / 11,771 out
+  gpt-5.5 (solver): 256 in / 2,025 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = int(
+        "152260502792253336053561837813263742971806811496138068865790849458"
+        "0122963258952897654000350692006139"
+    )
+
+    if not (10**49 < x < 10**50):
+        return False
+    if x % 1000 != 199:
+        return False
+
+    return n % x == 0
+```
+
+This puzzle asks for a very particular 50-digit integer divisor of the given 100-digit integer. The final congruence condition rules out the other similarly sized divisor.
+
+SOLUTION: 37975227936943673922808872755445627854565536638199 
+Checking sample solution  37975227936943673922808872755445627854565536638199
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says 37975227936943673922808872755445627854565536638199. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 1,307 in / 5,869 out
+  claude-opus-4-7 (solver): 264 in / 773 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this, I want a puzzle that's hard to brute-force but yields to a clever insight (meet-in-the-middle), without repeating themes from history.
+
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 10:
+        return False
+    if not all('a' <= c <= 'z' for c in x):
+        return False
+    h1 = h2 = 0
+    P1, B1 = 10**9 + 7, 26
+    P2, B2 = 10**9 + 9, 27
+    for c in x:
+        v = ord(c) - 97
+        h1 = (h1 * B1 + v) % P1
+        h2 = (h2 * B2 + v) % P2
+    return h1 == 746758610 and h2 == 906464440
+```
+
+The puzzle: find a 10-character lowercase string whose double polynomial hash (two different bases, two different primes) matches both targets simultaneously.
+
+- Search space: 26^10 ≈ 1.4·10^14 strings — far too large for brute force.
+- Combined hash range: ~10^18, so a unique solution is overwhelmingly likely.
+- Smart approach: meet-in-the-middle, splitting into 5+5 characters. Each side has 26^5 ≈ 12M states. For each left half, the constraints `h1_left·B1^5 + h1_right ≡ T1` and `h2_left·B2^5 + h2_right ≡ T2` allow O(26^5) lookup against a precomputed right-half table keyed on `(h1_right, h2_right)`. That's roughly 10^7 ops + ~500MB memory — challenging but feasible.
+
+Without the MITM insight, the puzzle is essentially unsolvable.
+
+SOLUTION: "puzzlemast" 
+Checking sample solution  "puzzlemast"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says next(''.join(chr(97+(N//26**i)%26) for i in range(9,-1,-1)) for k in range((26**10-1-746758610)//(10**9+7)+1) for N in [746758610+k*(10**9+7)] if sum(((N//26**i)%26)*pow(27,i,10**9+9) for i in range(10))%(10**9+9)==906464440). Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 2,467 in / 36,017 out
+  gpt-5.5 (solver): 270 in / 29,136 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    n = 52
+    if len(x) != 2 * n:
+        return False
+    if any(c < "0" or c > "9" for c in x):
+        return False
+
+    p = [int(x[i:i + 2]) for i in range(0, 2 * n, 2)]
+
+    if sorted(p) != list(range(1, n + 1)):
+        return False
+
+    seen = set()
+    for i, a in enumerate(p):
+        for j in range(i + 1, n):
+            d = (j - i, p[j] - a)
+            if d in seen:
+                return False
+            seen.add(d)
+
+    return True
+```
+
+Private explanation: the string encodes a permutation of 1 through 52, two digits per entry. The nested loop requires every displacement vector between two marked points to be unique, i.e. it asks for a Costas array of order 52. The sample is the Welch construction using the primitive root 2 modulo 53: entries are \(2^i \bmod 53\) for \(i=0,\dots,51\).
+
+SOLUTION: "01020408163211224435173415300714280306122448433313265251494537214231091836193823463925504741290510204027" 
+Checking sample solution  "01020408163211224435173415300714280306122448433313265251494537214231091836193823463925504741290510204027"
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says "01020408163211224435173415300714280306122448433313265251494537214231091836193823463925504741290510204027". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 1,685 in / 25,489 out
+  claude-opus-4-7 (solver): 351 in / 5,107 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this, I want to design a puzzle that's hard to brute force but has a clever structure. I'll use a constraint satisfaction problem with a specific configuration.
+
+```python
+def mystery(x):
+    if type(x) is not str: return False
+    if len(x) != 81: return False
+    if not all(c in "123456789" for c in x): return False
+    given = "800000000003600000070090200050007000000045700000100030001000068008500010090000400"
+    for i in range(81):
+        if given[i] != '0' and given[i] != x[i]:
+            return False
+    for i in range(9):
+        if set(x[i*9:(i+1)*9]) != set("123456789"): return False
+        if set(x[i::9]) != set("123456789"): return False
+    for br in range(3):
+        for bc in range(3):
+            box = [x[(br*3+r)*9 + bc*3+c] for r in range(3) for c in range(3)]
+            if set(box) != set("123456789"): return False
+    return True
+```
+
+The puzzle requires finding an 81-character string of digits 1-9 satisfying:
+- A specific subset of "given" digits at fixed positions
+- Each row contains 1-9 exactly once
+- Each column contains 1-9 exactly once
+- Each 3×3 box contains 1-9 exactly once
+
+This is the famous "world's hardest sudoku" by Arto Inkala (2010). The search space is enormous (~6.67×10²¹ valid sudoku grids), but with backtracking or a SAT solver, it can be cracked.
+
+SOLUTION: "812753649943682175675491283154237896369845721287169534521974368438526917796318452" 
+Checking sample solution  "812753649943682175675491283154237896369845721287169534521974368438526917796318452"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "812753649943682175675491283154237896369845721287169534521974368438526917796318452". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 3,311 in / 7,520 out
+  gpt-5.5 (solver): 329 in / 554 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    n = 1019
+    if len(x) != n:
+        return False
+    if x.count("1") != 509 or x.count("0") != 510:
+        return False
+
+    b = [c == "1" for c in x]
+
+    for d in range(1, n):
+        if sum(b[i] and b[(i + d) % n] for i in range(n)) != 254:
+            return False
+
+    return True
+```
+
+Private explanation: this asks for the characteristic string of a cyclic difference set with parameters \((1019,509,254)\). Since \(1019\) is prime and \(1019 \equiv 3 \pmod 4\), the nonzero quadratic residues modulo \(1019\) form a Paley difference set. The sample solution below builds that characteristic string directly using Euler’s criterion.
+
+SOLUTION: "".join("1" if i != 0 and pow(i, 509, 1019) == 1 else "0" for i in range(1019)) 
+Checking sample solution  "".join("1" if i != 0 and pow(i, 509, 1019) == 1 else "0" for i in range(1019))
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says ''.join('1' if pow(i, 509, 1019) == 1 else '0' for i in range(1019)). Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 2,240 in / 16,824 out
+  claude-opus-4-7 (solver): 282 in / 4,400 out
+Logs written to runs/classic/claude-opus-4-7_vs_gpt-5.5.log and runs/classic/claude-opus-4-7_vs_gpt-5.5.jsonl
+
+=== Token Usage Summary ===
+Turn 0: claude-opus-4-7 vs gpt-5.5 - 715 in / 3,904 out (?) [success]
+Turn 1: gpt-5.5 vs claude-opus-4-7 - 828 in / 14,830 out (?) [success]
+Turn 2: claude-opus-4-7 vs gpt-5.5 - 1,326 in / 10,608 out (?) [success]
+Turn 3: gpt-5.5 vs claude-opus-4-7 - 1,216 in / 22,394 out (?) [success]
+Turn 4: claude-opus-4-7 vs gpt-5.5 - 2,081 in / 13,796 out (?) [success]
+Turn 5: gpt-5.5 vs claude-opus-4-7 - 1,571 in / 6,642 out (?) [success]
+Turn 6: claude-opus-4-7 vs gpt-5.5 - 2,737 in / 65,153 out (?) [success]
+Turn 7: gpt-5.5 vs claude-opus-4-7 - 2,036 in / 30,596 out (?) [success]
+Turn 8: claude-opus-4-7 vs gpt-5.5 - 3,640 in / 8,074 out (?) [success]
+Turn 9: gpt-5.5 vs claude-opus-4-7 - 2,522 in / 21,224 out (?) [success]
+
+=== Totals by Model ===
+claude-opus-4-7: 10,849 in / 79,626 out
+gpt-5.5: 7,823 in / 117,595 out

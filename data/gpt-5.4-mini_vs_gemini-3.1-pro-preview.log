@@ -1,0 +1,697 @@
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, (str, int, float)):
+        return False
+
+    s = str(x)
+
+    key = [
+        10**2 + 1,
+        3 * 11,
+        2**6 + 60,
+        4 * 22,
+        5 * 7,
+    ]
+
+    msg = ''.join(chr((v ^ 23) + (i & 1)) for i, v in enumerate(key))
+    secret = msg[1:] + msg[:1]
+
+    # Decoy computation to make the structure less obvious.
+    _ = 0
+    for i, n in enumerate([1, 4, 9, 16, 25, 36]):
+        _ ^= (n + i) * (i + 3)
+
+    return s == secret
+```
+
+This puzzle normalizes the input to a string, then builds a hidden target through a few arithmetic and bitwise steps. The true value is the exact string produced by that transformation.
+
+SOLUTION: "7kP4r" 
+Checking sample solution  "7kP4r"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "7kP4r". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 346 in / 13,180 out
+  gemini-3.1-pro-preview (solver): 298 in / 3,885 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+        
+    if x < 0 or x > 10**15:
+        return False
+        
+    if x % 999999937 != 123456789:
+        return False
+        
+    y = x // 999999937
+    if y < 0 or y >= 1024:
+        return False
+        
+    b = [(y >> i) & 1 for i in range(10)]
+    
+    c = (
+        (b[0] ^ (b[1] & ~b[2] & 1)) |
+        (b[1] ^ ((~b[0] & 1) | b[3])) |
+        (b[2] ^ (~b[4] & 1)) |
+        (b[3] ^ (~(b[0] ^ b[1]) & 1)) |
+        (b[4] ^ b[3]) |
+        (b[5] ^ (b[6] & b[7])) |
+        (b[6] ^ (~b[5] & b[8] & 1)) |
+        (b[7] ^ (b[9] | (~b[5] & 1))) |
+        (b[8] ^ (b[0] & b[5])) |
+        (b[9] ^ (~(b[8] ^ b[2]) & 1))
+    )
+    
+    return c == 0
+```
+
+### Explanation
+This puzzle consists of two layers of misdirection to hinder straightforward brute forcing and to disguise the underlying problem.
+
+1. **The Math Layer:** 
+   The initial check filters `x` using modulo arithmetic `x % 999999937 == 123456789`. Because the search space allows up to `10**15`, a naive `for` loop testing every integer will time out. The solver must deduce that `x = y * 999999937 + 123456789` and switch to solving for `y` (which is bounded between 0 and 1023).
+
+2. **The Logic Layer:**
+   The bitwise operations represent a complex logic puzzle involving 10 boolean variables (`b[0]` to `b[9]`). The operations are actually a translation of a classic "Knights and Knaves" truth-telling puzzle where each variable asserts something about the others. 
+   - `~var & 1` is used to safely emulate boolean NOT on bits.
+   - Using `|` across XOR pairs guarantees that `c == 0` if and only if every single logical condition perfectly holds (True XOR True == 0, False XOR False == 0).
+
+Solving the embedded logic puzzle yields `y = 667` (in binary: `1010011011`, giving `b = [1, 1, 0, 1, 1, 0, 0, 1, 0, 1]`) as a valid configuration.
+Once `y = 667` is found, the exact expected integer `x` can be recovered:
+`x = 667 * 999999937 + 123456789 = 667123414768`.
+
+SOLUTION: 667123414768 
+Checking sample solution  667123414768
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 134123448347. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 578 in / 33,407 out
+  gpt-5.4-mini (solver): 417 in / 2,468 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, (str, int, float)):
+        return False
+
+    s = str(x)
+    if len(s) != 8:
+        return False
+
+    # Decoys: these do nothing useful, but make the structure noisier.
+    fog = 0
+    for i, n in enumerate([4, 9, 16, 25, 36, 49, 64, 81]):
+        fog = (fog ^ (n + i)) + (n * (i + 1))
+
+    drift = 1
+    for i in range(1, 7):
+        drift = (drift * (i * i + 3)) % 97
+
+    # Actual target construction.
+    data = [2 * 11 - 1, 5 * 8, 3 - 2, 7 * 11 - 3, 2 * 17 - 4, 3 * 11, 5 * 10, 2**2 + 1]
+
+    out = []
+    for i, n in enumerate(data):
+        t = (n * 7 + 13 + i * 11) % 94
+        out.append(chr(t + 33))
+
+    target = ''.join(out)
+
+    # More noise derived from the target, but not used for anything meaningful.
+    shadow = 0
+    for i, ch in enumerate(target[::-1]):
+        shadow ^= (ord(ch) + i * 17) << (i % 3)
+
+    return s == target
+```
+
+This one hides the answer behind a small affine transform, a few arithmetic expressions, and some decoy computations. The solution is a short printable string, but the exact value is not obvious without working through the construction.
+
+SOLUTION: "c7K!p2V@" 
+Checking sample solution  "c7K!p2V@"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "c7K!p2V@". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 933 in / 15,932 out
+  gemini-3.1-pro-preview (solver): 472 in / 2,860 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 16:
+        return False
+        
+    A = [ord(c) for c in x]
+    
+    def f(n):
+        return (n ^ (n >> 3) ^ (n << 2)) & 0xFF
+
+    for _ in range(3):
+        new_A = [0] * 16
+        for i in range(16):
+            new_A[i] = (A[i] + f(A[(i + 1) % 16])) % 256
+        A = new_A
+        
+    for i in range(16):
+        A[i] = A[i] ^ A[(i + 3) % 16]
+        
+    for i in range(16):
+        A[i] = (A[i] * (i + 1)) % 256
+        
+    target = [
+        52, 224, 192, 16, 4, 160, 192, 32, 
+        212, 96, 192, 48, 164, 46, 219, 16
+    ]
+    
+    return A == target
+```
+
+### Explanation
+This puzzle implements a custom cryptographic hash function (or a mini block cipher) working on a 16-byte state. The goal is to find the exact 16-character string that hashes to the `target` array.
+
+1. **The Feistel-like Rounds:** The algorithm performs 3 rounds of non-linear mixing. Each byte is updated using a function `f(n)` applied to its neighbor. The function uses a combination of bitwise shifts and XORs (`n ^ (n >> 3) ^ (n << 2)`), which effectively acts as a diffusion layer.
+2. **In-place Feedback Mutation:** The step `A[i] = A[i] ^ A[(i + 3) % 16]` is deliberately done *in-place*. This means that towards the end of the array (e.g., `i = 13, 14, 15`), the values being XOR'd in are the *already modified* values from the beginning of the array. This creates an asymmetric avalanche effect that destroys any cyclic symmetries.
+3. **Index-dependent Masking:** Finally, multiplying by `(i + 1) % 256` ensures the bytes' positions are strictly enforced.
+
+The sequence length and search space ($256^{16}$) prevent naive brute forcing. SMT solvers like Z3 can solve it, but only if the mathematical constraints, specifically the bit-width limitations and in-place feedback loops, are perfectly translated into SMT arrays and bit-vectors. 
+
+To generate the puzzle, I exploited periodicity: by choosing a string with a repeating 4-character period, the state remains periodic during the parallel 3-round mixing, allowing me to manually trace the math for just 4 elements. The symmetry is exclusively broken at the end by the in-place operations.
+
+SOLUTION: "WXYZWXYZWXYZWXYZ" 
+Checking sample solution  "WXYZWXYZWXYZWXYZ"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 15:
+        return False
+        
+    p = x[:10]
+    s = x[10:]
+    
+    if len(set(p)) != 10 or not p.isdigit():
+        return False
+    if not s.isalpha() or not s.isupper():
+        return False
+        
+    m = [13, 17, 19, 23, 29, 31, 37, 41]
+    r = [18, 18, 37, 40, 56, 47, 49, 41]
+    
+    for i in range(8):
+        if int(p[i:i+3]) % m[i] != r[i] % m[i]:
+            return False
+            
+    vals = [ord(c) - 65 for c in s]
+    t = [21, 23, 2, 6, 23]
+    
+    for i in range(5):
+        if sum(vals[j] * ((i + j) % 5 + 1) for j in range(5)) % 26 != t[i]:
+            return False
+            
+    if sum(int(p[i]) * vals[i%5] for i in range(10)) != 572:
+        return False
+        
+    if sum(abs(int(p[i]) - vals[i%5]) for i in range(10)) != 81:
+        return False
+        
+    if sum((int(p[i]) ^ vals[i%5]) for i in range(10)) != 123:
+        return False
+        
+    return True
+```
+
+### Explanation
+
+This puzzle is a combination of a deductive number-theory game and a linear algebra problem modulo 26, culminating in a series of cross-checks to prevent independent brute-forcing of the two parts. The length of the string is 15. The first 10 characters `p` must be a pandigital number (all digits 0-9 exactly once). The last 5 characters `s` must be an uppercase alphabetic string.
+
+**Part 1: The Pandigital Overlap**
+The constraints on `p` require consecutive 3-digit substrings to satisfy specific remainders with a sequence of prime numbers. 
+These constraints are uniquely resolvable from right-to-left:
+- `int(p[7:10]) % 41 == 0`. Valid non-repeating multiples of 41 include 041, 082, 123, 164, etc.
+- If you pick `410`, then `p[7:10] = 410`.
+- Moving to `p[6:9]`, `int(p[6] + "41") % 37 == 12`. Solving $100d_6 + 41 \equiv 12 \pmod{37}$ uniquely yields $d_6 = 6$.
+- Moving to `p[5:8]`, `int(p[5] + "64") % 31 == 16`. Solving $100d_5 + 64 \equiv 16 \pmod{31}$ uniquely yields $d_5 = 2$.
+- By continuing this exact deductive logic leftward, the only valid sequence that yields a pandigital string without contradictions is `p = "8375926410"`.
+
+**Part 2: The Linear Algebra System**
+The constraint on `s` acts on `vals`, representing the 5 letters (A=0, ..., Z=25).
+The loop maps to a set of 5 linear equations modulo 26.
+For example, for `i=0`: $1v_0 + 2v_1 + 3v_2 + 4v_3 + 5v_4 \equiv 21 \pmod{26}$.
+This circulant matrix is invertible modulo 26. Solving this system uniquely produces `vals = [17, 8, 21, 0, 11]`, which corresponds to the letters `"RIVAL"`.
+
+**Part 3: The Cross-Checks**
+To foil naive SAT-solvers or isolated brute-forcing techniques, the puzzle concludes with three constraints blending integer values from `p` and `s`. 
+- `sum(int(p[i]) * vals[i%5]) == 572`
+- `sum(abs(int(p[i]) - vals[i%5])) == 81`
+- `sum(int(p[i]) ^ vals[i%5]) == 123`
+These perfectly align with the solution `x = "8375926410RIVAL"`.
+
+SOLUTION: "8375926410RIVAL" 
+Checking sample solution  "8375926410RIVAL"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "8375926410RIVAL". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 1,812 in / 26,853 out
+  gpt-5.4-mini (solver): 436 in / 22,475 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, (str, int, float)):
+        return False
+
+    s = str(x)
+    if len(s) != 7:
+        return False
+
+    # Decoy checksum: noisy, but irrelevant.
+    noise = 0
+    for i, n in enumerate([12, 5, 19, 7, 23, 11, 3, 29]):
+        noise ^= (n * (i + 7)) + (noise << 1)
+        noise &= 0xFFFF
+
+    # Another dead-end recurrence.
+    acc = 17
+    for i in range(1, 10):
+        acc = (acc * (i * i + 31) + i) % 1009
+
+    # Actual target construction, hidden behind a reversible bit/arithmetic mix.
+    base = [4, 9, 15, 16, 23, 42, 8]
+    salts = [19, 30, 41, 52, 63, 74, 85]
+
+    pieces = []
+    for n, salt in zip(base, salts):
+        pieces.append((((n << 3) - n) ^ salt))
+
+    target = ''.join(chr((p % 94) + 33) for p in pieces)
+
+    # Final distraction: a checksum of the target that is never used for branching.
+    folded = 0
+    for i, ch in enumerate(target[::-1]):
+        folded ^= (ord(ch) + 17 * i) << (i % 4)
+    _ = (folded ^ acc ^ noise) & 0xFFFFFFFF
+
+    return s == target
+```
+
+This puzzle hides the answer behind a couple of useless computations and then builds the real target through a short bitwise/arithmetic chain. The only input that passes is the exact 7-character string produced at the end.
+
+SOLUTION: "0BaeCs0" 
+Checking sample solution  "0BaeCs0"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 1,707 in / 8,511 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 15:
+        return False
+        
+    stack = []
+    for c in x:
+        if c == 'A': 
+            stack.append(2)
+        elif c == 'B': 
+            stack.append(3)
+        elif c == 'C':
+            if len(stack) < 2: return False
+            v1 = stack.pop()
+            v2 = stack.pop()
+            stack.append(v1 + v2)
+        elif c == 'D':
+            if len(stack) < 2: return False
+            v1 = stack.pop()
+            v2 = stack.pop()
+            stack.append(v1 * v2)
+        elif c == 'E':
+            if len(stack) < 2: return False
+            v1 = stack.pop()
+            v2 = stack.pop()
+            stack.append(v2 - v1)
+        elif c == 'F':
+            if not stack: return False
+            stack.append(stack[-1])
+        else:
+            return False
+            
+    return len(stack) == 1 and stack[0] == 2754
+```
+
+### Explanation
+This puzzle requires the solver to provide a 15-character string that acts as bytecode for a simple stack-based virtual machine. 
+The VM has 6 valid instructions:
+- `A` pushes 2
+- `B` pushes 3
+- `C` adds the top two elements
+- `D` multiplies the top two elements
+- `E` subtracts the top element from the second-to-top element
+- `F` duplicates the top element
+
+The goal is to leave exactly one element on the stack with a value of `2754`, using exactly 15 operations.
+
+Because a simple greedy or naive symbolic execution strategy struggles with varying stack depths and the non-associative stack depth conditions, the solver must use a dynamic programming approach, breadth-first search, or careful manual backtracking to find a valid chain of operations. 
+
+My specific constructed solution builds the value up systematically:
+1. `B` -> `[3]`
+2. `F` -> `[3, 3]`
+3. `C` -> `[6]`
+4. `F` -> `[6, 6]`
+5. `D` -> `[36]`
+6. `F` -> `[36, 36]`
+7. `D` -> `[1296]`
+8. `B` -> `[1296, 3]`
+9. `F` -> `[1296, 3, 3]`
+10. `D` -> `[1296, 9]`
+11. `F` -> `[1296, 9, 9]`
+12. `D` -> `[1296, 81]`
+13. `C` -> `[1377]`
+14. `F` -> `[1377, 1377]`
+15. `C` -> `[2754]`
+
+SOLUTION: "BFCFDFDBFDFDCFC" 
+Checking sample solution  "BFCFDFDBFDFDCFC"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "BFDFDABCBDACDAD". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 3,422 in / 39,129 out
+  gpt-5.4-mini (solver): 339 in / 15,447 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, (str, int, float)):
+        return False
+
+    s = str(x)
+    if len(s) != 13:
+        return False
+
+    fog = 0
+    for i, n in enumerate([6, 28, 496, 8128, 33, 97, 65, 121]):
+        fog = ((fog << 3) ^ (n * (i + 11) + (fog >> 1))) & 0xFFFF
+
+    twist = 19
+    for i in range(1, 11):
+        twist = (twist * (i * i + 17) + i * 7) % 1009
+
+    seed = [
+        100 - 63,
+        8 * 5 + 1,
+        2 ** 2,
+        17 - 14,
+        9 * 8 - 1,
+        6 * 7 + 1,
+        3 ** 2 - 2,
+        5 * 8 - 1,
+        6 * 7,
+        3 * 4,
+        100 - 29,
+        3 * 31,
+        50 - 7,
+    ]
+
+    order = [5, 0, 11, 3, 9, 1, 7, 12, 2, 8, 4, 10, 6]
+    chars = []
+    for i, p in enumerate(order):
+        n = seed[p]
+        n = (n + i * i + 19) % 94
+        chars.append(chr(n + 33))
+
+    target = ''.join(chars)[::-1]
+
+    check = 0
+    for i, ch in enumerate(target):
+        check ^= (ord(ch) + i * 13) << (i % 5)
+
+    _ = check ^ fog ^ twist
+    return s == target
+```
+
+This puzzle hides the accepted input behind a shuffled seed list, a small affine transform, and a final reversal. The extra loops are decoys and don't affect the answer.
+
+SOLUTION: "m8#Qx2!vP@7Z_" 
+Checking sample solution  "m8#Qx2!vP@7Z_"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "m8#Qx2!vP@7Z_". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 2,413 in / 12,890 out
+  gemini-3.1-pro-preview (solver): 572 in / 6,684 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 24:
+        return False
+        
+    stack = []
+    for op in x:
+        if op == '1':
+            stack.append((1, 0))
+        elif op == 'i':
+            stack.append((0, 1))
+        elif op == 'd':
+            if not stack: return False
+            stack.append(stack[-1])
+        elif op == '+':
+            if len(stack) < 2: return False
+            r1, i1 = stack.pop()
+            r2, i2 = stack.pop()
+            stack.append((r2 + r1, i2 + i1))
+        elif op == '*':
+            if len(stack) < 2: return False
+            r1, i1 = stack.pop()
+            r2, i2 = stack.pop()
+            stack.append((r2 * r1 - i2 * i1, r2 * i1 + i2 * r1))
+        elif op == 'c':
+            if not stack: return False
+            r, i = stack.pop()
+            stack.append((r, -i))
+        else:
+            return False
+            
+    if len(stack) != 1:
+        return False
+        
+    return stack[0] == (-9752970240, -10126837727)
+
+```
+
+### Explanation
+
+This puzzle implements a stack-based virtual machine that performs arithmetic over Gaussian integers (complex numbers with integer parts). 
+The valid operations are:
+- `1`: Push $1$
+- `i`: Push $i$
+- `d`: Duplicate the top of the stack
+- `+`: Add the top two elements
+- `*`: Multiply the top two elements
+- `c`: Conjugate the top element (negate its imaginary part)
+
+The goal is to provide a 24-character program that precisely evaluates to the large Gaussian integer $-9752970240 - 10126837727i$.
+
+**Why it's hard:**
+- **Search Space:** A depth-24 sequence with 6 branching options per step has a state space of $6^{24} \approx 4.7 \times 10^{18}$. A naïve breadth-first search is mathematically unfeasible.
+- **Resists SMT Solvers:** SMT solvers (like Z3) handle deep non-linear integer equations poorly. Repeated squaring creates symbolic polynomials of degree up to $1024$, causing SMT backends to completely time out.
+- **Resists Meet-in-the-Middle:** Backwards search is thwarted because reversing addition and multiplication over complex integers requires factorization and splitting terms without knowing the intermediate operands, resulting in an essentially infinite branching factor going backwards.
+
+**The Math (Addition Chain):**
+The target was constructed using an algebraic sequence of repeated squarings:
+1. `11+` $\rightarrow 2$
+2. `d*` $\rightarrow 2^2 = 4$
+3. `i+` $\rightarrow 4 + i$
+4. `d*` $\rightarrow (4+i)^2 = 15 + 8i$
+5. `d*` $\rightarrow (15+8i)^2 = 161 + 240i$
+6. `1+` $\rightarrow 162 + 240i$
+7. `d*` $\rightarrow (162+240i)^2 = -31356 + 77760i$
+8. `c` $\rightarrow \text{conjugate} \rightarrow -31356 - 77760i$
+9. `di*+` $\rightarrow \text{multiply by } (1+i) \rightarrow 46404 - 109116i$
+10. `d*` $\rightarrow (46404 - 109116i)^2 = -9752970240 - 10126837728i$
+11. `i+` $\rightarrow \text{add } i \rightarrow -9752970240 - 10126837727i$
+
+Combining these gives the string `11+d*i+d*d*1+d*cdi*+d*i+`, beautifully generating the target using exactly 24 characters.
+
+SOLUTION: "11+d*i+d*d*1+d*cdi*+d*i+" 
+Checking sample solution  "11+d*i+d*d*1+d*cdi*+d*i+"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 100:
+        return False
+    if set(x) - {'.', '#'}:
+        return False
+        
+    # Parse 10x10 grid
+    grid = [list(x[i:i+10]) for i in range(0, 100, 10)]
+    
+    # Simulate 12 generations of Conway's Game of Life
+    for _ in range(12):
+        new_grid = [['.' for _ in range(10)] for _ in range(10)]
+        for r in range(10):
+            for c in range(10):
+                # Count live neighbors
+                n = 0
+                for dr in [-1, 0, 1]:
+                    for dc in [-1, 0, 1]:
+                        if dr == 0 and dc == 0: 
+                            continue
+                        if 0 <= r+dr < 10 and 0 <= c+dc < 10:
+                            if grid[r+dr][c+dc] == '#':
+                                n += 1
+                                
+                # Apply rules
+                if grid[r][c] == '#':
+                    if n == 2 or n == 3: 
+                        new_grid[r][c] = '#'
+                else:
+                    if n == 3: 
+                        new_grid[r][c] = '#'
+        grid = new_grid
+        
+    # Compute structural hash of the final active cells
+    h = 0
+    for r in range(10):
+        for c in range(10):
+            if grid[r][c] == '#':
+                i = r * 10 + c
+                h ^= (i * 137 + 1)
+                
+    return h == 1442
+
+```
+
+### Explanation
+This puzzle requires the solver to find a 100-character string of `.` and `#` representing a 10x10 grid that, after 12 generations of Conway's Game of Life, produces a specific configuration of cells whose XOR-based structural hash equals `1442`.
+
+Because the simulation involves 12 steps over 100 cells, standard SMT solvers like Z3 will struggle with the deep Boolean circuits combined with the XOR-sum hash constraint. Brute force is impossible given the $2^{100}$ search space. 
+
+The secret solution provided below relies on placing two small, non-interacting objects that I know the future state of:
+1. A "Block" (a 2x2 stable Still Life) placed at the bottom left (rows 8-9, columns 1-2).
+2. A "Blinker" (a 3x1 period-2 oscillator) placed at the top right (rows 2-4, column 7).
+
+Since the number of generations (12) is even, the Blinker will return to its original vertical orientation. The Block remains unchanged. 
+Thus, at step 12, the `#` indices are exactly `27, 37, 47` (Blinker) and `81, 82, 91, 92` (Block).
+Calculating the hash:
+- Block XOR contribution: `(11098 ^ 11235) ^ (12468 ^ 12605) = 185 ^ 393 = 304`
+- Blinker XOR contribution: `3700 ^ 5070 ^ 6440 = 7610 ^ 6440 = 1170`
+- Total hash: `304 ^ 1170 = 1442`.
+
+By translating this configuration into a 100-character string, we get the exact sample solution string.
+
+SOLUTION: "...........................#.........#.........#..................................##........##......." 
+Checking sample solution  "...........................#.........#.........#..................................##........##......."
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs -1 (0-1)
+  gemini-3.1-pro-preview (inventer): 4,690 in / 36,908 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+
+    # Decoy 1: noisy recurrence, but it never affects the branch.
+    a, b = 7, 13
+    fog = 0
+    for n in [6, 28, 496, 8128, 33, 97, 65, 121, 144]:
+        a, b = b, (a + b + n) % 997
+        fog = ((fog << 3) ^ (b * 17 + n)) & 0xFFFF
+
+    # Decoy 2: another dead end.
+    pulse = 1
+    for i in range(1, 9):
+        pulse = (pulse * (i * i + 31) + (i ^ 5)) % 1009
+
+    base = [2 + 3, 2 * 8 + 1, 3 * 3, 7 * 3, 2 ** 3, 7 + 7, 9 - 6, 19, 3 * 4, 5 ** 2]
+    perm = [6, 0, 9, 3, 1, 8, 4, 2, 7, 5]
+
+    chars = []
+    for i, p in enumerate(perm):
+        v = base[p]
+        v = (v * 11 + 7 * i + 19) ^ 0x2D
+        chars.append(chr(33 + (v % 94)))
+
+    target = ''.join(chars)
+
+    shadow = 0
+    for i, ch in enumerate(target[::-1]):
+        shadow ^= (ord(ch) + 11 * i) << (i % 4)
+
+    _ = fog ^ pulse ^ shadow
+    return x == target
+```
+
+This one hides the true answer behind a couple of decoy computations and a permutation-based character generator. The only passing input is the exact 10-character string produced by the final loop.
+
+SOLUTION: ':?~),Z{M8&' 
+Checking sample solution  ':?~),Z{M8&'
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says ":?~),Z{M8&". Checking.
+Success!
+New score after this turn: -1 (0-1) vs -1 (0-1)
+  gpt-5.4-mini (inventer): 3,303 in / 11,238 out
+  gemini-3.1-pro-preview (solver): 553 in / 8,099 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 24:
+        return False
+        
+    if set(x) != set("ABC"):
+        return False
+        
+    if x.count('A') != 8 or x.count('B') != 8 or x.count('C') != 8:
+        return False
+
+    s1 = [2, 3, 5]
+    s2 = [7, 11, 13]
+
+    for move in x:
+        if move == 'A':
+            s1[0] = (s1[0]**2 + s1[1]) % 97
+            s2[0] = (s2[0]**2 + s2[1]) % 97
+        elif move == 'B':
+            s1[1] = (s1[1]**2 + s1[2]) % 97
+            s2[1] = (s2[1]**2 + s2[2]) % 97
+        elif move == 'C':
+            s1[2] = (s1[2]**2 + s1[0]) % 97
+            s2[2] = (s2[2]**2 + s2[0]) % 97
+
+    return s1 == [56, 7, 40] and s2 == [9, 56, 53]
+
+```
+
+This puzzle requires the solver to find a 24-character sequence of `A`, `B`, and `C` that drives two parallel non-linear state machines to specific target states modulo 97. 
+
+By applying squaring operations over a prime modulus, the transitions are non-invertible (due to the multiple roots of quadratic residues), which utterly thwarts bidirectional breadth-first search algorithms. Furthermore, the use of modular non-linear integer arithmetic over 24 successive transitions causes explosive path branching that easily forces modern SMT solvers (like Z3) to exhaust memory or time out if they attempt symbolic unrolling.
+
+The secondary state `s2` expands the target state-space from $\approx 9 \times 10^5$ to $\approx 8 \times 10^{11}$, eliminating any possibility of a random walk or naive forward BFS stumbling upon a serendipitous alternative solution, ensuring the single embedded 24-step sequence is virtually the unique key.
+
+SOLUTION: "ABCABCACBABCABCACBABBCAC" 
+Checking sample solution  "ABCABCACBABCABCACBABBCAC"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "BCACBABCACBABCACBABCAACB". Checking.
+Failure!
+New score after this turn: -1 (0-1) vs 0 (1-1)
+  gemini-3.1-pro-preview (inventer): 6,101 in / 44,238 out
+  gpt-5.4-mini (solver): 405 in / 93,985 out
+Turn 0: gpt-5.4-mini vs gemini-3.1-pro-preview - 644 in / 17,065 out (?) [success]
+Turn 1: gemini-3.1-pro-preview vs gpt-5.4-mini - 995 in / 35,875 out (?) [success]
+Turn 2: gpt-5.4-mini vs gemini-3.1-pro-preview - 1,405 in / 18,792 out (?) [success]
+Turn 3: gemini-3.1-pro-preview vs gpt-5.4-mini - 2,248 in / 49,328 out (?) [success]
+Turn 4: gpt-5.4-mini vs gemini-3.1-pro-preview - 1,707 in / 8,511 out (?) [puzzle-wrong]
+Turn 5: gemini-3.1-pro-preview vs gpt-5.4-mini - 3,761 in / 54,576 out (?) [success]
+Turn 6: gpt-5.4-mini vs gemini-3.1-pro-preview - 2,985 in / 19,574 out (?) [success]
+Turn 7: gemini-3.1-pro-preview vs gpt-5.4-mini - 4,690 in / 36,908 out (?) [puzzle-wrong]
+Turn 8: gpt-5.4-mini vs gemini-3.1-pro-preview - 3,856 in / 19,337 out (?) [success]
+Turn 9: gemini-3.1-pro-preview vs gpt-5.4-mini - 6,506 in / 138,223 out (?) [failure]
+gpt-5.4-mini: 11,033 in / 388,126 out
+gemini-3.1-pro-preview: 25,000 in / 259,466 out
+gpt-5.4-mini ./. gemini-3.1-pro-preview     (0-1) vs (1-1)     [2 failed, see runs/classic/gpt-5.4-mini_vs_gemini-3.1-pro-preview.log]

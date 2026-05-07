@@ -1,0 +1,275 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 1:
+        return False
+    
+    def is_happy(n):
+        seen = set()
+        while n != 1 and n not in seen:
+            seen.add(n)
+            n = sum(int(digit) ** 2 for digit in str(n))
+        return n == 1
+    
+    return is_happy(x)
+```
+
+This puzzle requires you to find a number greater than 1 that satisfies a specific property. The function takes a number and repeatedly replaces it with the sum of the squares of its digits. It returns `True` if this process eventually reaches 1, and `False` if it gets stuck in a cycle that doesn't include 1. Can you find a number that makes the function return `True`?
+
+For example, if you trace through the process for the solution, you should see: the number → sum of squares of digits → (repeat) → eventually reaches 1.
+
+SOLUTION: 7 
+Checking sample solution  7
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 7. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 395 in / 11,716 out
+  grok-4.20-0309-reasoning (solver): 303 in / 352 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+    c = 0
+    r = int(x ** (1.0/3.0)) + 5
+    for a in range(1, r):
+        for b in range(a + 1, r):
+            if a**3 + b**3 == x:
+                c += 1
+    return c == 2
+```
+This puzzle checks for an obscure number-theoretic property (numbers expressible as the sum of two positive cubes in exactly two distinct ways). The code is deliberately compact with nondescript variable names and a slightly oversized search range to obscure the intent at a glance; manually enumerating possibilities or reverse-engineering the exact condition without running many trials is nontrivial.  
+SOLUTION: 1729 
+Checking sample solution  1729
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 1729. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 573 in / 4,988 out
+  claude-haiku-4-5 (solver): 243 in / 1,595 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 1:
+        return False
+    
+    # Check if x is a perfect square
+    sqrt_x = int(x ** 0.5)
+    if sqrt_x * sqrt_x != x:
+        return False
+    
+    # Check if digit sum is 9
+    digit_sum = sum(int(d) for d in str(x))
+    return digit_sum == 9
+```
+
+This puzzle checks two properties of the input number. First, it must be a **perfect square** (a number that equals some integer squared). Second, when you **add up all the digits** of the number, the sum must equal **9**. 
+
+Try testing some perfect squares like 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 144, etc. and observe which ones return True. The pattern should become apparent once you see a few solutions!
+
+SOLUTION: 9 
+Checking sample solution  9
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 9. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 803 in / 11,739 out
+  grok-4.20-0309-reasoning (solver): 311 in / 850 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 1:
+        return False
+    k = 0
+    lim = int(x ** 0.25) + 20
+    for i in range(1, lim):
+        for j in range(i + 1, lim):
+            if i**4 + j**4 == x:
+                k += 1
+    return k == 2
+```
+This puzzle checks whether an integer can be expressed as the sum of two positive fourth powers in exactly two distinct ways (an obscure Diophantine property). The compact loops, generic variable names, and oversized limit hide the mathematical intent; determining the condition or locating a valid x by naive search is inefficient, requiring either insight into the pattern or a smart generator that counts collisions among fourth-power sums.  
+SOLUTION: 635318657 
+Checking sample solution  635318657
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 635318657. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 895 in / 7,195 out
+  claude-haiku-4-5 (solver): 242 in / 23,890 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+    
+    sq = x * x
+    sq_str = str(sq)
+    
+    for i in range(1, len(sq_str)):
+        left = int(sq_str[:i])
+        right = int(sq_str[i:])
+        if left + right == x and left > 0 and right > 0:
+            return True
+    
+    return False
+```
+
+This puzzle checks whether a number has a special property related to its square. When you square the number, you can split the digits of the result into two parts. If adding these two parts together gives you back the original number, the function returns True. Try testing various numbers to find which ones work!
+
+SOLUTION: 45 
+Checking sample solution  45
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 9. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,218 in / 9,371 out
+  grok-4.20-0309-reasoning (solver): 317 in / 630 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+    c = 0
+    r = int(x ** (1.0/3.0)) + 20
+    for a in range(1, r):
+        for b in range(a + 1, r):
+            if a**3 + b**3 == x:
+                c += 1
+    return c == 3
+```
+This puzzle checks for an obscure number-theoretic property (numbers expressible as the sum of two positive cubes in exactly three distinct ways). The code is deliberately compact with nondescript variable names and an oversized search range to obscure the intent at a glance; determining the condition or locating a valid x by naive search or reverse-engineering is inefficient, requiring either deep insight into taxicab numbers or a smart collision counter over cube sums.
+SOLUTION: 87539319 
+Checking sample solution  87539319
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 87539319. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,229 in / 6,698 out
+  claude-haiku-4-5 (solver): 243 in / 7,727 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+    
+    # Count divisors efficiently
+    divisor_count = 0
+    for i in range(1, int(x**0.5) + 1):
+        if x % i == 0:
+            divisor_count += 1
+            if i != x // i:
+                divisor_count += 1
+    
+    # Sum of digits
+    digit_sum = sum(int(d) for d in str(x))
+    
+    return divisor_count == digit_sum
+```
+
+This puzzle has a hidden mathematical property that connects two different aspects of a number. The function counts all the positive integers that divide the number evenly (including 1 and the number itself), and compares this count to something related to the digits of the number. Try testing various numbers to discover the exact relationship between these two properties!
+
+SOLUTION: 22 
+Checking sample solution  22
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 1. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,588 in / 10,439 out
+  grok-4.20-0309-reasoning (solver): 335 in / 658 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+    c = 0
+    r = int(x ** (1.0/3.0)) + 30
+    for a in range(1, r):
+        for b in range(a + 1, r):
+            if a**3 + b**3 == x:
+                c += 1
+    return c == 4
+```
+This puzzle checks for an obscure number-theoretic property (numbers expressible as the sum of two positive cubes in exactly four distinct ways). The code is deliberately compact with nondescript variable names and an oversized search range to obscure the intent at a glance; determining the condition or locating a valid x by naive search or reverse-engineering is inefficient, requiring either deep insight into taxicab numbers or a smart collision counter over cube sums.
+SOLUTION: 6963472309248 
+Checking sample solution  6963472309248
+RuntimeError while checking sample -- penalizing!
+Error: mystery() execution timed out after 5s
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 1,591 in / 6,493 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+    
+    s = str(x)
+    for i in range(1, len(s) + 1):
+        prefix = int(s[:i])
+        if prefix % i != 0:
+            return False
+    
+    return True
+```
+
+This puzzle checks a special divisibility property. The function examines the number by progressively looking at more digits from left to right (the prefixes), starting with just the first digit, then the first two digits, then the first three digits, and so on. Each prefix must be divisible by its position (length). 
+
+For instance, in the number 123:
+- Position 1: "1" must divide evenly by 1 ✓
+- Position 2: "12" must divide evenly by 2 ✓  
+- Position 3: "123" must divide evenly by 3 ✓
+
+So it returns True. The challenge is finding this pattern through testing!
+
+SOLUTION: 123 
+Checking sample solution  123
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 1. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  claude-haiku-4-5 (inventer): 1,994 in / 8,941 out
+  grok-4.20-0309-reasoning (solver): 289 in / 762 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+    c = 0
+    r = int(x ** 0.5) + 20
+    for a in range(1, r):
+        for b in range(a + 1, r):
+            if a**2 + b**2 == x:
+                c += 1
+    return c == 3
+```
+This puzzle checks for an obscure number-theoretic property (numbers expressible as the sum of two positive squares in exactly three distinct ways). The code is deliberately compact with nondescript variable names and an oversized search range to obscure the intent at a glance; determining the condition or locating a valid x by naive search or reverse-engineering is inefficient, requiring either insight into representations of integers as sums of squares or a smart generator that counts collisions.
+SOLUTION: 325 
+Checking sample solution  325
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 325. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 1,911 in / 5,137 out
+  claude-haiku-4-5 (solver): 239 in / 2,273 out
+Logs written to runs/classic/claude-haiku-4-5_vs_grok-4.20-0309-reasoning.log and runs/classic/claude-haiku-4-5_vs_grok-4.20-0309-reasoning.jsonl
+
+=== Token Usage Summary ===
+Turn 0: claude-haiku-4-5 vs grok-4.20-0309-reasoning - 698 in / 12,068 out (?) [success]
+Turn 1: grok-4.20-0309-reasoning vs claude-haiku-4-5 - 816 in / 6,583 out (?) [success]
+Turn 2: claude-haiku-4-5 vs grok-4.20-0309-reasoning - 1,114 in / 12,589 out (?) [success]
+Turn 3: grok-4.20-0309-reasoning vs claude-haiku-4-5 - 1,137 in / 31,085 out (?) [success]
+Turn 4: claude-haiku-4-5 vs grok-4.20-0309-reasoning - 1,535 in / 10,001 out (?) [success]
+Turn 5: grok-4.20-0309-reasoning vs claude-haiku-4-5 - 1,472 in / 14,425 out (?) [success]
+Turn 6: claude-haiku-4-5 vs grok-4.20-0309-reasoning - 1,923 in / 11,097 out (?) [success]
+Turn 7: grok-4.20-0309-reasoning vs claude-haiku-4-5 - 1,591 in / 6,493 out (?) [puzzle-wrong-ex]
+Turn 8: claude-haiku-4-5 vs grok-4.20-0309-reasoning - 2,283 in / 9,703 out (?) [success]
+Turn 9: grok-4.20-0309-reasoning vs claude-haiku-4-5 - 2,150 in / 7,410 out (?) [success]
+
+=== Totals by Model ===
+claude-haiku-4-5: 6,965 in / 87,691 out
+grok-4.20-0309-reasoning: 7,754 in / 33,763 out

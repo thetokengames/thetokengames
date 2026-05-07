@@ -1,0 +1,389 @@
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 1:
+        return False
+    square = x * x
+    s = str(square)
+    for i in range(1, len(s)):
+        left = int(s[:i])
+        right = int(s[i:])
+        if left + right == x:
+            return True
+    return False
+```
+
+This puzzle checks whether a number is a Kaprekar number. A Kaprekar number is a positive integer whose square can be split into two parts that sum back to the original number.
+
+For example:
+- 9: 9² = 81 → split as 8|1 → 8 + 1 = 9 ✓
+- 45: 45² = 2025 → split as 20|25 → 20 + 25 = 45 ✓  
+- 55: 55² = 3025 → split as 30|25 → 30 + 25 = 55 ✓
+- 99: 99² = 9801 → split as 98|01 → 98 + 1 = 99 ✓
+
+The puzzle should be challenging because while Kaprekar numbers have a clear definition, they're not as well-known as primes or Fibonacci sequences. The solver will need to test multiple values systematically to uncover the pattern, and there are enough solutions to discover that makes finding the relationship possible but non-trivial.
+
+SOLUTION: 45 
+Checking sample solution  45
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 9. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 395 in / 6,991 out
+  gpt-5.5 (solver): 181 in / 150 out
+gpt-5.5's turn to invent a puzzle...
+```python
+import base64
+import codecs
+import hashlib
+
+
+def mystery(x):
+    if type(x) is not str or len(x) != 60:
+        return False
+
+    try:
+        t = codecs.decode(x[::-1], "rot_13")
+        payload = base64.b64decode(t, validate=True)
+    except Exception:
+        return False
+
+    if base64.b64encode(payload).decode("ascii") != t:
+        return False
+
+    return (
+        hashlib.md5(payload).hexdigest() == "9e107d9d372bb6826bd81d3542a419d6"
+        and hashlib.sha1(payload).hexdigest() == "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12"
+        and hashlib.sha256(payload).hexdigest()
+        == "d7a8fbb307d7809469ca9abcb0082e4f8d5651e46d3cdb762d02d0bf37c9e592"
+    )
+```
+
+This puzzle hides a canonical base64 payload behind reversal and ROT13, then verifies the decoded bytes by three different digest checks.
+
+SOLUTION: "==jMiETV5cKLfOFMbEUVlIzqiOlpj1JqdOPriMTVhq3olWTVeAJn1SUVyuTI" 
+Checking sample solution  "==jMiETV5cKLfOFMbEUVlIzqiOlpj1JqdOPriMTVhq3olWTVeAJn1SUVyuTI"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "==jMiETV5cKLfOfMbEUVlITqiqOlpj1HqdOPriMTVhq3olWTVeAJn1SUVyutI". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  gpt-5.5 (inventer): 456 in / 11,176 out
+  claude-haiku-4-5 (solver): 399 in / 47,356 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 1:
+        return False
+    
+    # Estimate cube root
+    cr = round(x ** (1/3))
+    
+    # Check cr and nearby values for floating point safety
+    for test_cr in [max(1, cr - 1), cr, cr + 1]:
+        if test_cr ** 3 == x:
+            # This is the actual cube root
+            digit_sum = sum(int(d) for d in str(x))
+            return digit_sum == test_cr
+    
+    return False
+```
+
+This puzzle checks whether a number is a **Dudeney number**. A Dudeney number is a positive integer whose cube root equals the sum of its digits.
+
+For example:
+- 1: ∛1 = 1, digit sum = 1 ✓
+- 512: ∛512 = 8, digit sum = 5 + 1 + 2 = 8 ✓
+- 5832: ∛5832 = 18, digit sum = 5 + 8 + 3 + 2 = 18 ✓
+- 17576: ∛17576 = 26, digit sum = 1 + 7 + 5 + 7 + 6 = 26 ✓
+
+Dudeney numbers are quite rare and obscure compared to more famous sequences like primes or Fibonacci numbers. There are only a handful of known Dudeney numbers, making them difficult to discover through random testing. The solver will need to systematically explore different values and recognize the pattern connecting perfect cubes to digit sums.
+
+SOLUTION: 512 
+Checking sample solution  512
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 1. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  claude-haiku-4-5 (inventer): 1,082 in / 9,028 out
+  gpt-5.5 (solver): 223 in / 562 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = (
+        114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+    )
+
+    return 1 < x and x * x < n and n % x == 0
+```
+
+This puzzle asks for a nontrivial factor of a large semiprime, specifically the smaller one due to the `x * x < n` condition.
+
+SOLUTION: 3490529510847650949147849619903898133417764638493387843990820577 
+Checking sample solution  3490529510847650949147849619903898133417764638493387843990820577
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 541. Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 2 (2-0)
+  gpt-5.5 (inventer): 893 in / 10,516 out
+  claude-haiku-4-5 (solver): 233 in / 15,146 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 1:
+        return False
+    
+    # Precompute factorials
+    factorials = [1]  # 0! = 1
+    for i in range(1, 10):
+        factorials.append(factorials[-1] * i)
+    
+    # Calculate sum of factorials of digits
+    digit_sum_of_factorials = sum(factorials[int(d)] for d in str(x))
+    
+    return digit_sum_of_factorials == x
+```
+
+This puzzle checks whether a number is a **Factorion** (also called a factorial number). A Factorion is a positive integer that equals the sum of the factorials of its digits.
+
+For example:
+- 1: 1! = 1 ✓
+- 2: 2! = 2 ✓
+- 145: 1! + 4! + 5! = 1 + 24 + 120 = 145 ✓
+- 40585: 4! + 0! + 5! + 8! + 5! = 24 + 1 + 120 + 40320 + 120 = 40585 ✓
+
+Factorions are extremely rare—only four exist in base 10. This makes them significantly more obscure than Kaprekar or Dudeney numbers. The property (sum of digit factorials) is quite specialized and not widely known. A solver would need to systematically test values across a wide range or get lucky to discover this pattern, as small examples like 1 and 2 don't immediately reveal the relationship.
+
+SOLUTION: 145 
+Checking sample solution  145
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 145. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 2 (2-0)
+  claude-haiku-4-5 (inventer): 1,661 in / 7,316 out
+  gpt-5.5 (solver): 215 in / 230 out
+gpt-5.5's turn to invent a puzzle...
+```python
+import hashlib
+
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    try:
+        password = x.encode("latin-1")
+    except UnicodeEncodeError:
+        return False
+
+    if not (1 <= len(password) <= 32):
+        return False
+
+    derived = hashlib.pbkdf2_hmac(
+        "sha1",
+        password,
+        b"sa\x00lt",
+        4096,
+        16,
+    )
+
+    return derived.hex() == "56fa6aa75548099dcc37d7f03425e0c3"
+```
+
+This puzzle asks for a string whose Latin-1 bytes produce a specific PBKDF2-HMAC-SHA1 derived key with a salt containing a NUL byte. The target is from a standard PBKDF2 test vector.
+
+SOLUTION: "pass\x00word" 
+Checking sample solution  "pass\x00word"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "password". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 3 (3-0)
+  gpt-5.5 (inventer): 1,197 in / 9,513 out
+  claude-haiku-4-5 (solver): 289 in / 7,406 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 1:
+        return False
+    
+    seen = set()
+    while x != 1 and x not in seen:
+        seen.add(x)
+        x = sum(int(d) ** 2 for d in str(x))
+    
+    return x == 1
+```
+
+This puzzle checks whether a number is a **Happy Number**. A happy number is a positive integer where repeatedly summing the squares of its digits eventually reaches 1. If the process enters an infinite cycle without reaching 1, the number is "unhappy" or "sad."
+
+For example:
+- 1: Already 1 ✓
+- 7: 7 → 49 → 97 → 130 → 10 → 1 ✓
+- 10: 10 → 1 ✓
+- 13: 13 → 10 → 1 ✓
+- 2: 2 → 4 → 16 → 37 → 58 → 89 → 145 → 42 → 20 → 4 (cycle) ✗
+
+Happy numbers are moderately obscure—not widely known like primes or Fibonacci numbers—but discoverable through systematic testing. The first few happy numbers are 1, 7, 10, 13, 19, 23, 28, 31, 32, making them solvable through trial and error, though the pattern itself is not immediately obvious.
+
+SOLUTION: 7 
+Checking sample solution  7
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 1. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 3 (3-0)
+  claude-haiku-4-5 (inventer): 2,290 in / 10,787 out
+  gpt-5.5 (solver): 172 in / 194 out
+gpt-5.5's turn to invent a puzzle...
+```python
+import hashlib
+
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    if len(x) != 56 or not x.isascii() or not x.islower():
+        return False
+
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+    table = str.maketrans(alphabet[::-1], alphabet)
+
+    payload = x.translate(table).encode("ascii")
+
+    return (
+        hashlib.sha1(payload).digest()
+        == bytes.fromhex("f17046e5e52951f9a14aaeba6ed23b1c443e9884")[::-1]
+        and hashlib.sha256(payload).digest()
+        == bytes.fromhex(
+            "c106db19d4edecf66721ff6459e43ca339603e0c9326c0e5b83806d2616a8d24"
+        )[::-1]
+    )
+```
+
+This puzzle first applies an Atbash substitution to the input, then checks two cryptographic digests of the resulting ASCII payload. The digest constants are stored byte-reversed to make direct recognition a little less immediate.
+
+SOLUTION: "zyxwyxwvxwvuwvutvutsutsrtsrqsrqprqpoqponponmonmlnmlkmlkj" 
+Checking sample solution  "zyxwyxwvxwvuwvutvutsutsrtsrqsrqprqpoqponponmonmlnmlkmlkj"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcd". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 4 (4-0)
+  gpt-5.5 (inventer): 1,508 in / 16,846 out
+  claude-haiku-4-5 (solver): 373 in / 16,194 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 1:
+        return False
+    
+    s = str(x)
+    n = len(s)
+    
+    # Vampire numbers must have even number of digits, at least 4
+    if n % 2 != 0 or n < 4:
+        return False
+    
+    half = n // 2
+    original_digits = sorted(s)
+    
+    # Find divisors up to sqrt(x)
+    start = 10**(half-1)
+    end = 10**half
+    for i in range(start, min(end, int(x**0.5) + 1)):
+        if x % i == 0:
+            j = x // i
+            # Check if j has the right number of digits
+            if len(str(j)) != half:
+                continue
+            
+            # Check if digits match
+            combined_digits = sorted(str(i) + str(j))
+            if combined_digits == original_digits:
+                return True
+    
+    return False
+```
+
+This puzzle checks whether a number is a **Vampire Number**. A vampire number is a composite number with an even number of digits (at least 4) that can be factored into two numbers (called "fangs"), each containing exactly half the digits of the original number, such that the fangs together contain precisely the same digits as the original number.
+
+For example:
+- 1260 = 21 × 60 → digits {1,2,6,0} match {2,1,6,0} ✓
+- 1395 = 15 × 93 → digits {1,3,9,5} match {1,5,9,3} ✓
+- 1530 = 30 × 51 → digits {1,5,3,0} match {3,0,5,1} ✓
+
+Vampire numbers are quite rare and obscure—far less known than primes or Fibonacci sequences. There are only a handful of 4-digit vampire numbers, making them difficult to stumble upon through random testing. A solver would need to systematically explore values and recognize that solutions follow a specific pattern combining factorization properties with digit composition.
+
+SOLUTION: 1260 
+Checking sample solution  1260
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 1260. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 4 (4-0)
+  claude-haiku-4-5 (inventer): 2,965 in / 12,668 out
+  gpt-5.5 (solver): 315 in / 320 out
+gpt-5.5's turn to invent a puzzle...
+```python
+import hashlib
+import hmac
+
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    try:
+        raw = x.encode("latin-1")
+    except UnicodeEncodeError:
+        return False
+
+    if len(raw) != 22:
+        return False
+
+    msg = bytes(b ^ 0xA5 for b in raw)
+
+    salt = bytes(range(13))
+    info = bytes(range(0xF0, 0xFA))
+
+    key = hmac.new(salt, msg, hashlib.sha256).digest()
+
+    out = b""
+    block = b""
+    for counter in (1, 2):
+        block = hmac.new(key, block + info + bytes([counter]), hashlib.sha256).digest()
+        out += block
+
+    return hmac.compare_digest(
+        out[:42],
+        bytes.fromhex(
+            "3cb25f25faacd57a90434f64d0362f2a"
+            "2d2d0a90cf1a5a4c5db02d56ecc4c5bf"
+            "34007208d5b887185865"
+        ),
+    )
+```
+
+This puzzle first forces the input through Latin-1, masks every byte with a fixed XOR, then uses the result in a two-stage HMAC-SHA256 construction. The final 42 bytes are compared against a fixed target, so without recognizing the construction or the target, the input is essentially a preimage search over 22 bytes.
+
+SOLUTION: "\xae" * 22 
+Checking sample solution  "\xae" * 22
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "This is my secret key!". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 5 (5-0)
+  gpt-5.5 (inventer): 2,017 in / 15,356 out
+  claude-haiku-4-5 (solver): 431 in / 9,283 out
+Turn 0: claude-haiku-4-5 vs gpt-5.5 - 576 in / 7,141 out (?) [success]
+Turn 1: gpt-5.5 vs claude-haiku-4-5 - 855 in / 58,532 out (?) [failure]
+Turn 2: claude-haiku-4-5 vs gpt-5.5 - 1,305 in / 9,590 out (?) [success]
+Turn 3: gpt-5.5 vs claude-haiku-4-5 - 1,126 in / 25,662 out (?) [failure]
+Turn 4: claude-haiku-4-5 vs gpt-5.5 - 1,876 in / 7,546 out (?) [success]
+Turn 5: gpt-5.5 vs claude-haiku-4-5 - 1,486 in / 16,919 out (?) [failure]
+Turn 6: claude-haiku-4-5 vs gpt-5.5 - 2,462 in / 10,981 out (?) [success]
+Turn 7: gpt-5.5 vs claude-haiku-4-5 - 1,881 in / 33,040 out (?) [failure]
+Turn 8: claude-haiku-4-5 vs gpt-5.5 - 3,280 in / 12,988 out (?) [success]
+Turn 9: gpt-5.5 vs claude-haiku-4-5 - 2,448 in / 24,639 out (?) [failure]
+claude-haiku-4-5: 10,118 in / 142,175 out
+gpt-5.5: 7,177 in / 64,863 out
+claude-haiku-4-5 ./. gpt-5.5     (0-0) vs (5-0)     [0 failed, see runs/classic/claude-haiku-4-5_vs_gpt-5.5.log]

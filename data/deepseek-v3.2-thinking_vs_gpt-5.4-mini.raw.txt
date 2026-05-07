@@ -1,0 +1,3102 @@
+*** inventor prompt deepseek-v3.2-thinking
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+None, this is the first turn.
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor deepseek-v3.2-thinking
+```python
+import math
+
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 1:
+        return False
+    # Check if n is prime
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    # Check if 2*n+1 is prime (Sophie Germain)
+    m = 2 * n + 1
+    for i in range(2, int(math.isqrt(m)) + 1):
+        if m % i == 0:
+            return False
+    # Sum of digits
+    s = sum(int(d) for d in str(n))
+    # Check if s is a perfect cube
+    cr = round(s ** (1/3))
+    return cr ** 3 == s
+```
+
+SOLUTION: 53
+*** END
+*** END
+*** solver gpt-5.4-mini
+A valid choice is `233`:
+
+- `233` is prime
+- `2*233 + 1 = 467` is also prime
+- digit sum of `233` is `2 + 3 + 3 = 8`, and `8` is a perfect cube (`2^3`)
+
+SOLUTION: 233
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 1:
+        return False
+    # Check if n is prime
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    # Check if 2*n+1 is prime (Sophie Germain)
+    m = 2 * n + 1
+    for i in range(2, int(math.isqrt(m)) + 1):
+        if m % i == 0:
+            return False
+    # Sum of digits
+    s = sum(int(d) for d in str(n))
+    # Check if s is a perfect cube
+    cr = round(s ** (1/3))
+    return cr ** 3 == s
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy arithmetic: it looks important, but it doesn't affect the result.
+    junk = 1
+    for i, ch in enumerate(s, 1):
+        junk = (junk * (ord(ch) + i) + (junk >> 3)) & 0xFFFFFFFF
+
+    # Another harmless no-op to make the path look less obvious.
+    s = ''.join(chr(ord(c) ^ (junk & 0)) for c in s)
+
+    return hashlib.new("sha" + "256", s.encode("utf-8")).digest() == bytes.fromhex(
+        "ba7816bf8f01cfea414140de5dae2223"
+        "b00361a396177a9cb410ff61f20015ad"
+    )
+```
+
+This puzzle is a disguised SHA-256 preimage check. The arithmetic is just noise; the real condition is whether the string form of `x` hashes to a specific 32-byte digest.
+
+SOLUTION: "abc"
+*** END
+*** END
+*** solver deepseek-v3.2-thinking
+SOLUTION: "abc"
+*** END
+*** inventor prompt deepseek-v3.2-thinking
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 1:
+        return False
+    # Check if n is prime
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    # Check if 2*n+1 is prime (Sophie Germain)
+    m = 2 * n + 1
+    for i in range(2, int(math.isqrt(m)) + 1):
+        if m % i == 0:
+            return False
+    # Sum of digits
+    s = sum(int(d) for d in str(n))
+    # Check if s is a perfect cube
+    cr = round(s ** (1/3))
+    return cr ** 3 == s
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy arithmetic: it looks important, but it doesn't affect the result.
+    junk = 1
+    for i, ch in enumerate(s, 1):
+        junk = (junk * (ord(ch) + i) + (junk >> 3)) & 0xFFFFFFFF
+
+    # Another harmless no-op to make the path look less obvious.
+    s = ''.join(chr(ord(c) ^ (junk & 0)) for c in s)
+
+    return hashlib.new("sha" + "256", s.encode("utf-8")).digest() == bytes.fromhex(
+        "ba7816bf8f01cfea414140de5dae2223"
+        "b00361a396177a9cb410ff61f20015ad"
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor deepseek-v3.2-thinking
+```python
+import hashlib
+import math
+
+def mystery(x):
+    s = str(x)
+    if not s.isdigit():
+        return False
+    if len(s) != 5:
+        return False
+    if s == s[::-1]:
+        return False
+    n = int(s)
+    if n <= 10000:
+        return False
+    if n % 2 == 0:
+        return False
+    h = hashlib.sha256(s.encode()).hexdigest()
+    if h == "0" * 64:
+        return False
+    if n > 1:
+        for i in range(2, int(math.isqrt(n)) + 1):
+            if n % i == 0:
+                break
+        else:
+            return False
+    f = [1, 1]
+    for i in range(2, 10):
+        f.append(f[-1] * i)
+    t = 0
+    for c in s:
+        t += f[int(c)]
+    return t == n
+```
+
+SOLUTION: 40585
+*** END
+*** END
+*** solver gpt-5.4-mini
+40585 works because the digit-factorial sum matches the number itself, and it passes the other checks.
+
+SOLUTION: 40585
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 1:
+        return False
+    # Check if n is prime
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    # Check if 2*n+1 is prime (Sophie Germain)
+    m = 2 * n + 1
+    for i in range(2, int(math.isqrt(m)) + 1):
+        if m % i == 0:
+            return False
+    # Sum of digits
+    s = sum(int(d) for d in str(n))
+    # Check if s is a perfect cube
+    cr = round(s ** (1/3))
+    return cr ** 3 == s
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy arithmetic: it looks important, but it doesn't affect the result.
+    junk = 1
+    for i, ch in enumerate(s, 1):
+        junk = (junk * (ord(ch) + i) + (junk >> 3)) & 0xFFFFFFFF
+
+    # Another harmless no-op to make the path look less obvious.
+    s = ''.join(chr(ord(c) ^ (junk & 0)) for c in s)
+
+    return hashlib.new("sha" + "256", s.encode("utf-8")).digest() == bytes.fromhex(
+        "ba7816bf8f01cfea414140de5dae2223"
+        "b00361a396177a9cb410ff61f20015ad"
+    )
+
+```
+### Explanation
+
+
+This puzzle is a disguised SHA-256 preimage check. The arithmetic is just noise; the real condition is whether the string form of `x` hashes to a specific 32-byte digest.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    s = str(x)
+    if not s.isdigit():
+        return False
+    if len(s) != 5:
+        return False
+    if s == s[::-1]:
+        return False
+    n = int(s)
+    if n <= 10000:
+        return False
+    if n % 2 == 0:
+        return False
+    h = hashlib.sha256(s.encode()).hexdigest()
+    if h == "0" * 64:
+        return False
+    if n > 1:
+        for i in range(2, int(math.isqrt(n)) + 1):
+            if n % i == 0:
+                break
+        else:
+            return False
+    f = [1, 1]
+    for i in range(2, 10):
+        f.append(f[-1] * i)
+    t = 0
+    for c in s:
+        t += f[int(c)]
+    return t == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+import hashlib
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    n = len(s)
+
+    # Decoy state machine: noisy, but irrelevant.
+    wobble = 0x6A09E667
+    for i, ch in enumerate(s, 1):
+        wobble ^= (ord(ch) + i * i + n) & 0xFFFFFFFF
+        wobble = ((wobble << 5) | (wobble >> 27)) & 0xFFFFFFFF
+
+    # Another dummy check that is always true for any finite string.
+    if math.isqrt((n + 17) ** 2) != n + 17:
+        return False
+
+    # Identity transform disguised as something fancier.
+    t = ''.join(chr(ord(c) ^ 0) for c in s[::-1][::-1])
+
+    target = bytes.fromhex(
+        "2cf24dba5fb0a30e26e83b2ac5b9e29e"
+        "1b161e5c1fa7425e73043362938b9824"
+    )
+    return hashlib.sha256(t.encode("utf-8")).digest() == target
+```
+
+The visible arithmetic is just decoy noise; the real test is a SHA-256 digest of the string form of `x` after a disguised identity transform.
+
+SOLUTION: "hello"
+*** END
+*** END
+*** solver deepseek-v3.2-thinking
+The target SHA-256 hash corresponds to the string `"hello"`. When `x = "hello"`, `str(x)` becomes `"hello"`, and its SHA-256 matches the target, making `mystery(x)` return `True`.
+
+```python
+x = "hello"
+print(mystery(x))  # True
+```
+
+SOLUTION: "hello"
+*** END
+*** inventor prompt deepseek-v3.2-thinking
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 1:
+        return False
+    # Check if n is prime
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    # Check if 2*n+1 is prime (Sophie Germain)
+    m = 2 * n + 1
+    for i in range(2, int(math.isqrt(m)) + 1):
+        if m % i == 0:
+            return False
+    # Sum of digits
+    s = sum(int(d) for d in str(n))
+    # Check if s is a perfect cube
+    cr = round(s ** (1/3))
+    return cr ** 3 == s
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy arithmetic: it looks important, but it doesn't affect the result.
+    junk = 1
+    for i, ch in enumerate(s, 1):
+        junk = (junk * (ord(ch) + i) + (junk >> 3)) & 0xFFFFFFFF
+
+    # Another harmless no-op to make the path look less obvious.
+    s = ''.join(chr(ord(c) ^ (junk & 0)) for c in s)
+
+    return hashlib.new("sha" + "256", s.encode("utf-8")).digest() == bytes.fromhex(
+        "ba7816bf8f01cfea414140de5dae2223"
+        "b00361a396177a9cb410ff61f20015ad"
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    s = str(x)
+    if not s.isdigit():
+        return False
+    if len(s) != 5:
+        return False
+    if s == s[::-1]:
+        return False
+    n = int(s)
+    if n <= 10000:
+        return False
+    if n % 2 == 0:
+        return False
+    h = hashlib.sha256(s.encode()).hexdigest()
+    if h == "0" * 64:
+        return False
+    if n > 1:
+        for i in range(2, int(math.isqrt(n)) + 1):
+            if n % i == 0:
+                break
+        else:
+            return False
+    f = [1, 1]
+    for i in range(2, 10):
+        f.append(f[-1] * i)
+    t = 0
+    for c in s:
+        t += f[int(c)]
+    return t == n
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    n = len(s)
+
+    # Decoy state machine: noisy, but irrelevant.
+    wobble = 0x6A09E667
+    for i, ch in enumerate(s, 1):
+        wobble ^= (ord(ch) + i * i + n) & 0xFFFFFFFF
+        wobble = ((wobble << 5) | (wobble >> 27)) & 0xFFFFFFFF
+
+    # Another dummy check that is always true for any finite string.
+    if math.isqrt((n + 17) ** 2) != n + 17:
+        return False
+
+    # Identity transform disguised as something fancier.
+    t = ''.join(chr(ord(c) ^ 0) for c in s[::-1][::-1])
+
+    target = bytes.fromhex(
+        "2cf24dba5fb0a30e26e83b2ac5b9e29e"
+        "1b161e5c1fa7425e73043362938b9824"
+    )
+    return hashlib.sha256(t.encode("utf-8")).digest() == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor deepseek-v3.2-thinking
+```python
+import math
+import hashlib
+
+def mystery(x):
+    # Convert input to integer; return False if not convertible.
+    try:
+        n = int(x)
+    except (ValueError, TypeError):
+        return False
+
+    # --- Decoy checks and computations ---
+    # These look important but are irrelevant for the final decision.
+    if n <= 0:
+        return False
+
+    # Fake hash computation that doesn't affect logic.
+    s = str(n).encode()
+    dummy_hash = hashlib.sha256(s).hexdigest()
+    dummy_sum = sum(int(d) for d in dummy_hash[:8] if d.isdigit()) % 1000
+    if dummy_sum == 123:  # This condition is almost never true, but harmless.
+        pass
+
+    # Another decoy: modular check that is always true for valid n.
+    if n % 1 != 0:
+        return False
+
+    # Bogus loop that scrambles some bits but never changes outcome.
+    bits = n
+    for _ in range(5):
+        bits ^= (bits << 1) & 0xFFFFFFFF
+    if bits & 0xFF == 0xDE:
+        pass  # Do nothing
+
+    # --- Real condition: n must be a Carmichael number with exactly 3 prime factors ---
+    # Helper: simple primality test by trial division.
+    def is_prime(num):
+        if num < 2:
+            return False
+        for i in range(2, int(math.isqrt(num)) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    # Reject prime n.
+    if is_prime(n):
+        return False
+
+    # Factor n by trial division.
+    factors = []
+    temp = n
+    i = 2
+    while i * i <= temp:
+        if temp % i == 0:
+            factors.append(i)
+            while temp % i == 0:
+                temp //= i
+        i += 1 if i == 2 else 2  # Skip evens after 2.
+    if temp > 1:
+        factors.append(temp)
+
+    # Must have exactly three distinct prime factors.
+    if len(factors) != 3:
+        return False
+
+    # Ensure n is square-free (no repeated factor).
+    for p in factors:
+        if n % (p * p) == 0:
+            return False
+
+    # Carmichael condition: for each prime factor p, (n-1) % (p-1) == 0.
+    for p in factors:
+        if (n - 1) % (p - 1) != 0:
+            return False
+
+    return True
+```
+
+SOLUTION: 561
+*** END
+*** END
+*** solver gpt-5.4-mini
+A valid choice is `561`, since it is the Carmichael number `3 * 11 * 17` and satisfies the function’s conditions.
+
+SOLUTION: 561
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 1:
+        return False
+    # Check if n is prime
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    # Check if 2*n+1 is prime (Sophie Germain)
+    m = 2 * n + 1
+    for i in range(2, int(math.isqrt(m)) + 1):
+        if m % i == 0:
+            return False
+    # Sum of digits
+    s = sum(int(d) for d in str(n))
+    # Check if s is a perfect cube
+    cr = round(s ** (1/3))
+    return cr ** 3 == s
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy arithmetic: it looks important, but it doesn't affect the result.
+    junk = 1
+    for i, ch in enumerate(s, 1):
+        junk = (junk * (ord(ch) + i) + (junk >> 3)) & 0xFFFFFFFF
+
+    # Another harmless no-op to make the path look less obvious.
+    s = ''.join(chr(ord(c) ^ (junk & 0)) for c in s)
+
+    return hashlib.new("sha" + "256", s.encode("utf-8")).digest() == bytes.fromhex(
+        "ba7816bf8f01cfea414140de5dae2223"
+        "b00361a396177a9cb410ff61f20015ad"
+    )
+
+```
+### Explanation
+
+
+This puzzle is a disguised SHA-256 preimage check. The arithmetic is just noise; the real condition is whether the string form of `x` hashes to a specific 32-byte digest.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    s = str(x)
+    if not s.isdigit():
+        return False
+    if len(s) != 5:
+        return False
+    if s == s[::-1]:
+        return False
+    n = int(s)
+    if n <= 10000:
+        return False
+    if n % 2 == 0:
+        return False
+    h = hashlib.sha256(s.encode()).hexdigest()
+    if h == "0" * 64:
+        return False
+    if n > 1:
+        for i in range(2, int(math.isqrt(n)) + 1):
+            if n % i == 0:
+                break
+        else:
+            return False
+    f = [1, 1]
+    for i in range(2, 10):
+        f.append(f[-1] * i)
+    t = 0
+    for c in s:
+        t += f[int(c)]
+    return t == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    n = len(s)
+
+    # Decoy state machine: noisy, but irrelevant.
+    wobble = 0x6A09E667
+    for i, ch in enumerate(s, 1):
+        wobble ^= (ord(ch) + i * i + n) & 0xFFFFFFFF
+        wobble = ((wobble << 5) | (wobble >> 27)) & 0xFFFFFFFF
+
+    # Another dummy check that is always true for any finite string.
+    if math.isqrt((n + 17) ** 2) != n + 17:
+        return False
+
+    # Identity transform disguised as something fancier.
+    t = ''.join(chr(ord(c) ^ 0) for c in s[::-1][::-1])
+
+    target = bytes.fromhex(
+        "2cf24dba5fb0a30e26e83b2ac5b9e29e"
+        "1b161e5c1fa7425e73043362938b9824"
+    )
+    return hashlib.sha256(t.encode("utf-8")).digest() == target
+
+```
+### Explanation
+
+
+The visible arithmetic is just decoy noise; the real test is a SHA-256 digest of the string form of `x` after a disguised identity transform.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import math
+import hashlib
+
+def mystery(x):
+    # Convert input to integer; return False if not convertible.
+    try:
+        n = int(x)
+    except (ValueError, TypeError):
+        return False
+
+    # --- Decoy checks and computations ---
+    # These look important but are irrelevant for the final decision.
+    if n <= 0:
+        return False
+
+    # Fake hash computation that doesn't affect logic.
+    s = str(n).encode()
+    dummy_hash = hashlib.sha256(s).hexdigest()
+    dummy_sum = sum(int(d) for d in dummy_hash[:8] if d.isdigit()) % 1000
+    if dummy_sum == 123:  # This condition is almost never true, but harmless.
+        pass
+
+    # Another decoy: modular check that is always true for valid n.
+    if n % 1 != 0:
+        return False
+
+    # Bogus loop that scrambles some bits but never changes outcome.
+    bits = n
+    for _ in range(5):
+        bits ^= (bits << 1) & 0xFFFFFFFF
+    if bits & 0xFF == 0xDE:
+        pass  # Do nothing
+
+    # --- Real condition: n must be a Carmichael number with exactly 3 prime factors ---
+    # Helper: simple primality test by trial division.
+    def is_prime(num):
+        if num < 2:
+            return False
+        for i in range(2, int(math.isqrt(num)) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    # Reject prime n.
+    if is_prime(n):
+        return False
+
+    # Factor n by trial division.
+    factors = []
+    temp = n
+    i = 2
+    while i * i <= temp:
+        if temp % i == 0:
+            factors.append(i)
+            while temp % i == 0:
+                temp //= i
+        i += 1 if i == 2 else 2  # Skip evens after 2.
+    if temp > 1:
+        factors.append(temp)
+
+    # Must have exactly three distinct prime factors.
+    if len(factors) != 3:
+        return False
+
+    # Ensure n is square-free (no repeated factor).
+    for p in factors:
+        if n % (p * p) == 0:
+            return False
+
+    # Carmichael condition: for each prime factor p, (n-1) % (p-1) == 0.
+    for p in factors:
+        if (n - 1) % (p - 1) != 0:
+            return False
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: a rolling checksum that looks important but is not used.
+    noise = 0
+    for i, ch in enumerate(s, 1):
+        noise = (noise * 17 + (ord(ch) ^ (i * 31))) & 0xFFFFFFFF
+    if noise == 0x12345678:
+        noise ^= 1
+
+    if len(s) != 6:
+        return False
+    if any(not ('a' <= ch <= 'z') for ch in s):
+        return False
+
+    # Reverse + position-dependent Caesar shift.
+    key = (3, 1, 4, 1, 5, 9)
+    shifted = ''.join(
+        chr((ord(ch) - 97 + key[i]) % 26 + 97)
+        for i, ch in enumerate(reversed(s))
+    )
+
+    # Then a strange shuffle: odds first, evens second.
+    scrambled = shifted[1::2] + shifted[::2]
+
+    # Hidden target, written as arithmetic noise.
+    target = ''.join(chr(n) for n in (2 * 51, 10 * 10 + 1, 34 * 3, 7 * 17, 100 + 7, 11 * 10))
+
+    # Another harmless identity check.
+    if math.isqrt(len(target) ** 2) != len(target):
+        return False
+
+    return scrambled == target
+```
+
+The real logic is a reversible cipher: take the 6-letter lowercase input, reverse it, shift each letter by the key `(3, 1, 4, 1, 5, 9)`, then shuffle odd positions before even positions. The arithmetic at the top is just decoy noise.
+
+SOLUTION: "widget"
+*** END
+*** END
+*** solver deepseek-v3.2-thinking
+The function `mystery(x)` returns `True` when `x` is the string `"widget"`. This string passes all checks: it has exactly six lowercase letters, and after reversing and applying the Caesar shifts and shuffle, it matches the target `"fefwkn"`.
+
+SOLUTION: "widget"
+*** END
+*** inventor prompt deepseek-v3.2-thinking
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 1:
+        return False
+    # Check if n is prime
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    # Check if 2*n+1 is prime (Sophie Germain)
+    m = 2 * n + 1
+    for i in range(2, int(math.isqrt(m)) + 1):
+        if m % i == 0:
+            return False
+    # Sum of digits
+    s = sum(int(d) for d in str(n))
+    # Check if s is a perfect cube
+    cr = round(s ** (1/3))
+    return cr ** 3 == s
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy arithmetic: it looks important, but it doesn't affect the result.
+    junk = 1
+    for i, ch in enumerate(s, 1):
+        junk = (junk * (ord(ch) + i) + (junk >> 3)) & 0xFFFFFFFF
+
+    # Another harmless no-op to make the path look less obvious.
+    s = ''.join(chr(ord(c) ^ (junk & 0)) for c in s)
+
+    return hashlib.new("sha" + "256", s.encode("utf-8")).digest() == bytes.fromhex(
+        "ba7816bf8f01cfea414140de5dae2223"
+        "b00361a396177a9cb410ff61f20015ad"
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    s = str(x)
+    if not s.isdigit():
+        return False
+    if len(s) != 5:
+        return False
+    if s == s[::-1]:
+        return False
+    n = int(s)
+    if n <= 10000:
+        return False
+    if n % 2 == 0:
+        return False
+    h = hashlib.sha256(s.encode()).hexdigest()
+    if h == "0" * 64:
+        return False
+    if n > 1:
+        for i in range(2, int(math.isqrt(n)) + 1):
+            if n % i == 0:
+                break
+        else:
+            return False
+    f = [1, 1]
+    for i in range(2, 10):
+        f.append(f[-1] * i)
+    t = 0
+    for c in s:
+        t += f[int(c)]
+    return t == n
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    n = len(s)
+
+    # Decoy state machine: noisy, but irrelevant.
+    wobble = 0x6A09E667
+    for i, ch in enumerate(s, 1):
+        wobble ^= (ord(ch) + i * i + n) & 0xFFFFFFFF
+        wobble = ((wobble << 5) | (wobble >> 27)) & 0xFFFFFFFF
+
+    # Another dummy check that is always true for any finite string.
+    if math.isqrt((n + 17) ** 2) != n + 17:
+        return False
+
+    # Identity transform disguised as something fancier.
+    t = ''.join(chr(ord(c) ^ 0) for c in s[::-1][::-1])
+
+    target = bytes.fromhex(
+        "2cf24dba5fb0a30e26e83b2ac5b9e29e"
+        "1b161e5c1fa7425e73043362938b9824"
+    )
+    return hashlib.sha256(t.encode("utf-8")).digest() == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import math
+import hashlib
+
+def mystery(x):
+    # Convert input to integer; return False if not convertible.
+    try:
+        n = int(x)
+    except (ValueError, TypeError):
+        return False
+
+    # --- Decoy checks and computations ---
+    # These look important but are irrelevant for the final decision.
+    if n <= 0:
+        return False
+
+    # Fake hash computation that doesn't affect logic.
+    s = str(n).encode()
+    dummy_hash = hashlib.sha256(s).hexdigest()
+    dummy_sum = sum(int(d) for d in dummy_hash[:8] if d.isdigit()) % 1000
+    if dummy_sum == 123:  # This condition is almost never true, but harmless.
+        pass
+
+    # Another decoy: modular check that is always true for valid n.
+    if n % 1 != 0:
+        return False
+
+    # Bogus loop that scrambles some bits but never changes outcome.
+    bits = n
+    for _ in range(5):
+        bits ^= (bits << 1) & 0xFFFFFFFF
+    if bits & 0xFF == 0xDE:
+        pass  # Do nothing
+
+    # --- Real condition: n must be a Carmichael number with exactly 3 prime factors ---
+    # Helper: simple primality test by trial division.
+    def is_prime(num):
+        if num < 2:
+            return False
+        for i in range(2, int(math.isqrt(num)) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    # Reject prime n.
+    if is_prime(n):
+        return False
+
+    # Factor n by trial division.
+    factors = []
+    temp = n
+    i = 2
+    while i * i <= temp:
+        if temp % i == 0:
+            factors.append(i)
+            while temp % i == 0:
+                temp //= i
+        i += 1 if i == 2 else 2  # Skip evens after 2.
+    if temp > 1:
+        factors.append(temp)
+
+    # Must have exactly three distinct prime factors.
+    if len(factors) != 3:
+        return False
+
+    # Ensure n is square-free (no repeated factor).
+    for p in factors:
+        if n % (p * p) == 0:
+            return False
+
+    # Carmichael condition: for each prime factor p, (n-1) % (p-1) == 0.
+    for p in factors:
+        if (n - 1) % (p - 1) != 0:
+            return False
+
+    return True
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: a rolling checksum that looks important but is not used.
+    noise = 0
+    for i, ch in enumerate(s, 1):
+        noise = (noise * 17 + (ord(ch) ^ (i * 31))) & 0xFFFFFFFF
+    if noise == 0x12345678:
+        noise ^= 1
+
+    if len(s) != 6:
+        return False
+    if any(not ('a' <= ch <= 'z') for ch in s):
+        return False
+
+    # Reverse + position-dependent Caesar shift.
+    key = (3, 1, 4, 1, 5, 9)
+    shifted = ''.join(
+        chr((ord(ch) - 97 + key[i]) % 26 + 97)
+        for i, ch in enumerate(reversed(s))
+    )
+
+    # Then a strange shuffle: odds first, evens second.
+    scrambled = shifted[1::2] + shifted[::2]
+
+    # Hidden target, written as arithmetic noise.
+    target = ''.join(chr(n) for n in (2 * 51, 10 * 10 + 1, 34 * 3, 7 * 17, 100 + 7, 11 * 10))
+
+    # Another harmless identity check.
+    if math.isqrt(len(target) ** 2) != len(target):
+        return False
+
+    return scrambled == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor deepseek-v3.2-thinking
+```python
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: reject if contains 'xxx'
+    if 'xxx' in s:
+        return False
+
+    # Decoy: checksum condition that eliminates some inputs
+    checksum = sum(ord(c) for c in s) % 100
+    if checksum == 50:
+        return False
+
+    # Decoy: MD5 computation that looks cryptographic but is unused
+    md5_digest = hashlib.md5(s.encode()).hexdigest()
+    if md5_digest.startswith('0000'):
+        dummy = 1  # noise
+
+    # Real condition: must be an 8-character lowercase string
+    if len(s) != 8:
+        return False
+    if not s.islower():
+        return False
+
+    # Obfuscated transformations
+    # Reverse the string
+    rev = s[::-1]
+    # Shift each character by its index in the reversed string
+    shifted = ''.join(chr((ord(c) - 97 + i) % 26 + 97) for i, c in enumerate(rev))
+    # Swap adjacent characters pairwise
+    shifted_list = list(shifted)
+    for i in range(0, len(shifted_list), 2):
+        if i + 1 < len(shifted_list):
+            shifted_list[i], shifted_list[i+1] = shifted_list[i+1], shifted_list[i]
+    final = ''.join(shifted_list)
+
+    # Target derived from the sample solution (ASCII values)
+    target = ''.join(chr(c) for c in [104, 111, 108, 112, 102, 113, 109, 114])
+
+    return final == target
+```
+SOLUTION: "flamingo"
+*** END
+*** END
+*** solver gpt-5.4-mini
+A valid input is the 8-letter lowercase string `"flamingo"`.
+
+SOLUTION: "flamingo"
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 1:
+        return False
+    # Check if n is prime
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    # Check if 2*n+1 is prime (Sophie Germain)
+    m = 2 * n + 1
+    for i in range(2, int(math.isqrt(m)) + 1):
+        if m % i == 0:
+            return False
+    # Sum of digits
+    s = sum(int(d) for d in str(n))
+    # Check if s is a perfect cube
+    cr = round(s ** (1/3))
+    return cr ** 3 == s
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy arithmetic: it looks important, but it doesn't affect the result.
+    junk = 1
+    for i, ch in enumerate(s, 1):
+        junk = (junk * (ord(ch) + i) + (junk >> 3)) & 0xFFFFFFFF
+
+    # Another harmless no-op to make the path look less obvious.
+    s = ''.join(chr(ord(c) ^ (junk & 0)) for c in s)
+
+    return hashlib.new("sha" + "256", s.encode("utf-8")).digest() == bytes.fromhex(
+        "ba7816bf8f01cfea414140de5dae2223"
+        "b00361a396177a9cb410ff61f20015ad"
+    )
+
+```
+### Explanation
+
+
+This puzzle is a disguised SHA-256 preimage check. The arithmetic is just noise; the real condition is whether the string form of `x` hashes to a specific 32-byte digest.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    s = str(x)
+    if not s.isdigit():
+        return False
+    if len(s) != 5:
+        return False
+    if s == s[::-1]:
+        return False
+    n = int(s)
+    if n <= 10000:
+        return False
+    if n % 2 == 0:
+        return False
+    h = hashlib.sha256(s.encode()).hexdigest()
+    if h == "0" * 64:
+        return False
+    if n > 1:
+        for i in range(2, int(math.isqrt(n)) + 1):
+            if n % i == 0:
+                break
+        else:
+            return False
+    f = [1, 1]
+    for i in range(2, 10):
+        f.append(f[-1] * i)
+    t = 0
+    for c in s:
+        t += f[int(c)]
+    return t == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    n = len(s)
+
+    # Decoy state machine: noisy, but irrelevant.
+    wobble = 0x6A09E667
+    for i, ch in enumerate(s, 1):
+        wobble ^= (ord(ch) + i * i + n) & 0xFFFFFFFF
+        wobble = ((wobble << 5) | (wobble >> 27)) & 0xFFFFFFFF
+
+    # Another dummy check that is always true for any finite string.
+    if math.isqrt((n + 17) ** 2) != n + 17:
+        return False
+
+    # Identity transform disguised as something fancier.
+    t = ''.join(chr(ord(c) ^ 0) for c in s[::-1][::-1])
+
+    target = bytes.fromhex(
+        "2cf24dba5fb0a30e26e83b2ac5b9e29e"
+        "1b161e5c1fa7425e73043362938b9824"
+    )
+    return hashlib.sha256(t.encode("utf-8")).digest() == target
+
+```
+### Explanation
+
+
+The visible arithmetic is just decoy noise; the real test is a SHA-256 digest of the string form of `x` after a disguised identity transform.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import math
+import hashlib
+
+def mystery(x):
+    # Convert input to integer; return False if not convertible.
+    try:
+        n = int(x)
+    except (ValueError, TypeError):
+        return False
+
+    # --- Decoy checks and computations ---
+    # These look important but are irrelevant for the final decision.
+    if n <= 0:
+        return False
+
+    # Fake hash computation that doesn't affect logic.
+    s = str(n).encode()
+    dummy_hash = hashlib.sha256(s).hexdigest()
+    dummy_sum = sum(int(d) for d in dummy_hash[:8] if d.isdigit()) % 1000
+    if dummy_sum == 123:  # This condition is almost never true, but harmless.
+        pass
+
+    # Another decoy: modular check that is always true for valid n.
+    if n % 1 != 0:
+        return False
+
+    # Bogus loop that scrambles some bits but never changes outcome.
+    bits = n
+    for _ in range(5):
+        bits ^= (bits << 1) & 0xFFFFFFFF
+    if bits & 0xFF == 0xDE:
+        pass  # Do nothing
+
+    # --- Real condition: n must be a Carmichael number with exactly 3 prime factors ---
+    # Helper: simple primality test by trial division.
+    def is_prime(num):
+        if num < 2:
+            return False
+        for i in range(2, int(math.isqrt(num)) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    # Reject prime n.
+    if is_prime(n):
+        return False
+
+    # Factor n by trial division.
+    factors = []
+    temp = n
+    i = 2
+    while i * i <= temp:
+        if temp % i == 0:
+            factors.append(i)
+            while temp % i == 0:
+                temp //= i
+        i += 1 if i == 2 else 2  # Skip evens after 2.
+    if temp > 1:
+        factors.append(temp)
+
+    # Must have exactly three distinct prime factors.
+    if len(factors) != 3:
+        return False
+
+    # Ensure n is square-free (no repeated factor).
+    for p in factors:
+        if n % (p * p) == 0:
+            return False
+
+    # Carmichael condition: for each prime factor p, (n-1) % (p-1) == 0.
+    for p in factors:
+        if (n - 1) % (p - 1) != 0:
+            return False
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: a rolling checksum that looks important but is not used.
+    noise = 0
+    for i, ch in enumerate(s, 1):
+        noise = (noise * 17 + (ord(ch) ^ (i * 31))) & 0xFFFFFFFF
+    if noise == 0x12345678:
+        noise ^= 1
+
+    if len(s) != 6:
+        return False
+    if any(not ('a' <= ch <= 'z') for ch in s):
+        return False
+
+    # Reverse + position-dependent Caesar shift.
+    key = (3, 1, 4, 1, 5, 9)
+    shifted = ''.join(
+        chr((ord(ch) - 97 + key[i]) % 26 + 97)
+        for i, ch in enumerate(reversed(s))
+    )
+
+    # Then a strange shuffle: odds first, evens second.
+    scrambled = shifted[1::2] + shifted[::2]
+
+    # Hidden target, written as arithmetic noise.
+    target = ''.join(chr(n) for n in (2 * 51, 10 * 10 + 1, 34 * 3, 7 * 17, 100 + 7, 11 * 10))
+
+    # Another harmless identity check.
+    if math.isqrt(len(target) ** 2) != len(target):
+        return False
+
+    return scrambled == target
+
+```
+### Explanation
+
+
+The real logic is a reversible cipher: take the 6-letter lowercase input, reverse it, shift each letter by the key `(3, 1, 4, 1, 5, 9)`, then shuffle odd positions before even positions. The arithmetic at the top is just decoy noise.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: reject if contains 'xxx'
+    if 'xxx' in s:
+        return False
+
+    # Decoy: checksum condition that eliminates some inputs
+    checksum = sum(ord(c) for c in s) % 100
+    if checksum == 50:
+        return False
+
+    # Decoy: MD5 computation that looks cryptographic but is unused
+    md5_digest = hashlib.md5(s.encode()).hexdigest()
+    if md5_digest.startswith('0000'):
+        dummy = 1  # noise
+
+    # Real condition: must be an 8-character lowercase string
+    if len(s) != 8:
+        return False
+    if not s.islower():
+        return False
+
+    # Obfuscated transformations
+    # Reverse the string
+    rev = s[::-1]
+    # Shift each character by its index in the reversed string
+    shifted = ''.join(chr((ord(c) - 97 + i) % 26 + 97) for i, c in enumerate(rev))
+    # Swap adjacent characters pairwise
+    shifted_list = list(shifted)
+    for i in range(0, len(shifted_list), 2):
+        if i + 1 < len(shifted_list):
+            shifted_list[i], shifted_list[i+1] = shifted_list[i+1], shifted_list[i]
+    final = ''.join(shifted_list)
+
+    # Target derived from the sample solution (ASCII values)
+    target = ''.join(chr(c) for c in [104, 111, 108, 112, 102, 113, 109, 114])
+
+    return final == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy noise: looks meaningful, but does not affect the answer.
+    wobble = 0xA5A5A5A5
+    for i, b in enumerate(s.encode("utf-8"), 1):
+        wobble = ((wobble << 7) ^ (wobble >> 3) ^ (b + 17 * i)) & 0xFFFFFFFF
+    if math.isqrt((len(s) + 19) ** 2) != len(s) + 19:
+        return False  # always false for valid lengths; harmless decoy
+
+    if len(s) != 8:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    u = s[::-1]
+    v = ''.join(chr(33 + ((ord(c) - 33 + 7 * i) % 94)) for i, c in enumerate(u))
+
+    target = ''.join(chr(n) for n in (
+        25 * 2,
+        2 * 29 + 1,
+        37 + 74,
+        11 * 11,
+        2 * 63,
+        10 * 8 + 3,
+        9 * 5,
+        5 * 25,
+    ))
+    return v == target
+```
+
+The visible logic is a reversible printable-ASCII transform applied to the reversed string, followed by a comparison to a target assembled from arithmetic. The checksum-looking bits are just decoys.
+
+SOLUTION: "Lambda42"
+*** END
+*** END
+*** inventor prompt deepseek-v3.2-thinking
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 1:
+        return False
+    # Check if n is prime
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    # Check if 2*n+1 is prime (Sophie Germain)
+    m = 2 * n + 1
+    for i in range(2, int(math.isqrt(m)) + 1):
+        if m % i == 0:
+            return False
+    # Sum of digits
+    s = sum(int(d) for d in str(n))
+    # Check if s is a perfect cube
+    cr = round(s ** (1/3))
+    return cr ** 3 == s
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy arithmetic: it looks important, but it doesn't affect the result.
+    junk = 1
+    for i, ch in enumerate(s, 1):
+        junk = (junk * (ord(ch) + i) + (junk >> 3)) & 0xFFFFFFFF
+
+    # Another harmless no-op to make the path look less obvious.
+    s = ''.join(chr(ord(c) ^ (junk & 0)) for c in s)
+
+    return hashlib.new("sha" + "256", s.encode("utf-8")).digest() == bytes.fromhex(
+        "ba7816bf8f01cfea414140de5dae2223"
+        "b00361a396177a9cb410ff61f20015ad"
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    s = str(x)
+    if not s.isdigit():
+        return False
+    if len(s) != 5:
+        return False
+    if s == s[::-1]:
+        return False
+    n = int(s)
+    if n <= 10000:
+        return False
+    if n % 2 == 0:
+        return False
+    h = hashlib.sha256(s.encode()).hexdigest()
+    if h == "0" * 64:
+        return False
+    if n > 1:
+        for i in range(2, int(math.isqrt(n)) + 1):
+            if n % i == 0:
+                break
+        else:
+            return False
+    f = [1, 1]
+    for i in range(2, 10):
+        f.append(f[-1] * i)
+    t = 0
+    for c in s:
+        t += f[int(c)]
+    return t == n
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    n = len(s)
+
+    # Decoy state machine: noisy, but irrelevant.
+    wobble = 0x6A09E667
+    for i, ch in enumerate(s, 1):
+        wobble ^= (ord(ch) + i * i + n) & 0xFFFFFFFF
+        wobble = ((wobble << 5) | (wobble >> 27)) & 0xFFFFFFFF
+
+    # Another dummy check that is always true for any finite string.
+    if math.isqrt((n + 17) ** 2) != n + 17:
+        return False
+
+    # Identity transform disguised as something fancier.
+    t = ''.join(chr(ord(c) ^ 0) for c in s[::-1][::-1])
+
+    target = bytes.fromhex(
+        "2cf24dba5fb0a30e26e83b2ac5b9e29e"
+        "1b161e5c1fa7425e73043362938b9824"
+    )
+    return hashlib.sha256(t.encode("utf-8")).digest() == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import math
+import hashlib
+
+def mystery(x):
+    # Convert input to integer; return False if not convertible.
+    try:
+        n = int(x)
+    except (ValueError, TypeError):
+        return False
+
+    # --- Decoy checks and computations ---
+    # These look important but are irrelevant for the final decision.
+    if n <= 0:
+        return False
+
+    # Fake hash computation that doesn't affect logic.
+    s = str(n).encode()
+    dummy_hash = hashlib.sha256(s).hexdigest()
+    dummy_sum = sum(int(d) for d in dummy_hash[:8] if d.isdigit()) % 1000
+    if dummy_sum == 123:  # This condition is almost never true, but harmless.
+        pass
+
+    # Another decoy: modular check that is always true for valid n.
+    if n % 1 != 0:
+        return False
+
+    # Bogus loop that scrambles some bits but never changes outcome.
+    bits = n
+    for _ in range(5):
+        bits ^= (bits << 1) & 0xFFFFFFFF
+    if bits & 0xFF == 0xDE:
+        pass  # Do nothing
+
+    # --- Real condition: n must be a Carmichael number with exactly 3 prime factors ---
+    # Helper: simple primality test by trial division.
+    def is_prime(num):
+        if num < 2:
+            return False
+        for i in range(2, int(math.isqrt(num)) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    # Reject prime n.
+    if is_prime(n):
+        return False
+
+    # Factor n by trial division.
+    factors = []
+    temp = n
+    i = 2
+    while i * i <= temp:
+        if temp % i == 0:
+            factors.append(i)
+            while temp % i == 0:
+                temp //= i
+        i += 1 if i == 2 else 2  # Skip evens after 2.
+    if temp > 1:
+        factors.append(temp)
+
+    # Must have exactly three distinct prime factors.
+    if len(factors) != 3:
+        return False
+
+    # Ensure n is square-free (no repeated factor).
+    for p in factors:
+        if n % (p * p) == 0:
+            return False
+
+    # Carmichael condition: for each prime factor p, (n-1) % (p-1) == 0.
+    for p in factors:
+        if (n - 1) % (p - 1) != 0:
+            return False
+
+    return True
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: a rolling checksum that looks important but is not used.
+    noise = 0
+    for i, ch in enumerate(s, 1):
+        noise = (noise * 17 + (ord(ch) ^ (i * 31))) & 0xFFFFFFFF
+    if noise == 0x12345678:
+        noise ^= 1
+
+    if len(s) != 6:
+        return False
+    if any(not ('a' <= ch <= 'z') for ch in s):
+        return False
+
+    # Reverse + position-dependent Caesar shift.
+    key = (3, 1, 4, 1, 5, 9)
+    shifted = ''.join(
+        chr((ord(ch) - 97 + key[i]) % 26 + 97)
+        for i, ch in enumerate(reversed(s))
+    )
+
+    # Then a strange shuffle: odds first, evens second.
+    scrambled = shifted[1::2] + shifted[::2]
+
+    # Hidden target, written as arithmetic noise.
+    target = ''.join(chr(n) for n in (2 * 51, 10 * 10 + 1, 34 * 3, 7 * 17, 100 + 7, 11 * 10))
+
+    # Another harmless identity check.
+    if math.isqrt(len(target) ** 2) != len(target):
+        return False
+
+    return scrambled == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: reject if contains 'xxx'
+    if 'xxx' in s:
+        return False
+
+    # Decoy: checksum condition that eliminates some inputs
+    checksum = sum(ord(c) for c in s) % 100
+    if checksum == 50:
+        return False
+
+    # Decoy: MD5 computation that looks cryptographic but is unused
+    md5_digest = hashlib.md5(s.encode()).hexdigest()
+    if md5_digest.startswith('0000'):
+        dummy = 1  # noise
+
+    # Real condition: must be an 8-character lowercase string
+    if len(s) != 8:
+        return False
+    if not s.islower():
+        return False
+
+    # Obfuscated transformations
+    # Reverse the string
+    rev = s[::-1]
+    # Shift each character by its index in the reversed string
+    shifted = ''.join(chr((ord(c) - 97 + i) % 26 + 97) for i, c in enumerate(rev))
+    # Swap adjacent characters pairwise
+    shifted_list = list(shifted)
+    for i in range(0, len(shifted_list), 2):
+        if i + 1 < len(shifted_list):
+            shifted_list[i], shifted_list[i+1] = shifted_list[i+1], shifted_list[i]
+    final = ''.join(shifted_list)
+
+    # Target derived from the sample solution (ASCII values)
+    target = ''.join(chr(c) for c in [104, 111, 108, 112, 102, 113, 109, 114])
+
+    return final == target
+
+```
+### Explanation
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy noise: looks meaningful, but does not affect the answer.
+    wobble = 0xA5A5A5A5
+    for i, b in enumerate(s.encode("utf-8"), 1):
+        wobble = ((wobble << 7) ^ (wobble >> 3) ^ (b + 17 * i)) & 0xFFFFFFFF
+    if math.isqrt((len(s) + 19) ** 2) != len(s) + 19:
+        return False  # always false for valid lengths; harmless decoy
+
+    if len(s) != 8:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    u = s[::-1]
+    v = ''.join(chr(33 + ((ord(c) - 33 + 7 * i) % 94)) for i, c in enumerate(u))
+
+    target = ''.join(chr(n) for n in (
+        25 * 2,
+        2 * 29 + 1,
+        37 + 74,
+        11 * 11,
+        2 * 63,
+        10 * 8 + 3,
+        9 * 5,
+        5 * 25,
+    ))
+    return v == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor deepseek-v3.2-thinking
+```python
+import sys
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: reject if contains digit or uppercase
+    if any(c.isdigit() or c.isupper() for c in s):
+        return False
+
+    # Decoy: meaningless checksum that rarely triggers
+    checksum = sum(ord(c) * (i + 1) for i, c in enumerate(s)) % 1000
+    if checksum == 777:
+        return False  # very unlikely
+
+    # Real constraint: must be exactly 8 lowercase letters
+    if len(s) != 8 or not s.isalpha() or not s.islower():
+        return False
+
+    # Obfuscated transformation pipeline
+    # Step 1: reverse
+    t1 = s[::-1]
+
+    # Step 2: position-dependent Caesar shift
+    t2_list = []
+    for i, ch in enumerate(t1):
+        shift = i
+        new_ord = (ord(ch) - 97 + shift) % 26 + 97
+        t2_list.append(chr(new_ord))
+    t2 = ''.join(t2_list)
+
+    # Step 3: swap first half with second half
+    half = len(t2) // 2
+    t3 = t2[half:] + t2[:half]
+
+    # At this point t3 should be "abcdefgh" for the correct input.
+
+    # Decoy: fake hash computation (MD5) that is ignored
+    import hashlib
+    dummy_md5 = hashlib.md5(t3.encode()).hexdigest()
+    if dummy_md5.startswith('dead'):
+        pass  # never happens
+
+    # Real check: custom 32‑bit polynomial hash of t3
+    H = 0
+    for c in t3:
+        H = ((H << 5) - H + ord(c)) & 0xFFFFFFFF  # equivalent to H*31 + ord(c)
+    target = 1259673732
+    return H == target
+```
+
+SOLUTION: wwwweeee
+*** END
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 1:
+        return False
+    # Check if n is prime
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    # Check if 2*n+1 is prime (Sophie Germain)
+    m = 2 * n + 1
+    for i in range(2, int(math.isqrt(m)) + 1):
+        if m % i == 0:
+            return False
+    # Sum of digits
+    s = sum(int(d) for d in str(n))
+    # Check if s is a perfect cube
+    cr = round(s ** (1/3))
+    return cr ** 3 == s
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy arithmetic: it looks important, but it doesn't affect the result.
+    junk = 1
+    for i, ch in enumerate(s, 1):
+        junk = (junk * (ord(ch) + i) + (junk >> 3)) & 0xFFFFFFFF
+
+    # Another harmless no-op to make the path look less obvious.
+    s = ''.join(chr(ord(c) ^ (junk & 0)) for c in s)
+
+    return hashlib.new("sha" + "256", s.encode("utf-8")).digest() == bytes.fromhex(
+        "ba7816bf8f01cfea414140de5dae2223"
+        "b00361a396177a9cb410ff61f20015ad"
+    )
+
+```
+### Explanation
+
+
+This puzzle is a disguised SHA-256 preimage check. The arithmetic is just noise; the real condition is whether the string form of `x` hashes to a specific 32-byte digest.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    s = str(x)
+    if not s.isdigit():
+        return False
+    if len(s) != 5:
+        return False
+    if s == s[::-1]:
+        return False
+    n = int(s)
+    if n <= 10000:
+        return False
+    if n % 2 == 0:
+        return False
+    h = hashlib.sha256(s.encode()).hexdigest()
+    if h == "0" * 64:
+        return False
+    if n > 1:
+        for i in range(2, int(math.isqrt(n)) + 1):
+            if n % i == 0:
+                break
+        else:
+            return False
+    f = [1, 1]
+    for i in range(2, 10):
+        f.append(f[-1] * i)
+    t = 0
+    for c in s:
+        t += f[int(c)]
+    return t == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    n = len(s)
+
+    # Decoy state machine: noisy, but irrelevant.
+    wobble = 0x6A09E667
+    for i, ch in enumerate(s, 1):
+        wobble ^= (ord(ch) + i * i + n) & 0xFFFFFFFF
+        wobble = ((wobble << 5) | (wobble >> 27)) & 0xFFFFFFFF
+
+    # Another dummy check that is always true for any finite string.
+    if math.isqrt((n + 17) ** 2) != n + 17:
+        return False
+
+    # Identity transform disguised as something fancier.
+    t = ''.join(chr(ord(c) ^ 0) for c in s[::-1][::-1])
+
+    target = bytes.fromhex(
+        "2cf24dba5fb0a30e26e83b2ac5b9e29e"
+        "1b161e5c1fa7425e73043362938b9824"
+    )
+    return hashlib.sha256(t.encode("utf-8")).digest() == target
+
+```
+### Explanation
+
+
+The visible arithmetic is just decoy noise; the real test is a SHA-256 digest of the string form of `x` after a disguised identity transform.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import math
+import hashlib
+
+def mystery(x):
+    # Convert input to integer; return False if not convertible.
+    try:
+        n = int(x)
+    except (ValueError, TypeError):
+        return False
+
+    # --- Decoy checks and computations ---
+    # These look important but are irrelevant for the final decision.
+    if n <= 0:
+        return False
+
+    # Fake hash computation that doesn't affect logic.
+    s = str(n).encode()
+    dummy_hash = hashlib.sha256(s).hexdigest()
+    dummy_sum = sum(int(d) for d in dummy_hash[:8] if d.isdigit()) % 1000
+    if dummy_sum == 123:  # This condition is almost never true, but harmless.
+        pass
+
+    # Another decoy: modular check that is always true for valid n.
+    if n % 1 != 0:
+        return False
+
+    # Bogus loop that scrambles some bits but never changes outcome.
+    bits = n
+    for _ in range(5):
+        bits ^= (bits << 1) & 0xFFFFFFFF
+    if bits & 0xFF == 0xDE:
+        pass  # Do nothing
+
+    # --- Real condition: n must be a Carmichael number with exactly 3 prime factors ---
+    # Helper: simple primality test by trial division.
+    def is_prime(num):
+        if num < 2:
+            return False
+        for i in range(2, int(math.isqrt(num)) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    # Reject prime n.
+    if is_prime(n):
+        return False
+
+    # Factor n by trial division.
+    factors = []
+    temp = n
+    i = 2
+    while i * i <= temp:
+        if temp % i == 0:
+            factors.append(i)
+            while temp % i == 0:
+                temp //= i
+        i += 1 if i == 2 else 2  # Skip evens after 2.
+    if temp > 1:
+        factors.append(temp)
+
+    # Must have exactly three distinct prime factors.
+    if len(factors) != 3:
+        return False
+
+    # Ensure n is square-free (no repeated factor).
+    for p in factors:
+        if n % (p * p) == 0:
+            return False
+
+    # Carmichael condition: for each prime factor p, (n-1) % (p-1) == 0.
+    for p in factors:
+        if (n - 1) % (p - 1) != 0:
+            return False
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: a rolling checksum that looks important but is not used.
+    noise = 0
+    for i, ch in enumerate(s, 1):
+        noise = (noise * 17 + (ord(ch) ^ (i * 31))) & 0xFFFFFFFF
+    if noise == 0x12345678:
+        noise ^= 1
+
+    if len(s) != 6:
+        return False
+    if any(not ('a' <= ch <= 'z') for ch in s):
+        return False
+
+    # Reverse + position-dependent Caesar shift.
+    key = (3, 1, 4, 1, 5, 9)
+    shifted = ''.join(
+        chr((ord(ch) - 97 + key[i]) % 26 + 97)
+        for i, ch in enumerate(reversed(s))
+    )
+
+    # Then a strange shuffle: odds first, evens second.
+    scrambled = shifted[1::2] + shifted[::2]
+
+    # Hidden target, written as arithmetic noise.
+    target = ''.join(chr(n) for n in (2 * 51, 10 * 10 + 1, 34 * 3, 7 * 17, 100 + 7, 11 * 10))
+
+    # Another harmless identity check.
+    if math.isqrt(len(target) ** 2) != len(target):
+        return False
+
+    return scrambled == target
+
+```
+### Explanation
+
+
+The real logic is a reversible cipher: take the 6-letter lowercase input, reverse it, shift each letter by the key `(3, 1, 4, 1, 5, 9)`, then shuffle odd positions before even positions. The arithmetic at the top is just decoy noise.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: reject if contains 'xxx'
+    if 'xxx' in s:
+        return False
+
+    # Decoy: checksum condition that eliminates some inputs
+    checksum = sum(ord(c) for c in s) % 100
+    if checksum == 50:
+        return False
+
+    # Decoy: MD5 computation that looks cryptographic but is unused
+    md5_digest = hashlib.md5(s.encode()).hexdigest()
+    if md5_digest.startswith('0000'):
+        dummy = 1  # noise
+
+    # Real condition: must be an 8-character lowercase string
+    if len(s) != 8:
+        return False
+    if not s.islower():
+        return False
+
+    # Obfuscated transformations
+    # Reverse the string
+    rev = s[::-1]
+    # Shift each character by its index in the reversed string
+    shifted = ''.join(chr((ord(c) - 97 + i) % 26 + 97) for i, c in enumerate(rev))
+    # Swap adjacent characters pairwise
+    shifted_list = list(shifted)
+    for i in range(0, len(shifted_list), 2):
+        if i + 1 < len(shifted_list):
+            shifted_list[i], shifted_list[i+1] = shifted_list[i+1], shifted_list[i]
+    final = ''.join(shifted_list)
+
+    # Target derived from the sample solution (ASCII values)
+    target = ''.join(chr(c) for c in [104, 111, 108, 112, 102, 113, 109, 114])
+
+    return final == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy noise: looks meaningful, but does not affect the answer.
+    wobble = 0xA5A5A5A5
+    for i, b in enumerate(s.encode("utf-8"), 1):
+        wobble = ((wobble << 7) ^ (wobble >> 3) ^ (b + 17 * i)) & 0xFFFFFFFF
+    if math.isqrt((len(s) + 19) ** 2) != len(s) + 19:
+        return False  # always false for valid lengths; harmless decoy
+
+    if len(s) != 8:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    u = s[::-1]
+    v = ''.join(chr(33 + ((ord(c) - 33 + 7 * i) % 94)) for i, c in enumerate(u))
+
+    target = ''.join(chr(n) for n in (
+        25 * 2,
+        2 * 29 + 1,
+        37 + 74,
+        11 * 11,
+        2 * 63,
+        10 * 8 + 3,
+        9 * 5,
+        5 * 25,
+    ))
+    return v == target
+
+```
+### Explanation
+
+
+The visible logic is a reversible printable-ASCII transform applied to the reversed string, followed by a comparison to a target assembled from arithmetic. The checksum-looking bits are just decoys.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import sys
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: reject if contains digit or uppercase
+    if any(c.isdigit() or c.isupper() for c in s):
+        return False
+
+    # Decoy: meaningless checksum that rarely triggers
+    checksum = sum(ord(c) * (i + 1) for i, c in enumerate(s)) % 1000
+    if checksum == 777:
+        return False  # very unlikely
+
+    # Real constraint: must be exactly 8 lowercase letters
+    if len(s) != 8 or not s.isalpha() or not s.islower():
+        return False
+
+    # Obfuscated transformation pipeline
+    # Step 1: reverse
+    t1 = s[::-1]
+
+    # Step 2: position-dependent Caesar shift
+    t2_list = []
+    for i, ch in enumerate(t1):
+        shift = i
+        new_ord = (ord(ch) - 97 + shift) % 26 + 97
+        t2_list.append(chr(new_ord))
+    t2 = ''.join(t2_list)
+
+    # Step 3: swap first half with second half
+    half = len(t2) // 2
+    t3 = t2[half:] + t2[:half]
+
+    # At this point t3 should be "abcdefgh" for the correct input.
+
+    # Decoy: fake hash computation (MD5) that is ignored
+    import hashlib
+    dummy_md5 = hashlib.md5(t3.encode()).hexdigest()
+    if dummy_md5.startswith('dead'):
+        pass  # never happens
+
+    # Real check: custom 32‑bit polynomial hash of t3
+    H = 0
+    for c in t3:
+        H = ((H << 5) - H + ord(c)) & 0xFFFFFFFF  # equivalent to H*31 + ord(c)
+    target = 1259673732
+    return H == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy arithmetic: looks relevant, but isn't.
+    mix = 0x9E3779B9
+    for i, b in enumerate(s.encode("utf-8"), 1):
+        mix = ((mix ^ (b + 31 * i)) * 0x85EBCA6B) & 0xFFFFFFFF
+    _ = hashlib.blake2s(s.encode("utf-8"), digest_size=16).digest()[0] ^ (mix & 0xFF)
+
+    if len(s) != 8:
+        return False
+    if not (s.isascii() and s.isalpha() and s.islower()):
+        return False
+
+    t = s[::-1]
+    t = ''.join(chr(219 - ord(c)) for c in t)   # Atbash on lowercase letters
+    t = t[2:] + t[:2]                           # rotate left by 2
+    t = ''.join(t[i + 1] + t[i] for i in range(0, len(t), 2))  # swap adjacent pairs
+
+    target = bytes.fromhex("6d637372686b7668").decode("ascii")
+    return t == target
+```
+
+The visible hashing and mixing are just decoys. The real condition is a reversible transform on 8-character lowercase ASCII strings: reverse, Atbash, rotate left by 2, then swap adjacent pairs. One valid input is `"sphinxes"`.
+
+SOLUTION: "sphinxes"
+*** END
+*** END
+*** solver deepseek-v3.2-thinking
+Let's work through the constraints and transformations to find a valid `x`.
+
+**Constraints on `s = str(x)`**:
+1. `len(s) == 8`
+2. `s.isascii() and s.isalpha() and s.islower()`
+
+**Transformations**:
+1. `t = s[::-1]` (reverse the string)
+2. Atbash on lowercase letters: `chr(219 - ord(c))` (maps a↔z, b↔y, etc.)
+3. Rotate left by 2: `t[2:] + t[:2]`
+4. Swap adjacent pairs (0↔1, 2↔3, 4↔5, 6↔7)
+
+The result must equal `target = "mcsrhkvh"` (from hex `"6d637372686b7668"`).
+
+---
+
+**Step-by-step reversal**:
+
+Let final result be `T = "mcsrhkvh"`.
+
+1. **Undo swap adjacent pairs**:
+   - Pairs: (m,c), (s,r), (h,k), (v,h) → swap each → (c,m), (r,s), (k,h), (h,v)
+   - So before swap: `"cmrskhhv"`
+
+2. **Undo rotate left by 2**:
+   - Rotating left by 2 gave `"cmrskhhv"`, so rotate right by 2: last 2 chars + first 6 chars
+   - `"hv" + "cmrskh"` = `"hvcmrskh"`
+
+3. **Undo Atbash**:
+   - Atbash is its own inverse: apply same transformation again.
+   - For each char in `"hvcmrskh"`:
+     - h (104) → 219-104=115 → s
+     - v (118) → 219-118=101 → e
+     - c (99)  → 219-99=120  → x
+     - m (109) → 219-109=110 → n
+     - r (114) → 219-114=105 → i
+     - s (115) → 219-115=104 → h
+     - k (107) → 219-107=112 → p
+     - h (104) → 219-104=115 → s
+   - Result: `"sexnihps"`
+
+4. **Undo reverse**:
+   - Original `s = "sexnihps"[::-1] = "sphinxes"`
+
+Check: `s = "sphinxes"` is 8 lowercase ASCII letters.
+
+---
+
+Thus, `x = "sphinxes"` satisfies the conditions.
+
+```python
+mystery("sphinxes")  # Returns True
+```
+
+SOLUTION: "sphinxes"
+*** END

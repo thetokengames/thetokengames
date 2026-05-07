@@ -1,0 +1,598 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (1000 <= x < 10000):
+        return False
+    
+    p = lambda n: n > 1 and all(n % k for k in range(2, int(n**.5)+1))
+    
+    import math
+    q, s = math.isqrt(x), str(x)
+    
+    return q*q == x and p(q) and p(sum(map(int, s))) and p(int(s[:2])) and p(int(s[2:]))
+```
+
+This puzzle asks you to find a 4-digit integer `x` satisfying several simultaneous primality conditions checked against different decompositions of the number.
+
+**Private explanation:**
+
+The function checks that `x` is a 4-digit perfect square where ALL of the following are prime:
+1. `q` = the integer square root of `x`
+2. The digit sum of `x`
+3. The number formed by the **first two digits** of `x`
+4. The number formed by the **last two digits** of `x`
+
+Enumerating all 4-digit perfect squares with prime square roots (37², 41², 43², 47², 53², 59², 61², 67², 71², 73², 79², 83², 89², 97²) and applying all four conditions, the **unique** solution is:
+
+- x = 5329 = **73**²
+- Digit sum: 5+3+2+9 = **19** (prime ✓)
+- First two digits: **53** (prime ✓)
+- Last two digits: **29** (prime ✓)
+- Square root: **73** (prime ✓)
+
+SOLUTION: 5329 
+Checking sample solution  5329
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 5329. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 395 in / 16,592 out
+  gemini-3-flash-preview (solver): 239 in / 5,030 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 4:
+        return False
+    
+    v = list(map(ord, x))
+    if not all(97 <= i <= 122 for i in v):
+        return False
+    
+    # Combined constraints on character values
+    cond1 = v[0] + v[2] == 200
+    cond2 = v[1] + v[3] == 213
+    cond3 = (v[0] ^ v[1] ^ v[2] ^ v[3]) == 19
+    
+    # Positional bit-shifting and multiplication
+    a = (v[0] << 8) | v[1]
+    b = (v[2] << 8) | v[3]
+    cond4 = (a * 31 - b * 23) == 218963
+    
+    return cond1 and cond2 and cond3 and cond4
+```
+
+### Explanation
+The puzzle requires finding a 4-character string of lowercase English letters that satisfies a system of four equations. 
+
+1.  The first two equations, `v[0] + v[2] == 200` and `v[1] + v[3] == 213`, provide linear relations between the first/third and second/fourth characters.
+2.  The third equation is a bitwise XOR sum of all four character codes: `v[0] ^ v[1] ^ v[2] ^ v[3] == 19`.
+3.  The fourth equation combines the characters into two 16-bit integers (`a` and `b`) and applies a linear transformation: `31*a - 23*b == 218963`.
+
+By substituting `v[2] = 200 - v[0]` and `v[3] = 213 - v[1]` into the fourth equation, the puzzle can be reduced to a single equation in terms of `v[0]` and `v[1]`: `256 * v[0] + v[1] = 25953`. This uniquely determines `v[0]` and `v[1]`, which in turn determine `v[2]` and `v[3]`. Checking these against the XOR condition and the character range constraints confirms the solution.
+
+SOLUTION: "eact" 
+Checking sample solution  "eact"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "eact". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 519 in / 19,204 out
+  claude-sonnet-4-6 (solver): 377 in / 1,961 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    import math
+
+    if not isinstance(x, int) or x <= 0:
+        return False
+
+    s = str(x)
+    if len(s) != 6:
+        return False
+
+    def cond_a(n):
+        for delta in [4, -4]:
+            v = 5 * n * n + delta
+            if v > 0:
+                r = math.isqrt(v)
+                if r * r == v:
+                    return True
+        return False
+
+    if not cond_a(x):
+        return False
+
+    p = lambda n: n > 1 and all(n % k for k in range(2, int(n**0.5) + 1))
+
+    digit_sum = sum(int(c) for c in s)
+    if not p(digit_sum):
+        return False
+
+    first3 = int(s[:3])
+    if math.isqrt(first3) ** 2 != first3:
+        return False
+
+    return True
+```
+
+**Explanation (public):**
+
+You need to find a 6-digit positive integer `x` satisfying three conditions:
+1. `cond_a(x)` must return True — this checks whether `5x² + 4` or `5x² - 4` is a perfect square.
+2. The sum of the digits of `x` must be prime.
+3. The integer formed by the **first three digits** of `x` must be a perfect square.
+
+The tricky part is understanding what `cond_a` is really testing — it's an obscure algebraic identity that filters numbers with a very special mathematical property. Once you know which numbers pass `cond_a` in the 6-digit range, only a handful remain, and the digit constraints narrow it down to a unique answer.
+
+---
+
+**Private notes:**
+- `cond_a` is the classical Fibonacci membership test: n is a Fibonacci number iff 5n²±4 is a perfect square.
+- 6-digit Fibonacci numbers: 196418, 317811, 514229, 832040.
+- 317811: digit sum = 21 (not prime ✗)
+- 514229: first3 = 514, not a perfect square ✗
+- 832040: first3 = 832, not a perfect square ✗
+- 196418: digit sum = 29 (prime ✓), first3 = 196 = 14² ✓ → **unique solution**
+
+SOLUTION: 196418 
+Checking sample solution  196418
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 121393. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,125 in / 12,663 out
+  gemini-3-flash-preview (solver): 339 in / 7,955 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    # Ensure it's composed of printable ASCII characters
+    v = [ord(c) for c in x]
+    if not all(32 <= i < 127 for i in v):
+        return False
+        
+    # Property 1: Sum and sum of squares
+    if sum(v) != 867 or sum(i**2 for i in v) != 95255:
+        return False
+        
+    # Property 2: Alternating sum
+    if sum(v[i] * ((-1)**i) for i in range(8)) != -27:
+        return False
+        
+    # Property 3: A rolling hash-like function
+    res = 0
+    for i in v:
+        res = (res * 31 + i) % 1000000007
+    if res != 455791231:
+        return False
+        
+    return True
+```
+
+This puzzle requires finding an 8-character string of printable ASCII characters that satisfies several mathematical constraints:
+
+1.  **Sum and Sum of Squares**: The sum of the ASCII values of the characters must be exactly `867`, and the sum of their squares must be `95255`. These constraints restrict the possible character combinations.
+2.  **Alternating Sum**: The alternating sum (where every second character's value is subtracted) must equal `-27`. This further narrows down the relationship between characters at even and odd positions.
+3.  **Rolling Hash**: A rolling hash-like function using a multiplier of `31` and a large prime modulus (`1000000007`) is applied. The resulting value must be `455791231`. This property is highly sensitive to the exact order of the characters.
+
+Combined, these properties define a small set of potential solutions (often only one), which can be found through systematic search or cryptanalysis of the system of equations.
+
+SOLUTION: "Puzzling" 
+Checking sample solution  "Puzzling"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "Pcnnnsx{". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  gemini-3-flash-preview (inventer): 1,375 in / 27,402 out
+  claude-sonnet-4-6 (solver): 376 in / 49,184 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (10000 <= x <= 99999):
+        return False
+    
+    # Palindrome check
+    n, rev = x, 0
+    while n:
+        rev = rev * 10 + n % 10
+        n //= 10
+    if x != rev:
+        return False
+    
+    # Primality check
+    p = lambda n: n > 1 and all(n % k for k in range(2, int(n**0.5)+1))
+    if not p(x):
+        return False
+    
+    # Digit condition
+    s = str(x)
+    ds = sum(int(c) for c in s)
+    if ds * (ds + 1) != 182:
+        return False
+    
+    # Binary condition
+    bc = bin(x).count('1')
+    if (bc - 3) ** 3 != 64:
+        return False
+    
+    return True
+```
+
+**Explanation:**
+
+You need to find a 5-digit integer `x` satisfying four conditions simultaneously:
+1. **Palindrome**: `x` reads the same forwards and backwards (checked algorithmically).
+2. **Prime**: `x` must be prime.
+3. **Digit condition**: involves the digit sum `ds` satisfying `ds*(ds+1) = 182` — you'll need to solve for what `ds` must be.
+4. **Binary condition**: involves the number of 1-bits `bc` satisfying `(bc-3)³ = 64` — again, solve for `bc`.
+
+The combination of all four constraints makes the search space small but non-trivial.
+
+---
+
+**Private notes:**
+- `ds*(ds+1) = 182` → `ds = 13` (quadratic: ds=13 or ds=-14, only 13 is valid)
+- `(bc-3)³ = 64 = 4³` → `bc = 7`
+- 5-digit palindromes with digit sum 13 have form ABCBA with 2A+2B+C=13 (C odd)
+- The prime filter leaves only 12721 and 14341
+- 12721 = 2¹³+2¹²+2⁸+2⁷+2⁵+2⁴+2⁰ → 7 ones ✓
+- 14341 = 2¹³+2¹²+2¹¹+2²+2⁰ → 5 ones ✗
+- Unique solution: **12721**
+
+SOLUTION: 12721 
+Checking sample solution  12721
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 12721. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  claude-sonnet-4-6 (inventer): 2,044 in / 20,908 out
+  gemini-3-flash-preview (solver): 346 in / 16,589 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    # Get ASCII values of characters and check their range
+    v = [ord(c) for c in x]
+    if not all(33 <= i <= 126 for i in v):
+        return False
+    
+    # Condition 1: A weighted sum using powers of 2 as coefficients
+    c1 = sum(v[i] * (2**i) for i in range(8)) == 20896
+    
+    # Condition 2: XOR sum of all character codes
+    xor_res = 0
+    for b in v:
+        xor_res ^= b
+    c2 = xor_res == 114
+    
+    # Condition 3: Sum of character codes cubed modulo a large prime
+    c3 = sum(pow(i, 3, 1000003) for i in v) % 1000003 == 976453
+    
+    # Condition 4: Sum of products of symmetric pairs (v[0]*v[7], v[1]*v[6], etc.)
+    c4 = sum(v[i] * v[7-i] for i in range(4)) == 21026
+    
+    # Condition 5: Sum of character codes at even indices
+    c5 = sum(v[i] for i in range(0, 8, 2)) == 268
+    
+    return c1 and c2 and c3 and c4 and c5
+```
+
+### Explanation
+This puzzle involves finding an 8-character string composed of printable ASCII characters (codes 33–126). The string must satisfy five distinct mathematical constraints:
+
+1.  **Weighted Sum**: The ASCII values of the characters, when weighted by successive powers of 2 ($v_0 \cdot 1, v_1 \cdot 2, \dots, v_7 \cdot 128$), must sum to exactly `20896`. This constraint heavily weights the characters at the end of the string.
+2.  **XOR Sum**: The bitwise XOR sum of all character codes must equal `114`.
+3.  **Cubic Modular Sum**: The sum of the cubes of the character codes, taken modulo `1000003`, must result in a total of `976453` when the final sum is also taken modulo `1000003`.
+4.  **Symmetric Product Sum**: The characters are paired from the outside in ($v_0$ with $v_7$, $v_1$ with $v_6$, etc.), and the sum of the products of these four pairs must equal `21026`.
+5.  **Even-Index Sum**: The sum of the character codes at the even positions (indices 0, 2, 4, and 6) must equal `268`.
+
+Finding the correct string requires solving this system of equations over the integer domain restricted to the printable ASCII range.
+
+SOLUTION: "B3@mS!7k" 
+Checking sample solution  "B3@mS!7k"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "d\">@FA$q". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 2 (2-0)
+  gemini-3-flash-preview (inventer): 2,168 in / 18,049 out
+  claude-sonnet-4-6 (solver): 513 in / 45,773 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (10000 <= x <= 99999):
+        return False
+
+    s = str(x)
+    d = [int(c) for c in s]
+
+    import math
+
+    # Check 1: x is a perfect square
+    q = math.isqrt(x)
+    if q * q != x:
+        return False
+
+    # Check 2: alternating digit sum is divisible by 11
+    if (d[0] - d[1] + d[2] - d[3] + d[4]) % 11 != 0:
+        return False
+
+    # Check 3: digit sum is itself a perfect square
+    ds = sum(d)
+    if math.isqrt(ds) ** 2 != ds:
+        return False
+
+    # Check 4: first digit plus last digit equals middle digit
+    if d[0] + d[4] != d[2]:
+        return False
+
+    # Check 5: the integer square root of x is divisible by 16
+    if q % 16 != 0:
+        return False
+
+    return True
+```
+
+**Explanation:**
+
+You need to find a 5-digit integer `x` satisfying all five checks simultaneously:
+1. `x` is a perfect square.
+2. The alternating digit sum `d[0]-d[1]+d[2]-d[3]+d[4]` is divisible by 11.
+3. The digit sum of `x` is itself a perfect square.
+4. The first digit plus the last digit equals the middle (3rd) digit.
+5. The integer square root of `x` is divisible by 16.
+
+The tricky part is that several of these checks interact in non-obvious ways — for instance, check 2 is really the standard divisibility rule for 11, meaning `x` itself must be divisible by 11. Combined with check 5, this places a tight constraint on what the square root can be. The remaining checks further restrict digit structure, ultimately leaving a unique solution.
+
+SOLUTION: 30976 
+Checking sample solution  30976
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 30976. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 2 (2-0)
+  claude-sonnet-4-6 (inventer): 3,133 in / 22,965 out
+  gemini-3-flash-preview (solver): 373 in / 10,822 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    
+    # Get ASCII values and ensure they are within the printable range
+    v = [ord(c) for c in x]
+    if not all(33 <= i <= 126 for i in v):
+        return False
+    
+    # Property 1: Simple and weighted sums
+    c1 = sum(v) == 578
+    c2 = sum(v[i] * (i + 1) for i in range(6)) == 2045
+    
+    # Property 2: Bitwise XOR sum
+    res_xor = 0
+    for b in v:
+        res_xor ^= b
+    c3 = res_xor == 52
+    
+    # Property 3: Quadratic sum of character codes
+    c4 = sum(val**2 for val in v) == 57254
+    
+    # Property 4: Specific cross-product relationship between characters
+    c5 = (v[0] * v[3]) - (v[1] * v[2]) == -1844
+    
+    # Property 5: Modular cubic sum with a prime modulus
+    c6 = sum(pow(val, 3, 10007) for val in v) % 10007 == 1094
+    
+    return c1 and c2 and c3 and c4 and c5 and c6
+```
+
+### Explanation
+This puzzle requires finding a 6-character string composed of printable ASCII characters (codes 33–126). The string must satisfy several interdependent mathematical constraints:
+
+1.  **Linear Sums**: The total sum of the ASCII values must be exactly `578`. Additionally, a weighted sum (where each character value is multiplied by its 1-indexed position) must equal `2045`.
+2.  **XOR Sum**: The bitwise XOR sum of all character codes must equal `52`.
+3.  **Quadratic Sum**: The sum of the squares of the ASCII values must equal `57254`.
+4.  **Cross-Product Relationship**: The difference between the product of the 1st and 4th characters and the product of the 2nd and 3rd characters must be exactly `-1844`.
+5.  **Cubic Modular Sum**: The sum of the cubes of the character codes, taken modulo `10007`, must result in a final value of `1094` when the entire sum is also taken modulo `10007`.
+
+By combining these linear, quadratic, and modular equations, the search space for possible strings is narrowed down to a single solution.
+
+SOLUTION: "PyThOn" 
+Checking sample solution  "PyThOn"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    # Convert characters to their ASCII integer values
+    v = [ord(c) for c in x]
+    
+    # Ensure all characters are within the printable ASCII range
+    if not all(33 <= i <= 126 for i in v):
+        return False
+    
+    # Property 1: Statistical sums of character codes
+    # This involves the total sum, a weighted sum, and a sum of squares
+    c1 = sum(v) == 663
+    c2 = sum(i * v[i] for i in range(8)) == 1944
+    c3 = sum(val**2 for val in v) == 63407
+    
+    # Property 2: Bitwise XOR sum of all character codes
+    xor_val = 0
+    for b in v:
+        xor_val ^= b
+    c4 = xor_val == 121
+    
+    # Property 3: A rolling hash with multiplier 31 and prime modulus 1,000,000,007
+    h = 0
+    for b in v:
+        h = (h * 31 + b) % 1000000007
+    c5 = h == 815623096
+    
+    # Property 4: A relationship between products of character pairs
+    c6 = (v[0]*v[1] - v[2]*v[3] + v[4]*v[5] - v[6]*v[7]) == 1213
+    
+    return all([c1, c2, c3, c4, c5, c6])
+```
+
+### Explanation
+This puzzle requires finding an 8-character string composed of printable ASCII characters (codes 33–126). The string must satisfy six distinct mathematical constraints:
+
+1.  **Sum of character codes**: The total of the ASCII values of the characters must be exactly `663`.
+2.  **Weighted Index Sum**: A sum where each character's ASCII value is multiplied by its position in the string ($v_0 \cdot 0, v_1 \cdot 1, \dots, v_7 \cdot 7$) must equal `1944`.
+3.  **Sum of Squares**: The sum of the squares of the ASCII values must be exactly `63407`.
+4.  **Bitwise XOR sum**: The result of XORing all the character codes together must be `121`.
+5.  **Rolling Hash**: A polynomial rolling hash using a multiplier of `31` and a modulus of `1,000,000,007` must result in `815623096`. This constraint is highly sensitive to both the identity and the position of each character.
+6.  **Alternating product sum**: An expression involving the products of consecutive pairs of characters must equal `1213`.
+
+Finding the solution requires solving this overdetermined system of equations within the restricted domain of printable ASCII characters.
+
+SOLUTION: "Pyth0n3!" 
+Checking sample solution  "Pyth0n3!"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "sd_ZRN70". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 3 (3-0)
+  gemini-3-flash-preview (inventer): 3,218 in / 27,584 out
+  claude-sonnet-4-6 (solver): 542 in / 60,340 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (100000 <= x <= 999999):
+        return False
+
+    import math
+    s = str(x)
+    d = [int(c) for c in s]
+
+    # Check 1: x is a perfect square
+    q = math.isqrt(x)
+    if q * q != x:
+        return False
+
+    # Check 2: Every digit of the square root appears somewhere in x
+    sq_s = str(q)
+    for c in sq_s:
+        if c not in s:
+            return False
+
+    # Check 3: The digit sum of the square root equals the number of digits in x
+    q_ds = sum(int(c) for c in sq_s)
+    if q_ds != len(s):
+        return False
+
+    # Check 4: x is a Harshad number (divisible by the sum of its own digits)
+    ds = sum(d)
+    if x % ds != 0:
+        return False
+
+    return True
+```
+
+**Explanation:**
+
+You need to find a 6-digit integer `x` satisfying four conditions simultaneously:
+
+1. `x` is a perfect square.
+2. Every digit appearing in `√x` also appears somewhere in `x`.
+3. The digit sum of `√x` equals the number of digits in `x` (which is 6).
+4. `x` is a [Harshad number](https://en.wikipedia.org/wiki/Harshad_number) — divisible by the sum of its own digits.
+
+The tricky interplay: Check 3 narrows down which square roots are possible. Check 2 then filters based on a digit-containment relationship between a number and its root, which is an unusual constraint. The combination leaves very few candidates.
+
+SOLUTION: 251001 
+Checking sample solution  251001
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 251001. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 3 (3-0)
+  claude-sonnet-4-6 (inventer): 4,104 in / 26,335 out
+  gemini-3-flash-preview (solver): 355 in / 14,486 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    v = [ord(c) for c in x]
+    if not all(32 < i < 127 for i in v):
+        return False
+
+    # Constraint 1: Linear invariants based on character values
+    s1 = sum(v)
+    s2 = sum((i + 1) * v[i] for i in range(8))
+    if s1 != 867 or s2 != 3932:
+        return False
+    
+    # Constraint 2: Positional weighting using cubic powers
+    s3 = sum(v[i] * (i**3) for i in range(8))
+    if s3 != 83513:
+        return False
+    
+    # Constraint 3: A cumulative XOR-addition mixing chain
+    res = 0
+    for i, val in enumerate(v):
+        res = (res ^ val) + i
+    if res != 51:
+        return False
+        
+    # Constraint 4: Alternating products of symmetric pairs (v0, v7), (v1, v6), etc.
+    if v[0]*v[7] - v[1]*v[6] + v[2]*v[5] - v[3]*v[4] != -4996:
+        return False
+        
+    # Constraint 5: Bitwise intersection and internal repetition
+    if (v[0] & v[1] & v[2]) != 80 or v[2] != v[3]:
+        return False
+        
+    # Constraint 6: Fixed difference between start and end character sums
+    if v[0] + v[1] - v[6] - v[7] != -16:
+        return False
+        
+    return True
+
+```
+
+### Explanation
+This puzzle requires finding an 8-character string of printable ASCII characters that satisfies a multi-layered system of mathematical and bitwise constraints. 
+
+1.  **Linear and Cubic Sums**: The string must satisfy three specific weighted sums: a simple sum of ASCII values (`s1`), a linearly weighted sum (`s2`), and a sum where the weights are the cubes of the indices (`s3`).
+2.  **Cumulative XOR Chain**: A mixing function iterates through the string, performing a bitwise XOR between the current result and the ASCII value, then adding the current index. The final value must be `51`.
+3.  **Symmetric Pair Products**: The characters are treated as symmetric pairs (the first with the last, second with second-to-last, etc.). The alternating sum of the products of these pairs must equal `-4996`.
+4.  **Bitwise Intersection**: The first three characters must share a bitwise AND result of `80`, and the third and fourth characters must be identical.
+5.  **Boundary Difference**: The sum of the first two character codes minus the sum of the last two character codes must equal exactly `-16`.
+
+The solution is a common English word that fits these tight mathematical parameters.
+
+SOLUTION: "Puzzling" 
+Checking sample solution  "Puzzling"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "Pq}}niel". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 4 (4-0)
+  gemini-3-flash-preview (inventer): 4,265 in / 16,372 out
+  claude-sonnet-4-6 (solver): 585 in / 61,668 out
+Logs written to runs/classic/claude-sonnet-4-6_vs_gemini-3-flash-preview.log and runs/classic/claude-sonnet-4-6_vs_gemini-3-flash-preview.jsonl
+
+=== Token Usage Summary ===
+Turn 0: claude-sonnet-4-6 vs gemini-3-flash-preview - 634 in / 21,622 out (?) [success]
+Turn 1: gemini-3-flash-preview vs claude-sonnet-4-6 - 896 in / 21,165 out (?) [success]
+Turn 2: claude-sonnet-4-6 vs gemini-3-flash-preview - 1,464 in / 20,618 out (?) [success]
+Turn 3: gemini-3-flash-preview vs claude-sonnet-4-6 - 1,751 in / 76,586 out (?) [failure]
+Turn 4: claude-sonnet-4-6 vs gemini-3-flash-preview - 2,390 in / 37,497 out (?) [success]
+Turn 5: gemini-3-flash-preview vs claude-sonnet-4-6 - 2,681 in / 63,822 out (?) [failure]
+Turn 6: claude-sonnet-4-6 vs gemini-3-flash-preview - 3,506 in / 33,787 out (?) [success]
+Turn 7: gemini-3-flash-preview vs claude-sonnet-4-6 - 3,760 in / 87,924 out (?) [failure]
+Turn 8: claude-sonnet-4-6 vs gemini-3-flash-preview - 4,459 in / 40,821 out (?) [success]
+Turn 9: gemini-3-flash-preview vs claude-sonnet-4-6 - 4,850 in / 78,040 out (?) [failure]
+
+=== Totals by Model ===
+claude-sonnet-4-6: 13,689 in / 382,389 out
+gemini-3-flash-preview: 16,415 in / 180,770 out

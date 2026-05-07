@@ -1,0 +1,391 @@
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 1:
+        return False
+    binary_str = bin(x)[2:]
+    return binary_str == binary_str[::-1]
+```
+
+The function returns True for numbers whose binary representation is a palindrome. This is not immediately obvious from casual testing, but becomes apparent through systematic exploration.
+
+For instance, if you test several numbers, you'll discover:
+- 1 (binary: 1) → True
+- 2 (binary: 10) → False  
+- 3 (binary: 11) → True
+- 4 (binary: 100) → False
+- 5 (binary: 101) → True
+- 7 (binary: 111) → True
+- 9 (binary: 1001) → True
+- 11 (binary: 1011) → False
+
+The pattern requires realizing there's something special about certain numbers' binary forms, which should take some thoughtful investigation to identify.
+
+SOLUTION: 9 
+Checking sample solution  9
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says 5. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 395 in / 8,164 out
+  claude-opus-4-7 (solver): 207 in / 13 out
+claude-opus-4-7's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 0:
+        return False
+    s = str(x)
+    if len(s) != 5:
+        return False
+    d = [int(c) for c in s]
+    if sum(d) != 23:
+        return False
+    if d[0] * d[4] != d[1] + d[2] + d[3]:
+        return False
+    if x % 7 != 3:
+        return False
+    if any(d[i] == d[i+1] for i in range(4)):
+        return False
+    return d[2] > d[0] > d[4]
+```
+
+A 5-digit integer with several arithmetic and structural constraints to satisfy simultaneously.
+
+SOLUTION: 71942 
+Checking sample solution  71942
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 71942. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 618 in / 1,694 out
+  claude-haiku-4-5 (solver): 307 in / 5,222 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 0:
+        return False
+    s = str(x)
+    n = len(s)
+    digits = [int(d) for d in s]
+    return sum(d**n for d in digits) == x
+```
+
+This puzzle checks whether a number is an Armstrong number (also called a narcissistic number). A number is an Armstrong number if it equals the sum of its own digits each raised to the power of the number of digits it has.
+
+For example:
+- 153 is a 3-digit number: 1³ + 5³ + 3³ = 1 + 125 + 27 = 153 ✓
+- 370 is a 3-digit number: 3³ + 7³ + 0³ = 27 + 343 + 0 = 370 ✓
+- 9474 is a 4-digit number: 9⁴ + 4⁴ + 7⁴ + 4⁴ = 6561 + 256 + 2401 + 256 = 9474 ✓
+
+The difficulty comes from the fact that Armstrong numbers are quite rare and scattered. Testing small values is deceptive (1 works, but then nothing works until 153), making the pattern non-obvious and requiring thoughtful investigation to discover.
+
+SOLUTION: 153 
+Checking sample solution  153
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says 153. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 872 in / 11,599 out
+  claude-opus-4-7 (solver): 222 in / 13 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at past puzzles, I'll create one with multiple interlocking constraints involving dates, primes, and weekdays.
+
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if x[4] != '-' or x[7] != '-':
+        return False
+    try:
+        y = int(x[0:4]); m = int(x[5:7]); d = int(x[8:10])
+    except:
+        return False
+    import datetime
+    try:
+        dt = datetime.date(y, m, d)
+    except:
+        return False
+    # Must be a Tuesday
+    if dt.weekday() != 1:
+        return False
+    # Year must be prime
+    def isp(n):
+        if n < 2: return False
+        for i in range(2, int(n**0.5)+1):
+            if n % i == 0: return False
+        return True
+    if not isp(y):
+        return False
+    # day * month must equal digit sum of year
+    if d * m != sum(int(c) for c in str(y)):
+        return False
+    # Year must be in this millennium
+    if y < 2000 or y >= 3000:
+        return False
+    return True
+```
+
+A valid YYYY-MM-DD date where: it's a Tuesday, year is prime and in [2000, 3000), and day×month equals the digit sum of the year.
+
+SOLUTION: "2017-01-10" 
+Checking sample solution  "2017-01-10"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "2011-01-04". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 1,034 in / 2,309 out
+  claude-haiku-4-5 (solver): 436 in / 9,301 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 1:
+        return False
+    square = x * x
+    s = str(square)
+    n = len(s)
+    
+    # Try all possible splits of the square's digits
+    for i in range(1, n):
+        left = int(s[:i])
+        right = int(s[i:])
+        if left + right == x and right > 0:
+            return True
+    return False
+```
+
+This puzzle identifies Kaprekar numbers—a special class of positive integers where the square of the number can be split into two parts (by dividing the digits) that sum to the original number.
+
+For example:
+- 9: 9² = 81, split as 8 and 1, and 8 + 1 = 9 ✓
+- 45: 45² = 2025, split as 20 and 25, and 20 + 25 = 45 ✓
+- 55: 55² = 3025, split as 30 and 25, and 30 + 25 = 55 ✓
+- 99: 99² = 9801, split as 98 and 01, and 98 + 1 = 99 ✓
+
+The difficulty lies in discovering this pattern through testing and recognizing the specific relationship between a number and how its square's digits can be partitioned.
+
+SOLUTION: 9 
+Checking sample solution  9
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says 9. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,588 in / 8,119 out
+  claude-opus-4-7 (solver): 270 in / 122 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this, I want to make a puzzle that combines several number-theoretic constraints so brute-forcing is necessary but the search space is large enough to be annoying.
+
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 1:
+        return False
+    s = str(x)
+    if len(s) != 7:
+        return False
+    if len(set(s)) != 7:
+        return False
+    if '0' in s:
+        return False
+    for c in s:
+        if x % int(c) != 0:
+            return False
+    digits = [int(c) for c in s]
+    if digits[0] != max(digits):
+        return False
+    if sum(digits) != 36:
+        return False
+    if digits[-1] % 2 != 0:
+        return False
+    return True
+```
+
+The puzzle: a 7-digit positive integer with all distinct nonzero digits, divisible by each of its digits, where the first digit is the largest, the digit sum is exactly 36, and the last digit is even.
+
+SOLUTION: 9867312 
+Checking sample solution  9867312
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 9678312. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 1,672 in / 9,046 out
+  claude-haiku-4-5 (solver): 309 in / 10,863 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 10:
+        return False
+    
+    s = str(x)
+    digits = [int(d) for d in s]
+    
+    # Product of digits must equal count of divisors
+    product = 1
+    for d in digits:
+        product *= d
+    
+    if product == 0:
+        return False
+    
+    # Count divisors
+    count = 0
+    for i in range(1, int(x**0.5) + 1):
+        if x % i == 0:
+            count += 1
+            if i != x // i:
+                count += 1
+    
+    return product == count
+```
+
+## Explanation
+
+This puzzle checks a surprising property that combines digit manipulation with divisor counting. The function returns True when the **product of a number's digits equals the total count of its divisors**.
+
+For example:
+- 24: digits are 2 and 4, so 2 × 4 = 8. The divisors of 24 are {1, 2, 3, 4, 6, 8, 12, 24}, which is 8 divisors total. Since 8 = 8 ✓
+- 32: digits are 3 and 2, so 3 × 2 = 6. The divisors of 32 are {1, 2, 4, 8, 16, 32}, which is 6 divisors total. Since 6 = 6 ✓
+
+The puzzle requires discovering this non-obvious relationship through systematic exploration, combining knowledge of digit properties with divisor counting. Testing numbers sequentially would eventually reveal the pattern, though it rewards both persistence and mathematical intuition.
+
+SOLUTION: 24 
+Checking sample solution  24
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says 22. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 2,185 in / 13,657 out
+  claude-opus-4-7 (solver): 327 in / 255 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this, I want to create a puzzle that combines several digit-based constraints with a structural property that narrows the search significantly.
+
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 1:
+        return False
+    # Must be a perfect square
+    r = int(round(x**0.5))
+    if r*r != x:
+        return False
+    s = str(x)
+    if len(s) != 4:
+        return False
+    digits = [int(c) for c in s]
+    # Product of digits == 168
+    p = 1
+    for d in digits:
+        p *= d
+    if p != 168:
+        return False
+    # Sum of digits == 18
+    if sum(digits) != 18:
+        return False
+    # Divisible by 7
+    if x % 7 != 0:
+        return False
+    # First digit strictly less than last digit
+    if digits[0] >= digits[-1]:
+        return False
+    return True
+```
+
+The puzzle requires a 4-digit perfect square divisible by 7, with digit sum 18, digit product 168, where the first digit is strictly less than the last digit. The constraints sum=18 and product=168 force the digit multiset to be {1,4,6,7} (the only such combination), but only specific orderings are valid perfect squares.
+
+SOLUTION: 1764 
+Checking sample solution  1764
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 1764. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 2,236 in / 6,262 out
+  claude-haiku-4-5 (solver): 354 in / 2,691 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 10:
+        return False
+    
+    # Get digit sum
+    digit_sum = sum(int(d) for d in str(x))
+    
+    # Count prime factors with multiplicity
+    n = x
+    count = 0
+    d = 2
+    while d * d <= n:
+        while n % d == 0:
+            count += 1
+            n //= d
+        d += 1
+    if n > 1:
+        count += 1
+    
+    return digit_sum == count
+```
+
+This puzzle checks a surprising relationship between a number's digits and its prime factorization. The function returns True when the sum of a number's digits equals the total count of its prime factors (counted with multiplicity).
+
+For example:
+- 12: digit sum = 1 + 2 = 3, and 12 = 2² × 3, giving prime factors [2, 2, 3] = 3 total
+- 30: digit sum = 3 + 0 = 3, and 30 = 2 × 3 × 5, giving prime factors [2, 3, 5] = 3 total
+- 32: digit sum = 3 + 2 = 5, and 32 = 2⁵, giving prime factors [2, 2, 2, 2, 2] = 5 total
+- 40: digit sum = 4 + 0 = 4, and 40 = 2³ × 5, giving prime factors [2, 2, 2, 5] = 4 total
+
+This pattern is neither immediately obvious nor widely known, requiring systematic exploration to discover. Testing small numbers sequentially will eventually reveal the pattern, but recognizing what connects the solutions requires careful analysis.
+
+SOLUTION: 12 
+Checking sample solution  12
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says 12. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 2,897 in / 9,959 out
+  claude-opus-4-7 (solver): 305 in / 357 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this, I'll design a puzzle with cross-constraints on a string of letters mapped to alphabet positions.
+
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not (x.isalpha() and x.islower()):
+        return False
+    vals = [ord(c) - ord('a') + 1 for c in x]
+    if sum(vals) != 80:
+        return False
+    if len(set(x)) != 8:
+        return False
+    if vals != sorted(vals):
+        return False
+    if x[0] != 'b' or x[-1] != 'w':
+        return False
+    if vals[3] * vals[4] != 84:
+        return False
+    return True
+```
+
+The puzzle requires an 8-letter lowercase string with all distinct letters, where the alphabetic values are strictly increasing, sum to 80, start with 'b' and end with 'w', and the 4th and 5th letters' values multiply to 84.
+
+SOLUTION: "bcdglmpw" 
+Checking sample solution  "bcdglmpw"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "bcdglmpw". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 2,879 in / 2,978 out
+  claude-haiku-4-5 (solver): 313 in / 3,826 out
+Turn 0: claude-haiku-4-5 vs claude-opus-4-7 - 602 in / 8,177 out (?) [success]
+Turn 1: claude-opus-4-7 vs claude-haiku-4-5 - 925 in / 6,916 out (?) [success]
+Turn 2: claude-haiku-4-5 vs claude-opus-4-7 - 1,094 in / 11,612 out (?) [success]
+Turn 3: claude-opus-4-7 vs claude-haiku-4-5 - 1,470 in / 11,610 out (?) [success]
+Turn 4: claude-haiku-4-5 vs claude-opus-4-7 - 1,858 in / 8,241 out (?) [success]
+Turn 5: claude-opus-4-7 vs claude-haiku-4-5 - 1,981 in / 19,909 out (?) [success]
+Turn 6: claude-haiku-4-5 vs claude-opus-4-7 - 2,512 in / 13,912 out (?) [success]
+Turn 7: claude-opus-4-7 vs claude-haiku-4-5 - 2,590 in / 8,953 out (?) [success]
+Turn 8: claude-haiku-4-5 vs claude-opus-4-7 - 3,202 in / 10,316 out (?) [success]
+Turn 9: claude-opus-4-7 vs claude-haiku-4-5 - 3,192 in / 6,804 out (?) [success]
+claude-haiku-4-5: 9,656 in / 83,401 out
+claude-opus-4-7: 9,770 in / 23,049 out
+claude-haiku-4-5 ./. claude-opus-4-7     (0-0) vs (0-0)     [0 failed, see runs/classic/claude-haiku-4-5_vs_claude-opus-4-7.log]

@@ -1,0 +1,431 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 81 or not x.isdigit():
+        return False
+        
+    m = {
+        0: '5', 1: '3', 4: '7', 9: '6', 12: '1', 13: '9', 14: '5', 
+        19: '9', 20: '8', 25: '6', 27: '8', 31: '6', 35: '3', 
+        36: '4', 39: '8', 41: '3', 44: '1', 45: '7', 49: '2', 
+        53: '6', 55: '6', 60: '2', 61: '8', 66: '4', 67: '1', 
+        68: '9', 71: '5', 76: '8', 79: '7', 80: '9'
+    }
+    
+    for k, v in m.items():
+        if x[k] != v:
+            return False
+            
+    groups = [[] for _ in range(27)]
+    for i in range(81):
+        groups[i // 9].append(x[i])
+        groups[9 + i % 9].append(x[i])
+        groups[18 + (i // 27) * 3 + (i % 9) // 3].append(x[i])
+        
+    for g in groups:
+        b = 0
+        for c in g:
+            b |= 1 << int(c)
+        if b != 1022:
+            return False
+            
+    return True
+```
+
+This puzzle is a constraint satisfaction problem heavily obfuscated to disguise its true nature: a 9x9 Sudoku grid. 
+
+The input `x` must be a string of exactly 81 characters containing only digits. 
+The dictionary `m` acts as the "givens" or fixed cells on the Sudoku board (30 cells are provided).
+
+The `groups` loop maps the 1D string array into 27 distinct sets of 9 elements:
+- `groups[0..8]`: The 9 rows.
+- `groups[9..17]`: The 9 columns.
+- `groups[18..26]`: The 9 3x3 sub-grids (blocks). The index math `18 + (i // 27) * 3 + (i % 9) // 3` cleverly clusters the cells into their respective blocks.
+
+Finally, the bitwise validation loops over every group and sets the `int(c)`-th bit of `b`. The target `1022` is `1111111110` in binary. This effectively enforces that each group contains exactly the digits 1 through 9. A '0' would set the 0th bit making the number odd, and any duplicate digit would fail to set all 9 required bits, resulting in a number lower than 1022.
+
+To solve this, the player must either recognize the logic and use a standard Sudoku solver algorithms (or an SMT solver like Z3). Brute-force is impossible due to the size of the search space.
+
+SOLUTION: '534678912672195348198342567859761423426853791713924856961537284287419635345286179' 
+Checking sample solution  '534678912672195348198342567859761423426853791713924856961537284287419635345286179'
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "534678912672195348198342567859761423426853791713924856961537284287419635345286179". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 346 in / 27,074 out
+  gpt-5.5 (solver): 467 in / 554 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = 1522605027922533360535618378132637429718068114961380688657908494580122963258952897654000350692006139
+
+    return (
+        10**49 < x < 10**50
+        and n % x == 0
+        and x % 1000 == 199
+    )
+```
+
+Private explanation: this asks for a particular 50-digit nontrivial factor of a large semiprime, with a small residue check to reject the other factor.
+
+SOLUTION: 37975227936943673922808872755445627854565536638199 
+Checking sample solution  37975227936943673922808872755445627854565536638199
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says 37975227936943673922808872755445627854565536638199. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 742 in / 9,396 out
+  gemini-3.1-pro-preview (solver): 273 in / 22,334 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not list or len(x) != 2:
+        return False
+    u, v = x
+    if type(u) is not int or type(v) is not int:
+        return False
+    if u < 10**8 or v < 10**8:
+        return False
+        
+    return (u + 7)**2 - 61 * (v - 3)**2 == 1
+
+```
+
+### Explanation
+
+This puzzle is based on Diophantine equations, specifically a shifted Pell's equation. 
+
+The underlying equation is $x^2 - 61y^2 = 1$. Pell's equations of this form are notoriously difficult to solve because the fundamental solutions can be astronomically large for relatively small values of $d$. For $d = 61$, the fundamental solution was famously found by the Indian mathematician Bhaskara II in the 12th century using the Chakravala method.
+
+The smallest positive integer solution for $x^2 - 61y^2 = 1$ is:
+$x = 1766319049$
+$y = 226153980$
+
+By shifting the variables `u = x - 7` and `v = y + 3`, the puzzle obscures the standard form of the Pell equation, preventing the solver from simply copying and pasting the equation into a search engine to find the known historical solution. 
+
+Furthermore, SMT solvers like Z3 are generally undecidable for Non-linear Integer Arithmetic (NIA). When confronted with Pell's equation, standard automated theorem provers will almost always hang or time out attempting to unroll the multiplication or searching the massive state space, making this a highly resilient puzzle against AI agents that rely heavily on off-the-shelf algebraic solvers without deep mathematical intuition.
+
+SOLUTION: [1766319042, 226153983] 
+Checking sample solution  [1766319042, 226153983]
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says [1766319042, 226153983]. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 1,363 in / 49,272 out
+  gpt-5.5 (solver): 199 in / 410 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str or len(x) != 56:
+        return False
+    if any(c < "a" or c > "z" for c in x):
+        return False
+
+    import hashlib
+
+    y = "".join(chr((ord(c) - 84) % 26 + 97) for c in x[::-1])
+    return hashlib.sha256(y.encode("ascii")).hexdigest() == (
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1"
+    )
+```
+
+Private explanation: the function requires a 56-character lowercase string, reverses it, applies ROT13, and checks the SHA-256 digest of the result. The target digest is the SHA-256 test vector for `abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq`, so the supplied solution is the reverse ROT13 preimage.
+
+SOLUTION: "dcbacbazbazyazyxzyxwyxwvxwvuwvutvutsutsrtsrqsrqprqpoqpon" 
+Checking sample solution  "dcbacbazbazyazyxzyxwyxwvxwvuwvutvutsutsrtsrqsrqprqpoqpon"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "dcbacbazbazyazyxzyxwyxwvxwvuwvutvutsutsrtsrqsrqprqpoqpon". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 1,035 in / 11,658 out
+  gemini-3.1-pro-preview (solver): 280 in / 7,050 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+        
+    p = 2305843009213693951
+    if not (0 <= x < p):
+        return False
+        
+    for _ in range(1000000):
+        x = (x * x - 2) % p
+        
+    return x == 281474976718848
+
+```
+
+### Explanation
+
+This puzzle is designed to mathematically defeat SMT solvers (like Z3) and brute-force methods, requiring either analytical deduction or a specialized algorithmic approach.
+
+The function iterates the quadratic map $x \mapsto x^2 - 2 \pmod p$ exactly $1,000,000$ times over the Mersenne prime $p = 2^{61}-1$. Because the loop is extremely deep, any attempt to unroll it symbolically will cause off-the-shelf automated theorem provers to crash or time out. 
+
+To solve it, the player can take one of two paths:
+
+**1. The Mathematical Approach (Chebyshev / Lucas-Lehmer sequence):**
+The sequence $x_{n+1} = x_n^2 - 2$ is the recurrence for the Chebyshev polynomial of the first kind $T_2(x)$. It has a well-known closed form over finite fields: if we represent $x_n = a^{2^n} + a^{-2^n} \pmod p$, then the recurrence holds identically.
+Thus, after $N = 1,000,000$ steps, the value is $x_N = a^{2^N} + a^{-2^N} \pmod p$.
+Since $p = 2^{61}-1$, the order of $2$ in the multiplicative group modulo $p$ is $61$. 
+We can reduce the exponent: $2^{1000000} \pmod{61} = 13$. 
+Therefore, $x_N \equiv a^{13} + a^{-13} \pmod p$. 
+The target value $281474976718848$ decomposes beautifully into $8192 + 2^{48}$, which is exactly $2^{13} + 2^{-13} \pmod p$.
+This means $a = 2$ is a valid root.
+The initial input must therefore be $x_0 = 2 + 2^{-1} \pmod p$. 
+Since $2^{-1} \pmod p = (p+1)/2 = 2^{60} = 1152921504606846976$, we find the exact solution:
+$x_0 = 1152921504606846976 + 2 = 1152921504606846978$.
+
+**2. The Algorithmic Approach (Backward BFS):**
+A solver could deduce that they must reverse the function step-by-step. Reversing $x \mapsto x^2 - 2 \pmod p$ involves finding modular square roots: $x_{n-1} = \pm \sqrt{x_n + 2} \pmod p$.
+Normally, reversing a quadratic map 1,000,000 times would result in an exponential explosion of paths ($2^{1000000}$). However, because $p \equiv 3 \pmod 4$ and $p-1 = 2 \times \text{odd}$, exactly one of the two preimages is typically a valid quadratic residue for the subsequent backward step. A simple script calculating square roots via `pow(v, (p+1)//4, p)` can prune invalid branches and trace the single valid path back to the start in linear time ($\approx 1-3$ seconds in Python).
+
+SOLUTION: 1152921504606846978 
+Checking sample solution  1152921504606846978
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 1152921504606846978. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 2,023 in / 25,750 out
+  gpt-5.5 (solver): 182 in / 2,092 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if not (10**18 < x < 10**19) or x % 2 == 0:
+        return False
+    if x % 149491 != 0:
+        return False
+
+    def sprp(n, a):
+        d = n - 1
+        s = 0
+        while d & 1 == 0:
+            s += 1
+            d >>= 1
+
+        y = pow(a, d, n)
+        if y == 1 or y == n - 1:
+            return True
+
+        for _ in range(s - 1):
+            y = (y * y) % n
+            if y == n - 1:
+                return True
+
+        return False
+
+    return all(sprp(x, a) for a in (2, 3, 5, 7, 11, 13, 17, 19, 23))
+```
+
+Private explanation: this asks for a large composite multiple of 149491 that nevertheless passes the Miller-Rabin strong probable-prime test for the first nine prime bases. The sample is a known strong pseudoprime:
+3825123056546413051 = 149491 * 747451 * 34233211.
+
+SOLUTION: 3825123056546413051 
+Checking sample solution  3825123056546413051
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says 3825123056546413051. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 1,402 in / 14,798 out
+  gemini-3.1-pro-preview (solver): 340 in / 12,615 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int: 
+        return False
+        
+    N = int("1" + "0"*222 + "1")
+    A = int("1" + "0"*163 + "1337")
+    B = int("42" + "0"*50 + "1252" + "9"*56 + "0"*52 + "55390")
+    
+    return (x * x - A * x + B) % N == 0
+
+```
+
+### Explanation
+
+This puzzle is a cryptographic one-way function based on the difficulty of solving non-linear modular equations over a composite modulus. 
+
+Finding the roots of a quadratic equation $x^2 - Ax + B \equiv 0 \pmod N$ where $N$ is a composite number (with unknown factorization) is mathematically equivalent to integer factorization. Without factoring $N$, automated theorem provers (like Z3) and algebraic solvers cannot find the roots, and $N = 10^{223} + 1$ is far too large to be factored by conventional means like SymPy's Quadratic Sieve within a standard timeout.
+
+Furthermore, this puzzle defeats lattice-based root-finding methods. Coppersmith's method can find small roots of monic polynomials modulo $N$, but only if the root $x_0 < N^{1/d}$. Here $d=2$, so Coppersmith's bound is $N^{0.5} \approx 10^{111.5}$. By carefully choosing the root $r = 10^{113} + 42$, it sits strictly above the Coppersmith bound ($10^{113} > N^{0.5}$), meaning LLL lattice reduction techniques will fail to recover it.
+
+To construct this without revealing the root or allowing for variable substitution tricks, I engineered the polynomial over the reals and reduced it:
+Let $N = 10^{223} + 1$
+Let the root be $r = 10^{113} + 42$
+Let $A = 10^{167} + 1337$
+We want $r^2 - Ar + B \equiv 0 \pmod N$, meaning $B \equiv Ar - r^2 \pmod N$.
+
+Calculating $Ar - r^2$:
+$Ar = 10^{280} + 42 \cdot 10^{167} + 1337 \cdot 10^{113} + 56154$
+$r^2 = 10^{226} + 84 \cdot 10^{113} + 1764$
+
+Because $10^{280} \equiv -10^{57} \pmod N$ and $10^{226} \equiv -1000 \pmod N$, the polynomial neatly wraps around the modulus, creating the highly irregular base-10 string for $B$ seen in the code:
+$B = 42 \cdot 10^{167} + 1253 \cdot 10^{113} - 10^{57} + 55390$
+
+To reverse-engineer the root, the solver would effectively need to invent a novel factorization algorithm for $10^{223} + 1$ or break the Coppersmith bound. 
+
+SOLUTION: 10**113 + 42 
+Checking sample solution  10**113 + 42
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 10**113 + 42. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 3,226 in / 33,831 out
+  gpt-5.5 (solver): 207 in / 4,713 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str or len(x) != 9:
+        return False
+    if any(ord(c) < 33 or ord(c) > 126 for c in x):
+        return False
+
+    import hashlib
+
+    mask = bytes.fromhex("035225556b4e302a45")
+    y = bytes(ord(c) ^ mask[i] for i, c in enumerate(x))
+
+    return hashlib.pbkdf2_hmac(
+        "sha1",
+        y,
+        b"sa\0lt",
+        1 << 12,
+        16
+    ).hex() == "56fa6aa75548099dcc37d7f03425e0c3"
+```
+
+Private explanation: the mask XORs the sample string into `b"pass\x00word"`. The PBKDF2-HMAC-SHA1 parameters and digest are the RFC 6070 test vector for password `pass\0word`, salt `sa\0lt`, 4096 iterations, dkLen 16.
+
+SOLUTION: "s3V&k9_X!" 
+Checking sample solution  "s3V&k9_X!"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "SfV&<~BNt". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  gpt-5.5 (inventer): 1,850 in / 14,224 out
+  gemini-3.1-pro-preview (solver): 298 in / 15,768 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, tuple) or len(x) != 2:
+        return False
+        
+    u, v = x
+    if not isinstance(u, int) or not isinstance(v, int):
+        return False
+        
+    b = -599999999999999999999999999999999999999999999999994000000000000000000000000000000000000000000000000130000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001
+    
+    return v**2 == u**3 + u + b
+```
+
+### Explanation
+
+This puzzle disguises an extremely large exact-integer Elliptic Curve point-finding problem as an algebraic identity.
+
+The function requires the solver to find an integer pair `(u, v)` on the elliptic curve $v^2 = u^3 + u + b$.
+Because the constant $b$ is a 201-digit integer, automated theorem provers and SMT solvers (like Z3) using Non-linear Integer Arithmetic (NIA) will either time out or exceed memory bounds. Similarly, computational algebra software (like SageMath) trying to use `simon_two_descent` to find the Mordell-Weil generators will completely stall because the height of the rational points on this specific curve is astronomically large.
+
+To solve this mathematically, one must observe the unusual pattern of digits in $b$. 
+The number is composed of `5`, followed by forty-nine `9`s, a `4`, forty-eight `0`s, `13`, ninety-nine `0`s, and `1`. 
+This carefully engineered base-10 structure implies that $b$ is the evaluation of a polynomial at $X = 10^{50}$.
+Reconstructing the polynomial from the digit groups:
+$b = - (6X^4 - 6X^3 + 13X^2 + 1) = -6X^4 + 6X^3 - 13X^2 - 1$
+
+Now, we substitute this into the elliptic curve equation:
+$V(X)^2 = U(X)^3 + U(X) - 6X^4 + 6X^3 - 13X^2 - 1$
+
+Since $b$ has degree 4 in $X$, the $X^6$ terms from $V(X)^2$ and $U(X)^3$ must exactly cancel out. This implies $V(X)$ must be a cubic polynomial and $U(X)$ must be a quadratic polynomial. 
+Let $U(X) = X^2 + c$ and $V(X) = X^3 + d$.
+Expanding the equation:
+$(X^3 + d)^2 - (X^2 + c)^3 - (X^2 + c) = -6X^4 + 6X^3 - 13X^2 - 1$
+$X^6 + 2dX^3 + d^2 - (X^6 + 3cX^4 + 3c^2X^2 + c^3 + X^2 + c) = -6X^4 + 6X^3 - 13X^2 - 1$
+$-3cX^4 + 2dX^3 - (3c^2 + 1)X^2 - (c^3 + c - d^2) = -6X^4 + 6X^3 - 13X^2 - 1$
+
+By matching coefficients, we obtain a simple system of equations:
+$-3c = -6 \implies c = 2$
+$2d = 6 \implies d = 3$
+Let's verify the lower terms with $c=2, d=3$:
+$-(3(2)^2 + 1) = -13$ (Matches!)
+$-(2^3 + 2 - 3^2) = -1$ (Matches!)
+
+Thus, the exact intended algebraic solution is:
+$u = X^2 + 2 = 10^{100} + 2$
+$v = X^3 + 3 = 10^{150} + 3$
+
+SOLUTION: (10**100 + 2, 10**150 + 3) 
+Checking sample solution  (10**100 + 2, 10**150 + 3)
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says (10**106 + 2, 10**159 + 3). Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 1 (1-0)
+  gemini-3.1-pro-preview (inventer): 4,270 in / 27,832 out
+  gpt-5.5 (solver): 16,607 in / 1,328 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str or len(x) != 13:
+        return False
+    if any(ord(c) < 33 or ord(c) > 126 for c in x):
+        return False
+
+    import hashlib
+
+    y = bytes(
+        33 + ((ord(c) - 33 + 7 * i * i + 3 * i + 42) % 94)
+        for i, c in enumerate(x)
+    )
+
+    z = hashlib.scrypt(
+        y,
+        salt=bytes.fromhex("656469726f6c68436d7569646f53")[::-1],
+        n=2**14,
+        r=8,
+        p=1,
+        dklen=64,
+        maxmem=64 * 1024 * 1024,
+    )
+
+    return z[::-1].hex() == (
+        "875857457b01cfdf401e650ddc851ee6f99a2a240597d462"
+        "cf0f3f61552943d5f2a15d54f643b5a93e8e4f90bafba8fd"
+        "eb38fd81cd061c464873fd3acbbd2370"
+    )
+```
+
+Private explanation: the printable affine shift maps the supplied sample string to `b"pleaseletmein"`. The salt decodes to `b"SodiumChloride"`, and the reversed digest is the standard scrypt test vector for those parameters.
+
+SOLUTION: "F8wM+9NGH%Q{:" 
+Checking sample solution  "F8wM+9NGH%Q{:"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "F8wM+9NGH%Q{:". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 1 (1-0)
+  gpt-5.5 (inventer): 2,276 in / 15,365 out
+  gemini-3.1-pro-preview (solver): 468 in / 11,102 out
+Logs written to runs/classic/gemini-3.1-pro-preview_vs_gpt-5.5.log and runs/classic/gemini-3.1-pro-preview_vs_gpt-5.5.jsonl
+
+=== Token Usage Summary ===
+Turn 0: gemini-3.1-pro-preview vs gpt-5.5 - 813 in / 27,628 out (?) [success]
+Turn 1: gpt-5.5 vs gemini-3.1-pro-preview - 1,015 in / 31,730 out (?) [success]
+Turn 2: gemini-3.1-pro-preview vs gpt-5.5 - 1,562 in / 49,682 out (?) [success]
+Turn 3: gpt-5.5 vs gemini-3.1-pro-preview - 1,315 in / 18,708 out (?) [success]
+Turn 4: gemini-3.1-pro-preview vs gpt-5.5 - 2,205 in / 27,842 out (?) [success]
+Turn 5: gpt-5.5 vs gemini-3.1-pro-preview - 1,742 in / 27,413 out (?) [success]
+Turn 6: gemini-3.1-pro-preview vs gpt-5.5 - 3,433 in / 38,544 out (?) [success]
+Turn 7: gpt-5.5 vs gemini-3.1-pro-preview - 2,148 in / 29,992 out (?) [failure]
+Turn 8: gemini-3.1-pro-preview vs gpt-5.5 - 20,877 in / 29,160 out (?) [failure]
+Turn 9: gpt-5.5 vs gemini-3.1-pro-preview - 2,744 in / 26,467 out (?) [success]
+
+=== Totals by Model ===
+gemini-3.1-pro-preview: 12,887 in / 232,628 out
+gpt-5.5: 24,967 in / 74,538 out

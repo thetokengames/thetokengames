@@ -1,0 +1,2428 @@
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+None, this is the first turn.
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 10**8 <= x < 10**9):
+        return False
+    v = [int(str(x)[i:i+3]) for i in range(0, 9, 3)]
+    if len(set(v)) != 3 or sum(v) != 999:
+        return False
+    return all(v[i] == (v[i-1] * v[i-2]) % (sum(v) + 1) for i in range(3))
+```
+
+This puzzle involves finding a 9-digit integer that can be split into three 3-digit segments ($a, b, c$). These segments must be distinct and satisfy a cyclic modular multiplication property where each segment is the product of the other two, modulo the sum of the segments plus one. 
+
+Specifically, the constraints are:
+1. $x$ is a 9-digit integer ($10^8 \le x < 10^9$).
+2. Let $a, b, c$ be the three 3-digit parts of $x$.
+3. $a, b, c$ must be distinct.
+4. $a + b + c = 999$.
+5. $a \equiv b \cdot c \pmod{1000}$.
+6. $b \equiv c \cdot a \pmod{1000}$.
+7. $c \equiv a \cdot b \pmod{1000}$.
+
+A solution can be found by leveraging the mathematical property that if $a+b+c = 999$, then $a+b+c+1 = 1000$, and the conditions imply $(a+1)(b+1) \equiv 0 \pmod{1000}$, and so on.
+
+SOLUTION: 251499249
+*** END
+*** END
+*** solver gpt-5.4-mini
+A valid choice is the 9-digit integer `251249499`.
+
+SOLUTION: 251249499
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 10**8 <= x < 10**9):
+        return False
+    v = [int(str(x)[i:i+3]) for i in range(0, 9, 3)]
+    if len(set(v)) != 3 or sum(v) != 999:
+        return False
+    return all(v[i] == (v[i-1] * v[i-2]) % (sum(v) + 1) for i in range(3))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    s = str(x)
+    if len(s) != 5:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    h = 0
+    for ch in s:
+        h = (h * 131 + ord(ch)) % 1000003
+
+    g = 0
+    for ch in s[::-1]:
+        g = (g * 97 + (ord(ch) ^ 0x55)) % 8191
+
+    w = sum((i + 1) * (ord(ch) - 31) for i, ch in enumerate(s))
+
+    return h == 164706 and g == 3018 and w == 599
+```
+
+This puzzle only accepts a 5-character printable string. It uses three independent checksum-style tests, so the valid inputs are not obvious at a glance.
+
+SOLUTION: "Q7z!K"
+*** END
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 10**8 <= x < 10**9):
+        return False
+    v = [int(str(x)[i:i+3]) for i in range(0, 9, 3)]
+    if len(set(v)) != 3 or sum(v) != 999:
+        return False
+    return all(v[i] == (v[i-1] * v[i-2]) % (sum(v) + 1) for i in range(3))
+
+```
+### Explanation
+
+
+This puzzle involves finding a 9-digit integer that can be split into three 3-digit segments ($a, b, c$). These segments must be distinct and satisfy a cyclic modular multiplication property where each segment is the product of the other two, modulo the sum of the segments plus one. 
+
+Specifically, the constraints are:
+1. $x$ is a 9-digit integer ($10^8 \le x < 10^9$).
+2. Let $a, b, c$ be the three 3-digit parts of $x$.
+3. $a, b, c$ must be distinct.
+4. $a + b + c = 999$.
+5. $a \equiv b \cdot c \pmod{1000}$.
+6. $b \equiv c \cdot a \pmod{1000}$.
+7. $c \equiv a \cdot b \pmod{1000}$.
+
+A solution can be found by leveraging the mathematical property that if $a+b+c = 999$, then $a+b+c+1 = 1000$, and the conditions imply $(a+1)(b+1) \equiv 0 \pmod{1000}$, and so on.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 5:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    h = 0
+    for ch in s:
+        h = (h * 131 + ord(ch)) % 1000003
+
+    g = 0
+    for ch in s[::-1]:
+        g = (g * 97 + (ord(ch) ^ 0x55)) % 8191
+
+    w = sum((i + 1) * (ord(ch) - 31) for i, ch in enumerate(s))
+
+    return h == 164706 and g == 3018 and w == 599
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(not (32 <= c <= 126) for c in a):
+        return False
+    
+    b = sum(a)
+    c = sum(i * v for i, v in enumerate(a, 1))
+    d = 0
+    for v in a:
+        d ^= v
+    e = sum(v ^ 13 for v in a)
+    f = sum(v**2 for v in a)
+    
+    return b == 629 and c == 2242 and d == 19 and e == 653 and f == 66231
+```
+
+This puzzle requires finding a 6-character string whose ASCII values $v_1, v_2, v_3, v_4, v_5, v_6$ satisfy a system of five distinct algebraic and bitwise constraints:
+
+1.  The sum of the ASCII values must be exactly 629.
+2.  The weighted sum (where each character's ASCII value is multiplied by its position, 1 to 6) must be 2242.
+3.  The bitwise XOR sum of all ASCII values must be 19.
+4.  The sum of each ASCII value after it has been XORed with 13 must be 653.
+5.  The sum of the squares of the ASCII values must be 66231.
+
+These constraints are designed to uniquely identify a specific English word.
+
+SOLUTION: "carbon"
+*** END
+*** END
+*** solver gpt-5.4-mini
+A valid value is `"ifcbjw"`.
+
+SOLUTION: "ifcbjw"
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 10**8 <= x < 10**9):
+        return False
+    v = [int(str(x)[i:i+3]) for i in range(0, 9, 3)]
+    if len(set(v)) != 3 or sum(v) != 999:
+        return False
+    return all(v[i] == (v[i-1] * v[i-2]) % (sum(v) + 1) for i in range(3))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 5:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    h = 0
+    for ch in s:
+        h = (h * 131 + ord(ch)) % 1000003
+
+    g = 0
+    for ch in s[::-1]:
+        g = (g * 97 + (ord(ch) ^ 0x55)) % 8191
+
+    w = sum((i + 1) * (ord(ch) - 31) for i, ch in enumerate(s))
+
+    return h == 164706 and g == 3018 and w == 599
+
+```
+### Explanation
+
+
+This puzzle only accepts a 5-character printable string. It uses three independent checksum-style tests, so the valid inputs are not obvious at a glance.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(not (32 <= c <= 126) for c in a):
+        return False
+    
+    b = sum(a)
+    c = sum(i * v for i, v in enumerate(a, 1))
+    d = 0
+    for v in a:
+        d ^= v
+    e = sum(v ^ 13 for v in a)
+    f = sum(v**2 for v in a)
+    
+    return b == 629 and c == 2242 and d == 19 and e == 653 and f == 66231
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    if type(x) is not str or len(x) != 8:
+        return False
+
+    if not (x[0].isupper() and x[1].isdigit() and x[2].islower() and x[3].isupper()
+            and x[4].isdigit() and x[5:].islower()):
+        return False
+
+    z = x[::-1]
+    z = ''.join(chr(32 + ((ord(ch) - 32 + 7 + 3*i) % 95)) for i, ch in enumerate(z))
+    z = ''.join(z[i+1] + z[i] for i in range(0, 8, 2))
+
+    if z != "myEr+TjI":
+        return False
+
+    a = [ord(c) for c in x]
+    return (
+        sum(a) == 674 and
+        sum(a[::2]) == 346 and
+        sum(a[1::2]) == 328 and
+        (a[0] ^ a[1] ^ a[2] ^ a[3] ^ a[4] ^ a[5] ^ a[6] ^ a[7]) == 10
+    )
+```
+
+This one combines a strict character pattern with a reversible remapping and a few checksum constraints, so the valid input is narrow but not obvious at a glance.
+
+SOLUTION: "N0tA5ecr"
+*** END
+*** END
+*** solver gemini-3-flash-preview
+The provided function `mystery(x)` performs a series of transformations and checks on a string `x`.
+
+1.  **Transformations**: The function reverses `x` to get `z`, then applies a character shift: `z1_i = chr(32 + ((ord(z_i) - 32 + 7 + 3*i) % 95))`. Finally, it swaps adjacent characters: `z2 = z1[1] + z1[0] + z1[3] + z1[2] + z1[5] + z1[4] + z1[7] + z1[6]`.
+2.  **Target String**: The final string `z` must be `"myEr+TjI"`. Reversing the transformations:
+    *   Swap adjacent characters of `"myEr+TjI"`: `z1 = "ymrET+Ij"`.
+    *   Reverse the character shift: `ord(z_i) = 32 + (ord(z1_i) - 32 - 7 - 3*i) % 95`.
+        *   `i=0, z1_0='y'`: `ord(z_0) = 32 + (89 - 7 - 0) % 95 = 114 ('r')`
+        *   `i=1, z1_1='m'`: `ord(z_1) = 32 + (77 - 7 - 3) % 95 = 99 ('c')`
+        *   `i=2, z1_2='r'`: `ord(z_2) = 32 + (82 - 7 - 6) % 95 = 101 ('e')`
+        *   `i=3, z1_3='E'`: `ord(z_3) = 32 + (37 - 7 - 9) % 95 = 53 ('5')`
+        *   `i=4, z1_4='T'`: `ord(z_4) = 32 + (52 - 7 - 12) % 95 = 65 ('A')`
+        *   `i=5, z1_5='+'`: `ord(z_5) = 32 + (11 - 7 - 15) % 95 = 116 ('t')`
+        *   `i=6, z1_6='I'`: `ord(z_6) = 32 + (41 - 7 - 18) % 95 = 48 ('0')`
+        *   `i=7, z1_7='j'`: `ord(z_7) = 32 + (74 - 7 - 21) % 95 = 78 ('N')`
+    *   This gives `z = "rce5At0N"`. Since `z = x[::-1]`, the original `x` is `"N0tA5ecr"`.
+3.  **Additional Checks**:
+    *   `x[0]` ('N') is uppercase, `x[1]` ('0') is a digit, `x[2]` ('t') is lowercase, `x[3]` ('A') is uppercase, `x[4]` ('5') is a digit, and `x[5:]` ("ecr") is lowercase.
+    *   `sum(a)`: `78+48+116+65+53+101+99+114 = 674`.
+    *   `sum(a[::2])`: `78+116+53+99 = 346`.
+    *   `sum(a[1::2])`: `48+65+101+114 = 328`.
+    *   `XOR sum`: `78^48^116^65^53^101^99^114 = 10`.
+
+All conditions are satisfied by the value `"N0tA5ecr"`.
+
+SOLUTION: "N0tA5ecr"
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 10**8 <= x < 10**9):
+        return False
+    v = [int(str(x)[i:i+3]) for i in range(0, 9, 3)]
+    if len(set(v)) != 3 or sum(v) != 999:
+        return False
+    return all(v[i] == (v[i-1] * v[i-2]) % (sum(v) + 1) for i in range(3))
+
+```
+### Explanation
+
+
+This puzzle involves finding a 9-digit integer that can be split into three 3-digit segments ($a, b, c$). These segments must be distinct and satisfy a cyclic modular multiplication property where each segment is the product of the other two, modulo the sum of the segments plus one. 
+
+Specifically, the constraints are:
+1. $x$ is a 9-digit integer ($10^8 \le x < 10^9$).
+2. Let $a, b, c$ be the three 3-digit parts of $x$.
+3. $a, b, c$ must be distinct.
+4. $a + b + c = 999$.
+5. $a \equiv b \cdot c \pmod{1000}$.
+6. $b \equiv c \cdot a \pmod{1000}$.
+7. $c \equiv a \cdot b \pmod{1000}$.
+
+A solution can be found by leveraging the mathematical property that if $a+b+c = 999$, then $a+b+c+1 = 1000$, and the conditions imply $(a+1)(b+1) \equiv 0 \pmod{1000}$, and so on.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 5:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    h = 0
+    for ch in s:
+        h = (h * 131 + ord(ch)) % 1000003
+
+    g = 0
+    for ch in s[::-1]:
+        g = (g * 97 + (ord(ch) ^ 0x55)) % 8191
+
+    w = sum((i + 1) * (ord(ch) - 31) for i, ch in enumerate(s))
+
+    return h == 164706 and g == 3018 and w == 599
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(not (32 <= c <= 126) for c in a):
+        return False
+    
+    b = sum(a)
+    c = sum(i * v for i, v in enumerate(a, 1))
+    d = 0
+    for v in a:
+        d ^= v
+    e = sum(v ^ 13 for v in a)
+    f = sum(v**2 for v in a)
+    
+    return b == 629 and c == 2242 and d == 19 and e == 653 and f == 66231
+
+```
+### Explanation
+
+
+This puzzle requires finding a 6-character string whose ASCII values $v_1, v_2, v_3, v_4, v_5, v_6$ satisfy a system of five distinct algebraic and bitwise constraints:
+
+1.  The sum of the ASCII values must be exactly 629.
+2.  The weighted sum (where each character's ASCII value is multiplied by its position, 1 to 6) must be 2242.
+3.  The bitwise XOR sum of all ASCII values must be 19.
+4.  The sum of each ASCII value after it has been XORed with 13 must be 653.
+5.  The sum of the squares of the ASCII values must be 66231.
+
+These constraints are designed to uniquely identify a specific English word.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str or len(x) != 8:
+        return False
+
+    if not (x[0].isupper() and x[1].isdigit() and x[2].islower() and x[3].isupper()
+            and x[4].isdigit() and x[5:].islower()):
+        return False
+
+    z = x[::-1]
+    z = ''.join(chr(32 + ((ord(ch) - 32 + 7 + 3*i) % 95)) for i, ch in enumerate(z))
+    z = ''.join(z[i+1] + z[i] for i in range(0, 8, 2))
+
+    if z != "myEr+TjI":
+        return False
+
+    a = [ord(c) for c in x]
+    return (
+        sum(a) == 674 and
+        sum(a[::2]) == 346 and
+        sum(a[1::2]) == 328 and
+        (a[0] ^ a[1] ^ a[2] ^ a[3] ^ a[4] ^ a[5] ^ a[6] ^ a[7]) == 10
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(v < 32 or v > 126 for v in a):
+        return False
+
+    # A bitwise dependency chain where each character's ASCII value is linked
+    # to the previous one in a non-linear way.
+    b = [(a[i] << 1) ^ (a[i-1] if i > 0 else 85) for i in range(8)]
+    if b != [61, 200, 148, 61, 138, 209, 249, 241]:
+        return False
+        
+    # A polynomial hash to further constrain the sequence.
+    c = 0
+    for v in a:
+        c = (c * 31 + v) % 1000000007
+    
+    # Final checks for mathematical consistency and to ensure a unique solution.
+    return c == 866903359 and sum(v**2 for v in a) == 61668
+
+```
+
+This puzzle requires finding an 8-character string through a combination of bitwise operations, a polynomial hash, and a sum-of-squares constraint.
+
+1.  **Bitwise Dependency**: The function generates a list `b` where each element is the result of shifting the current character's ASCII value by one bit and XORing it with the previous character's ASCII value (the first character is XORed with the constant 85). This creates a dependency chain $b_i = (a_i \cdot 2) \oplus a_{i-1}$, which can be solved step-by-step for $a_0, a_1, \dots, a_7$.
+2.  **Polynomial Hash**: The ASCII values are processed through a standard rolling hash $c = (\sum a_i \cdot 31^{n-1-i}) \pmod{10^9+7}$.
+3.  **Sum of Squares**: An additional algebraic constraint ensures the integrity of the solution.
+
+The printable ASCII range constraint (32-126) is crucial for narrowing down the possible values of $a_i$ at each step of the bitwise chain.
+
+SOLUTION: "4~u$WC]V"
+*** END
+*** END
+*** solver gpt-5.4-mini
+A valid value for `x` is:
+
+`"4~u$WC]V"`
+
+SOLUTION: "4~u$WC]V"
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 10**8 <= x < 10**9):
+        return False
+    v = [int(str(x)[i:i+3]) for i in range(0, 9, 3)]
+    if len(set(v)) != 3 or sum(v) != 999:
+        return False
+    return all(v[i] == (v[i-1] * v[i-2]) % (sum(v) + 1) for i in range(3))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 5:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    h = 0
+    for ch in s:
+        h = (h * 131 + ord(ch)) % 1000003
+
+    g = 0
+    for ch in s[::-1]:
+        g = (g * 97 + (ord(ch) ^ 0x55)) % 8191
+
+    w = sum((i + 1) * (ord(ch) - 31) for i, ch in enumerate(s))
+
+    return h == 164706 and g == 3018 and w == 599
+
+```
+### Explanation
+
+
+This puzzle only accepts a 5-character printable string. It uses three independent checksum-style tests, so the valid inputs are not obvious at a glance.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(not (32 <= c <= 126) for c in a):
+        return False
+    
+    b = sum(a)
+    c = sum(i * v for i, v in enumerate(a, 1))
+    d = 0
+    for v in a:
+        d ^= v
+    e = sum(v ^ 13 for v in a)
+    f = sum(v**2 for v in a)
+    
+    return b == 629 and c == 2242 and d == 19 and e == 653 and f == 66231
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str or len(x) != 8:
+        return False
+
+    if not (x[0].isupper() and x[1].isdigit() and x[2].islower() and x[3].isupper()
+            and x[4].isdigit() and x[5:].islower()):
+        return False
+
+    z = x[::-1]
+    z = ''.join(chr(32 + ((ord(ch) - 32 + 7 + 3*i) % 95)) for i, ch in enumerate(z))
+    z = ''.join(z[i+1] + z[i] for i in range(0, 8, 2))
+
+    if z != "myEr+TjI":
+        return False
+
+    a = [ord(c) for c in x]
+    return (
+        sum(a) == 674 and
+        sum(a[::2]) == 346 and
+        sum(a[1::2]) == 328 and
+        (a[0] ^ a[1] ^ a[2] ^ a[3] ^ a[4] ^ a[5] ^ a[6] ^ a[7]) == 10
+    )
+
+```
+### Explanation
+
+
+This one combines a strict character pattern with a reversible remapping and a few checksum constraints, so the valid input is narrow but not obvious at a glance.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(v < 32 or v > 126 for v in a):
+        return False
+
+    # A bitwise dependency chain where each character's ASCII value is linked
+    # to the previous one in a non-linear way.
+    b = [(a[i] << 1) ^ (a[i-1] if i > 0 else 85) for i in range(8)]
+    if b != [61, 200, 148, 61, 138, 209, 249, 241]:
+        return False
+        
+    # A polynomial hash to further constrain the sequence.
+    c = 0
+    for v in a:
+        c = (c * 31 + v) % 1000000007
+    
+    # Final checks for mathematical consistency and to ensure a unique solution.
+    return c == 866903359 and sum(v**2 for v in a) == 61668
+
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    if type(x) is not str or len(x) != 12:
+        return False
+    if any(not (32 <= ord(ch) <= 126) for ch in x):
+        return False
+
+    a = [ord(ch) - 32 for ch in x]
+    p = [5, 1, 11, 3, 9, 0, 7, 2, 10, 4, 8, 6]
+    u = [(a[p[i]] + 17 * i + 29) % 95 for i in range(12)]
+    v = u[4:8] + u[:4] + u[8:]
+
+    return (
+        ''.join(chr(32 + n) for n in v) == ":d5POeKqjEJ=" and
+        sum(a) == 445 and
+        sum((i + 1) * a[i] for i in range(12)) == 2844
+    )
+```
+
+This puzzle accepts a 12-character printable string, scrambles it with a permutation plus an index-dependent modular shift, then checks the result against a fixed ciphertext and two checksum conditions.
+
+SOLUTION: "Q7z!M2#pA8$k"
+*** END
+*** END
+*** solver gemini-3-flash-preview
+To find a value `x` such that `mystery(x)` is `True`, we need to satisfy several conditions:
+1.  `x` must be a string of length 12.
+2.  Each character `ch` in `x` must be a printable ASCII character (32 <= `ord(ch)` <= 126).
+3.  Let `a` be a list of integers where `a[i] = ord(x[i]) - 32`.
+4.  The list `u` is defined by `u[i] = (a[p[i]] + 17 * i + 29) % 95`, where `p = [5, 1, 11, 3, 9, 0, 7, 2, 10, 4, 8, 6]`.
+5.  The list `v = u[4:8] + u[:4] + u[8:]` must, when converted back to a string, equal `":d5POeKqjEJ="`.
+6.  The sum of elements in `a` must be 445.
+7.  The weighted sum `sum((i + 1) * a[i] for i in range(12))` must be 2844.
+
+From the target string `:d5POeKqjEJ=`, we determine the values of `v`:
+`v = [ord(ch) - 32 for ch in ":d5POeKqjEJ="] = [26, 68, 21, 48, 47, 69, 43, 81, 74, 37, 42, 29]`
+
+Using the relationship `v = u[4:8] + u[:4] + u[8:]`, we solve for `u`:
+- `u[4:8] = [26, 68, 21, 48]`
+- `u[:4] = [47, 69, 43, 81]`
+- `u[8:] = [74, 37, 42, 29]`
+So, `u = [47, 69, 43, 81, 26, 68, 21, 48, 74, 37, 42, 29]`.
+
+Using `u[i] = (a[p[i]] + 17 * i + 29) % 95`, we solve for each `a[p[i]]`:
+- `a[5] = (47 - 29) % 95 = 18`
+- `a[1] = (69 - 46) % 95 = 23`
+- `a[11] = (43 - 63) % 95 = 75`
+- `a[3] = (81 - 80) % 95 = 1`
+- `a[9] = (26 - 97) % 95 = 24`
+- `a[0] = (68 - 114) % 95 = 49`
+- `a[7] = (21 - 131) % 95 = 80`
+- `a[2] = (48 - 148) % 95 = 90`
+- `a[10] = (74 - 165) % 95 = 4`
+- `a[4] = (37 - 182) % 95 = 45`
+- `a[8] = (42 - 199) % 95 = 33`
+- `a[6] = (29 - 216) % 95 = 3`
+
+Arranging these values, we get `a = [49, 23, 90, 1, 45, 18, 3, 80, 33, 24, 4, 75]`.
+We verify the sums:
+- `sum(a) = 445`
+- `sum((i + 1) * a[i]) = 2844`
+
+Finally, we convert `a` back to the string `x`:
+- `x[0] = 49 + 32 = 81 ('Q')`
+- `x[1] = 23 + 32 = 55 ('7')`
+- `x[2] = 90 + 32 = 122 ('z')`
+- `x[3] = 1 + 32 = 33 ('!')`
+- `x[4] = 45 + 32 = 77 ('M')`
+- `x[5] = 18 + 32 = 50 ('2')`
+- `x[6] = 3 + 32 = 35 ('#')`
+- `x[7] = 80 + 32 = 112 ('p')`
+- `x[8] = 33 + 32 = 65 ('A')`
+- `x[9] = 24 + 32 = 56 ('8')`
+- `x[10] = 4 + 32 = 36 ('$')`
+- `x[11] = 75 + 32 = 107 ('k')`
+
+SOLUTION: "Q7z!M2#pA8$k"
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 10**8 <= x < 10**9):
+        return False
+    v = [int(str(x)[i:i+3]) for i in range(0, 9, 3)]
+    if len(set(v)) != 3 or sum(v) != 999:
+        return False
+    return all(v[i] == (v[i-1] * v[i-2]) % (sum(v) + 1) for i in range(3))
+
+```
+### Explanation
+
+
+This puzzle involves finding a 9-digit integer that can be split into three 3-digit segments ($a, b, c$). These segments must be distinct and satisfy a cyclic modular multiplication property where each segment is the product of the other two, modulo the sum of the segments plus one. 
+
+Specifically, the constraints are:
+1. $x$ is a 9-digit integer ($10^8 \le x < 10^9$).
+2. Let $a, b, c$ be the three 3-digit parts of $x$.
+3. $a, b, c$ must be distinct.
+4. $a + b + c = 999$.
+5. $a \equiv b \cdot c \pmod{1000}$.
+6. $b \equiv c \cdot a \pmod{1000}$.
+7. $c \equiv a \cdot b \pmod{1000}$.
+
+A solution can be found by leveraging the mathematical property that if $a+b+c = 999$, then $a+b+c+1 = 1000$, and the conditions imply $(a+1)(b+1) \equiv 0 \pmod{1000}$, and so on.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 5:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    h = 0
+    for ch in s:
+        h = (h * 131 + ord(ch)) % 1000003
+
+    g = 0
+    for ch in s[::-1]:
+        g = (g * 97 + (ord(ch) ^ 0x55)) % 8191
+
+    w = sum((i + 1) * (ord(ch) - 31) for i, ch in enumerate(s))
+
+    return h == 164706 and g == 3018 and w == 599
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(not (32 <= c <= 126) for c in a):
+        return False
+    
+    b = sum(a)
+    c = sum(i * v for i, v in enumerate(a, 1))
+    d = 0
+    for v in a:
+        d ^= v
+    e = sum(v ^ 13 for v in a)
+    f = sum(v**2 for v in a)
+    
+    return b == 629 and c == 2242 and d == 19 and e == 653 and f == 66231
+
+```
+### Explanation
+
+
+This puzzle requires finding a 6-character string whose ASCII values $v_1, v_2, v_3, v_4, v_5, v_6$ satisfy a system of five distinct algebraic and bitwise constraints:
+
+1.  The sum of the ASCII values must be exactly 629.
+2.  The weighted sum (where each character's ASCII value is multiplied by its position, 1 to 6) must be 2242.
+3.  The bitwise XOR sum of all ASCII values must be 19.
+4.  The sum of each ASCII value after it has been XORed with 13 must be 653.
+5.  The sum of the squares of the ASCII values must be 66231.
+
+These constraints are designed to uniquely identify a specific English word.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str or len(x) != 8:
+        return False
+
+    if not (x[0].isupper() and x[1].isdigit() and x[2].islower() and x[3].isupper()
+            and x[4].isdigit() and x[5:].islower()):
+        return False
+
+    z = x[::-1]
+    z = ''.join(chr(32 + ((ord(ch) - 32 + 7 + 3*i) % 95)) for i, ch in enumerate(z))
+    z = ''.join(z[i+1] + z[i] for i in range(0, 8, 2))
+
+    if z != "myEr+TjI":
+        return False
+
+    a = [ord(c) for c in x]
+    return (
+        sum(a) == 674 and
+        sum(a[::2]) == 346 and
+        sum(a[1::2]) == 328 and
+        (a[0] ^ a[1] ^ a[2] ^ a[3] ^ a[4] ^ a[5] ^ a[6] ^ a[7]) == 10
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(v < 32 or v > 126 for v in a):
+        return False
+
+    # A bitwise dependency chain where each character's ASCII value is linked
+    # to the previous one in a non-linear way.
+    b = [(a[i] << 1) ^ (a[i-1] if i > 0 else 85) for i in range(8)]
+    if b != [61, 200, 148, 61, 138, 209, 249, 241]:
+        return False
+        
+    # A polynomial hash to further constrain the sequence.
+    c = 0
+    for v in a:
+        c = (c * 31 + v) % 1000000007
+    
+    # Final checks for mathematical consistency and to ensure a unique solution.
+    return c == 866903359 and sum(v**2 for v in a) == 61668
+
+
+```
+### Explanation
+
+
+This puzzle requires finding an 8-character string through a combination of bitwise operations, a polynomial hash, and a sum-of-squares constraint.
+
+1.  **Bitwise Dependency**: The function generates a list `b` where each element is the result of shifting the current character's ASCII value by one bit and XORing it with the previous character's ASCII value (the first character is XORed with the constant 85). This creates a dependency chain $b_i = (a_i \cdot 2) \oplus a_{i-1}$, which can be solved step-by-step for $a_0, a_1, \dots, a_7$.
+2.  **Polynomial Hash**: The ASCII values are processed through a standard rolling hash $c = (\sum a_i \cdot 31^{n-1-i}) \pmod{10^9+7}$.
+3.  **Sum of Squares**: An additional algebraic constraint ensures the integrity of the solution.
+
+The printable ASCII range constraint (32-126) is crucial for narrowing down the possible values of $a_i$ at each step of the bitwise chain.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str or len(x) != 12:
+        return False
+    if any(not (32 <= ord(ch) <= 126) for ch in x):
+        return False
+
+    a = [ord(ch) - 32 for ch in x]
+    p = [5, 1, 11, 3, 9, 0, 7, 2, 10, 4, 8, 6]
+    u = [(a[p[i]] + 17 * i + 29) % 95 for i in range(12)]
+    v = u[4:8] + u[:4] + u[8:]
+
+    return (
+        ''.join(chr(32 + n) for n in v) == ":d5POeKqjEJ=" and
+        sum(a) == 445 and
+        sum((i + 1) * a[i] for i in range(12)) == 2844
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(v < 32 or v > 126 for v in a):
+        return False
+
+    # Construct a 4x4 symmetric matrix for a linear transformation
+    m = [[(i*k + i + k + 2) % 11 for k in range(4)] for i in range(4)]
+    
+    # Apply Hill-cipher-like linear transformation modulo 127
+    res = []
+    for block in [a[:4], a[4:]]:
+        for i in range(4):
+            val = sum(m[i][j] * block[j] for j in range(4)) % 127
+            res.append(val)
+
+    # Validate against target transformed values
+    if res != [20, 33, 45, 96, 51, 67, 126, 47]:
+        return False
+        
+    # Checksum constraints to ensure a unique solution
+    s1 = sum(a)
+    s2 = sum((i + 1) * v for i, v in enumerate(a))
+    s3 = sum(v**2 for v in a)
+    s4 = 0
+    for v in a:
+        s4 ^= v
+
+    return s1 == 804 and s2 == 3725 and s3 == 82272 and s4 == 36
+```
+
+This puzzle involves finding an 8-character string that satisfies a complex system of linear and non-linear constraints. 
+
+1. **Linear Transformation**: The characters are split into two 4-character blocks. Each block is treated as a 4x1 vector and multiplied by a 4x4 matrix $M$ (generated by a formula $m_{ik} = (i \cdot k + i + k + 2) \pmod{11}$). The results are taken modulo 127 and compared against a fixed target list.
+2. **Sum Constraints**: The sum ($s_1$) and the position-weighted sum ($s_2$) of the ASCII values are checked against target values.
+3. **Square Sum**: The sum of the squares of the ASCII values ($s_3$) provides an additional algebraic check.
+4. **XOR Checksum**: The bitwise XOR sum of all ASCII values ($s_4$) must equal 36.
+
+The combination of the matrix transformation (which is invertible modulo 127) and the algebraic checksums ensures that only one printable ASCII string of length 8 satisfies all conditions.
+
+SOLUTION: "Ciphered"
+*** END
+*** END
+*** solver gpt-5.4-mini
+A value that works is `"Ciphered"`.
+
+SOLUTION: "Ciphered"
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 10**8 <= x < 10**9):
+        return False
+    v = [int(str(x)[i:i+3]) for i in range(0, 9, 3)]
+    if len(set(v)) != 3 or sum(v) != 999:
+        return False
+    return all(v[i] == (v[i-1] * v[i-2]) % (sum(v) + 1) for i in range(3))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 5:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    h = 0
+    for ch in s:
+        h = (h * 131 + ord(ch)) % 1000003
+
+    g = 0
+    for ch in s[::-1]:
+        g = (g * 97 + (ord(ch) ^ 0x55)) % 8191
+
+    w = sum((i + 1) * (ord(ch) - 31) for i, ch in enumerate(s))
+
+    return h == 164706 and g == 3018 and w == 599
+
+```
+### Explanation
+
+
+This puzzle only accepts a 5-character printable string. It uses three independent checksum-style tests, so the valid inputs are not obvious at a glance.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(not (32 <= c <= 126) for c in a):
+        return False
+    
+    b = sum(a)
+    c = sum(i * v for i, v in enumerate(a, 1))
+    d = 0
+    for v in a:
+        d ^= v
+    e = sum(v ^ 13 for v in a)
+    f = sum(v**2 for v in a)
+    
+    return b == 629 and c == 2242 and d == 19 and e == 653 and f == 66231
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str or len(x) != 8:
+        return False
+
+    if not (x[0].isupper() and x[1].isdigit() and x[2].islower() and x[3].isupper()
+            and x[4].isdigit() and x[5:].islower()):
+        return False
+
+    z = x[::-1]
+    z = ''.join(chr(32 + ((ord(ch) - 32 + 7 + 3*i) % 95)) for i, ch in enumerate(z))
+    z = ''.join(z[i+1] + z[i] for i in range(0, 8, 2))
+
+    if z != "myEr+TjI":
+        return False
+
+    a = [ord(c) for c in x]
+    return (
+        sum(a) == 674 and
+        sum(a[::2]) == 346 and
+        sum(a[1::2]) == 328 and
+        (a[0] ^ a[1] ^ a[2] ^ a[3] ^ a[4] ^ a[5] ^ a[6] ^ a[7]) == 10
+    )
+
+```
+### Explanation
+
+
+This one combines a strict character pattern with a reversible remapping and a few checksum constraints, so the valid input is narrow but not obvious at a glance.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(v < 32 or v > 126 for v in a):
+        return False
+
+    # A bitwise dependency chain where each character's ASCII value is linked
+    # to the previous one in a non-linear way.
+    b = [(a[i] << 1) ^ (a[i-1] if i > 0 else 85) for i in range(8)]
+    if b != [61, 200, 148, 61, 138, 209, 249, 241]:
+        return False
+        
+    # A polynomial hash to further constrain the sequence.
+    c = 0
+    for v in a:
+        c = (c * 31 + v) % 1000000007
+    
+    # Final checks for mathematical consistency and to ensure a unique solution.
+    return c == 866903359 and sum(v**2 for v in a) == 61668
+
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str or len(x) != 12:
+        return False
+    if any(not (32 <= ord(ch) <= 126) for ch in x):
+        return False
+
+    a = [ord(ch) - 32 for ch in x]
+    p = [5, 1, 11, 3, 9, 0, 7, 2, 10, 4, 8, 6]
+    u = [(a[p[i]] + 17 * i + 29) % 95 for i in range(12)]
+    v = u[4:8] + u[:4] + u[8:]
+
+    return (
+        ''.join(chr(32 + n) for n in v) == ":d5POeKqjEJ=" and
+        sum(a) == 445 and
+        sum((i + 1) * a[i] for i in range(12)) == 2844
+    )
+
+```
+### Explanation
+
+
+This puzzle accepts a 12-character printable string, scrambles it with a permutation plus an index-dependent modular shift, then checks the result against a fixed ciphertext and two checksum conditions.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(v < 32 or v > 126 for v in a):
+        return False
+
+    # Construct a 4x4 symmetric matrix for a linear transformation
+    m = [[(i*k + i + k + 2) % 11 for k in range(4)] for i in range(4)]
+    
+    # Apply Hill-cipher-like linear transformation modulo 127
+    res = []
+    for block in [a[:4], a[4:]]:
+        for i in range(4):
+            val = sum(m[i][j] * block[j] for j in range(4)) % 127
+            res.append(val)
+
+    # Validate against target transformed values
+    if res != [20, 33, 45, 96, 51, 67, 126, 47]:
+        return False
+        
+    # Checksum constraints to ensure a unique solution
+    s1 = sum(a)
+    s2 = sum((i + 1) * v for i, v in enumerate(a))
+    s3 = sum(v**2 for v in a)
+    s4 = 0
+    for v in a:
+        s4 ^= v
+
+    return s1 == 804 and s2 == 3725 and s3 == 82272 and s4 == 36
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    if type(x) is not str or len(x) != 7:
+        return False
+
+    a = [ord(c) for c in x]
+    if any(v < 65 or v > 90 for v in a):
+        return False
+    if len(set(a)) != 7:
+        return False
+
+    h1 = 0
+    for v in a:
+        h1 = (h1 * 257 + v) % 10000019
+
+    h2 = 0
+    for v in a[::-1]:
+        h2 = (h2 * 263 + (v ^ 0x3D)) % 1000033
+
+    return (
+        h1 == 9845382 and
+        h2 == 260296 and
+        sum(a) == 476 and
+        sum((i + 1) * v for i, v in enumerate(a)) == 1932 and
+        (a[0] ^ a[1] ^ a[2] ^ a[3] ^ a[4] ^ a[5] ^ a[6]) == 64 and
+        sum(v * v for v in a) == 32396
+    )
+```
+
+This one is a 7-character all-uppercase puzzle with two rolling hashes and several checksum constraints, so the valid inputs are quite hidden.
+
+SOLUTION: "ABCDEFG"
+*** END
+*** END
+*** solver gemini-3-flash-preview
+The function `mystery(x)` imposes several constraints on the input string `x`:
+1. `x` must be a string of length 7.
+2. `x` must consist of unique uppercase letters (ASCII values 65 to 90).
+3. The ASCII values of the characters, `a = [ord(c) for c in x]`, must satisfy:
+   - `sum(a) == 476`
+   - `sum((i + 1) * a[i] for i in range(7)) == 1932`
+   - `a[0] ^ a[1] ^ a[2] ^ a[3] ^ a[4] ^ a[5] ^ a[6] == 64`
+   - `sum(v**2 for v in a) == 32396`
+   - Hash `h1 = (a0 * 257^6 + a1 * 257^5 + ... + a6) % 10000019 == 9845382`
+   - Hash `h2 = ((a6^61) * 263^6 + (a5^61) * 263^5 + ... + (a0^61)) % 1000033 == 260296`
+
+From `sum(a) = 476`, we find the average value is `476 / 7 = 68`. Let `di = ai - 68`. The variance `sum(di^2)` is calculated as `sum(ai^2) - 7 * 68^2 = 32396 - 32368 = 28`. The only set of seven unique integers `di` that sums to 0 and whose squares sum to 28 is `{-3, -2, -1, 0, 1, 2, 3}`. This gives the set of ASCII values `{65, 66, 67, 68, 69, 70, 71}`, corresponding to the characters `{'A', 'B', 'C', 'D', 'E', 'F', 'G'}`.
+
+Using the condition `sum((i + 1) * di) = 28`, we find that the permutation `di = i - 3` (which is `d0 = -3, d1 = -2, ..., d6 = 3`) works perfectly. This results in the ASCII values `a = [65, 66, 67, 68, 69, 70, 71]`, which corresponds to the string `"ABCDEFG"`. Checking the XOR condition and both hash functions for this string confirms that all requirements are satisfied.
+
+SOLUTION: "ABCDEFG"
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 10**8 <= x < 10**9):
+        return False
+    v = [int(str(x)[i:i+3]) for i in range(0, 9, 3)]
+    if len(set(v)) != 3 or sum(v) != 999:
+        return False
+    return all(v[i] == (v[i-1] * v[i-2]) % (sum(v) + 1) for i in range(3))
+
+```
+### Explanation
+
+
+This puzzle involves finding a 9-digit integer that can be split into three 3-digit segments ($a, b, c$). These segments must be distinct and satisfy a cyclic modular multiplication property where each segment is the product of the other two, modulo the sum of the segments plus one. 
+
+Specifically, the constraints are:
+1. $x$ is a 9-digit integer ($10^8 \le x < 10^9$).
+2. Let $a, b, c$ be the three 3-digit parts of $x$.
+3. $a, b, c$ must be distinct.
+4. $a + b + c = 999$.
+5. $a \equiv b \cdot c \pmod{1000}$.
+6. $b \equiv c \cdot a \pmod{1000}$.
+7. $c \equiv a \cdot b \pmod{1000}$.
+
+A solution can be found by leveraging the mathematical property that if $a+b+c = 999$, then $a+b+c+1 = 1000$, and the conditions imply $(a+1)(b+1) \equiv 0 \pmod{1000}$, and so on.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 5:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    h = 0
+    for ch in s:
+        h = (h * 131 + ord(ch)) % 1000003
+
+    g = 0
+    for ch in s[::-1]:
+        g = (g * 97 + (ord(ch) ^ 0x55)) % 8191
+
+    w = sum((i + 1) * (ord(ch) - 31) for i, ch in enumerate(s))
+
+    return h == 164706 and g == 3018 and w == 599
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(not (32 <= c <= 126) for c in a):
+        return False
+    
+    b = sum(a)
+    c = sum(i * v for i, v in enumerate(a, 1))
+    d = 0
+    for v in a:
+        d ^= v
+    e = sum(v ^ 13 for v in a)
+    f = sum(v**2 for v in a)
+    
+    return b == 629 and c == 2242 and d == 19 and e == 653 and f == 66231
+
+```
+### Explanation
+
+
+This puzzle requires finding a 6-character string whose ASCII values $v_1, v_2, v_3, v_4, v_5, v_6$ satisfy a system of five distinct algebraic and bitwise constraints:
+
+1.  The sum of the ASCII values must be exactly 629.
+2.  The weighted sum (where each character's ASCII value is multiplied by its position, 1 to 6) must be 2242.
+3.  The bitwise XOR sum of all ASCII values must be 19.
+4.  The sum of each ASCII value after it has been XORed with 13 must be 653.
+5.  The sum of the squares of the ASCII values must be 66231.
+
+These constraints are designed to uniquely identify a specific English word.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str or len(x) != 8:
+        return False
+
+    if not (x[0].isupper() and x[1].isdigit() and x[2].islower() and x[3].isupper()
+            and x[4].isdigit() and x[5:].islower()):
+        return False
+
+    z = x[::-1]
+    z = ''.join(chr(32 + ((ord(ch) - 32 + 7 + 3*i) % 95)) for i, ch in enumerate(z))
+    z = ''.join(z[i+1] + z[i] for i in range(0, 8, 2))
+
+    if z != "myEr+TjI":
+        return False
+
+    a = [ord(c) for c in x]
+    return (
+        sum(a) == 674 and
+        sum(a[::2]) == 346 and
+        sum(a[1::2]) == 328 and
+        (a[0] ^ a[1] ^ a[2] ^ a[3] ^ a[4] ^ a[5] ^ a[6] ^ a[7]) == 10
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(v < 32 or v > 126 for v in a):
+        return False
+
+    # A bitwise dependency chain where each character's ASCII value is linked
+    # to the previous one in a non-linear way.
+    b = [(a[i] << 1) ^ (a[i-1] if i > 0 else 85) for i in range(8)]
+    if b != [61, 200, 148, 61, 138, 209, 249, 241]:
+        return False
+        
+    # A polynomial hash to further constrain the sequence.
+    c = 0
+    for v in a:
+        c = (c * 31 + v) % 1000000007
+    
+    # Final checks for mathematical consistency and to ensure a unique solution.
+    return c == 866903359 and sum(v**2 for v in a) == 61668
+
+
+```
+### Explanation
+
+
+This puzzle requires finding an 8-character string through a combination of bitwise operations, a polynomial hash, and a sum-of-squares constraint.
+
+1.  **Bitwise Dependency**: The function generates a list `b` where each element is the result of shifting the current character's ASCII value by one bit and XORing it with the previous character's ASCII value (the first character is XORed with the constant 85). This creates a dependency chain $b_i = (a_i \cdot 2) \oplus a_{i-1}$, which can be solved step-by-step for $a_0, a_1, \dots, a_7$.
+2.  **Polynomial Hash**: The ASCII values are processed through a standard rolling hash $c = (\sum a_i \cdot 31^{n-1-i}) \pmod{10^9+7}$.
+3.  **Sum of Squares**: An additional algebraic constraint ensures the integrity of the solution.
+
+The printable ASCII range constraint (32-126) is crucial for narrowing down the possible values of $a_i$ at each step of the bitwise chain.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str or len(x) != 12:
+        return False
+    if any(not (32 <= ord(ch) <= 126) for ch in x):
+        return False
+
+    a = [ord(ch) - 32 for ch in x]
+    p = [5, 1, 11, 3, 9, 0, 7, 2, 10, 4, 8, 6]
+    u = [(a[p[i]] + 17 * i + 29) % 95 for i in range(12)]
+    v = u[4:8] + u[:4] + u[8:]
+
+    return (
+        ''.join(chr(32 + n) for n in v) == ":d5POeKqjEJ=" and
+        sum(a) == 445 and
+        sum((i + 1) * a[i] for i in range(12)) == 2844
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(v < 32 or v > 126 for v in a):
+        return False
+
+    # Construct a 4x4 symmetric matrix for a linear transformation
+    m = [[(i*k + i + k + 2) % 11 for k in range(4)] for i in range(4)]
+    
+    # Apply Hill-cipher-like linear transformation modulo 127
+    res = []
+    for block in [a[:4], a[4:]]:
+        for i in range(4):
+            val = sum(m[i][j] * block[j] for j in range(4)) % 127
+            res.append(val)
+
+    # Validate against target transformed values
+    if res != [20, 33, 45, 96, 51, 67, 126, 47]:
+        return False
+        
+    # Checksum constraints to ensure a unique solution
+    s1 = sum(a)
+    s2 = sum((i + 1) * v for i, v in enumerate(a))
+    s3 = sum(v**2 for v in a)
+    s4 = 0
+    for v in a:
+        s4 ^= v
+
+    return s1 == 804 and s2 == 3725 and s3 == 82272 and s4 == 36
+
+```
+### Explanation
+
+
+This puzzle involves finding an 8-character string that satisfies a complex system of linear and non-linear constraints. 
+
+1. **Linear Transformation**: The characters are split into two 4-character blocks. Each block is treated as a 4x1 vector and multiplied by a 4x4 matrix $M$ (generated by a formula $m_{ik} = (i \cdot k + i + k + 2) \pmod{11}$). The results are taken modulo 127 and compared against a fixed target list.
+2. **Sum Constraints**: The sum ($s_1$) and the position-weighted sum ($s_2$) of the ASCII values are checked against target values.
+3. **Square Sum**: The sum of the squares of the ASCII values ($s_3$) provides an additional algebraic check.
+4. **XOR Checksum**: The bitwise XOR sum of all ASCII values ($s_4$) must equal 36.
+
+The combination of the matrix transformation (which is invertible modulo 127) and the algebraic checksums ensures that only one printable ASCII string of length 8 satisfies all conditions.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str or len(x) != 7:
+        return False
+
+    a = [ord(c) for c in x]
+    if any(v < 65 or v > 90 for v in a):
+        return False
+    if len(set(a)) != 7:
+        return False
+
+    h1 = 0
+    for v in a:
+        h1 = (h1 * 257 + v) % 10000019
+
+    h2 = 0
+    for v in a[::-1]:
+        h2 = (h2 * 263 + (v ^ 0x3D)) % 1000033
+
+    return (
+        h1 == 9845382 and
+        h2 == 260296 and
+        sum(a) == 476 and
+        sum((i + 1) * v for i, v in enumerate(a)) == 1932 and
+        (a[0] ^ a[1] ^ a[2] ^ a[3] ^ a[4] ^ a[5] ^ a[6]) == 64 and
+        sum(v * v for v in a) == 32396
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 9:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(not (32 <= v <= 126) for v in a):
+        return False
+    
+    # This puzzle involves a cyclic bitwise transformation.
+    # Each character's ASCII value is left-rotated by 3 bits 
+    # (within an 8-bit byte) and then XORed with the ASCII 
+    # value of the next character in the string.
+    r = [(((a[i] << 3) | (a[i] >> 5)) & 0xFF) ^ a[(i + 1) % 9] for i in range(9)]
+    
+    if r != [251, 191, 203, 115, 239, 82, 59, 162, 201]:
+        return False
+        
+    # Standard algebraic and hash-based integrity checks.
+    s = sum(a)
+    w = sum((i + 1) * v for i, v in enumerate(a))
+    q = sum(v**2 for v in a)
+    h = 0
+    for v in a:
+        h = (h * 31 + v) % 1000000007
+        
+    return s == 713 and w == 3076 and q == 65907 and h == 284299081
+
+```
+
+This puzzle requires finding a 9-character printable ASCII string that satisfies a cyclic bitwise dependency and several algebraic constraints.
+
+### The Transformation
+The core of the puzzle is the cyclic transformation:
+$r_i = \text{rotate\_left}(a_i, 3) \oplus a_{(i+1) \pmod 9}$
+where $a_i$ is the ASCII value of the $i$-th character. This can be solved by iterating through all possible ASCII values for the first character ($a_0$) and propagating the values through the chain. Since it's a cyclic system, the last calculation must loop back and match the initial choice of $a_0$.
+
+### Constraints
+1.  **Bitwise Rotation/XOR**: The list `r` represents the results of the transformation for each character.
+2.  **Sum Check**: The total sum of ASCII values must be 713.
+3.  **Weighted Sum**: The sum of ASCII values multiplied by their 1-indexed position must be 3076.
+4.  **Square Sum**: The sum of the squares of the ASCII values must be 65907.
+5.  **Polynomial Hash**: A standard rolling hash with base 31 and modulo $10^9+7$ must result in 284299081.
+
+By combining the dependency chain with these checksums, the solution is uniquely determined as a specific 9-character string.
+
+SOLUTION: "Pyth0n!23"
+*** END
+*** END
+*** solver gpt-5.4-mini
+The value of `x` is:
+
+SOLUTION: "Pyth0n!23"
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 10**8 <= x < 10**9):
+        return False
+    v = [int(str(x)[i:i+3]) for i in range(0, 9, 3)]
+    if len(set(v)) != 3 or sum(v) != 999:
+        return False
+    return all(v[i] == (v[i-1] * v[i-2]) % (sum(v) + 1) for i in range(3))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 5:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    h = 0
+    for ch in s:
+        h = (h * 131 + ord(ch)) % 1000003
+
+    g = 0
+    for ch in s[::-1]:
+        g = (g * 97 + (ord(ch) ^ 0x55)) % 8191
+
+    w = sum((i + 1) * (ord(ch) - 31) for i, ch in enumerate(s))
+
+    return h == 164706 and g == 3018 and w == 599
+
+```
+### Explanation
+
+
+This puzzle only accepts a 5-character printable string. It uses three independent checksum-style tests, so the valid inputs are not obvious at a glance.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(not (32 <= c <= 126) for c in a):
+        return False
+    
+    b = sum(a)
+    c = sum(i * v for i, v in enumerate(a, 1))
+    d = 0
+    for v in a:
+        d ^= v
+    e = sum(v ^ 13 for v in a)
+    f = sum(v**2 for v in a)
+    
+    return b == 629 and c == 2242 and d == 19 and e == 653 and f == 66231
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str or len(x) != 8:
+        return False
+
+    if not (x[0].isupper() and x[1].isdigit() and x[2].islower() and x[3].isupper()
+            and x[4].isdigit() and x[5:].islower()):
+        return False
+
+    z = x[::-1]
+    z = ''.join(chr(32 + ((ord(ch) - 32 + 7 + 3*i) % 95)) for i, ch in enumerate(z))
+    z = ''.join(z[i+1] + z[i] for i in range(0, 8, 2))
+
+    if z != "myEr+TjI":
+        return False
+
+    a = [ord(c) for c in x]
+    return (
+        sum(a) == 674 and
+        sum(a[::2]) == 346 and
+        sum(a[1::2]) == 328 and
+        (a[0] ^ a[1] ^ a[2] ^ a[3] ^ a[4] ^ a[5] ^ a[6] ^ a[7]) == 10
+    )
+
+```
+### Explanation
+
+
+This one combines a strict character pattern with a reversible remapping and a few checksum constraints, so the valid input is narrow but not obvious at a glance.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(v < 32 or v > 126 for v in a):
+        return False
+
+    # A bitwise dependency chain where each character's ASCII value is linked
+    # to the previous one in a non-linear way.
+    b = [(a[i] << 1) ^ (a[i-1] if i > 0 else 85) for i in range(8)]
+    if b != [61, 200, 148, 61, 138, 209, 249, 241]:
+        return False
+        
+    # A polynomial hash to further constrain the sequence.
+    c = 0
+    for v in a:
+        c = (c * 31 + v) % 1000000007
+    
+    # Final checks for mathematical consistency and to ensure a unique solution.
+    return c == 866903359 and sum(v**2 for v in a) == 61668
+
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str or len(x) != 12:
+        return False
+    if any(not (32 <= ord(ch) <= 126) for ch in x):
+        return False
+
+    a = [ord(ch) - 32 for ch in x]
+    p = [5, 1, 11, 3, 9, 0, 7, 2, 10, 4, 8, 6]
+    u = [(a[p[i]] + 17 * i + 29) % 95 for i in range(12)]
+    v = u[4:8] + u[:4] + u[8:]
+
+    return (
+        ''.join(chr(32 + n) for n in v) == ":d5POeKqjEJ=" and
+        sum(a) == 445 and
+        sum((i + 1) * a[i] for i in range(12)) == 2844
+    )
+
+```
+### Explanation
+
+
+This puzzle accepts a 12-character printable string, scrambles it with a permutation plus an index-dependent modular shift, then checks the result against a fixed ciphertext and two checksum conditions.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(v < 32 or v > 126 for v in a):
+        return False
+
+    # Construct a 4x4 symmetric matrix for a linear transformation
+    m = [[(i*k + i + k + 2) % 11 for k in range(4)] for i in range(4)]
+    
+    # Apply Hill-cipher-like linear transformation modulo 127
+    res = []
+    for block in [a[:4], a[4:]]:
+        for i in range(4):
+            val = sum(m[i][j] * block[j] for j in range(4)) % 127
+            res.append(val)
+
+    # Validate against target transformed values
+    if res != [20, 33, 45, 96, 51, 67, 126, 47]:
+        return False
+        
+    # Checksum constraints to ensure a unique solution
+    s1 = sum(a)
+    s2 = sum((i + 1) * v for i, v in enumerate(a))
+    s3 = sum(v**2 for v in a)
+    s4 = 0
+    for v in a:
+        s4 ^= v
+
+    return s1 == 804 and s2 == 3725 and s3 == 82272 and s4 == 36
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str or len(x) != 7:
+        return False
+
+    a = [ord(c) for c in x]
+    if any(v < 65 or v > 90 for v in a):
+        return False
+    if len(set(a)) != 7:
+        return False
+
+    h1 = 0
+    for v in a:
+        h1 = (h1 * 257 + v) % 10000019
+
+    h2 = 0
+    for v in a[::-1]:
+        h2 = (h2 * 263 + (v ^ 0x3D)) % 1000033
+
+    return (
+        h1 == 9845382 and
+        h2 == 260296 and
+        sum(a) == 476 and
+        sum((i + 1) * v for i, v in enumerate(a)) == 1932 and
+        (a[0] ^ a[1] ^ a[2] ^ a[3] ^ a[4] ^ a[5] ^ a[6]) == 64 and
+        sum(v * v for v in a) == 32396
+    )
+
+```
+### Explanation
+
+
+This one is a 7-character all-uppercase puzzle with two rolling hashes and several checksum constraints, so the valid inputs are quite hidden.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 9:
+        return False
+    
+    a = [ord(c) for c in x]
+    if any(not (32 <= v <= 126) for v in a):
+        return False
+    
+    # This puzzle involves a cyclic bitwise transformation.
+    # Each character's ASCII value is left-rotated by 3 bits 
+    # (within an 8-bit byte) and then XORed with the ASCII 
+    # value of the next character in the string.
+    r = [(((a[i] << 3) | (a[i] >> 5)) & 0xFF) ^ a[(i + 1) % 9] for i in range(9)]
+    
+    if r != [251, 191, 203, 115, 239, 82, 59, 162, 201]:
+        return False
+        
+    # Standard algebraic and hash-based integrity checks.
+    s = sum(a)
+    w = sum((i + 1) * v for i, v in enumerate(a))
+    q = sum(v**2 for v in a)
+    h = 0
+    for v in a:
+        h = (h * 31 + v) % 1000000007
+        
+    return s == 713 and w == 3076 and q == 65907 and h == 284299081
+
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    if type(x) is not int or not (10**11 <= x < 10**12):
+        return False
+
+    d = [int(c) for c in f"{x:012d}"]
+    p = [9, 2, 5, 8, 11, 0, 3, 6, 1, 4, 7, 10]
+    u = [d[i] for i in p]
+    v = [(3 * u[i] + u[i - 2] + i) % 10 for i in range(12)]
+    z = [(v[(i + 3) % 12] + 7 * v[11 - i] + 2 * i) % 10 for i in range(12)]
+
+    return (
+        tuple(z) == (9, 2, 5, 7, 6, 1, 1, 2, 1, 7, 4, 9)
+        and sum(d) == 52
+        and sum((i + 1) * d[i] for i in range(12)) == 388
+        and sum(v) == 64
+        and sum(v[i] * v[(i + 1) % 12] for i in range(12)) == 334
+        and sum(vv * vv for vv in d) == 296
+        and (d[0] ^ d[1] ^ d[2] ^ d[3] ^ d[4] ^ d[5] ^ d[6] ^ d[7] ^ d[8] ^ d[9] ^ d[10] ^ d[11]) == 4
+        and sum((i + 1) * z[i] for i in range(12)) == 346
+    )
+```
+
+This puzzle takes a 12-digit integer, permutes its digits, runs two modular mixing rounds, and then checks several checksum-style constraints. The valid input is intentionally obscured by the layered permutation and arithmetic, rather than by a single direct comparison.
+
+SOLUTION: 314159265358
+*** END
+*** END
+*** solver gemini-3-flash-preview
+To find a value for $x$ such that `mystery(x)` is True, we need to satisfy several conditions on the digits of $x$.
+
+1.  **Digits of $x$**: $x$ must be a 12-digit integer between $10^{11}$ and $10^{12}$. Let $d$ be the list of digits of $x$.
+2.  **Permutation $u$**: $u$ is a rearranged version of $d$ based on the indices $p = [9, 2, 5, 8, 11, 0, 3, 6, 1, 4, 7, 10]$.
+3.  **Transformation $v$**: $v[i] = (3 \cdot u[i] + u[i-2] + i) \pmod{10}$.
+4.  **Transformation $z$**: $z[i] = (v[(i+3) \pmod{12}] + 7 \cdot v[11-i] + 2i) \pmod{10}$.
+
+Based on the required value for `tuple(z)` being `(9, 2, 5, 7, 6, 1, 1, 2, 1, 7, 4, 9)`, we can solve for $v$:
+$v = [5, 8, 2, 2, 7, 9, 7, 6, 2, 6, 9, 1]$.
+This $v$ satisfies `sum(v) == 64` and `sum(v[i] * v[(i + 1) % 12]) == 334`.
+
+Next, we solve for $u$ using the relation $v[i] = (3 \cdot u[i] + u[i-2] + i) \pmod{10}$. This leads to two independent cycles of 6 equations. Solving these gives:
+$u = [3, 4, 9, 5, 8, 3, 1, 2, 1, 5, 6, 5]$.
+
+Finally, we map the values of $u$ back to the digits $d$ using the permutation $p$:
+- $d[9] = u[0] = 3$
+- $d[2] = u[1] = 4$
+- $d[5] = u[2] = 9$
+- $d[8] = u[3] = 5$
+- $d[11] = u[4] = 8$
+- $d[0] = u[5] = 3$
+- $d[3] = u[6] = 1$
+- $d[6] = u[7] = 2$
+- $d[1] = u[8] = 1$
+- $d[4] = u[9] = 5$
+- $d[7] = u[10] = 6$
+- $d[10] = u[11] = 5$
+
+This results in $d = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8]$.
+Checking the remaining conditions:
+- `sum(d) = 52`
+- `sum((i+1) * d[i]) = 388`
+- `sum(d[i]**2) = 296`
+- `d[0] ^ d[1] ^ ... ^ d[11] = 4`
+All conditions are satisfied by the digits of $\pi$ (3.14159265358).
+
+SOLUTION: 314159265358
+*** END

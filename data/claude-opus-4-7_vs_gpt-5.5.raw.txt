@@ -1,0 +1,2202 @@
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+None, this is the first turn.
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want a puzzle where brute-forcing is too expensive (10^10 combinations) but has structure that requires careful constraint analysis.
+
+```python
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 10: return False
+    if not x.isdigit(): return False
+    if len(set(x)) != 10: return False
+    if x[0] == '0': return False
+    primes = [2, 3, 5, 7, 11, 13, 17]
+    for i, p in enumerate(primes):
+        if int(x[i+1:i+4]) % p:
+            return False
+    return True
+```
+
+The function requires a 10-character pandigital string (each digit 0-9 used exactly once, no leading zero), with 7 overlapping 3-digit substrings each divisible by a specific prime.
+
+Verification of my solution "1406357289":
+- All digits 0-9 present ✓
+- "406" % 2 = 0 ✓
+- "063" % 3 = 0 ✓
+- "635" % 5 = 0 ✓
+- "357" % 7 = 0 ✓
+- "572" % 11 = 0 ✓
+- "728" % 13 = 0 ✓
+- "289" % 17 = 0 ✓
+
+SOLUTION: "1406357289"
+*** END
+*** END
+*** solver gpt-5.5
+SOLUTION: "1406357289"
+*** END
+*** inventor prompt gpt-5.5
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 10: return False
+    if not x.isdigit(): return False
+    if len(set(x)) != 10: return False
+    if x[0] == '0': return False
+    primes = [2, 3, 5, 7, 11, 13, 17]
+    for i, p in enumerate(primes):
+        if int(x[i+1:i+4]) % p:
+            return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.5
+```python
+import codecs
+import hashlib
+import hmac
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 56:
+        return False
+    if any(c < "a" or c > "z" for c in x):
+        return False
+
+    y = codecs.decode(x, "rot_13")
+    return hmac.compare_digest(
+        hashlib.sha256(y.encode("ascii")).hexdigest(),
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1",
+    )
+```
+
+Private proof sketch: the input is constrained to lowercase letters of length 56, ROT13-decoded, and then checked against a SHA-256 digest. The digest is for a known SHA-256 test-vector message, and the provided sample is its ROT13 counterpart.
+
+SOLUTION: "nopqopqrpqrsqrstrstustuvtuvwuvwxvwxywxyzxyzayzabzabcabcd"
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at this, I need to find x where:
+- x is a 56-char lowercase string
+- rot13(x) hashes to that specific SHA-256
+
+That hash `248d6a61...` is the well-known NIST SHA-256 test vector for the 56-character string `"abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"`.
+
+So I need x = rot13 of that string. Applying rot13 to each character:
+
+`abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq` → `nopqopqrpqrsqrstrstustuvtuvwuvwxvwxywxyzxyzayzabzabcabcd`
+
+SOLUTION: "nopqopqrpqrsqrstrstustuvtuvwuvwxvwxywxyzxyzayzabzabcabcd"
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 10: return False
+    if not x.isdigit(): return False
+    if len(set(x)) != 10: return False
+    if x[0] == '0': return False
+    primes = [2, 3, 5, 7, 11, 13, 17]
+    for i, p in enumerate(primes):
+        if int(x[i+1:i+4]) % p:
+            return False
+    return True
+
+```
+### Explanation
+
+
+The function requires a 10-character pandigital string (each digit 0-9 used exactly once, no leading zero), with 7 overlapping 3-digit substrings each divisible by a specific prime.
+
+Verification of my solution "1406357289":
+- All digits 0-9 present ✓
+- "406" % 2 = 0 ✓
+- "063" % 3 = 0 ✓
+- "635" % 5 = 0 ✓
+- "357" % 7 = 0 ✓
+- "572" % 11 = 0 ✓
+- "728" % 13 = 0 ✓
+- "289" % 17 = 0 ✓
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import codecs
+import hashlib
+import hmac
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 56:
+        return False
+    if any(c < "a" or c > "z" for c in x):
+        return False
+
+    y = codecs.decode(x, "rot_13")
+    return hmac.compare_digest(
+        hashlib.sha256(y.encode("ascii")).hexdigest(),
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1",
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want a puzzle that's hard to brute-force but solvable with the right insight.
+
+```python
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 12: return False
+    if not x.isdigit(): return False
+    if x[0] == '0': return False
+    n = int(x)
+    M = 10**12
+    return (n * n) % M == n
+```
+
+The puzzle asks for a 12-digit number (no leading zero) `n` such that `n² ≡ n (mod 10¹²)`. The search space is 9·10¹¹ which is far too large to brute-force directly. The solver needs to recognize this as an idempotent equation modulo 10¹², which by CRT reduces to finding non-trivial idempotents mod 2¹² and mod 5¹². Solutions can be lifted via Hensel's lemma or extended Euclidean algorithm.
+
+The only 12-digit candidates without leading zeros are the non-trivial idempotents; one of them (81787109376) is only 11 digits, leaving exactly one valid answer.
+
+SOLUTION: "918212890625"
+*** END
+*** END
+*** solver gpt-5.5
+SOLUTION: "918212890625"
+*** END
+*** inventor prompt gpt-5.5
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 10: return False
+    if not x.isdigit(): return False
+    if len(set(x)) != 10: return False
+    if x[0] == '0': return False
+    primes = [2, 3, 5, 7, 11, 13, 17]
+    for i, p in enumerate(primes):
+        if int(x[i+1:i+4]) % p:
+            return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import codecs
+import hashlib
+import hmac
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 56:
+        return False
+    if any(c < "a" or c > "z" for c in x):
+        return False
+
+    y = codecs.decode(x, "rot_13")
+    return hmac.compare_digest(
+        hashlib.sha256(y.encode("ascii")).hexdigest(),
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1",
+    )
+
+```
+### Explanation
+
+
+Private proof sketch: the input is constrained to lowercase letters of length 56, ROT13-decoded, and then checked against a SHA-256 digest. The digest is for a known SHA-256 test-vector message, and the provided sample is its ROT13 counterpart.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 12: return False
+    if not x.isdigit(): return False
+    if x[0] == '0': return False
+    n = int(x)
+    M = 10**12
+    return (n * n) % M == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.5
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if not (10**14 < x < 10**15):
+        return False
+
+    def ok(n, a):
+        if n % a == 0:
+            return n == a
+
+        d = n - 1
+        s = 0
+        while d % 2 == 0:
+            s += 1
+            d //= 2
+
+        y = pow(a, d, n)
+        if y == 1 or y == n - 1:
+            return True
+
+        for _ in range(s - 1):
+            y = (y * y) % n
+            if y == n - 1:
+                return True
+
+        return False
+
+    if x % 10670053 != 0:
+        return False
+
+    return all(ok(x, a) for a in (2, 3, 5, 7, 11, 13, 17))
+```
+
+Private proof sketch: the helper is a strong probable-prime test for one base. The sample number is a classic composite strong pseudoprime to the listed bases, and it has the required factor.
+
+SOLUTION: 341550071728321
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at this, I need:
+- An integer in (10^14, 10^15)
+- Divisible by 10670053
+- Passes Miller-Rabin for bases 2,3,5,7,11,13,17
+- Not divisible by 2,3,5,7,11,13,17 (else `ok` returns False)
+
+The smallest strong pseudoprime to the first 7 prime bases is the famous number **341550071728321**, which factors as 10670053 × 32010157, and lies in the required range.
+
+SOLUTION: 341550071728321
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 10: return False
+    if not x.isdigit(): return False
+    if len(set(x)) != 10: return False
+    if x[0] == '0': return False
+    primes = [2, 3, 5, 7, 11, 13, 17]
+    for i, p in enumerate(primes):
+        if int(x[i+1:i+4]) % p:
+            return False
+    return True
+
+```
+### Explanation
+
+
+The function requires a 10-character pandigital string (each digit 0-9 used exactly once, no leading zero), with 7 overlapping 3-digit substrings each divisible by a specific prime.
+
+Verification of my solution "1406357289":
+- All digits 0-9 present ✓
+- "406" % 2 = 0 ✓
+- "063" % 3 = 0 ✓
+- "635" % 5 = 0 ✓
+- "357" % 7 = 0 ✓
+- "572" % 11 = 0 ✓
+- "728" % 13 = 0 ✓
+- "289" % 17 = 0 ✓
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import codecs
+import hashlib
+import hmac
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 56:
+        return False
+    if any(c < "a" or c > "z" for c in x):
+        return False
+
+    y = codecs.decode(x, "rot_13")
+    return hmac.compare_digest(
+        hashlib.sha256(y.encode("ascii")).hexdigest(),
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1",
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 12: return False
+    if not x.isdigit(): return False
+    if x[0] == '0': return False
+    n = int(x)
+    M = 10**12
+    return (n * n) % M == n
+
+```
+### Explanation
+
+
+The puzzle asks for a 12-digit number (no leading zero) `n` such that `n² ≡ n (mod 10¹²)`. The search space is 9·10¹¹ which is far too large to brute-force directly. The solver needs to recognize this as an idempotent equation modulo 10¹², which by CRT reduces to finding non-trivial idempotents mod 2¹² and mod 5¹². Solutions can be lifted via Hensel's lemma or extended Euclidean algorithm.
+
+The only 12-digit candidates without leading zeros are the non-trivial idempotents; one of them (81787109376) is only 11 digits, leaving exactly one valid answer.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if not (10**14 < x < 10**15):
+        return False
+
+    def ok(n, a):
+        if n % a == 0:
+            return n == a
+
+        d = n - 1
+        s = 0
+        while d % 2 == 0:
+            s += 1
+            d //= 2
+
+        y = pow(a, d, n)
+        if y == 1 or y == n - 1:
+            return True
+
+        for _ in range(s - 1):
+            y = (y * y) % n
+            if y == n - 1:
+                return True
+
+        return False
+
+    if x % 10670053 != 0:
+        return False
+
+    return all(ok(x, a) for a in (2, 3, 5, 7, 11, 13, 17))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at the history, the solver handled hash, modular arithmetic, idempotent, and Miller-Rabin puzzles. Let me try classical number theory — Pell equations have notoriously huge fundamental solutions even for small D, so brute force is hopeless and solver needs to know/derive the continued-fraction algorithm.
+
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if x <= 1 or x >= 10**12:
+        return False
+    D = 73
+    diff = x * x - 1
+    if diff % D != 0:
+        return False
+    y2 = diff // D
+    y = int(round(y2 ** 0.5))
+    # adjust for float imprecision
+    while y > 0 and y * y > y2:
+        y -= 1
+    while (y + 1) * (y + 1) <= y2:
+        y += 1
+    return y > 0 and y * y == y2
+```
+
+The puzzle: find an integer x in (1, 10^12) such that x² - 73·y² = 1 for some positive integer y. This is the Pell equation for D=73. The fundamental solution requires running the continued-fraction expansion of √73 to find period elements, then constructing convergents until we hit a solution. Brute force is futile (~10^12 candidates with virtually no hits), but with the right algorithm the answer is reachable. The next solution exceeds 10^12, so the answer in range is unique.
+
+Verification of 2281249² − 73·267000² = 5,204,097,000,001 − 5,204,097,000,000 = 1 ✓
+
+SOLUTION: 2281249
+*** END
+*** END
+*** solver gpt-5.5
+A valid value is `2281249`, since:
+
+`2281249^2 - 1 = 73 * 267000^2`
+
+SOLUTION: 2281249
+*** END
+*** inventor prompt gpt-5.5
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 10: return False
+    if not x.isdigit(): return False
+    if len(set(x)) != 10: return False
+    if x[0] == '0': return False
+    primes = [2, 3, 5, 7, 11, 13, 17]
+    for i, p in enumerate(primes):
+        if int(x[i+1:i+4]) % p:
+            return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import codecs
+import hashlib
+import hmac
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 56:
+        return False
+    if any(c < "a" or c > "z" for c in x):
+        return False
+
+    y = codecs.decode(x, "rot_13")
+    return hmac.compare_digest(
+        hashlib.sha256(y.encode("ascii")).hexdigest(),
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1",
+    )
+
+```
+### Explanation
+
+
+Private proof sketch: the input is constrained to lowercase letters of length 56, ROT13-decoded, and then checked against a SHA-256 digest. The digest is for a known SHA-256 test-vector message, and the provided sample is its ROT13 counterpart.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 12: return False
+    if not x.isdigit(): return False
+    if x[0] == '0': return False
+    n = int(x)
+    M = 10**12
+    return (n * n) % M == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if not (10**14 < x < 10**15):
+        return False
+
+    def ok(n, a):
+        if n % a == 0:
+            return n == a
+
+        d = n - 1
+        s = 0
+        while d % 2 == 0:
+            s += 1
+            d //= 2
+
+        y = pow(a, d, n)
+        if y == 1 or y == n - 1:
+            return True
+
+        for _ in range(s - 1):
+            y = (y * y) % n
+            if y == n - 1:
+                return True
+
+        return False
+
+    if x % 10670053 != 0:
+        return False
+
+    return all(ok(x, a) for a in (2, 3, 5, 7, 11, 13, 17))
+
+```
+### Explanation
+
+
+Private proof sketch: the helper is a strong probable-prime test for one base. The sample number is a classic composite strong pseudoprime to the listed bases, and it has the required factor.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if x <= 1 or x >= 10**12:
+        return False
+    D = 73
+    diff = x * x - 1
+    if diff % D != 0:
+        return False
+    y2 = diff // D
+    y = int(round(y2 ** 0.5))
+    # adjust for float imprecision
+    while y > 0 and y * y > y2:
+        y -= 1
+    while (y + 1) * (y + 1) <= y2:
+        y += 1
+    return y > 0 and y * y == y2
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.5
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = int(
+        "152260502792253336053561837813263742971806811496138068865790849458"
+        "0122963258952897654000350692006139"
+    )
+
+    if not (10**49 < x < 10**50):
+        return False
+    if x % 1000 != 199:
+        return False
+
+    return n % x == 0
+```
+
+This puzzle asks for a very particular 50-digit integer divisor of the given 100-digit integer. The final congruence condition rules out the other similarly sized divisor.
+
+SOLUTION: 37975227936943673922808872755445627854565536638199
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at this, `n` is a 100-digit number — specifically RSA-100, whose factorization is well-known:
+
+- p = 37975227936943673922808872755445627854565536638199
+- q = 40094690950920881030683735292761468389214899724061
+
+The factor `p` has 50 digits and ends in `199`, satisfying all the conditions.
+
+SOLUTION: 37975227936943673922808872755445627854565536638199
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 10: return False
+    if not x.isdigit(): return False
+    if len(set(x)) != 10: return False
+    if x[0] == '0': return False
+    primes = [2, 3, 5, 7, 11, 13, 17]
+    for i, p in enumerate(primes):
+        if int(x[i+1:i+4]) % p:
+            return False
+    return True
+
+```
+### Explanation
+
+
+The function requires a 10-character pandigital string (each digit 0-9 used exactly once, no leading zero), with 7 overlapping 3-digit substrings each divisible by a specific prime.
+
+Verification of my solution "1406357289":
+- All digits 0-9 present ✓
+- "406" % 2 = 0 ✓
+- "063" % 3 = 0 ✓
+- "635" % 5 = 0 ✓
+- "357" % 7 = 0 ✓
+- "572" % 11 = 0 ✓
+- "728" % 13 = 0 ✓
+- "289" % 17 = 0 ✓
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import codecs
+import hashlib
+import hmac
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 56:
+        return False
+    if any(c < "a" or c > "z" for c in x):
+        return False
+
+    y = codecs.decode(x, "rot_13")
+    return hmac.compare_digest(
+        hashlib.sha256(y.encode("ascii")).hexdigest(),
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1",
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 12: return False
+    if not x.isdigit(): return False
+    if x[0] == '0': return False
+    n = int(x)
+    M = 10**12
+    return (n * n) % M == n
+
+```
+### Explanation
+
+
+The puzzle asks for a 12-digit number (no leading zero) `n` such that `n² ≡ n (mod 10¹²)`. The search space is 9·10¹¹ which is far too large to brute-force directly. The solver needs to recognize this as an idempotent equation modulo 10¹², which by CRT reduces to finding non-trivial idempotents mod 2¹² and mod 5¹². Solutions can be lifted via Hensel's lemma or extended Euclidean algorithm.
+
+The only 12-digit candidates without leading zeros are the non-trivial idempotents; one of them (81787109376) is only 11 digits, leaving exactly one valid answer.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if not (10**14 < x < 10**15):
+        return False
+
+    def ok(n, a):
+        if n % a == 0:
+            return n == a
+
+        d = n - 1
+        s = 0
+        while d % 2 == 0:
+            s += 1
+            d //= 2
+
+        y = pow(a, d, n)
+        if y == 1 or y == n - 1:
+            return True
+
+        for _ in range(s - 1):
+            y = (y * y) % n
+            if y == n - 1:
+                return True
+
+        return False
+
+    if x % 10670053 != 0:
+        return False
+
+    return all(ok(x, a) for a in (2, 3, 5, 7, 11, 13, 17))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if x <= 1 or x >= 10**12:
+        return False
+    D = 73
+    diff = x * x - 1
+    if diff % D != 0:
+        return False
+    y2 = diff // D
+    y = int(round(y2 ** 0.5))
+    # adjust for float imprecision
+    while y > 0 and y * y > y2:
+        y -= 1
+    while (y + 1) * (y + 1) <= y2:
+        y += 1
+    return y > 0 and y * y == y2
+
+```
+### Explanation
+
+
+The puzzle: find an integer x in (1, 10^12) such that x² - 73·y² = 1 for some positive integer y. This is the Pell equation for D=73. The fundamental solution requires running the continued-fraction expansion of √73 to find period elements, then constructing convergents until we hit a solution. Brute force is futile (~10^12 candidates with virtually no hits), but with the right algorithm the answer is reachable. The next solution exceeds 10^12, so the answer in range is unique.
+
+Verification of 2281249² − 73·267000² = 5,204,097,000,001 − 5,204,097,000,000 = 1 ✓
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = int(
+        "152260502792253336053561837813263742971806811496138068865790849458"
+        "0122963258952897654000350692006139"
+    )
+
+    if not (10**49 < x < 10**50):
+        return False
+    if x % 1000 != 199:
+        return False
+
+    return n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want a puzzle that's hard to brute-force but yields to a clever insight (meet-in-the-middle), without repeating themes from history.
+
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 10:
+        return False
+    if not all('a' <= c <= 'z' for c in x):
+        return False
+    h1 = h2 = 0
+    P1, B1 = 10**9 + 7, 26
+    P2, B2 = 10**9 + 9, 27
+    for c in x:
+        v = ord(c) - 97
+        h1 = (h1 * B1 + v) % P1
+        h2 = (h2 * B2 + v) % P2
+    return h1 == 746758610 and h2 == 906464440
+```
+
+The puzzle: find a 10-character lowercase string whose double polynomial hash (two different bases, two different primes) matches both targets simultaneously.
+
+- Search space: 26^10 ≈ 1.4·10^14 strings — far too large for brute force.
+- Combined hash range: ~10^18, so a unique solution is overwhelmingly likely.
+- Smart approach: meet-in-the-middle, splitting into 5+5 characters. Each side has 26^5 ≈ 12M states. For each left half, the constraints `h1_left·B1^5 + h1_right ≡ T1` and `h2_left·B2^5 + h2_right ≡ T2` allow O(26^5) lookup against a precomputed right-half table keyed on `(h1_right, h2_right)`. That's roughly 10^7 ops + ~500MB memory — challenging but feasible.
+
+Without the MITM insight, the puzzle is essentially unsolvable.
+
+SOLUTION: "puzzlemast"
+*** END
+*** END
+*** solver gpt-5.5
+I found a Python expression that evaluates to a valid string satisfying the function.
+
+SOLUTION: next(''.join(chr(97+(N//26**i)%26) for i in range(9,-1,-1)) for k in range((26**10-1-746758610)//(10**9+7)+1) for N in [746758610+k*(10**9+7)] if sum(((N//26**i)%26)*pow(27,i,10**9+9) for i in range(10))%(10**9+9)==906464440)
+*** END
+*** inventor prompt gpt-5.5
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 10: return False
+    if not x.isdigit(): return False
+    if len(set(x)) != 10: return False
+    if x[0] == '0': return False
+    primes = [2, 3, 5, 7, 11, 13, 17]
+    for i, p in enumerate(primes):
+        if int(x[i+1:i+4]) % p:
+            return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import codecs
+import hashlib
+import hmac
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 56:
+        return False
+    if any(c < "a" or c > "z" for c in x):
+        return False
+
+    y = codecs.decode(x, "rot_13")
+    return hmac.compare_digest(
+        hashlib.sha256(y.encode("ascii")).hexdigest(),
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1",
+    )
+
+```
+### Explanation
+
+
+Private proof sketch: the input is constrained to lowercase letters of length 56, ROT13-decoded, and then checked against a SHA-256 digest. The digest is for a known SHA-256 test-vector message, and the provided sample is its ROT13 counterpart.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 12: return False
+    if not x.isdigit(): return False
+    if x[0] == '0': return False
+    n = int(x)
+    M = 10**12
+    return (n * n) % M == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if not (10**14 < x < 10**15):
+        return False
+
+    def ok(n, a):
+        if n % a == 0:
+            return n == a
+
+        d = n - 1
+        s = 0
+        while d % 2 == 0:
+            s += 1
+            d //= 2
+
+        y = pow(a, d, n)
+        if y == 1 or y == n - 1:
+            return True
+
+        for _ in range(s - 1):
+            y = (y * y) % n
+            if y == n - 1:
+                return True
+
+        return False
+
+    if x % 10670053 != 0:
+        return False
+
+    return all(ok(x, a) for a in (2, 3, 5, 7, 11, 13, 17))
+
+```
+### Explanation
+
+
+Private proof sketch: the helper is a strong probable-prime test for one base. The sample number is a classic composite strong pseudoprime to the listed bases, and it has the required factor.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if x <= 1 or x >= 10**12:
+        return False
+    D = 73
+    diff = x * x - 1
+    if diff % D != 0:
+        return False
+    y2 = diff // D
+    y = int(round(y2 ** 0.5))
+    # adjust for float imprecision
+    while y > 0 and y * y > y2:
+        y -= 1
+    while (y + 1) * (y + 1) <= y2:
+        y += 1
+    return y > 0 and y * y == y2
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = int(
+        "152260502792253336053561837813263742971806811496138068865790849458"
+        "0122963258952897654000350692006139"
+    )
+
+    if not (10**49 < x < 10**50):
+        return False
+    if x % 1000 != 199:
+        return False
+
+    return n % x == 0
+
+```
+### Explanation
+
+
+This puzzle asks for a very particular 50-digit integer divisor of the given 100-digit integer. The final congruence condition rules out the other similarly sized divisor.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 10:
+        return False
+    if not all('a' <= c <= 'z' for c in x):
+        return False
+    h1 = h2 = 0
+    P1, B1 = 10**9 + 7, 26
+    P2, B2 = 10**9 + 9, 27
+    for c in x:
+        v = ord(c) - 97
+        h1 = (h1 * B1 + v) % P1
+        h2 = (h2 * B2 + v) % P2
+    return h1 == 746758610 and h2 == 906464440
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.5
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    n = 52
+    if len(x) != 2 * n:
+        return False
+    if any(c < "0" or c > "9" for c in x):
+        return False
+
+    p = [int(x[i:i + 2]) for i in range(0, 2 * n, 2)]
+
+    if sorted(p) != list(range(1, n + 1)):
+        return False
+
+    seen = set()
+    for i, a in enumerate(p):
+        for j in range(i + 1, n):
+            d = (j - i, p[j] - a)
+            if d in seen:
+                return False
+            seen.add(d)
+
+    return True
+```
+
+Private explanation: the string encodes a permutation of 1 through 52, two digits per entry. The nested loop requires every displacement vector between two marked points to be unique, i.e. it asks for a Costas array of order 52. The sample is the Welch construction using the primitive root 2 modulo 53: entries are \(2^i \bmod 53\) for \(i=0,\dots,51\).
+
+SOLUTION: "01020408163211224435173415300714280306122448433313265251494537214231091836193823463925504741290510204027"
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at this problem, I need to find a string of 104 digits encoding a permutation p of 1..52 (as 2-digit numbers) such that all vectors (j-i, p[j]-p[i]) are distinct. This is exactly the **Costas array** condition!
+
+For n=52, I can use the **Welch construction**: since 53 is prime and 2 is a primitive root mod 53, the sequence p[i] = 2^(i-1) mod 53 for i=1..52 gives a valid Costas array.
+
+Computing 2^k mod 53 for k=0..51:
+1, 2, 4, 8, 16, 32, 11, 22, 44, 35, 17, 34, 15, 30, 7, 14, 28, 3, 6, 12, 24, 48, 43, 33, 13, 26, 52, 51, 49, 45, 37, 21, 42, 31, 9, 18, 36, 19, 38, 23, 46, 39, 25, 50, 47, 41, 29, 5, 10, 20, 40, 27
+
+Verified this is a permutation of 1..52. The Costas property holds because for any shift h, p[i+h]-p[i] = 2^(i-1)·(2^h-1) mod 53 takes distinct nonzero values mod 53, and since differences fit in (-52, 52), distinct mod 53 ⟹ distinct as integers.
+
+Encoding each as 2 digits and concatenating:
+
+SOLUTION: "01020408163211224435173415300714280306122448433313265251494537214231091836193823463925504741290510204027"
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 10: return False
+    if not x.isdigit(): return False
+    if len(set(x)) != 10: return False
+    if x[0] == '0': return False
+    primes = [2, 3, 5, 7, 11, 13, 17]
+    for i, p in enumerate(primes):
+        if int(x[i+1:i+4]) % p:
+            return False
+    return True
+
+```
+### Explanation
+
+
+The function requires a 10-character pandigital string (each digit 0-9 used exactly once, no leading zero), with 7 overlapping 3-digit substrings each divisible by a specific prime.
+
+Verification of my solution "1406357289":
+- All digits 0-9 present ✓
+- "406" % 2 = 0 ✓
+- "063" % 3 = 0 ✓
+- "635" % 5 = 0 ✓
+- "357" % 7 = 0 ✓
+- "572" % 11 = 0 ✓
+- "728" % 13 = 0 ✓
+- "289" % 17 = 0 ✓
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+import codecs
+import hashlib
+import hmac
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 56:
+        return False
+    if any(c < "a" or c > "z" for c in x):
+        return False
+
+    y = codecs.decode(x, "rot_13")
+    return hmac.compare_digest(
+        hashlib.sha256(y.encode("ascii")).hexdigest(),
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1",
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 12: return False
+    if not x.isdigit(): return False
+    if x[0] == '0': return False
+    n = int(x)
+    M = 10**12
+    return (n * n) % M == n
+
+```
+### Explanation
+
+
+The puzzle asks for a 12-digit number (no leading zero) `n` such that `n² ≡ n (mod 10¹²)`. The search space is 9·10¹¹ which is far too large to brute-force directly. The solver needs to recognize this as an idempotent equation modulo 10¹², which by CRT reduces to finding non-trivial idempotents mod 2¹² and mod 5¹². Solutions can be lifted via Hensel's lemma or extended Euclidean algorithm.
+
+The only 12-digit candidates without leading zeros are the non-trivial idempotents; one of them (81787109376) is only 11 digits, leaving exactly one valid answer.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if not (10**14 < x < 10**15):
+        return False
+
+    def ok(n, a):
+        if n % a == 0:
+            return n == a
+
+        d = n - 1
+        s = 0
+        while d % 2 == 0:
+            s += 1
+            d //= 2
+
+        y = pow(a, d, n)
+        if y == 1 or y == n - 1:
+            return True
+
+        for _ in range(s - 1):
+            y = (y * y) % n
+            if y == n - 1:
+                return True
+
+        return False
+
+    if x % 10670053 != 0:
+        return False
+
+    return all(ok(x, a) for a in (2, 3, 5, 7, 11, 13, 17))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if x <= 1 or x >= 10**12:
+        return False
+    D = 73
+    diff = x * x - 1
+    if diff % D != 0:
+        return False
+    y2 = diff // D
+    y = int(round(y2 ** 0.5))
+    # adjust for float imprecision
+    while y > 0 and y * y > y2:
+        y -= 1
+    while (y + 1) * (y + 1) <= y2:
+        y += 1
+    return y > 0 and y * y == y2
+
+```
+### Explanation
+
+
+The puzzle: find an integer x in (1, 10^12) such that x² - 73·y² = 1 for some positive integer y. This is the Pell equation for D=73. The fundamental solution requires running the continued-fraction expansion of √73 to find period elements, then constructing convergents until we hit a solution. Brute force is futile (~10^12 candidates with virtually no hits), but with the right algorithm the answer is reachable. The next solution exceeds 10^12, so the answer in range is unique.
+
+Verification of 2281249² − 73·267000² = 5,204,097,000,001 − 5,204,097,000,000 = 1 ✓
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = int(
+        "152260502792253336053561837813263742971806811496138068865790849458"
+        "0122963258952897654000350692006139"
+    )
+
+    if not (10**49 < x < 10**50):
+        return False
+    if x % 1000 != 199:
+        return False
+
+    return n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 10:
+        return False
+    if not all('a' <= c <= 'z' for c in x):
+        return False
+    h1 = h2 = 0
+    P1, B1 = 10**9 + 7, 26
+    P2, B2 = 10**9 + 9, 27
+    for c in x:
+        v = ord(c) - 97
+        h1 = (h1 * B1 + v) % P1
+        h2 = (h2 * B2 + v) % P2
+    return h1 == 746758610 and h2 == 906464440
+
+```
+### Explanation
+
+
+The puzzle: find a 10-character lowercase string whose double polynomial hash (two different bases, two different primes) matches both targets simultaneously.
+
+- Search space: 26^10 ≈ 1.4·10^14 strings — far too large for brute force.
+- Combined hash range: ~10^18, so a unique solution is overwhelmingly likely.
+- Smart approach: meet-in-the-middle, splitting into 5+5 characters. Each side has 26^5 ≈ 12M states. For each left half, the constraints `h1_left·B1^5 + h1_right ≡ T1` and `h2_left·B2^5 + h2_right ≡ T2` allow O(26^5) lookup against a precomputed right-half table keyed on `(h1_right, h2_right)`. That's roughly 10^7 ops + ~500MB memory — challenging but feasible.
+
+Without the MITM insight, the puzzle is essentially unsolvable.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    n = 52
+    if len(x) != 2 * n:
+        return False
+    if any(c < "0" or c > "9" for c in x):
+        return False
+
+    p = [int(x[i:i + 2]) for i in range(0, 2 * n, 2)]
+
+    if sorted(p) != list(range(1, n + 1)):
+        return False
+
+    seen = set()
+    for i, a in enumerate(p):
+        for j in range(i + 1, n):
+            d = (j - i, p[j] - a)
+            if d in seen:
+                return False
+            seen.add(d)
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want to design a puzzle that's hard to brute force but has a clever structure. I'll use a constraint satisfaction problem with a specific configuration.
+
+```python
+def mystery(x):
+    if type(x) is not str: return False
+    if len(x) != 81: return False
+    if not all(c in "123456789" for c in x): return False
+    given = "800000000003600000070090200050007000000045700000100030001000068008500010090000400"
+    for i in range(81):
+        if given[i] != '0' and given[i] != x[i]:
+            return False
+    for i in range(9):
+        if set(x[i*9:(i+1)*9]) != set("123456789"): return False
+        if set(x[i::9]) != set("123456789"): return False
+    for br in range(3):
+        for bc in range(3):
+            box = [x[(br*3+r)*9 + bc*3+c] for r in range(3) for c in range(3)]
+            if set(box) != set("123456789"): return False
+    return True
+```
+
+The puzzle requires finding an 81-character string of digits 1-9 satisfying:
+- A specific subset of "given" digits at fixed positions
+- Each row contains 1-9 exactly once
+- Each column contains 1-9 exactly once
+- Each 3×3 box contains 1-9 exactly once
+
+This is the famous "world's hardest sudoku" by Arto Inkala (2010). The search space is enormous (~6.67×10²¹ valid sudoku grids), but with backtracking or a SAT solver, it can be cracked.
+
+SOLUTION: "812753649943682175675491283154237896369845721287169534521974368438526917796318452"
+*** END
+*** END
+*** solver gpt-5.5
+SOLUTION: "812753649943682175675491283154237896369845721287169534521974368438526917796318452"
+*** END
+*** inventor prompt gpt-5.5
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 10: return False
+    if not x.isdigit(): return False
+    if len(set(x)) != 10: return False
+    if x[0] == '0': return False
+    primes = [2, 3, 5, 7, 11, 13, 17]
+    for i, p in enumerate(primes):
+        if int(x[i+1:i+4]) % p:
+            return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+import codecs
+import hashlib
+import hmac
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 56:
+        return False
+    if any(c < "a" or c > "z" for c in x):
+        return False
+
+    y = codecs.decode(x, "rot_13")
+    return hmac.compare_digest(
+        hashlib.sha256(y.encode("ascii")).hexdigest(),
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1",
+    )
+
+```
+### Explanation
+
+
+Private proof sketch: the input is constrained to lowercase letters of length 56, ROT13-decoded, and then checked against a SHA-256 digest. The digest is for a known SHA-256 test-vector message, and the provided sample is its ROT13 counterpart.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 12: return False
+    if not x.isdigit(): return False
+    if x[0] == '0': return False
+    n = int(x)
+    M = 10**12
+    return (n * n) % M == n
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if not (10**14 < x < 10**15):
+        return False
+
+    def ok(n, a):
+        if n % a == 0:
+            return n == a
+
+        d = n - 1
+        s = 0
+        while d % 2 == 0:
+            s += 1
+            d //= 2
+
+        y = pow(a, d, n)
+        if y == 1 or y == n - 1:
+            return True
+
+        for _ in range(s - 1):
+            y = (y * y) % n
+            if y == n - 1:
+                return True
+
+        return False
+
+    if x % 10670053 != 0:
+        return False
+
+    return all(ok(x, a) for a in (2, 3, 5, 7, 11, 13, 17))
+
+```
+### Explanation
+
+
+Private proof sketch: the helper is a strong probable-prime test for one base. The sample number is a classic composite strong pseudoprime to the listed bases, and it has the required factor.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if x <= 1 or x >= 10**12:
+        return False
+    D = 73
+    diff = x * x - 1
+    if diff % D != 0:
+        return False
+    y2 = diff // D
+    y = int(round(y2 ** 0.5))
+    # adjust for float imprecision
+    while y > 0 and y * y > y2:
+        y -= 1
+    while (y + 1) * (y + 1) <= y2:
+        y += 1
+    return y > 0 and y * y == y2
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = int(
+        "152260502792253336053561837813263742971806811496138068865790849458"
+        "0122963258952897654000350692006139"
+    )
+
+    if not (10**49 < x < 10**50):
+        return False
+    if x % 1000 != 199:
+        return False
+
+    return n % x == 0
+
+```
+### Explanation
+
+
+This puzzle asks for a very particular 50-digit integer divisor of the given 100-digit integer. The final congruence condition rules out the other similarly sized divisor.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 10:
+        return False
+    if not all('a' <= c <= 'z' for c in x):
+        return False
+    h1 = h2 = 0
+    P1, B1 = 10**9 + 7, 26
+    P2, B2 = 10**9 + 9, 27
+    for c in x:
+        v = ord(c) - 97
+        h1 = (h1 * B1 + v) % P1
+        h2 = (h2 * B2 + v) % P2
+    return h1 == 746758610 and h2 == 906464440
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    n = 52
+    if len(x) != 2 * n:
+        return False
+    if any(c < "0" or c > "9" for c in x):
+        return False
+
+    p = [int(x[i:i + 2]) for i in range(0, 2 * n, 2)]
+
+    if sorted(p) != list(range(1, n + 1)):
+        return False
+
+    seen = set()
+    for i, a in enumerate(p):
+        for j in range(i + 1, n):
+            d = (j - i, p[j] - a)
+            if d in seen:
+                return False
+            seen.add(d)
+
+    return True
+
+```
+### Explanation
+
+
+Private explanation: the string encodes a permutation of 1 through 52, two digits per entry. The nested loop requires every displacement vector between two marked points to be unique, i.e. it asks for a Costas array of order 52. The sample is the Welch construction using the primitive root 2 modulo 53: entries are \(2^i \bmod 53\) for \(i=0,\dots,51\).
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if type(x) is not str: return False
+    if len(x) != 81: return False
+    if not all(c in "123456789" for c in x): return False
+    given = "800000000003600000070090200050007000000045700000100030001000068008500010090000400"
+    for i in range(81):
+        if given[i] != '0' and given[i] != x[i]:
+            return False
+    for i in range(9):
+        if set(x[i*9:(i+1)*9]) != set("123456789"): return False
+        if set(x[i::9]) != set("123456789"): return False
+    for br in range(3):
+        for bc in range(3):
+            box = [x[(br*3+r)*9 + bc*3+c] for r in range(3) for c in range(3)]
+            if set(box) != set("123456789"): return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.5
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    n = 1019
+    if len(x) != n:
+        return False
+    if x.count("1") != 509 or x.count("0") != 510:
+        return False
+
+    b = [c == "1" for c in x]
+
+    for d in range(1, n):
+        if sum(b[i] and b[(i + d) % n] for i in range(n)) != 254:
+            return False
+
+    return True
+```
+
+Private explanation: this asks for the characteristic string of a cyclic difference set with parameters \((1019,509,254)\). Since \(1019\) is prime and \(1019 \equiv 3 \pmod 4\), the nonzero quadratic residues modulo \(1019\) form a Paley difference set. The sample solution below builds that characteristic string directly using Euler’s criterion.
+
+SOLUTION: "".join("1" if i != 0 and pow(i, 509, 1019) == 1 else "0" for i in range(1019))
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at this problem, I need a binary string of length 1019 with 509 ones and 510 zeros, where the cyclic autocorrelation at every nonzero shift equals 254.
+
+This is exactly a **(v, k, λ) = (1019, 509, 254) cyclic difference set**. 
+
+Verification: k(k−1) = 509·508 = 258572 = 254·1018 = λ(v−1) ✓
+
+Since 1019 is prime and 1019 ≡ 3 (mod 4), the **Paley/quadratic residue construction** works: with v = 4t+3 = 1019, we get t = 254, k = 2t+1 = 509, λ = t = 254.
+
+So I set x[i] = '1' if i is a nonzero quadratic residue mod 1019, else '0'. Using Euler's criterion: i is a QR iff i^509 ≡ 1 (mod 1019).
+
+- For i = 0: pow(0, 509, 1019) = 0 → '0'
+- For nonzero QR: pow returns 1 → '1' (exactly 509 of these)
+- For non-QR: pow returns 1018 → '0' (exactly 509 of these)
+
+Total: 509 ones, 510 zeros ✓
+
+SOLUTION: ''.join('1' if pow(i, 509, 1019) == 1 else '0' for i in range(1019))
+*** END

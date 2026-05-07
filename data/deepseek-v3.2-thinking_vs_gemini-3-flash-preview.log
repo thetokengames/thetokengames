@@ -1,0 +1,687 @@
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, (str, int)):
+        return False
+    try:
+        n = int(x) if isinstance(x, str) else x
+    except:
+        return False
+    if n <= 0:
+        return False
+    s = str(n)
+    r = int(s[::-1])
+    if n == r:
+        return False
+    a = n + r
+    b = n - r
+    import math
+    return math.isqrt(a) ** 2 == a and round(abs(b) ** (1/3)) ** 3 == abs(b)
+```
+
+SOLUTION: 74 
+Checking sample solution  74
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 47. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 357 in / 11,316 out
+  gemini-3-flash-preview (solver): 247 in / 13,055 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 100:
+        return False
+    s = str(x)
+    if len(set(s)) != 1:
+        return False
+    def q(n):
+        return sum(map(int, str(n)))
+    def k(n):
+        r, d, v = [], 2, n
+        while d * d <= v:
+            while v % d == 0:
+                r.append(d)
+                v //= d
+            i = 1 # Obfuscation
+            d += 1
+        if v > 1: r.append(v)
+        return r
+    m = k(x)
+    return len(m) > 1 and q(x) == sum(map(q, m))
+```
+
+This puzzle involves finding a number with a specific relationship between its digits and its prime factors. To solve it, you need to identify a "repdigit" (a number whose digits are all the same) that is also a "Smith number" (a composite number where the sum of its digits equals the sum of the digits of its prime factors, counted with multiplicity). The function `q` calculates the sum of the digits of a number, while the function `k` finds its prime factors. The puzzle specifically excludes numbers less than or equal to 100 to make the search more interesting.
+
+SOLUTION: 666 
+Checking sample solution  666
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 666. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 527 in / 22,633 out
+  deepseek-v3.2-thinking (solver): 262 in / 3,756 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, (str, int)):
+        return False
+    try:
+        n = int(x) if isinstance(x, str) else x
+    except:
+        return False
+    if n <= 1:
+        return False
+    def p(v):
+        if v < 2:
+            return False
+        if v == 2:
+            return True
+        if v % 2 == 0:
+            return False
+        i = 3
+        while i * i <= v:
+            if v % i == 0:
+                return False
+            i += 2
+        return True
+    if not p(n):
+        return False
+    m = n + 1
+    if m & (m - 1):
+        return False
+    r = int(str(n)[::-1])
+    if r == n:
+        return False
+    if not p(r):
+        return False
+    d = sum(map(int, str(n)))
+    import math
+    if math.isqrt(d) ** 2 != d:
+        return False
+    k = m.bit_length() - 1
+    if not p(k):
+        return False
+    return True
+```
+
+SOLUTION: 31 
+Checking sample solution  31
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 31. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 704 in / 9,249 out
+  gemini-3-flash-preview (solver): 387 in / 11,857 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 1000:
+        return False
+    
+    def _f(n):
+        res, temp, d = [], n, 2
+        while d * d <= temp:
+            if temp % d == 0:
+                res.append(d)
+                temp //= d
+                if temp % d == 0: return []
+            d += 1
+        return res + [temp] if temp > 1 else res
+
+    v = _f(x)
+    if len(v) < 3 or any((x - 1) % (p - 1) for p in v):
+        return False
+        
+    s = str(x)
+    sd = sum(int(d) for d in s)
+    is_prime = sd > 1 and all(sd % i for i in range(2, int(sd**0.5) + 1))
+    if not is_prime:
+        return False
+        
+    return '0' in s
+```
+
+### Explanation
+
+This puzzle revolves around finding a specific type of composite number known in number theory as a **Carmichael number** (or an absolute pseudoprime). 
+
+1.  **Input Validation**: The function first checks if `x` is an integer greater than 1000.
+2.  **Square-free and Factorization**: The inner function `_f(n)` factorizes the number. If the number is not square-free (i.e., it has a repeated prime factor), `_f` returns an empty list, which will cause the function to return `False`.
+3.  **Korselt's Criterion**: The puzzle checks if `x` satisfies the condition `(p - 1)` divides `(x - 1)` for every prime factor `p` of `x`. This is a defining property of Carmichael numbers.
+4.  **Composite Check**: The function ensures `x` has at least 3 prime factors (a known property of all Carmichael numbers).
+5.  **Digit Constraints**:
+    *   The sum of the digits of `x` must be a prime number.
+    *   The number must contain at least one '0' digit.
+
+A famous example of a Carmichael number that meets all these criteria is **1105** ($5 \times 13 \times 17$). Its prime factors are 5, 13, and 17. The values $(p-1)$ are 4, 12, and 16, all of which divide $1105 - 1 = 1104$. The sum of its digits is $1+1+0+5=7$, which is prime, and it contains the digit '0'.
+
+SOLUTION: 1105 
+Checking sample solution  1105
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 1105. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 1,202 in / 16,210 out
+  deepseek-v3.2-thinking (solver): 319 in / 3,048 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    # Convert to int if string
+    if isinstance(x, str):
+        try:
+            x = int(x)
+        except ValueError:
+            return False
+    if not isinstance(x, int):
+        return False
+    if x <= 100000:
+        return False
+    
+    # Primality test
+    def is_prime(n):
+        if n < 2:
+            return False
+        if n == 2:
+            return True
+        if n % 2 == 0:
+            return False
+        i = 3
+        while i * i <= n:
+            if n % i == 0:
+                return False
+            i += 2
+        return True
+    
+    if not is_prime(x):
+        return False
+    
+    # Fibonacci test: 5*x^2 ± 4 must be a perfect square
+    import math
+    s = 5 * x * x
+    a = s + 4
+    b = s - 4
+    if not (math.isqrt(a) ** 2 == a or math.isqrt(b) ** 2 == b):
+        return False
+    
+    # Digit properties
+    s_str = str(x)
+    digits = [int(d) for d in s_str]
+    digit_sum = sum(digits)
+    if not is_prime(digit_sum):
+        return False
+    
+    sum_squares = sum(d * d for d in digits)
+    if not is_prime(sum_squares):
+        return False
+    
+    if x % 7 != 2:
+        return False
+    
+    if x % 11 != 1:
+        return False
+    
+    from functools import reduce
+    import operator
+    product = reduce(operator.mul, digits, 1)
+    if product <= 700:
+        return False
+    
+    if len(s_str) % 2 != 0:
+        return False
+    
+    return True
+```
+
+SOLUTION: 514229 
+Checking sample solution  514229
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 514229. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 1,235 in / 18,271 out
+  gemini-3-flash-preview (solver): 571 in / 13,859 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    import math
+    try:
+        n = int(x)
+        if n <= 100: return False
+    except (ValueError, TypeError): return False
+    
+    _q = lambda v: v > 1 and all(v % i for i in range(2, int(v**0.5) + 1))
+    
+    s = str(n)
+    if '0' in s or not all(_q(int(s[i:])) for i in range(len(s))):
+        return False
+    
+    c, history = n, {n}
+    while c != 1:
+        c = sum(int(d)**2 for d in str(c))
+        if c in history: return False
+        history.add(c)
+        
+    if not _q(bin(n).count('1')):
+        return False
+        
+    digit_sum = sum(int(d) for d in s)
+    if math.isqrt(digit_sum)**2 != digit_sum:
+        return False
+        
+    p = 1
+    for d in s: p *= int(d)
+    return p % 10 == 6
+```
+
+This puzzle involves finding an integer $x > 100$ that satisfies several number-theoretical and digit-based conditions:
+
+1.  **Left-Truncatable Prime**: The number $x$ must be a prime number that does not contain the digit '0', and every number formed by successively removing the leading digit must also be prime (e.g., for $367$, both $67$ and $7$ must be prime).
+2.  **Happy Number**: The number must be "happy," meaning that if you repeatedly replace it with the sum of the squares of its digits, you eventually reach the number 1.
+3.  **Binary Popcount**: The number of set bits (1s) in the binary representation of $x$ must be a prime number.
+4.  **Digit Sum**: The sum of the digits of $x$ must be a perfect square.
+5.  **Digit Product**: The product of the digits of $x$ must end in the digit 6.
+
+A value that satisfies all these conditions is **367**. It is a prime number where $67$ and $7$ are also prime. Its happy sequence is $367 \to 94 \to 97 \to 130 \to 10 \to 1$. Its binary representation is `101101111`, which contains 7 ones (a prime number). Its digit sum is $3+6+7=16$ (which is $4^2$), and its digit product is $3 \times 6 \times 7 = 126$ (which ends in 6).
+
+SOLUTION: 367 
+Checking sample solution  367
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 367. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 2,364 in / 21,366 out
+  deepseek-v3.2-thinking (solver): 339 in / 4,183 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+UNHANDLED EXCEPTION, error: Inventer message format wrong.
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    # Convert to int if possible
+    if isinstance(x, str):
+        try:
+            x = int(x)
+        except ValueError:
+            return False
+    if not isinstance(x, int) or x <= 100000:
+        return False
+
+    # Check that x is not prime
+    if x < 2:
+        return False
+    if x % 2 == 0:
+        if x == 2:
+            return False  # 2 is prime, but x > 100000 so not encountered
+        # even and > 2 → composite
+        pass
+    else:
+        # odd number, check for divisors
+        i = 3
+        while i * i <= x:
+            if x % i == 0:
+                break
+            i += 2
+        else:
+            # no break → prime
+            return False
+
+    # Digit sum and product
+    s = str(x)
+    digit_sum = sum(int(ch) for ch in s)
+    if x % digit_sum != 0:
+        return False
+
+    digit_product = 1
+    for ch in s:
+        digit_product *= int(ch)
+
+    # Check product is a perfect cube
+    if digit_product == 0:
+        # 0 is a perfect cube (0³ = 0)
+        pass
+    else:
+        root = round(digit_product ** (1/3))
+        if root ** 3 != digit_product:
+            return False
+
+    # Taxicab check: at least two distinct representations as sum of two positive cubes
+    reps = []
+    max_val = int(x ** (1/3)) + 1
+    for a in range(1, max_val):
+        a3 = a ** 3
+        if a3 > x:
+            break
+        for b in range(a, max_val):
+            b3 = b ** 3
+            s3 = a3 + b3
+            if s3 > x:
+                break
+            if s3 == x:
+                reps.append((a, b))
+                if len(reps) >= 2:
+                    break
+        if len(reps) >= 2:
+            break
+
+    return len(reps) >= 2
+```
+
+SOLUTION: 110656 
+Checking sample solution  110656
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 110656. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 1,928 in / 17,129 out
+  gemini-3-flash-preview (solver): 633 in / 14,966 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    import math
+    try:
+        # Initial validation and conversion
+        n = int(x)
+        s = str(n)
+        nl = len(s)
+        if n <= 100:
+            return False
+    except (ValueError, TypeError):
+        return False
+    
+    # Helper for primality testing
+    _q = lambda v: v > 1 and all(v % i for i in range(2, int(v**0.5) + 1))
+
+    # Condition 1: Circular Primality
+    # Every cyclic rotation of the digits must be prime
+    if not all(_q(int(s[i:] + s[:i])) for i in range(nl)):
+        return False
+        
+    # Condition 2: Digital Sum Sequence (Keith Number Property)
+    # The number must appear in a sequence starting with its own digits, 
+    # where each term is the sum of the previous 'nl' terms.
+    res = [int(d) for d in s]
+    while res[-1] < n:
+        res.append(sum(res[-nl:]))
+    
+    # Condition 3: Digital Properties
+    # The sum of digits and the sum of the squares of digits must be prime.
+    d_list = [int(v) for v in s]
+    if res[-1] != n or not (_q(sum(d_list)) and _q(sum(v**2 for v in d_list))):
+        return False
+        
+    # Condition 4: Divisor Count Property
+    # The number of divisors of (n - 1) must be a perfect square.
+    target, count = n - 1, 0
+    for i in range(1, int(target**0.5) + 1):
+        if target % i == 0:
+            count += 1 if i * i == target else 2
+    
+    return math.isqrt(count)**2 == count
+```
+
+### Explanation
+
+This puzzle revolves around finding an integer $x > 100$ that satisfies a unique set of number-theoretic and digit-based criteria:
+
+1.  **Circular Prime**: The number $x$ must be a prime number where every cyclic rotation of its digits is also prime. For instance, if $x$ is $113$, then $113$, $131$, and $311$ must all be prime.
+2.  **Keith Number (Repfigit Number)**: $x$ must be a Keith number. This means that if you start a sequence with the $nl$ digits of $x$, and each subsequent term is the sum of the previous $nl$ terms, $x$ itself must eventually appear in the sequence.
+3.  **Prime Digit Sums**: Both the sum of the digits of $x$ and the sum of the squares of its digits must be prime numbers.
+4.  **Divisor Count of $x-1$**: The total number of divisors of $x-1$ must be a perfect square.
+
+A solution that satisfies all these properties is **197**:
+*   **Circular Prime**: $197$, $971$, and $719$ are all prime numbers.
+*   **Keith Number**: The sequence starting with $1, 9, 7$ is $1, 9, 7, 17, 33, 57, 107, 197$. Since $197$ is in the sequence, it is a Keith number.
+*   **Digital Sums**: $1+9+7 = 17$ (prime) and $1^2+9^2+7^2 = 131$ (prime).
+*   **Divisors of $x-1$**: $x-1 = 196$. The divisors of $196$ are $1, 2, 4, 7, 14, 28, 49, 98, 196$. There are $9$ divisors, and $9$ is a perfect square ($3^2$).
+
+SOLUTION: 197 
+Checking sample solution  197
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 197. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 3,605 in / 30,109 out
+  deepseek-v3.2-thinking (solver): 507 in / 2,291 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    # Convert to int if possible
+    if isinstance(x, str):
+        try:
+            x = int(x)
+        except ValueError:
+            return False
+    if not isinstance(x, int):
+        return False
+    if x <= 1000000:
+        return False
+
+    # Primality test
+    def is_prime(n):
+        if n < 2:
+            return False
+        if n == 2:
+            return True
+        if n % 2 == 0:
+            return False
+        i = 3
+        while i * i <= n:
+            if n % i == 0:
+                return False
+            i += 2
+        return True
+
+    if not is_prime(x):
+        return False
+
+    # Reverse and check
+    s = str(x)
+    r = int(s[::-1])
+    if r == x:
+        return False
+    if not is_prime(r):
+        return False
+
+    # Digit sum and product
+    digits = [int(d) for d in s]
+    digit_sum = sum(digits)
+    # Check digit sum is a perfect cube
+    cube_root = round(digit_sum ** (1/3))
+    if cube_root ** 3 != digit_sum:
+        return False
+
+    digit_product = 1
+    for d in digits:
+        digit_product *= d
+    if not is_prime(digit_product):
+        return False
+
+    # Modular conditions
+    if x % 7 != 6 or x % 11 != 6:
+        return False
+
+    # Binary ones count (popcount) must be a perfect square
+    import math
+    popcount = bin(x).count('1')
+    if math.isqrt(popcount) ** 2 != popcount:
+        return False
+
+    # Sum of squares of digits: half must be a perfect square
+    sum_squares = sum(d * d for d in digits)
+    if sum_squares % 2 != 0:
+        return False
+    half = sum_squares // 2
+    if math.isqrt(half) ** 2 != half:
+        return False
+
+    return True
+```
+
+SOLUTION: 1000000007 
+Checking sample solution  1000000007
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 2,862 in / 26,222 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    import math
+    if not isinstance(x, (int, str)):
+        return False
+    try:
+        n = int(x)
+    except (ValueError, TypeError):
+        return False
+    
+    # Condition 1: Input size check
+    if n <= 1000:
+        return False
+    
+    # Helper for primality testing
+    _is_p = lambda v: v > 1 and all(v % i for i in range(2, int(v**0.5) + 1))
+    
+    # Condition 2: Prime property
+    if not _is_p(n):
+        return False
+    
+    # Condition 3: A special square-related property
+    # This involves checking if n belongs to a specific near-square sequence
+    m = math.isqrt(n + 2)
+    if m * m != n + 2 or (m + 1) & m != 0:
+        return False
+    
+    # Condition 4: Digital properties in base 10 and binary
+    s10 = sum(int(d) for d in str(n))
+    bc = bin(n).count('1')
+    if not (_is_p(s10) and _is_p(bc)):
+        return False
+    
+    # Condition 5: Harshad property of the successor
+    sn = sum(int(d) for d in str(n + 1))
+    if sn == 0 or (n + 1) % sn != 0:
+        return False
+        
+    # Condition 6: Sum of digits in base 3
+    t, s3 = n, 0
+    while t > 0:
+        s3 += t % 3
+        t //= 3
+    if math.isqrt(s3)**2 != s3:
+        return False
+        
+    # Condition 7: Modular relationship with digital product
+    p10 = 1
+    for d in str(n):
+        p10 *= int(d)
+    return p10 > 0 and n % p10 == p10 - 1
+```
+
+This puzzle involves finding an integer $x > 1000$ that satisfies several rigorous number-theoretical and digit-based conditions:
+
+1.  **Carol Prime**: The number $x$ must be a prime number of the form $(2^k - 1)^2 - 2$. This is checked by verifying that $x+2$ is a perfect square $m^2$, where $m+1$ is a power of 2.
+2.  **Prime Digital Properties**: Both the sum of its base-10 digits and the number of set bits (1s) in its binary representation must be prime numbers.
+3.  **Successor Harshad Number**: The number $x+1$ must be a Harshad number (or Niven number), meaning it is divisible by the sum of its own base-10 digits.
+4.  **Base-3 Digital Sum**: When $x$ is represented in base 3, the sum of its digits must be a perfect square.
+5.  **Digital Product Modulo**: The number $x$ modulo the product of its base-10 digits must be equal to the product minus one (i.e., $x \equiv -1 \pmod{\text{product}}$).
+
+A solution that satisfies all these properties is **16127**:
+- It is a prime number and $16127 + 2 = 127^2$, where $127+1=128=2^7$.
+- The sum of its digits is $1+6+1+2+7=17$ (prime).
+- Its binary representation is `11111011111111`, which contains 13 set bits (prime).
+- $16127+1=16128$, and $1+6+1+2+8=18$. $16128$ is divisible by $18$ ($16128/18 = 896$).
+- In base 3, $16127$ is `211010022`. The sum of these digits is $2+1+1+0+1+0+0+2+2 = 9$ (a perfect square).
+- The product of its digits is $1 \times 6 \times 1 \times 2 \times 7 = 84$. $16127 \pmod{84} = 83$, which is $84-1$.
+
+SOLUTION: 16127 
+Checking sample solution  16127
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+UNHANDLED EXCEPTION, error: Expecting value: line 1063 column 1 (char 5841)
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    import math
+
+    def _p(v):
+        if v < 2: return False
+        if v == 2: return True
+        if v % 2 == 0: return False
+        for i in range(3, int(v**0.5) + 1, 2):
+            if v % i == 0: return False
+        return True
+
+    try:
+        if isinstance(x, str):
+            n = int(x)
+        elif isinstance(x, int):
+            n = x
+        else:
+            return False
+    except (ValueError, TypeError):
+        return False
+
+    if n <= 1000:
+        return False
+
+    # Condition 1: Sophie Germain prime property
+    if not (_p(n) and _p(2 * n + 1)):
+        return False
+
+    # Condition 2: Digital properties
+    s = str(n)
+    if '0' not in s or s == s[::-1]:
+        return False
+
+    d = [int(c) for c in s]
+    # Digit sum and sum of squares must be prime
+    if not (_p(sum(d)) and _p(sum(i * i for i in d))):
+        return False
+
+    # Condition 3: Binary representation popcount must be a perfect square
+    pop = bin(n).count('1')
+    if round(pop**0.5)**2 != pop:
+        return False
+
+    # Condition 4: Modular properties
+    return n % 13 == 5 and n % 7 == 4
+```
+
+### Explanation
+
+This puzzle requires finding an integer $x > 1000$ that satisfies several number-theoretic and digit-based conditions:
+
+1.  **Sophie Germain Prime**: The number $x$ must be a prime such that $2x + 1$ is also prime.
+2.  **Digit Constraints**:
+    *   The number must contain the digit '0'.
+    *   The number must not be a palindrome.
+    *   The sum of its digits must be a prime number.
+    *   The sum of the squares of its digits must be a prime number.
+3.  **Binary Popcount**: The number of set bits (1s) in the binary representation of $x$ must be a perfect square.
+4.  **Modular Conditions**: The number must satisfy $x \equiv 5 \pmod{13}$ and $x \equiv 4 \pmod 7$ (which is equivalent to $x \equiv 18 \pmod{91}$).
+
+A solution for this puzzle is **1019**:
+*   **Sophie Germain Prime**: $1019$ is prime, and $2 \times 1019 + 1 = 2039$ is also prime.
+*   **Digit Constraints**: It contains '0', and $1019 \neq 9101$. The sum of digits is $1+0+1+9=11$ (prime), and the sum of squares is $1^2+0^2+1^2+9^2=83$ (prime).
+*   **Binary Popcount**: $1019$ in binary is `1111111011`, which contains exactly 9 ones ($3^2 = 9$).
+*   **Modular Properties**: $1019 = 13 \times 78 + 5$ and $1019 = 7 \times 145 + 4$.
+
+SOLUTION: 1019 
+Checking sample solution  1019
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 1019. Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 5,117 in / 21,607 out
+  deepseek-v3.2-thinking (solver): 435 in / 3,497 out
+Turn 0: deepseek-v3.2-thinking vs gemini-3-flash-preview - 604 in / 24,371 out (?) [success]
+Turn 1: gemini-3-flash-preview vs deepseek-v3.2-thinking - 789 in / 26,389 out (?) [success]
+Turn 2: deepseek-v3.2-thinking vs gemini-3-flash-preview - 1,091 in / 21,106 out (?) [success]
+Turn 3: gemini-3-flash-preview vs deepseek-v3.2-thinking - 1,521 in / 19,258 out (?) [success]
+Turn 4: deepseek-v3.2-thinking vs gemini-3-flash-preview - 1,806 in / 32,130 out (?) [success]
+Turn 5: gemini-3-flash-preview vs deepseek-v3.2-thinking - 2,703 in / 25,549 out (?) [success]
+Turn 6: deepseek-v3.2-thinking vs gemini-3-flash-preview - 2,561 in / 32,095 out (?) [success]
+Turn 7: gemini-3-flash-preview vs deepseek-v3.2-thinking - 4,112 in / 32,400 out (?) [success]
+Turn 8: deepseek-v3.2-thinking vs gemini-3-flash-preview - 2,862 in / 26,222 out (?) [puzzle-wrong]
+Turn 9: gemini-3-flash-preview vs deepseek-v3.2-thinking - 5,552 in / 25,104 out (?) [success]
+deepseek-v3.2-thinking: 10,876 in / 132,428 out
+gemini-3-flash-preview: 19,770 in / 184,854 out
+deepseek-v3.2-thinking ./. gemini-3-flash-preview     (0-1) vs (0-0)     [2 failed, see runs/classic/deepseek-v3.2-thinking_vs_gemini-3-flash-preview.log]

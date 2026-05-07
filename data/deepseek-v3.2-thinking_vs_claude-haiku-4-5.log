@@ -1,0 +1,541 @@
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 6:
+        return False
+    for c in x:
+        if not (('0' <= c <= '9') or ('a' <= c <= 'z')):
+            return False
+    try:
+        n = int(x, 36)
+    except:
+        return False
+    r = int(n ** 0.5)
+    if r * r != n:
+        return False
+    if r < 2:
+        return False
+    i = 2
+    while i * i <= r:
+        if r % i == 0:
+            return False
+        i += 1
+    s = 0
+    for c in x:
+        if '0' <= c <= '9':
+            s += ord(c) - 48
+        else:
+            s += ord(c) - 87
+    if s < 2:
+        return False
+    i = 2
+    while i * i <= s:
+        if s % i == 0:
+            return False
+        i += 1
+    return True
+```
+
+SOLUTION: 1nmck1 
+Checking sample solution  1nmck1
+RuntimeError while checking sample -- penalizing!
+Error: Error running mystery():
+  File "<stdin>", line 43
+    result = mystery(1nmck1)
+                     ^
+SyntaxError: invalid decimal literal
+
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 357 in / 16,598 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    
+    if len(x) != 4:
+        return False
+    
+    for c in x:
+        if not (('0' <= c <= '9') or ('a' <= c <= 'f')):
+            return False
+    
+    try:
+        num = int(x, 16)
+    except:
+        return False
+    
+    sqrt = int(num ** 0.5)
+    if sqrt * sqrt != num:
+        return False
+    
+    if sqrt < 2:
+        return False
+    
+    for i in range(2, int(sqrt ** 0.5) + 1):
+        if sqrt % i == 0:
+            return False
+    
+    return True
+```
+
+This puzzle requires finding a 4-character hexadecimal string that encodes a very specific mathematical property: the string must represent a decimal number that is the perfect square of a prime number.
+
+The mystery function validates that:
+1. Input is exactly 4 lowercase hex characters (0-9, a-f)
+2. When interpreted as base-16, the resulting number is a perfect square
+3. The square root of that number is a prime (≥ 2, with no divisors from 2 to √√n)
+
+The constraints are deliberately restrictive. With only 4 hex digits, you have a range of 0 to 65535, limiting the possible perfect squares significantly. Then requiring the square root to be prime narrows it down even further.
+
+SOLUTION: "f619" 
+Checking sample solution  "f619"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "0004". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 710 in / 11,642 out
+  deepseek-v3.2-thinking (solver): 258 in / 2,365 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 5:
+        return False
+    if not x.isupper():
+        return False
+    for c in x:
+        if not ('A' <= c <= 'Z'):
+            return False
+    if x != x[::-1]:
+        return False
+    values = [ord(c) - ord('A') + 1 for c in x]
+    s = sum(values)
+    if s < 2:
+        return False
+    for i in range(2, int(s ** 0.5) + 1):
+        if s % i == 0:
+            return False
+    p = 1
+    for v in values:
+        p *= v
+    r = int(p ** 0.5)
+    if r * r != p:
+        return False
+    return True
+
+```
+
+SOLUTION: "AAAAA" 
+Checking sample solution  "AAAAA"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "AAAAA". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 822 in / 9,861 out
+  claude-haiku-4-5 (solver): 354 in / 3,263 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 6:
+        return False
+    
+    # Must be a palindrome
+    if x != x[::-1]:
+        return False
+    
+    # First and last must be uppercase vowels
+    if x[0] not in 'AEIOU' or x[0] != x[5]:
+        return False
+    
+    # Second and fifth must be '1'
+    if x[1] != '1' or x[4] != '1':
+        return False
+    
+    # Third and fourth must be the same lowercase consonant
+    if not x[2].islower() or x[2] != x[3] or x[2] in 'aeiou':
+        return False
+    
+    # Consonant must be at a prime position in the alphabet
+    consonant_pos = ord(x[2]) - ord('a') + 1
+    prime_positions = [2, 3, 5, 7, 11, 13, 17, 19, 23]
+    if consonant_pos not in prime_positions:
+        return False
+    
+    # Sum of character values must be 50
+    # (A=1, B=2, ..., Z=26; digits = face value)
+    vowel_val = ord(x[0]) - ord('A') + 1
+    consonant_val = consonant_pos
+    total = 2 * vowel_val + 2 * 1 + 2 * consonant_val
+    
+    if total != 50:
+        return False
+    
+    return True
+```
+
+This puzzle requires finding a 6-character string that satisfies multiple interlocking constraints. The string must form a **palindrome** with a specific alternating pattern: uppercase vowel, digit, lowercase consonant, lowercase consonant, digit, uppercase vowel. 
+
+Beyond the structural requirements visible in the code, the mystery function enforces mathematical properties based on alphabetic positions (treating A=1, B=2, ..., Z=26) and character values. The consonant must occupy a "special" position in the alphabet, and all character values must sum to an exact target that severely constrains which vowel-consonant combinations are viable. The interplay between these constraints produces a unique solution.
+
+SOLUTION: "U1cc1U" 
+Checking sample solution  "U1cc1U"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "A1ww1A". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,369 in / 23,841 out
+  deepseek-v3.2-thinking (solver): 440 in / 1,679 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 5:
+        return False
+    for c in x:
+        if not ('A' <= c <= 'Z'):
+            return False
+    if x != x[::-1]:
+        return False
+    if x[0] not in "AEIOU":
+        return False
+    if x[0] == x[2]:
+        return False
+    values = [ord(c) - ord('A') + 1 for c in x]
+    s = sum(values)
+    if s < 2:
+        return False
+    for i in range(2, int(s**0.5) + 1):
+        if s % i == 0:
+            return False
+    p = 1
+    for v in values:
+        p *= v
+    r = int(round(p ** (1/3)))
+    if r * r * r != p:
+        return False
+    return True
+```
+
+SOLUTION: "ACCCA" 
+Checking sample solution  "ACCCA"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "ACCCA". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 1,417 in / 9,338 out
+  claude-haiku-4-5 (solver): 378 in / 7,589 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 6:
+        return False
+    
+    # Pattern: digit-letter-digit-letter-digit-letter
+    for i in [0, 2, 4]:
+        if not x[i].isdigit():
+            return False
+    for i in [1, 3, 5]:
+        if not x[i].isupper():
+            return False
+    
+    # Extract digits and letters
+    digits = [int(x[i]) for i in [0, 2, 4]]
+    letters = [x[i] for i in [1, 3, 5]]
+    
+    # Digits must form an arithmetic sequence with positive difference
+    diff = digits[1] - digits[0]
+    if digits[2] - digits[1] != diff or diff <= 0:
+        return False
+    
+    # Letters must form pattern XYX (first and last same)
+    if letters[0] != letters[2]:
+        return False
+    
+    # Sum of digits must equal sum of letter positions (A=1, B=2, ..., Z=26)
+    digit_sum = sum(digits)
+    letter_sum = sum(ord(c) - ord('A') + 1 for c in letters)
+    
+    if digit_sum != letter_sum:
+        return False
+    
+    return True
+```
+
+This puzzle requires finding a 6-character string with a strict alternating pattern of digits and uppercase letters: digit-letter-digit-letter-digit-letter.
+
+However, the function enforces three interconnected mathematical constraints that are not immediately obvious:
+
+1. **Arithmetic Sequence**: The three digits (at positions 0, 2, 4) must form an arithmetic sequence with a positive common difference. For example, 1→3→5 or 2→4→6.
+
+2. **Palindromic Letters**: The three letters (at positions 1, 3, 5) must follow an XYX pattern where the first and third letters are identical.
+
+3. **Sum Balance**: The most restrictive constraint—the sum of the three digits must exactly equal the sum of the three letters' alphabetic positions, where A=1, B=2, ..., Z=26.
+
+These three requirements are tightly coupled: once the digit sequence is chosen, the middle letter's value becomes nearly determined by the requirement that first and last letters match and their combined value must help achieve the target sum. The interplay between these constraints creates a puzzle that is logically solvable but challenging to find through random guessing.
+
+SOLUTION: "1A3G5A" 
+Checking sample solution  "1A3G5A"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "0A1A2A". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 2,240 in / 8,072 out
+  deepseek-v3.2-thinking (solver): 397 in / 2,744 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    # Type check
+    if not isinstance(x, str):
+        return False
+    # Length must be 4
+    if len(x) != 4:
+        return False
+    # All characters must be digits
+    if not x.isdigit():
+        return False
+    # No leading zero
+    if x[0] == '0':
+        return False
+    # Convert to integer
+    n = int(x)
+    # Must be at least 1000
+    if n < 1000:
+        return False
+    # Get digits
+    d0, d1, d2, d3 = [int(ch) for ch in x]
+    # Condition A: sum of digits is even
+    s = d0 + d1 + d2 + d3
+    if s % 2 != 0:
+        return False
+    # Condition B: n is divisible by s
+    if n % s != 0:
+        return False
+    # Condition C: n equals sum of fourth powers of digits
+    if d0**4 + d1**4 + d2**4 + d3**4 != n:
+        return False
+    # Condition D: product of digits is a perfect square
+    p = d0 * d1 * d2 * d3
+    # For negative product? digits are non-negative, so p>=0
+    import math
+    root = math.isqrt(p)
+    if root * root != p:
+        return False
+    # Condition E: not a palindrome
+    if x == x[::-1]:
+        return False
+    # Condition F: first digit is even
+    if d0 % 2 != 0:
+        return False
+    # Condition G: last digit is even
+    if d3 % 2 != 0:
+        return False
+    # All conditions passed
+    return True
+```
+
+SOLUTION: 8208 
+Checking sample solution  8208
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -2 (0-2) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 1,987 in / 17,045 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 6:
+        return False
+    
+    # First 3 characters must be uppercase letters
+    if not all('A' <= x[i] <= 'Z' for i in range(3)):
+        return False
+    
+    # Last 3 characters must be digits
+    if not all(x[i].isdigit() for i in range(3, 6)):
+        return False
+    
+    # Extract letters and digits
+    letters = x[:3]
+    digits = [int(x[i]) for i in range(3, 6)]
+    
+    # Letters must be in alphabetical order
+    if letters != ''.join(sorted(letters)):
+        return False
+    
+    # All digits must be distinct
+    if len(set(digits)) != 3:
+        return False
+    
+    # Digits must form an arithmetic sequence when sorted
+    sorted_digits = sorted(digits)
+    common_diff = sorted_digits[1] - sorted_digits[0]
+    if sorted_digits[2] - sorted_digits[1] != common_diff:
+        return False
+    
+    # Sum of letter values (A=1, B=2, ..., Z=26) must equal sum of digits
+    letter_sum = sum(ord(c) - ord('A') + 1 for c in letters)
+    digit_sum = sum(digits)
+    
+    if letter_sum != digit_sum:
+        return False
+    
+    return True
+```
+
+This puzzle requires finding a 6-character string with a precise structure and multiple interconnected mathematical constraints:
+
+**Format Requirements:**
+- Exactly 6 characters: 3 uppercase letters followed by 3 digits
+
+**Letter Constraints:**
+- The 3 letters must appear in strict alphabetical order (e.g., "ABC" is valid, "BAC" is not)
+
+**Digit Constraints:**
+- All 3 digits must be distinct
+- When sorted, the digits must form an arithmetic sequence with a constant difference (e.g., 0,4,8 with difference 4, or 1,3,5 with difference 2)
+
+**The Critical Constraint:**
+- The sum of letter positions (A=1, B=2, ..., Z=26) must exactly equal the sum of the digit values
+
+The puzzle's difficulty comes from the interplay between the digit sequence constraint and the sum equality requirement. Once you settle on a digit sequence, its sum is fixed, which severely limits which letter combinations can satisfy the balance condition. Finding letters in alphabetical order that match a required sum is non-obvious, and discovering this connection requires systematic analysis.
+
+SOLUTION: "AEF048" 
+Checking sample solution  "AEF048"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "AAA012". Checking.
+Success!
+New score after this turn: -2 (0-2) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 3,385 in / 15,990 out
+  deepseek-v3.2-thinking (solver): 421 in / 3,217 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 3:
+        return False
+    if not x.isdigit():
+        return False
+    if x[0] == '0':
+        return False
+    n = int(x)
+    if n < 100:
+        return False
+    d1, d2, d3 = map(int, x)
+    # Armstrong (narcissistic) condition
+    if d1**3 + d2**3 + d3**3 != n:
+        return False
+    # Harshad condition: divisible by sum of digits
+    s = d1 + d2 + d3
+    if n % s != 0:
+        return False
+    # Product of digits is a perfect square
+    p = d1 * d2 * d3
+    import math
+    if math.isqrt(p) ** 2 != p:
+        return False
+    # Ends with 0 (divisible by 10)
+    if n % 10 != 0:
+        return False
+    # Not a palindrome
+    if x == x[::-1]:
+        return False
+    # First digit is prime
+    if d1 not in {2, 3, 5, 7}:
+        return False
+    # Second digit is prime
+    if d2 not in {2, 3, 5, 7}:
+        return False
+    # Third digit is not prime
+    if d3 in {2, 3, 5, 7}:
+        return False
+    return True
+```
+
+SOLUTION: "370" 
+Checking sample solution  "370"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "370". Checking.
+Success!
+New score after this turn: -2 (0-2) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 2,770 in / 18,521 out
+  claude-haiku-4-5 (solver): 523 in / 3,725 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 4:
+        return False
+    
+    # All lowercase letters
+    if not x.islower():
+        return False
+    
+    # All characters must be distinct
+    if len(set(x)) != 4:
+        return False
+    
+    # When sorted, characters must form an arithmetic sequence of ASCII values
+    sorted_x = sorted(x)
+    ascii_vals = [ord(c) for c in sorted_x]
+    
+    diff = ascii_vals[1] - ascii_vals[0]
+    if ascii_vals[2] - ascii_vals[1] != diff:
+        return False
+    if ascii_vals[3] - ascii_vals[2] != diff:
+        return False
+    
+    # The string must be a rotation of its sorted form
+    sorted_doubled = sorted_x + sorted_x
+    if x not in sorted_doubled:
+        return False
+    
+    # First character must come before last character alphabetically
+    if x[0] >= x[-1]:
+        return False
+    
+    return True
+```
+
+This puzzle requires finding a 4-character string of lowercase letters with several interlocking mathematical properties:
+
+**Basic Requirements**: The string must contain exactly 4 distinct lowercase letters.
+
+**The Arithmetic Progression Constraint**: When sorted alphabetically, the letters must form an arithmetic sequence in their ASCII values. For example, 'b', 'd', 'f', 'h' have ASCII values 98, 100, 102, 104—equal spacing of 2. This means finding four letters evenly distributed in the alphabet.
+
+**The Rotation Constraint**: The original string must be a cyclic rotation of its sorted form. If sorted is "bdfh", valid rotations include "bdfh", "dfhb", "fhbd", "hbdf". This constraint is the key difficulty—discovering it requires testing or careful code analysis.
+
+**The Ordering Constraint**: The first character must precede the last character alphabetically. This eliminates most rotations, typically leaving just one valid solution per arithmetic sequence.
+
+The puzzle is challenging because the rotation requirement is non-obvious, and discovering that the sorted characters need equal ASCII spacing requires systematic experimentation or deduction.
+
+SOLUTION: "bdfh" 
+Checking sample solution  "bdfh"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -2 (0-2) vs -1 (0-1)
+  claude-haiku-4-5 (inventer): 4,481 in / 8,849 out
+Turn 0: deepseek-v3.2-thinking vs claude-haiku-4-5 - 357 in / 16,598 out (?) [puzzle-wrong-ex]
+Turn 1: claude-haiku-4-5 vs deepseek-v3.2-thinking - 968 in / 14,007 out (?) [success]
+Turn 2: deepseek-v3.2-thinking vs claude-haiku-4-5 - 1,176 in / 13,124 out (?) [success]
+Turn 3: claude-haiku-4-5 vs deepseek-v3.2-thinking - 1,809 in / 25,520 out (?) [success]
+Turn 4: deepseek-v3.2-thinking vs claude-haiku-4-5 - 1,795 in / 16,927 out (?) [success]
+Turn 5: claude-haiku-4-5 vs deepseek-v3.2-thinking - 2,637 in / 10,816 out (?) [success]
+Turn 6: deepseek-v3.2-thinking vs claude-haiku-4-5 - 1,987 in / 17,045 out (?) [puzzle-wrong]
+Turn 7: claude-haiku-4-5 vs deepseek-v3.2-thinking - 3,806 in / 19,207 out (?) [success]
+Turn 8: deepseek-v3.2-thinking vs claude-haiku-4-5 - 3,293 in / 22,246 out (?) [success]
+Turn 9: claude-haiku-4-5 vs deepseek-v3.2-thinking - 4,481 in / 8,849 out (?) [puzzle-wrong]
+deepseek-v3.2-thinking: 8,869 in / 81,368 out
+claude-haiku-4-5: 13,440 in / 82,971 out
+deepseek-v3.2-thinking ./. claude-haiku-4-5     (0-2) vs (0-1)     [0 failed, see runs/classic/deepseek-v3.2-thinking_vs_claude-haiku-4-5.log]

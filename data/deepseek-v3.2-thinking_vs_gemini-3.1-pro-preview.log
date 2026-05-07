@@ -1,0 +1,506 @@
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, (int, float)):
+        x = str(x)
+    if not isinstance(x, str):
+        return False
+    if len(x) < 50 or len(x) % 2 != 0:
+        return False
+    if not all('a' <= c <= 'z' for c in x):
+        return False
+    if len(set(x)) != 17:
+        return False
+    if not x.startswith('abcd'):
+        return False
+    if not x.endswith('nopq'):
+        return False
+    import hashlib
+    h = hashlib.sha256(x.encode()).hexdigest()
+    target = "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1"
+    return h == target
+```
+
+SOLUTION: "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq" 
+Checking sample solution  "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "abcdefghijklmnopqabcdefghijklmnopqabcdefghijklmnopqabcdefghijklmnopq". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 357 in / 10,867 out
+  gemini-3.1-pro-preview (solver): 330 in / 4,036 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) > 45:
+        return False
+    if '"' in x or "'" in x:
+        return False
+    
+    try:
+        a = eval(x)
+        b = eval(x, {"__builtins__": {}})
+        c = eval(x, {"__builtins__": None})
+        
+        return a == 1 and b == 2 and c == 3
+    except Exception:
+        return False
+```
+
+### Explanation
+This puzzle challenges the solver to deeply understand Python's execution environment and how the `eval()` function determines variable scoping.
+When evaluating a string, `eval` behaves differently depending on the `__builtins__` key in the globals dictionary:
+1. In `a = eval(x)`, `__builtins__` is automatically injected by Python as the standard `builtins` module, which is truthy.
+2. In `b = eval(...)`, it is explicitly set to an empty dictionary `{}`, which evaluates to `False`.
+3. In `c = eval(...)`, it is explicitly set to `None`, which also evaluates to `False`.
+
+Because built-in functions (like `len` or `bool`) and quotes (to prevent trivial string manipulation) are unavailable or restricted, the solver must craft an expression using only keywords and operators. A working solution uses an inline conditional (`if`/`else`) to branch on the truthiness of `__builtins__` to yield `1` in the normal case, and then subtracts a boolean equality check `(__builtins__ == {})` from `3` to yield `2` and `3` respectively.
+
+SOLUTION: "1 if __builtins__ else 3-(__builtins__=={})" 
+Checking sample solution  "1 if __builtins__ else 3-(__builtins__=={})"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 1+(__builtins__ is None)+(__builtins__=={}). Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 1 (1-0)
+  gemini-3.1-pro-preview (inventer): 611 in / 32,219 out
+  deepseek-v3.2-thinking (solver): 212 in / 8,348 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.islower():
+        return False
+    if not x.isalpha():
+        return False
+    import hashlib
+    h = hashlib.sha256(x.encode()).hexdigest()
+    target = "5e884898da2804715d0e243fdaa739f0e5feea7f0a8453d9d6d7d6b5b5b5b5b5"
+    return h == target
+```
+
+The puzzle involves finding an 8-character string consisting only of lowercase letters whose SHA-256 hash matches a specific target. The constraints are designed to narrow the search space while relying on the cryptographic strength of the hash to make it computationally difficult to find a solution other than the intended one. The target hash corresponds to a common but non-obvious string, ensuring that brute-force attempts are challenging due to the large search space (26^8 possibilities) and the pre-image resistance of SHA-256.
+
+SOLUTION: password 
+Checking sample solution  password
+RuntimeError while checking sample -- penalizing!
+Error: Error running mystery():
+Traceback (most recent call last):
+  File "<stdin>", line 20, in <module>
+NameError: name 'password' is not defined
+
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (1-1) vs 1 (1-0)
+  deepseek-v3.2-thinking (inventer): 719 in / 18,216 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, float):
+        return False
+    
+    if x <= 0.0 or x >= 1e20:
+        return False
+        
+    # Condition 1: ULP trickery
+    if not (x + 1.0 == x and x + 2.0 > x):
+        return False
+    if not (x + 3.0 == x + 4.0 and x + 5.0 == x + 4.0):
+        return False
+    if not (x + 6.0 > x + 4.0 and x + 7.0 == x + 8.0):
+        return False
+        
+    # Condition 2: Structural property
+    try:
+        s = oct(int(x))[2:]
+    except (ValueError, OverflowError):
+        return False
+        
+    if s != s[::-1]:
+        return False
+        
+    if "7" not in s:
+        return False
+        
+    return True
+```
+
+### Explanation
+This puzzle relies on a combination of IEEE 754 double-precision floating-point arithmetic and base-8 (octal) string manipulation.
+
+1. **Floating Point Constraints**: 
+   The equations `x + 1.0 == x` and `x + 2.0 > x` along with the subsequent step conditions uniquely fingerprint the precision boundary where the Unit in the Last Place (ULP) is exactly `2.0`. In Python's 64-bit floats, this occurs strictly in the range `[2**53, 2**54)`.
+   Additionally, because of the "round to nearest, ties to even" rule, for `x + 1.0` to round down to `x` and `x + 3.0` to round up to `x + 4.0`, the mantissa of `x` must be even. With a ULP of 2, an even mantissa implies that `x` is a multiple of 4. Therefore, `x` must be a multiple of 4 in the range `[9007199254740992, 18014398509481984)`.
+   
+2. **Octal Palindrome**: 
+   The puzzle restricts `s = oct(int(x))[2:]` to be a palindrome. Since $2^{53}$ in octal is `400000000000000000` (18 digits), `s` must be an 18-digit octal string starting with `4`. For it to be a palindrome, it must also end with `4`. Any octal number ending in `4` evaluates to $8k + 4$, which cleanly satisfies our multiple-of-4 constraint!
+   
+3. **Preventing Trivial Solutions**: 
+   The simplest palindrome `400000000000000004` evaluates to `9007199254740996.0` and satisfies all math conditions, but the `"7" in s` check filters it out. Brute-forcing the float range iteratively is impossible due to the sheer size of the space ($\sim 2.25 \times 10^{15}$ valid multiples of 4). A solver must logically deduce the octal length and generate palindromes.
+
+We can manually construct a valid payload by picking a symmetric octal structure, like `'400700000000007004'`.
+When evaluated: $x = 4 \cdot 8^{17} + 7 \cdot 8^{14} + 7 \cdot 8^{3} + 4 = 9037985580322308.0$. 
+This matches all constraints natively and perfectly.
+
+SOLUTION: 9037985580322308.0 
+Checking sample solution  9037985580322308.0
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 9008256219355604.0. Checking.
+Failure!
+New score after this turn: 0 (1-1) vs 2 (2-0)
+  gemini-3.1-pro-preview (inventer): 1,218 in / 27,273 out
+  deepseek-v3.2-thinking (solver): 312 in / 13,203 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 6:
+        return False
+    if not x.isalpha():
+        return False
+    if not x.islower():
+        return False
+    if x != x[::-1]:
+        return False
+    if len(set(x)) != 3:
+        return False
+    s = sum(ord(c) for c in x)
+    if s != 650:
+        return False
+    if 'z' not in x:
+        return False
+    return True
+```
+
+SOLUTION: "jazzaj" 
+Checking sample solution  "jazzaj"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "efzzfe". Checking.
+Success!
+New score after this turn: 0 (1-1) vs 2 (2-0)
+  deepseek-v3.2-thinking (inventer): 1,232 in / 11,166 out
+  gemini-3.1-pro-preview (solver): 237 in / 3,403 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+        
+    if len(x) > 31:
+        return False
+        
+    if any(c.isdigit() for c in x):
+        return False
+        
+    if '_' in x:
+        return False
+        
+    try:
+        # Evaluate safely without any built-ins
+        val = eval(x, {"__builtins__": {}})
+        return val == 2024
+    except Exception:
+        return False
+```
+
+This puzzle challenges the solver to construct a Python expression that evaluates exactly to `2024`, but with extreme constraints:
+1. It must be exactly 31 characters or less.
+2. It cannot contain any digits (`0`-`9`).
+3. It cannot contain underscores `_` (which explicitly prevents accessing double-underscore attributes like `__class__`, `__len__`, or `__doc__` for sandbox escapes).
+4. It is evaluated with an empty `__builtins__` dictionary, meaning standard functions like `len()`, `ord()`, `int()`, etc. are unavailable.
+
+Because built-in functions, methods with `_`, and digits are forbidden, the solver cannot easily cast types, measure lengths, or do standard math with integer literals. 
+However, in Python 3, `False` and `True` are keywords (not built-ins) and evaluate mathematically as the integers `0` and `1`.
+To get large numbers within the tight character limit, we can't use bitshifting `True` (e.g. `True<<(True+True...)`) because building $2024$ takes far too many characters.
+
+The intended elegant trick uses Python's `bytes` objects. A bytes literal like `b'.'` evaluates to a sequence of integers corresponding to their ASCII values. Indexing a bytes object with an integer returns that precise integer value. 
+Thus, `b'.'[0]` evaluates to `46` (the ASCII value of a period), and `b','[0]` evaluates to `44`.
+Since `False` is mathematically equivalent to `0`, we can write `b'.'[False]` to yield `46` and `b','[False]` to yield `44` without using any digits or built-ins.
+Finally, multiplying them gives $46 \times 44 = 2024$.
+
+A working payload is `"b'.'[False]*b','[False]"`, which is exactly 23 characters long and safely satisfies all conditions. Another brilliant 25-character approach without built-ins/digits uses negative ASCII math: `"b'-'[False]**-~True-True"` ($45^2 - 1 = 2024$).
+
+SOLUTION: "b'.'[False]*b','[False]" 
+Checking sample solution  "b'.'[False]*b','[False]"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) > 35:
+        return False
+    
+    # Restrict common methods and sandbox escapes
+    banned = ["extend", "append", "insert", "update", "add", "eval", "exec", "import", "__"]
+    for b in banned:
+        if b in x:
+            return False
+            
+    try:
+        # Evaluate with completely empty builtins
+        obj = eval(x, {'__builtins__': {}})
+    except Exception:
+        return False
+
+    # The result must be a dictionary
+    if type(obj) is not dict:
+        return False
+        
+    # The dictionary must contain exactly one item
+    if len(obj) != 1:
+        return False
+        
+    # The dictionary must be perfectly self-referencing (its only value is itself)
+    if list(obj.values())[0] is not obj:
+        return False
+        
+    return True
+```
+
+### Explanation
+This puzzle challenges the solver to deeply understand Python's object model, assignment expressions, and dictionary methods under a severely constrained execution environment. 
+
+To solve it, the user must provide a string `x` that evaluates to a self-referencing dictionary (where the dictionary contains itself as a value). However, there are significant obstacles:
+1. **No Statements:** `eval` only evaluates expressions. Standard Python statements (like `a = {}; a[0] = a`) are syntactically invalid.
+2. **No Builtins:** The `__builtins__` dictionary is wiped out. Standard sandbox escapes are blocked by banning the `__` substring, entirely preventing access to `__class__`, `__globals__`, `__setitem__`, etc. Builtin functions like `dict()` or `setattr()` are gone.
+3. **Restricted Mutation:** To create a self-referencing object in a single expression, one typically creates an object and mutates it immediately. List mutations (`append`, `extend`, `insert`) and set mutations (`add`) are explicitly banned. For dictionaries, the `update` method is banned. 
+
+The ONLY standard dictionary method left that allows in-place addition of an element is `setdefault(key, default)`.
+
+The solver must cleverly combine `setdefault` with an assignment expression (the walrus operator `:=`) or an inline `lambda` closure to capture a reference to the dictionary as it is created, mutate it, and return it. Furthermore, it must all be done in 35 characters or less.
+
+A beautiful and minimal 28-character solution utilizes a list display to evaluate the dictionary creation and mutation sequentially, finally indexing `[0]` to yield the modified object:
+`[a:={},a.setdefault(0,a)][0]`
+
+Alternatively, an inline lambda works in 31 characters:
+`(lambda a:a.setdefault(0,a))({})`
+
+SOLUTION: "[a:={},a.setdefault(0,a)][0]" 
+Checking sample solution  "[a:={},a.setdefault(0,a)][0]"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "{0:(d for d in[{}]).next()}". Checking.
+Failure!
+New score after this turn: 0 (1-1) vs 3 (3-0)
+  gemini-3.1-pro-preview (inventer): 2,313 in / 25,286 out
+  deepseek-v3.2-thinking (solver): 315 in / 3,648 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not x.isdigit():
+        return False
+    if x[0] == '0':
+        return False
+    
+    # digit constraints
+    if x.count('0') < 1:
+        return False
+    if x.count('2') < 2:
+        return False
+    if x.count('6') != 1:
+        return False
+    for forbidden in '345':
+        if forbidden in x:
+            return False
+    
+    if x[0] != '6':
+        return False
+    if int(x[-1]) % 2 == 0:
+        return False
+    
+    # sum and product
+    digits = [int(c) for c in x]
+    if sum(digits) % 2 != 0:
+        return False
+    prod = 1
+    for d in digits:
+        prod *= d
+    if prod != 0:
+        return False
+    
+    # primality of n
+    n = int(x)
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    
+    # factorial prime condition
+    import math
+    primes = [2, 3, 5, 7, 11, 13, 17, 19]
+    for k in primes:
+        f = math.factorial(k)
+        if n == f - 1 or n == f + 1:
+            return True
+    return False
+```
+
+SOLUTION: 6227020799 
+Checking sample solution  6227020799
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (1-2) vs 3 (3-0)
+  deepseek-v3.2-thinking (inventer): 1,626 in / 21,099 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+        
+    if len(x) != 3 or len(set(x)) != 2:
+        return False
+        
+    lengths = (
+        len(x.upper()),
+        len(x.lower()),
+        len(x.casefold()),
+        len(x.title())
+    )
+    
+    if lengths != (5, 5, 7, 7):
+        return False
+        
+    if 'f' not in x.casefold():
+        return False
+        
+    return True
+```
+
+### Explanation
+This puzzle relies on a deep understanding of Python's Unicode casing implementation. In Python 3, string casing methods (`upper`, `lower`, `casefold`, `title`) can actually change the length of a string depending on the Unicode character's expansion rules.
+
+Here is the step-by-step logical deduction:
+
+1. **`len(x) == 3` and `len(x.lower()) == 5`**: 
+   The string must expand by 2 characters when lowercased. In standard Python/Unicode, the ONLY single character that expands its length when lowercased is the Turkish Capital Letter I with Dot Above, `'İ'` (U+0130), which lowercases to `'i\u0307'` (length 2). To achieve a total length of 5 from a 3-character string, `x` MUST contain exactly two `'İ'`s.
+
+2. **`len(set(x)) == 2`**: 
+   Since `x` is 3 characters long and contains two `'İ'`s, the third character must be unique. 
+
+3. **`len(x.upper()) == 5`**: 
+   The string must also expand by 2 characters when uppercased. The two `'İ'`s do not expand when uppercased (they remain length 1). Therefore, the single remaining character MUST expand to a length of 3 when uppercased. Characters that do this include Unicode ligatures like `'ﬃ'` (U+FB03, which uppercases to `'FFI'`) or `'ﬄ'` (U+FB04, which uppercases to `'FFL'`). 
+
+4. **`len(x.title()) == 7`**:
+   The `title()` method capitalizes the first character of the word and lowercases the rest. 
+   - If the string starts with `'İ'` (e.g., `'İİﬃ'`), the titlecasing applies as: Titlecase `'İ'` (1) + Lowercase `'İ'` (2) + Lowercase `'ﬃ'` (1) = Length 4.
+   - If the string starts with the ligature `'ﬃ'` (e.g., `'ﬃİİ'`), the titlecasing applies as: Titlecase `'ﬃ'` (becomes `'Ffi'`, length 3) + Lowercase `'İ'` (2) + Lowercase `'İ'` (2) = Length 7. 
+   This condition strictly forces the exact positional order: the ligature must be first!
+
+5. **`'f' in x.casefold()`**:
+   This condition filters out alternative expanding characters like the Greek `'ΐ'` (which also expands to length 3 but yields Greek characters in casefold), tightly restricting the solution to the `'f'`-based ligatures.
+
+A valid solution perfectly meeting all constraints is the string `'\ufb03\u0130\u0130'` (or `'ﬃİİ'`). 
+
+SOLUTION: '\ufb03\u0130\u0130' 
+Checking sample solution  '\ufb03\u0130\u0130'
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 'ﬄİİ'. Checking.
+Success!
+New score after this turn: -1 (1-2) vs 3 (3-0)
+  gemini-3.1-pro-preview (inventer): 3,436 in / 19,832 out
+  deepseek-v3.2-thinking (solver): 216 in / 9,937 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 11:
+        return False
+    if x[5] != ' ':
+        return False
+    if not x[:5].isalpha() or not x[6:].isalpha():
+        return False
+    if not x.islower():
+        return False
+    if sum(ord(c) for c in x) != 1116:
+        return False
+    import hashlib
+    if hashlib.md5(x.encode()).hexdigest() != "5eb63bbbe01eeed093cb22bb8f5acdc3":
+        return False
+    h = hashlib.sha256(x.encode()).hexdigest()
+    target = "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+    return h == target
+```
+
+SOLUTION: "hello world" 
+Checking sample solution  "hello world"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "hello world". Checking.
+Success!
+New score after this turn: -1 (1-2) vs 3 (3-0)
+  deepseek-v3.2-thinking (inventer): 2,154 in / 10,761 out
+  gemini-3.1-pro-preview (solver): 343 in / 2,191 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) > 40:
+        return False
+        
+    banned = ["%", "eval", "exec", "import", "replace", "lambda", "chr", "__", " ", "[", "]"]
+    for b in banned:
+        if b in x:
+            return False
+            
+    try:
+        # Self-evaluating expression in a restricted sandbox
+        return eval(x, {"__builtins__": {}}) == x
+    except Exception:
+        return False
+```
+
+### Explanation
+This puzzle challenges the solver to create a pure Python expression Quine (a string that evaluates identically to its own source code) within severe constraints. 
+
+To solve `eval(x) == x`, the string must compute itself. However:
+1. `{"__builtins__": {}}` removes standard built-in functions (like `repr`, `chr`, etc.), meaning you can only use core syntax and methods bound to literals.
+2. The banned substring list systematically targets standard Quine vectors:
+   - `%` blocks the classic `%r` string formatting Quine.
+   - `lambda` blocks the most common inline function Quines.
+   - `[` and `]` block list comprehension Quines.
+   - `replace` blocks string replacement Quines.
+3. The tight length limit of `40` characters prevents long-winded f-string or nesting workarounds.
+
+The ONLY viable path left to build an expression Quine under 40 characters is to deeply understand Python's left-to-right evaluation order and combine the walrus operator `:=` (assignment expression) with the `.format()` string method.
+
+By assigning a format template to a variable `a` within the expression and immediately calling `.format(a)` on it, we can create the self-replicating structure:
+`"(a:='(a:={0!r}).format(a)').format(a)"` (38 characters)
+
+**Trace of Execution:**
+1. `eval` begins evaluating the expression.
+2. The walrus expression `(a:='(a:={0!r}).format(a)')` evaluates the inner string literal and assigns it to the variable `a` in the local/global scope.
+3. Python then evaluates the argument to the method call `(a)`, fetching the newly assigned string.
+4. Finally, `.format(a)` is executed. The `{0!r}` placeholder internally calls `PyObject_Repr` (which survives the `__builtins__` wipe). Since the value of `a` contains no quotes, its `repr` wraps it in single quotes.
+5. The output seamlessly constructs exactly the original 38-character string, making `eval(x) == x` strictly `True`.
+
+SOLUTION: "(a:='(a:={0!r}).format(a)').format(a)" 
+Checking sample solution  "(a:='(a:={0!r}).format(a)').format(a)"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "". Checking.
+Failure!
+New score after this turn: -1 (1-2) vs 4 (4-0)
+  gemini-3.1-pro-preview (inventer): 4,541 in / 22,094 out
+  deepseek-v3.2-thinking (solver): 221 in / 4,631 out
+Turn 0: deepseek-v3.2-thinking vs gemini-3.1-pro-preview - 687 in / 14,903 out (?) [failure]
+Turn 1: gemini-3.1-pro-preview vs deepseek-v3.2-thinking - 823 in / 40,567 out (?) [failure]
+Turn 2: deepseek-v3.2-thinking vs gemini-3.1-pro-preview - 719 in / 18,216 out (?) [puzzle-wrong-ex]
+Turn 3: gemini-3.1-pro-preview vs deepseek-v3.2-thinking - 1,530 in / 40,476 out (?) [failure]
+Turn 4: deepseek-v3.2-thinking vs gemini-3.1-pro-preview - 1,469 in / 14,569 out (?) [success]
+Turn 5: gemini-3.1-pro-preview vs deepseek-v3.2-thinking - 2,628 in / 28,934 out (?) [failure]
+Turn 6: deepseek-v3.2-thinking vs gemini-3.1-pro-preview - 1,626 in / 21,099 out (?) [puzzle-wrong]
+Turn 7: gemini-3.1-pro-preview vs deepseek-v3.2-thinking - 3,652 in / 29,769 out (?) [success]
+Turn 8: deepseek-v3.2-thinking vs gemini-3.1-pro-preview - 2,497 in / 12,952 out (?) [success]
+Turn 9: gemini-3.1-pro-preview vs deepseek-v3.2-thinking - 4,762 in / 26,725 out (?) [failure]
+deepseek-v3.2-thinking: 7,572 in / 145,119 out
+gemini-3.1-pro-preview: 15,342 in / 161,630 out
+deepseek-v3.2-thinking ./. gemini-3.1-pro-preview     (1-2) vs (4-0)     [1 failed, see runs/classic/deepseek-v3.2-thinking_vs_gemini-3.1-pro-preview.log]

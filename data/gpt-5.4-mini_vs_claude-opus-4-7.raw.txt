@@ -1,0 +1,2432 @@
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+None, this is the first turn.
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+from hashlib import sha256
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    z = 0
+    for i, ch in enumerate(s):
+        z = ((z * 131) ^ (ord(ch) + (i << 1) + 7)) & 0xffffffff
+
+    def warp(buf, seed):
+        k = seed.to_bytes(4, "little")
+        out = bytearray(32)
+        for i in range(32):
+            b = buf[31 - i]
+            out[i] = ((b ^ k[i & 3]) + (i * 17 + 19)) & 255
+        return bytes(out)
+
+    a = sha256(s.encode()).digest()
+    b = sha256((0).to_bytes(0, "big")).digest()
+    return warp(a, z) == warp(b, z)
+```
+
+This is a reversible digest-scramble comparison; the hidden target is the digest of zero-length bytes.
+
+SOLUTION: ""
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at this, `warp` is invertible for a fixed seed, so `warp(a, z) == warp(b, z)` requires `a == b`, meaning `sha256(s.encode()) == sha256(b"")`. So `s` must be the empty string.
+
+SOLUTION: ""
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+from hashlib import sha256
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    z = 0
+    for i, ch in enumerate(s):
+        z = ((z * 131) ^ (ord(ch) + (i << 1) + 7)) & 0xffffffff
+
+    def warp(buf, seed):
+        k = seed.to_bytes(4, "little")
+        out = bytearray(32)
+        for i in range(32):
+            b = buf[31 - i]
+            out[i] = ((b ^ k[i & 3]) + (i * 17 + 19)) & 255
+        return bytes(out)
+
+    a = sha256(s.encode()).digest()
+    b = sha256((0).to_bytes(0, "big")).digest()
+    return warp(a, z) == warp(b, z)
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want to design a puzzle with multiple interacting constraints that aren't immediately obvious how to satisfy together.
+
+```python
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 11: return False
+    if not x.isdigit(): return False
+    
+    d = [int(c) for c in x]
+    
+    # Luhn-style checksum (from the right, double every second digit)
+    chk = 0
+    for i in range(11):
+        v = d[10 - i]
+        if i % 2 == 1:
+            v *= 2
+            if v >= 10:
+                v -= 9
+        chk += v
+    if chk % 10 != 0: return False
+    
+    # Endpoint constraint
+    if d[0] + d[10] != 9: return False
+    
+    # Sum constraint
+    if sum(d) != 45: return False
+    
+    # Diversity constraint
+    if len(set(d)) != 10: return False
+    
+    return True
+```
+
+The puzzle requires finding an 11-digit string that:
+1. Passes a Luhn check (mod-10 weighted sum)
+2. Has first and last digits summing to 9
+3. Has all 11 digits summing to 45
+4. Contains exactly 10 distinct digit values
+
+The solver must realize: with 10 distinct digit values among 11 digits and total sum 45 (= 0+1+...+9), the repeated digit must be 0. Then arrange the digits to satisfy both the Luhn check and the endpoint sum.
+
+SOLUTION: "20305164897"
+*** END
+*** END
+*** solver gpt-5.4-mini
+No such value of `x` exists. The constraints are inconsistent: with 11 digits and exactly 10 distinct digits, the digit sum must be `45 - missing + repeated`, which can equal 45 only if the repeated digit equals the missing digit, impossible.
+
+SOLUTION: None
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+from hashlib import sha256
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    z = 0
+    for i, ch in enumerate(s):
+        z = ((z * 131) ^ (ord(ch) + (i << 1) + 7)) & 0xffffffff
+
+    def warp(buf, seed):
+        k = seed.to_bytes(4, "little")
+        out = bytearray(32)
+        for i in range(32):
+            b = buf[31 - i]
+            out[i] = ((b ^ k[i & 3]) + (i * 17 + 19)) & 255
+        return bytes(out)
+
+    a = sha256(s.encode()).digest()
+    b = sha256((0).to_bytes(0, "big")).digest()
+    return warp(a, z) == warp(b, z)
+
+```
+### Explanation
+
+
+This is a reversible digest-scramble comparison; the hidden target is the digest of zero-length bytes.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 11: return False
+    if not x.isdigit(): return False
+    
+    d = [int(c) for c in x]
+    
+    # Luhn-style checksum (from the right, double every second digit)
+    chk = 0
+    for i in range(11):
+        v = d[10 - i]
+        if i % 2 == 1:
+            v *= 2
+            if v >= 10:
+                v -= 9
+        chk += v
+    if chk % 10 != 0: return False
+    
+    # Endpoint constraint
+    if d[0] + d[10] != 9: return False
+    
+    # Sum constraint
+    if sum(d) != 45: return False
+    
+    # Diversity constraint
+    if len(set(d)) != 10: return False
+    
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 12:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum(ord(c) for c in s) % 94
+    out = []
+    for i, c in enumerate(s):
+        v = ord(c) - 33
+        v = (v + seed + 13 + 7 * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "w(u[K;Y9%y}j"
+```
+
+This one uses a reversible printable-ASCII scramble. The shift applied to each character depends on the input’s own character sum, and then the whole result is reversed before being compared to a fixed target.
+
+SOLUTION: "amber-fox-7!"
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at this problem, I need to find a 12-character string where after the transformation, the reversed result equals "w(u[K;Y9%y}j".
+
+**Setting up the math:**
+- Let `out = "j}y%9Y;K[u(w"` (the reverse of the target)
+- For each i: `ord(s[i])-33 ≡ (ord(out[i])-33) - seed - 13 - 7i (mod 94)`
+- Constraint: `seed = sum(ord(c)) % 94`
+
+**Finding seed:**
+With `T_i = ord(out[i])-33`, sum of T_i = 640. Setting up:
+- `sum(v_i) ≡ 22 - 12·seed (mod 94)`
+- Need `(sum(v_i) + 20) ≡ seed (mod 94)`
+- Solving: `13·seed ≡ 42 (mod 94)`, so `seed = 29·42 mod 94 = 90`
+
+**Computing each character** with seed=90, `v_i = (T_i - 9 - 7i) mod 94`:
+- i=0: 64 → 'a'
+- i=1: 76 → 'm'  
+- i=2: 65 → 'b'
+- i=3: 68 → 'e'
+- i=4: 81 → 'r'
+- i=5: 12 → '-'
+- i=6: 69 → 'f'
+- i=7: 78 → 'o'
+- i=8: 87 → 'x'
+- i=9: 12 → '-'
+- i=10: 22 → '7'
+- i=11: 0 → '!'
+
+**Verification:** sum of ords = 1030, 1030 % 94 = 90 ✓
+
+SOLUTION: "amber-fox-7!"
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+from hashlib import sha256
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    z = 0
+    for i, ch in enumerate(s):
+        z = ((z * 131) ^ (ord(ch) + (i << 1) + 7)) & 0xffffffff
+
+    def warp(buf, seed):
+        k = seed.to_bytes(4, "little")
+        out = bytearray(32)
+        for i in range(32):
+            b = buf[31 - i]
+            out[i] = ((b ^ k[i & 3]) + (i * 17 + 19)) & 255
+        return bytes(out)
+
+    a = sha256(s.encode()).digest()
+    b = sha256((0).to_bytes(0, "big")).digest()
+    return warp(a, z) == warp(b, z)
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 11: return False
+    if not x.isdigit(): return False
+    
+    d = [int(c) for c in x]
+    
+    # Luhn-style checksum (from the right, double every second digit)
+    chk = 0
+    for i in range(11):
+        v = d[10 - i]
+        if i % 2 == 1:
+            v *= 2
+            if v >= 10:
+                v -= 9
+        chk += v
+    if chk % 10 != 0: return False
+    
+    # Endpoint constraint
+    if d[0] + d[10] != 9: return False
+    
+    # Sum constraint
+    if sum(d) != 45: return False
+    
+    # Diversity constraint
+    if len(set(d)) != 10: return False
+    
+    return True
+
+```
+### Explanation
+
+
+The puzzle requires finding an 11-digit string that:
+1. Passes a Luhn check (mod-10 weighted sum)
+2. Has first and last digits summing to 9
+3. Has all 11 digits summing to 45
+4. Contains exactly 10 distinct digit values
+
+The solver must realize: with 10 distinct digit values among 11 digits and total sum 45 (= 0+1+...+9), the repeated digit must be 0. Then arrange the digits to satisfy both the Luhn check and the endpoint sum.
+
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 12:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum(ord(c) for c in s) % 94
+    out = []
+    for i, c in enumerate(s):
+        v = ord(c) - 33
+        v = (v + seed + 13 + 7 * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "w(u[K;Y9%y}j"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want a puzzle that's not just a hash inversion (those got solved) but requires actual mathematical reasoning. I'll create a fixed-point puzzle where the solver must realize the transformation is linear mod 256 and solve a system of equations.
+
+```python
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 16: return False
+    if not all(c in "0123456789abcdef" for c in x): return False
+    
+    b = bytes.fromhex(x)
+    
+    out = bytearray(8)
+    for i in range(8):
+        out[i] = (31 * b[i] + 17 * b[(i + 3) % 8] + 13 * i) & 0xFF
+    
+    return bytes(out).hex() == x
+```
+
+The puzzle: find a 16-character lowercase hex string `x` such that the byte-wise transformation produces the same string back (a fixed point).
+
+The transformation is `out[i] = 31*b[i] + 17*b[(i+3) mod 8] + 13*i mod 256`. The index map `i → (i+3) mod 8` forms a single 8-cycle: 0→3→6→1→4→7→2→5→0.
+
+Setting out=b gives a linear system mod 256. Chaining around the cycle: each step `b_next = 194*b_curr + c_i mod 256` (using 17⁻¹ ≡ 241 mod 256). Since 194² ≡ 4, 194⁸ ≡ 0 mod 256, the system has a unique consistency constraint that determines the starting byte uniquely (it turned out to be 191 = 0xbf), then the rest cascades.
+
+After working through the algebra, the bytes are: 191, 220, 89, 190, 123, 248, 69, 66 → "bfdc59be7bf84542".
+
+I verified all 8 equations check out.
+
+SOLUTION: "bfdc59be7bf84542"
+*** END
+*** END
+*** solver gpt-5.4-mini
+One valid value is:
+
+SOLUTION: "bfdc59be7bf84542"
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+from hashlib import sha256
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    z = 0
+    for i, ch in enumerate(s):
+        z = ((z * 131) ^ (ord(ch) + (i << 1) + 7)) & 0xffffffff
+
+    def warp(buf, seed):
+        k = seed.to_bytes(4, "little")
+        out = bytearray(32)
+        for i in range(32):
+            b = buf[31 - i]
+            out[i] = ((b ^ k[i & 3]) + (i * 17 + 19)) & 255
+        return bytes(out)
+
+    a = sha256(s.encode()).digest()
+    b = sha256((0).to_bytes(0, "big")).digest()
+    return warp(a, z) == warp(b, z)
+
+```
+### Explanation
+
+
+This is a reversible digest-scramble comparison; the hidden target is the digest of zero-length bytes.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 11: return False
+    if not x.isdigit(): return False
+    
+    d = [int(c) for c in x]
+    
+    # Luhn-style checksum (from the right, double every second digit)
+    chk = 0
+    for i in range(11):
+        v = d[10 - i]
+        if i % 2 == 1:
+            v *= 2
+            if v >= 10:
+                v -= 9
+        chk += v
+    if chk % 10 != 0: return False
+    
+    # Endpoint constraint
+    if d[0] + d[10] != 9: return False
+    
+    # Sum constraint
+    if sum(d) != 45: return False
+    
+    # Diversity constraint
+    if len(set(d)) != 10: return False
+    
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 12:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum(ord(c) for c in s) % 94
+    out = []
+    for i, c in enumerate(s):
+        v = ord(c) - 33
+        v = (v + seed + 13 + 7 * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "w(u[K;Y9%y}j"
+
+```
+### Explanation
+
+
+This one uses a reversible printable-ASCII scramble. The shift applied to each character depends on the input’s own character sum, and then the whole result is reversed before being compared to a fixed target.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 16: return False
+    if not all(c in "0123456789abcdef" for c in x): return False
+    
+    b = bytes.fromhex(x)
+    
+    out = bytearray(8)
+    for i in range(8):
+        out[i] = (31 * b[i] + 17 * b[(i + 3) % 8] + 13 * i) & 0xFF
+    
+    return bytes(out).hex() == x
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 11:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum((i + 1) * ord(c) for i, c in enumerate(s)) % 94
+
+    twist = 0
+    for i, c in enumerate(s):
+        twist = (twist * 17 + (ord(c) ^ (i * 31))) % 94
+
+    p = [(7 * i + seed + twist) % 11 for i in range(11)]
+    out = []
+    for i, j in enumerate(p):
+        v = ord(s[j]) - 33
+        v = (v + seed + 3 * twist + 11 * i + i * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "iK/s[E1}m_S"
+```
+
+This is a two-stage printable-ASCII scramble: first it computes two modular accumulators from the whole string, then it uses them to permute positions and apply a position-dependent affine shift before reversing and comparing to a fixed target. The target was chosen so the puzzle is solvable, but the dependency on the input makes it annoying to reverse by inspection.
+
+SOLUTION: "AAAAAAAAAAA"
+*** END
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+from hashlib import sha256
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    z = 0
+    for i, ch in enumerate(s):
+        z = ((z * 131) ^ (ord(ch) + (i << 1) + 7)) & 0xffffffff
+
+    def warp(buf, seed):
+        k = seed.to_bytes(4, "little")
+        out = bytearray(32)
+        for i in range(32):
+            b = buf[31 - i]
+            out[i] = ((b ^ k[i & 3]) + (i * 17 + 19)) & 255
+        return bytes(out)
+
+    a = sha256(s.encode()).digest()
+    b = sha256((0).to_bytes(0, "big")).digest()
+    return warp(a, z) == warp(b, z)
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 11: return False
+    if not x.isdigit(): return False
+    
+    d = [int(c) for c in x]
+    
+    # Luhn-style checksum (from the right, double every second digit)
+    chk = 0
+    for i in range(11):
+        v = d[10 - i]
+        if i % 2 == 1:
+            v *= 2
+            if v >= 10:
+                v -= 9
+        chk += v
+    if chk % 10 != 0: return False
+    
+    # Endpoint constraint
+    if d[0] + d[10] != 9: return False
+    
+    # Sum constraint
+    if sum(d) != 45: return False
+    
+    # Diversity constraint
+    if len(set(d)) != 10: return False
+    
+    return True
+
+```
+### Explanation
+
+
+The puzzle requires finding an 11-digit string that:
+1. Passes a Luhn check (mod-10 weighted sum)
+2. Has first and last digits summing to 9
+3. Has all 11 digits summing to 45
+4. Contains exactly 10 distinct digit values
+
+The solver must realize: with 10 distinct digit values among 11 digits and total sum 45 (= 0+1+...+9), the repeated digit must be 0. Then arrange the digits to satisfy both the Luhn check and the endpoint sum.
+
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 12:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum(ord(c) for c in s) % 94
+    out = []
+    for i, c in enumerate(s):
+        v = ord(c) - 33
+        v = (v + seed + 13 + 7 * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "w(u[K;Y9%y}j"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 16: return False
+    if not all(c in "0123456789abcdef" for c in x): return False
+    
+    b = bytes.fromhex(x)
+    
+    out = bytearray(8)
+    for i in range(8):
+        out[i] = (31 * b[i] + 17 * b[(i + 3) % 8] + 13 * i) & 0xFF
+    
+    return bytes(out).hex() == x
+
+```
+### Explanation
+
+
+The puzzle: find a 16-character lowercase hex string `x` such that the byte-wise transformation produces the same string back (a fixed point).
+
+The transformation is `out[i] = 31*b[i] + 17*b[(i+3) mod 8] + 13*i mod 256`. The index map `i → (i+3) mod 8` forms a single 8-cycle: 0→3→6→1→4→7→2→5→0.
+
+Setting out=b gives a linear system mod 256. Chaining around the cycle: each step `b_next = 194*b_curr + c_i mod 256` (using 17⁻¹ ≡ 241 mod 256). Since 194² ≡ 4, 194⁸ ≡ 0 mod 256, the system has a unique consistency constraint that determines the starting byte uniquely (it turned out to be 191 = 0xbf), then the rest cascades.
+
+After working through the algebra, the bytes are: 191, 220, 89, 190, 123, 248, 69, 66 → "bfdc59be7bf84542".
+
+I verified all 8 equations check out.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 11:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum((i + 1) * ord(c) for i, c in enumerate(s)) % 94
+
+    twist = 0
+    for i, c in enumerate(s):
+        twist = (twist * 17 + (ord(c) ^ (i * 31))) % 94
+
+    p = [(7 * i + seed + twist) % 11 for i in range(11)]
+    out = []
+    for i, j in enumerate(p):
+        v = ord(s[j]) - 33
+        v = (v + seed + 3 * twist + 11 * i + i * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "iK/s[E1}m_S"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want to design a puzzle that requires combining number-theoretic reasoning (CRT) with digit constraints. The key insight is that the modular constraints sharply limit the search space, but the digit constraints filter further.
+
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool): return False
+    if x < 10**8 or x > 10**9: return False
+    if x % 7 != 3: return False
+    if x % 11 != 5: return False
+    if x % 13 != 9: return False
+    if x % 17 != 14: return False
+    if x % 19 != 2: return False
+    if x % 23 != 7: return False
+    if x % 29 != 11: return False
+    s = str(x)
+    if s.count('7') != 1: return False
+    if sum(int(d) for d in s) != 40: return False
+    return True
+```
+
+The seven modular constraints have product 7·11·13·17·19·23·29 = 215,656,441, leaving roughly 4-5 candidates in the range [10^8, 10^9]. Each must then be tested against the digit constraints (exactly one '7' and digit sum 40).
+
+Without using CRT, the solver would face a 9×10^8 brute-force search. With CRT, it's manageable but requires careful arithmetic.
+
+SOLUTION: 841150579
+*** END
+*** END
+*** solver gpt-5.4-mini
+A valid value is 841150579.
+
+SOLUTION: 841150579
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+from hashlib import sha256
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    z = 0
+    for i, ch in enumerate(s):
+        z = ((z * 131) ^ (ord(ch) + (i << 1) + 7)) & 0xffffffff
+
+    def warp(buf, seed):
+        k = seed.to_bytes(4, "little")
+        out = bytearray(32)
+        for i in range(32):
+            b = buf[31 - i]
+            out[i] = ((b ^ k[i & 3]) + (i * 17 + 19)) & 255
+        return bytes(out)
+
+    a = sha256(s.encode()).digest()
+    b = sha256((0).to_bytes(0, "big")).digest()
+    return warp(a, z) == warp(b, z)
+
+```
+### Explanation
+
+
+This is a reversible digest-scramble comparison; the hidden target is the digest of zero-length bytes.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 11: return False
+    if not x.isdigit(): return False
+    
+    d = [int(c) for c in x]
+    
+    # Luhn-style checksum (from the right, double every second digit)
+    chk = 0
+    for i in range(11):
+        v = d[10 - i]
+        if i % 2 == 1:
+            v *= 2
+            if v >= 10:
+                v -= 9
+        chk += v
+    if chk % 10 != 0: return False
+    
+    # Endpoint constraint
+    if d[0] + d[10] != 9: return False
+    
+    # Sum constraint
+    if sum(d) != 45: return False
+    
+    # Diversity constraint
+    if len(set(d)) != 10: return False
+    
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 12:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum(ord(c) for c in s) % 94
+    out = []
+    for i, c in enumerate(s):
+        v = ord(c) - 33
+        v = (v + seed + 13 + 7 * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "w(u[K;Y9%y}j"
+
+```
+### Explanation
+
+
+This one uses a reversible printable-ASCII scramble. The shift applied to each character depends on the input’s own character sum, and then the whole result is reversed before being compared to a fixed target.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 16: return False
+    if not all(c in "0123456789abcdef" for c in x): return False
+    
+    b = bytes.fromhex(x)
+    
+    out = bytearray(8)
+    for i in range(8):
+        out[i] = (31 * b[i] + 17 * b[(i + 3) % 8] + 13 * i) & 0xFF
+    
+    return bytes(out).hex() == x
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 11:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum((i + 1) * ord(c) for i, c in enumerate(s)) % 94
+
+    twist = 0
+    for i, c in enumerate(s):
+        twist = (twist * 17 + (ord(c) ^ (i * 31))) % 94
+
+    p = [(7 * i + seed + twist) % 11 for i in range(11)]
+    out = []
+    for i, j in enumerate(p):
+        v = ord(s[j]) - 33
+        v = (v + seed + 3 * twist + 11 * i + i * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "iK/s[E1}m_S"
+
+```
+### Explanation
+
+
+This is a two-stage printable-ASCII scramble: first it computes two modular accumulators from the whole string, then it uses them to permute positions and apply a position-dependent affine shift before reversing and comparing to a fixed target. The target was chosen so the puzzle is solvable, but the dependency on the input makes it annoying to reverse by inspection.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool): return False
+    if x < 10**8 or x > 10**9: return False
+    if x % 7 != 3: return False
+    if x % 11 != 5: return False
+    if x % 13 != 9: return False
+    if x % 17 != 14: return False
+    if x % 19 != 2: return False
+    if x % 23 != 7: return False
+    if x % 29 != 11: return False
+    s = str(x)
+    if s.count('7') != 1: return False
+    if sum(int(d) for d in s) != 40: return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+    if len(s) != 8:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    a = [ord(c) - 33 for c in s]
+    l, r = a[:4], a[4:]
+
+    for t in range(3):
+        f = [(
+            17 * r[(i + 1) & 3] +
+            31 * r[(i + 3) & 3] +
+            (r[i] ^ r[(i + 2) & 3]) +
+            13 * i + 7 * t
+        ) % 94 for i in range(4)]
+        l, r = r, [(l[i] + f[i]) % 94 for i in range(4)]
+
+    return ''.join(chr(v + 33) for v in (l + r)) == "O4uBX.&B"
+```
+
+This is a 3-round Feistel-style scramble over 8 printable ASCII characters, with a mix of modular addition and XOR in the round function. The returned value is a fixed ciphertext of one chosen plaintext, so the solver has to reverse the structure rather than just spot a simple arithmetic pattern.
+
+SOLUTION: "00000000"
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at this problem, I need to reverse a 3-round Feistel-like cipher.
+
+**Encryption step:** `(L, R) → (R, (L + f(R, t)) % 94)`
+
+**Decryption:** Given final `(L₃, R₃)`, recover `(L₂, R₂) = ((R₃ - f(L₃, t)) % 94, L₃)`.
+
+Target output: `"O4uBX.&B"` → `[46,19,84,33,55,13,5,33]`
+
+**Round 2 reverse** (R₂ = [46,19,84,33], t=2):
+- f₂ = [72, 17, 90, 11]
+- L₂ = ([55,13,5,33] - f₂) % 94 = [77, 90, 9, 22]
+
+**Round 1 reverse** (R₁ = [77,90,9,22], t=1):
+- f₁ = [31, 4, 69, 18]
+- L₁ = ([46,19,84,33] - f₁) % 94 = [15, 15, 15, 15]
+
+**Round 0 reverse** (R₀ = [15,15,15,15], t=0):
+- For uniform R, f₀ᵢ = (17·15 + 31·15 + 0 + 13i) % 94 = (720 + 13i) % 94 = [62, 75, 88, 7]
+- L₀ = ([77,90,9,22] - f₀) % 94 = [15, 15, 15, 15]
+
+So all 8 values are 15, meaning chr(15+33) = chr(48) = '0'.
+
+Verification: input "00000000" gives all 15s, and the rounds produce exactly the target.
+
+SOLUTION: "00000000"
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+from hashlib import sha256
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    z = 0
+    for i, ch in enumerate(s):
+        z = ((z * 131) ^ (ord(ch) + (i << 1) + 7)) & 0xffffffff
+
+    def warp(buf, seed):
+        k = seed.to_bytes(4, "little")
+        out = bytearray(32)
+        for i in range(32):
+            b = buf[31 - i]
+            out[i] = ((b ^ k[i & 3]) + (i * 17 + 19)) & 255
+        return bytes(out)
+
+    a = sha256(s.encode()).digest()
+    b = sha256((0).to_bytes(0, "big")).digest()
+    return warp(a, z) == warp(b, z)
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 11: return False
+    if not x.isdigit(): return False
+    
+    d = [int(c) for c in x]
+    
+    # Luhn-style checksum (from the right, double every second digit)
+    chk = 0
+    for i in range(11):
+        v = d[10 - i]
+        if i % 2 == 1:
+            v *= 2
+            if v >= 10:
+                v -= 9
+        chk += v
+    if chk % 10 != 0: return False
+    
+    # Endpoint constraint
+    if d[0] + d[10] != 9: return False
+    
+    # Sum constraint
+    if sum(d) != 45: return False
+    
+    # Diversity constraint
+    if len(set(d)) != 10: return False
+    
+    return True
+
+```
+### Explanation
+
+
+The puzzle requires finding an 11-digit string that:
+1. Passes a Luhn check (mod-10 weighted sum)
+2. Has first and last digits summing to 9
+3. Has all 11 digits summing to 45
+4. Contains exactly 10 distinct digit values
+
+The solver must realize: with 10 distinct digit values among 11 digits and total sum 45 (= 0+1+...+9), the repeated digit must be 0. Then arrange the digits to satisfy both the Luhn check and the endpoint sum.
+
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 12:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum(ord(c) for c in s) % 94
+    out = []
+    for i, c in enumerate(s):
+        v = ord(c) - 33
+        v = (v + seed + 13 + 7 * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "w(u[K;Y9%y}j"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 16: return False
+    if not all(c in "0123456789abcdef" for c in x): return False
+    
+    b = bytes.fromhex(x)
+    
+    out = bytearray(8)
+    for i in range(8):
+        out[i] = (31 * b[i] + 17 * b[(i + 3) % 8] + 13 * i) & 0xFF
+    
+    return bytes(out).hex() == x
+
+```
+### Explanation
+
+
+The puzzle: find a 16-character lowercase hex string `x` such that the byte-wise transformation produces the same string back (a fixed point).
+
+The transformation is `out[i] = 31*b[i] + 17*b[(i+3) mod 8] + 13*i mod 256`. The index map `i → (i+3) mod 8` forms a single 8-cycle: 0→3→6→1→4→7→2→5→0.
+
+Setting out=b gives a linear system mod 256. Chaining around the cycle: each step `b_next = 194*b_curr + c_i mod 256` (using 17⁻¹ ≡ 241 mod 256). Since 194² ≡ 4, 194⁸ ≡ 0 mod 256, the system has a unique consistency constraint that determines the starting byte uniquely (it turned out to be 191 = 0xbf), then the rest cascades.
+
+After working through the algebra, the bytes are: 191, 220, 89, 190, 123, 248, 69, 66 → "bfdc59be7bf84542".
+
+I verified all 8 equations check out.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 11:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum((i + 1) * ord(c) for i, c in enumerate(s)) % 94
+
+    twist = 0
+    for i, c in enumerate(s):
+        twist = (twist * 17 + (ord(c) ^ (i * 31))) % 94
+
+    p = [(7 * i + seed + twist) % 11 for i in range(11)]
+    out = []
+    for i, j in enumerate(p):
+        v = ord(s[j]) - 33
+        v = (v + seed + 3 * twist + 11 * i + i * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "iK/s[E1}m_S"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool): return False
+    if x < 10**8 or x > 10**9: return False
+    if x % 7 != 3: return False
+    if x % 11 != 5: return False
+    if x % 13 != 9: return False
+    if x % 17 != 14: return False
+    if x % 19 != 2: return False
+    if x % 23 != 7: return False
+    if x % 29 != 11: return False
+    s = str(x)
+    if s.count('7') != 1: return False
+    if sum(int(d) for d in s) != 40: return False
+    return True
+
+```
+### Explanation
+
+
+The seven modular constraints have product 7·11·13·17·19·23·29 = 215,656,441, leaving roughly 4-5 candidates in the range [10^8, 10^9]. Each must then be tested against the digit constraints (exactly one '7' and digit sum 40).
+
+Without using CRT, the solver would face a 9×10^8 brute-force search. With CRT, it's manageable but requires careful arithmetic.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+    if len(s) != 8:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    a = [ord(c) - 33 for c in s]
+    l, r = a[:4], a[4:]
+
+    for t in range(3):
+        f = [(
+            17 * r[(i + 1) & 3] +
+            31 * r[(i + 3) & 3] +
+            (r[i] ^ r[(i + 2) & 3]) +
+            13 * i + 7 * t
+        ) % 94 for i in range(4)]
+        l, r = r, [(l[i] + f[i]) % 94 for i in range(4)]
+
+    return ''.join(chr(v + 33) for v in (l + r)) == "O4uBX.&B"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at the history, I want a puzzle that's hard but where I can confidently verify my solution. Let me design something with multiple interlocking constraints.
+
+```python
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 6: return False
+    if not all('0' <= c <= '9' for c in x): return False
+    
+    n = int(x)
+    digits = [int(c) for c in x]
+    
+    # Digit constraints
+    if sum(d * d for d in digits) != 91: return False
+    
+    p = 1
+    for d in digits: p *= d
+    if p != 720: return False
+    
+    if sum(digits) != 21: return False
+    
+    # Modular constraints
+    if n % 13 != 0: return False
+    if n % 7 != 4: return False
+    if n % 17 != 5: return False
+    if n % 19 != 3: return False
+    
+    # Position constraints
+    if x[2] not in '345': return False
+    if x[0] in '06': return False
+    
+    return True
+```
+
+The puzzle requires:
+- A 6-digit string whose digits have sum 21, product 720, and sum-of-squares 91
+- Passing four modular constraints
+- Plus position constraints
+
+The key insight: the digit-property constraints force the digit multiset to be exactly {1,2,3,4,5,6} (since these are the only six digits 1-9 with sum 21, product 720, sum-of-squares 91). Then among the 720 permutations, only specific ones satisfy the modular constraints (CRT modulus 13·7·17·19 = 29393, giving ~34 candidates in the 6-digit range, of which few are permutations of "123456").
+
+Verification of my sample x = "125346":
+- digits {1,2,5,3,4,6}: sum=21 ✓, product=720 ✓, sum²=1+4+25+9+16+36=91 ✓
+- 125346 = 13 × 9642 ✓
+- 125346 mod 7 = 4 ✓ (125342 = 7×17906)
+- 125346 mod 17 = 5 ✓ (125341 = 17×7373)
+- 125346 mod 19 = 3 ✓ (125343 = 19×6597)
+- x[2]='5' ∈ '345' ✓, x[0]='1' ∉ '06' ✓
+
+SOLUTION: "125346"
+*** END
+*** END
+*** solver gpt-5.4-mini
+A valid value is `"125346"`.
+
+SOLUTION: "125346"
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+from hashlib import sha256
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    z = 0
+    for i, ch in enumerate(s):
+        z = ((z * 131) ^ (ord(ch) + (i << 1) + 7)) & 0xffffffff
+
+    def warp(buf, seed):
+        k = seed.to_bytes(4, "little")
+        out = bytearray(32)
+        for i in range(32):
+            b = buf[31 - i]
+            out[i] = ((b ^ k[i & 3]) + (i * 17 + 19)) & 255
+        return bytes(out)
+
+    a = sha256(s.encode()).digest()
+    b = sha256((0).to_bytes(0, "big")).digest()
+    return warp(a, z) == warp(b, z)
+
+```
+### Explanation
+
+
+This is a reversible digest-scramble comparison; the hidden target is the digest of zero-length bytes.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 11: return False
+    if not x.isdigit(): return False
+    
+    d = [int(c) for c in x]
+    
+    # Luhn-style checksum (from the right, double every second digit)
+    chk = 0
+    for i in range(11):
+        v = d[10 - i]
+        if i % 2 == 1:
+            v *= 2
+            if v >= 10:
+                v -= 9
+        chk += v
+    if chk % 10 != 0: return False
+    
+    # Endpoint constraint
+    if d[0] + d[10] != 9: return False
+    
+    # Sum constraint
+    if sum(d) != 45: return False
+    
+    # Diversity constraint
+    if len(set(d)) != 10: return False
+    
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 12:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum(ord(c) for c in s) % 94
+    out = []
+    for i, c in enumerate(s):
+        v = ord(c) - 33
+        v = (v + seed + 13 + 7 * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "w(u[K;Y9%y}j"
+
+```
+### Explanation
+
+
+This one uses a reversible printable-ASCII scramble. The shift applied to each character depends on the input’s own character sum, and then the whole result is reversed before being compared to a fixed target.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 16: return False
+    if not all(c in "0123456789abcdef" for c in x): return False
+    
+    b = bytes.fromhex(x)
+    
+    out = bytearray(8)
+    for i in range(8):
+        out[i] = (31 * b[i] + 17 * b[(i + 3) % 8] + 13 * i) & 0xFF
+    
+    return bytes(out).hex() == x
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 11:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum((i + 1) * ord(c) for i, c in enumerate(s)) % 94
+
+    twist = 0
+    for i, c in enumerate(s):
+        twist = (twist * 17 + (ord(c) ^ (i * 31))) % 94
+
+    p = [(7 * i + seed + twist) % 11 for i in range(11)]
+    out = []
+    for i, j in enumerate(p):
+        v = ord(s[j]) - 33
+        v = (v + seed + 3 * twist + 11 * i + i * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "iK/s[E1}m_S"
+
+```
+### Explanation
+
+
+This is a two-stage printable-ASCII scramble: first it computes two modular accumulators from the whole string, then it uses them to permute positions and apply a position-dependent affine shift before reversing and comparing to a fixed target. The target was chosen so the puzzle is solvable, but the dependency on the input makes it annoying to reverse by inspection.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool): return False
+    if x < 10**8 or x > 10**9: return False
+    if x % 7 != 3: return False
+    if x % 11 != 5: return False
+    if x % 13 != 9: return False
+    if x % 17 != 14: return False
+    if x % 19 != 2: return False
+    if x % 23 != 7: return False
+    if x % 29 != 11: return False
+    s = str(x)
+    if s.count('7') != 1: return False
+    if sum(int(d) for d in s) != 40: return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+    if len(s) != 8:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    a = [ord(c) - 33 for c in s]
+    l, r = a[:4], a[4:]
+
+    for t in range(3):
+        f = [(
+            17 * r[(i + 1) & 3] +
+            31 * r[(i + 3) & 3] +
+            (r[i] ^ r[(i + 2) & 3]) +
+            13 * i + 7 * t
+        ) % 94 for i in range(4)]
+        l, r = r, [(l[i] + f[i]) % 94 for i in range(4)]
+
+    return ''.join(chr(v + 33) for v in (l + r)) == "O4uBX.&B"
+
+```
+### Explanation
+
+
+This is a 3-round Feistel-style scramble over 8 printable ASCII characters, with a mix of modular addition and XOR in the round function. The returned value is a fixed ciphertext of one chosen plaintext, so the solver has to reverse the structure rather than just spot a simple arithmetic pattern.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 6: return False
+    if not all('0' <= c <= '9' for c in x): return False
+    
+    n = int(x)
+    digits = [int(c) for c in x]
+    
+    # Digit constraints
+    if sum(d * d for d in digits) != 91: return False
+    
+    p = 1
+    for d in digits: p *= d
+    if p != 720: return False
+    
+    if sum(digits) != 21: return False
+    
+    # Modular constraints
+    if n % 13 != 0: return False
+    if n % 7 != 4: return False
+    if n % 17 != 5: return False
+    if n % 19 != 3: return False
+    
+    # Position constraints
+    if x[2] not in '345': return False
+    if x[0] in '06': return False
+    
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+    if len(s) != 9:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    a = [ord(c) - 33 for c in s]
+
+    row = [(a[3*i] + a[3*i + 1] + a[3*i + 2]) % 94 for i in range(3)]
+    col = [(a[j] + 3*a[j + 3] + 5*a[j + 6]) % 94 for j in range(3)]
+    diag = (a[0] + 2*a[4] + 3*a[8] + 7) % 94
+
+    p = [(2*i + diag) % 9 for i in range(9)]
+    out = []
+    for i in range(9):
+        t = (a[p[i]] + row[i % 3] + col[i // 3] + diag + i*i) % 94
+        out.append(t)
+
+    return bytes(v + 33 for v in out[::-1]) == b"sI<C)~;$J"
+```
+
+This one hides a 9-character printable string behind a row/column/diagonal mix, a position-dependent permutation, and a reversed byte comparison to a fixed target.
+
+SOLUTION: "Nebula!42"
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at this problem, I need to find a 9-character string where after a complex transformation, the result equals `b"sI<C)~;$J"` reversed.
+
+**Setting up the system:**
+Let `a[i] = ord(s[i]) - 33`. The target `out[::-1]` after subtracting 33 gives me:
+`out = [41, 3, 26, 93, 8, 34, 27, 40, 82]`
+
+For each value of D mod 9, the permutation `p[i] = (2i+D) mod 9` is fixed, allowing me to write:
+`a[p[i]] = (out[i] - row[i%3] - col[i//3] - D - i²) mod 94`
+
+This gives a 7×7 linear system in unknowns (D, R0, R1, R2, C0, C1, C2) mod 94.
+
+**Trying D mod 9 = 1** (so p = [1,3,5,7,0,2,4,6,8]):
+
+Solving mod 2 yields: D=1, R0=1, R1=0, R2=0, C0=1, C1=1, C2=1
+Solving mod 47 yields: D=44, R0=39, R1=37, R2=29, C0=7, C1=44, C2=9
+
+CRT combination (with D mod 9 = 1 check):
+- D=91 (91 mod 9 = 1 ✓), R0=39, R1=84, R2=76, C0=7, C1=91, C2=9
+
+**Computing a values:**
+- a[0]=8, a[1]=92, a[2]=33, a[3]=8, a[4]=40, a[5]=36, a[6]=89, a[7]=51, a[8]=30
+
+**Verification:**
+- Rows: 8+92+33=133≡39 ✓, 8+40+36=84 ✓, 89+51+30=170≡76 ✓
+- Columns and diagonal all check out
+- Computing out[i] for each i matches [41,3,26,93,8,34,27,40,82] ✓
+
+**Converting to characters** (a[i]+33):
+- 41=')', 125='}', 66='B', 41=')', 73='I', 69='E', 122='z', 84='T', 63='?'
+
+SOLUTION: ")}B)IEzT?"
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+from hashlib import sha256
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    z = 0
+    for i, ch in enumerate(s):
+        z = ((z * 131) ^ (ord(ch) + (i << 1) + 7)) & 0xffffffff
+
+    def warp(buf, seed):
+        k = seed.to_bytes(4, "little")
+        out = bytearray(32)
+        for i in range(32):
+            b = buf[31 - i]
+            out[i] = ((b ^ k[i & 3]) + (i * 17 + 19)) & 255
+        return bytes(out)
+
+    a = sha256(s.encode()).digest()
+    b = sha256((0).to_bytes(0, "big")).digest()
+    return warp(a, z) == warp(b, z)
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 11: return False
+    if not x.isdigit(): return False
+    
+    d = [int(c) for c in x]
+    
+    # Luhn-style checksum (from the right, double every second digit)
+    chk = 0
+    for i in range(11):
+        v = d[10 - i]
+        if i % 2 == 1:
+            v *= 2
+            if v >= 10:
+                v -= 9
+        chk += v
+    if chk % 10 != 0: return False
+    
+    # Endpoint constraint
+    if d[0] + d[10] != 9: return False
+    
+    # Sum constraint
+    if sum(d) != 45: return False
+    
+    # Diversity constraint
+    if len(set(d)) != 10: return False
+    
+    return True
+
+```
+### Explanation
+
+
+The puzzle requires finding an 11-digit string that:
+1. Passes a Luhn check (mod-10 weighted sum)
+2. Has first and last digits summing to 9
+3. Has all 11 digits summing to 45
+4. Contains exactly 10 distinct digit values
+
+The solver must realize: with 10 distinct digit values among 11 digits and total sum 45 (= 0+1+...+9), the repeated digit must be 0. Then arrange the digits to satisfy both the Luhn check and the endpoint sum.
+
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 12:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum(ord(c) for c in s) % 94
+    out = []
+    for i, c in enumerate(s):
+        v = ord(c) - 33
+        v = (v + seed + 13 + 7 * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "w(u[K;Y9%y}j"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 16: return False
+    if not all(c in "0123456789abcdef" for c in x): return False
+    
+    b = bytes.fromhex(x)
+    
+    out = bytearray(8)
+    for i in range(8):
+        out[i] = (31 * b[i] + 17 * b[(i + 3) % 8] + 13 * i) & 0xFF
+    
+    return bytes(out).hex() == x
+
+```
+### Explanation
+
+
+The puzzle: find a 16-character lowercase hex string `x` such that the byte-wise transformation produces the same string back (a fixed point).
+
+The transformation is `out[i] = 31*b[i] + 17*b[(i+3) mod 8] + 13*i mod 256`. The index map `i → (i+3) mod 8` forms a single 8-cycle: 0→3→6→1→4→7→2→5→0.
+
+Setting out=b gives a linear system mod 256. Chaining around the cycle: each step `b_next = 194*b_curr + c_i mod 256` (using 17⁻¹ ≡ 241 mod 256). Since 194² ≡ 4, 194⁸ ≡ 0 mod 256, the system has a unique consistency constraint that determines the starting byte uniquely (it turned out to be 191 = 0xbf), then the rest cascades.
+
+After working through the algebra, the bytes are: 191, 220, 89, 190, 123, 248, 69, 66 → "bfdc59be7bf84542".
+
+I verified all 8 equations check out.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+
+    if len(s) != 11:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    seed = sum((i + 1) * ord(c) for i, c in enumerate(s)) % 94
+
+    twist = 0
+    for i, c in enumerate(s):
+        twist = (twist * 17 + (ord(c) ^ (i * 31))) % 94
+
+    p = [(7 * i + seed + twist) % 11 for i in range(11)]
+    out = []
+    for i, j in enumerate(p):
+        v = ord(s[j]) - 33
+        v = (v + seed + 3 * twist + 11 * i + i * i) % 94
+        out.append(chr(v + 33))
+
+    return "".join(out[::-1]) == "iK/s[E1}m_S"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool): return False
+    if x < 10**8 or x > 10**9: return False
+    if x % 7 != 3: return False
+    if x % 11 != 5: return False
+    if x % 13 != 9: return False
+    if x % 17 != 14: return False
+    if x % 19 != 2: return False
+    if x % 23 != 7: return False
+    if x % 29 != 11: return False
+    s = str(x)
+    if s.count('7') != 1: return False
+    if sum(int(d) for d in s) != 40: return False
+    return True
+
+```
+### Explanation
+
+
+The seven modular constraints have product 7·11·13·17·19·23·29 = 215,656,441, leaving roughly 4-5 candidates in the range [10^8, 10^9]. Each must then be tested against the digit constraints (exactly one '7' and digit sum 40).
+
+Without using CRT, the solver would face a 9×10^8 brute-force search. With CRT, it's manageable but requires careful arithmetic.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+    if len(s) != 8:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    a = [ord(c) - 33 for c in s]
+    l, r = a[:4], a[4:]
+
+    for t in range(3):
+        f = [(
+            17 * r[(i + 1) & 3] +
+            31 * r[(i + 3) & 3] +
+            (r[i] ^ r[(i + 2) & 3]) +
+            13 * i + 7 * t
+        ) % 94 for i in range(4)]
+        l, r = r, [(l[i] + f[i]) % 94 for i in range(4)]
+
+    return ''.join(chr(v + 33) for v in (l + r)) == "O4uBX.&B"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 6: return False
+    if not all('0' <= c <= '9' for c in x): return False
+    
+    n = int(x)
+    digits = [int(c) for c in x]
+    
+    # Digit constraints
+    if sum(d * d for d in digits) != 91: return False
+    
+    p = 1
+    for d in digits: p *= d
+    if p != 720: return False
+    
+    if sum(digits) != 21: return False
+    
+    # Modular constraints
+    if n % 13 != 0: return False
+    if n % 7 != 4: return False
+    if n % 17 != 5: return False
+    if n % 19 != 3: return False
+    
+    # Position constraints
+    if x[2] not in '345': return False
+    if x[0] in '06': return False
+    
+    return True
+
+```
+### Explanation
+
+
+The puzzle requires:
+- A 6-digit string whose digits have sum 21, product 720, and sum-of-squares 91
+- Passing four modular constraints
+- Plus position constraints
+
+The key insight: the digit-property constraints force the digit multiset to be exactly {1,2,3,4,5,6} (since these are the only six digits 1-9 with sum 21, product 720, sum-of-squares 91). Then among the 720 permutations, only specific ones satisfy the modular constraints (CRT modulus 13·7·17·19 = 29393, giving ~34 candidates in the 6-digit range, of which few are permutations of "123456").
+
+Verification of my sample x = "125346":
+- digits {1,2,5,3,4,6}: sum=21 ✓, product=720 ✓, sum²=1+4+25+9+16+36=91 ✓
+- 125346 = 13 × 9642 ✓
+- 125346 mod 7 = 4 ✓ (125342 = 7×17906)
+- 125346 mod 17 = 5 ✓ (125341 = 17×7373)
+- 125346 mod 19 = 3 ✓ (125343 = 19×6597)
+- x[2]='5' ∈ '345' ✓, x[0]='1' ∉ '06' ✓
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = x if isinstance(x, str) else str(x)
+    if len(s) != 9:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in s):
+        return False
+
+    a = [ord(c) - 33 for c in s]
+
+    row = [(a[3*i] + a[3*i + 1] + a[3*i + 2]) % 94 for i in range(3)]
+    col = [(a[j] + 3*a[j + 3] + 5*a[j + 6]) % 94 for j in range(3)]
+    diag = (a[0] + 2*a[4] + 3*a[8] + 7) % 94
+
+    p = [(2*i + diag) % 9 for i in range(9)]
+    out = []
+    for i in range(9):
+        t = (a[p[i]] + row[i % 3] + col[i // 3] + diag + i*i) % 94
+        out.append(t)
+
+    return bytes(v + 33 for v in out[::-1]) == b"sI<C)~;$J"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at past puzzles, I want something where the structure isn't immediately obvious from the code, but has rich combinatorial constraints.
+
+```python
+def mystery(x):
+    if not isinstance(x, str): return False
+    if len(x) != 10: return False
+    if not x.isdigit(): return False
+    if sorted(x) != list("0123456789"): return False
+    
+    a = [int(c) for c in x]
+    
+    for k in range(2, 11):
+        v = 0
+        for i in range(k):
+            v = v * 10 + a[i]
+        if v % k != 0:
+            return False
+    
+    return True
+```
+
+The puzzle requires a 10-digit pandigital (each digit 0-9 used exactly once) where every k-digit prefix is divisible by k, for k=2..10. The search space of 10! = 3,628,800 permutations would need either heavy backtracking or knowledge of this classic problem.
+
+SOLUTION: "3816547290"
+*** END
+*** END
+*** solver gpt-5.4-mini
+A valid value is `"3816547290"`.
+
+SOLUTION: "3816547290"
+*** END

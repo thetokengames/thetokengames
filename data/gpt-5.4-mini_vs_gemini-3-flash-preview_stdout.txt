@@ -1,0 +1,429 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x)
+    if len(s) != 6:
+        return False
+
+    h1 = h2 = h3 = 0
+    total = 0
+    for ch in s:
+        o = ord(ch)
+        total += o
+        h1 = (h1 * 31 + o) % 997
+        h2 = (h2 * 17 + o) % 991
+        h3 = (h3 * 13 + o) % 983
+
+    return total == 412 and h1 == 408 and h2 == 731 and h3 == 481
+```
+
+This one hides the answer behind three rolling hashes plus an ASCII-sum check over the string form of the input. The sample solution is the specific 6-character string I used to set those targets.
+
+SOLUTION: "J9v#4L" 
+Checking sample solution  "J9v#4L"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "DDEEEE". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 346 in / 12,627 out
+  gemini-3-flash-preview (solver): 261 in / 40,003 out
+gemini-3-flash-preview's turn to invent a puzzle...
+This is a puzzle involving bitwise operations, modular arithmetic, and integer properties.
+
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x <= 0xFFFFFFFF):
+        return False
+    
+    # Check for a specific number of set bits
+    if bin(x).count('1') != 12:
+        return False
+        
+    # Split the 32-bit integer into two 16-bit halves
+    a, b = divmod(x, 65536)
+    
+    # Check the XOR relationship between the two halves
+    if (a ^ b) != 23130:
+        return False
+        
+    # Check a specific linear combination under modulo 100003
+    # 0x7A69 is 31337, 0x343D is 13373
+    if (a * 0x7A69 + b * 0x343D) % 100003 != 98339:
+        return False
+        
+    # Final check using modular exponentiation
+    return pow(a, b, 101) == 98
+```
+
+The function `mystery(x)` takes an integer `x` and performs several checks:
+1. It ensures `x` is a 32-bit unsigned integer.
+2. It verifies that exactly 12 bits are set to 1 in the binary representation of `x`.
+3. It splits `x` into two 16-bit integers, `a` (the high bits) and `b` (the low bits).
+4. It checks that `a ^ b` equals `23130`.
+5. It checks a linear modular equation: `(31337*a + 13373*b) % 100003 == 98339`.
+6. It checks that `a` raised to the power of `b` modulo `101` is `98`.
+
+To solve this, one must find a pair of 16-bit integers `(a, b)` that satisfy these constraints.
+
+SOLUTION: 16866139 
+Checking sample solution  16866139
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 0x01015B5B. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 542 in / 25,639 out
+  gpt-5.4-mini (solver): 308 in / 19,099 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x)
+
+    if len(s) != 8:
+        return False
+
+    h1 = 0
+    h2 = 0
+    h3 = 0
+
+    for ch in s:
+        o = ord(ch)
+        h1 = (h1 * 131 + o) % 1000000007
+        h2 = (h2 * 137 + o) % 1000000009
+        h3 = (h3 * 239 + o) % 998244353
+
+    return (
+        h1 == 243347486 and
+        h2 == 785392942 and
+        h3 == 234289390
+    )
+```
+
+This one hides the answer behind three independent rolling hashes over the string form of `x`. The intended solution is a single 8-character printable string that matches all three targets.
+
+SOLUTION: "R7!mQ-4@" 
+Checking sample solution  "R7!mQ-4@"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (1-1) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 789 in / 11,758 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    # Treat the 8-character string as a 64-bit integer
+    v = 0
+    for i in range(8):
+        v |= (ord(x[i]) << (8 * i))
+        
+    # Split the 64-bit integer into two 32-bit halves
+    a = v & 0xFFFFFFFF
+    b = v >> 32
+    
+    # Perform 32 rounds of a mixing function
+    for _ in range(32):
+        # Update a using addition and rotation
+        a = (a + b) & 0xFFFFFFFF
+        a = ((a << 13) | (a >> 19)) & 0xFFFFFFFF
+        
+        # Update b using XOR and rotation
+        b = (b ^ a) ^ 0xDEADBEEF
+        b = ((b << 17) | (b >> 15)) & 0xFFFFFFFF
+        
+    # Check if the final values match the target
+    return a == 0xbc260334 and b == 0x7620e7f0
+
+```
+
+### Explanation
+The function `mystery(x)` takes a string `x` of length 8 and treats it as a 64-bit unsigned integer by interpreting each character's ASCII value as a byte in a little-endian sequence. This 64-bit integer is then split into two 32-bit components, `a` (the lower 32 bits) and `b` (the upper 32 bits).
+
+The function then executes 32 rounds of a custom mixing process:
+1.  The value `a` is updated by adding `b` to it (modulo $2^{32}$) and then performing a 32-bit left rotation by 13 bits.
+2.  The value `b` is updated by XORing it with the new `a` and the constant `0xDEADBEEF`, and then performing a 32-bit left rotation by 17 bits.
+
+To solve the puzzle, one must find a string of length 8 whose initial `a` and `b` values, when put through this 32-round transformation, result in `a == 0xbc260334` and `b == 0x7620e7f0`. This can be achieved by reversing the 32 rounds, which is possible because each operation in the mixing function (addition, XOR, and rotation) is invertible.
+
+SOLUTION: "Python3!" 
+Checking sample solution  "Python3!"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (1-1) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 1,298 in / 29,713 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8 or not x.isdigit():
+        return False
+
+    d = [ord(c) - 48 for c in x]
+    L, R = d[:4], d[4:]
+
+    rounds = (
+        (4, 1, 7, 0),
+        (2, 9, 3, 5),
+        (6, 8, 1, 4),
+        (9, 2, 6, 1),
+    )
+
+    for r, key in enumerate(rounds):
+        F = [(R[i] + key[i] + r + i) % 10 for i in range(4)]
+        L, R = R, [(L[i] + F[i]) % 10 for i in range(4)]
+
+    return L + R == [0, 5, 3, 4, 2, 3, 7, 6]
+```
+
+This puzzle hides the answer in a small 4-round Feistel-style mixer over an 8-digit decimal string. The transformation is fully reversible, but not obvious at a glance, so finding a valid input requires either careful inversion or search.
+
+SOLUTION: "31415926" 
+Checking sample solution  "31415926"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "31415926". Checking.
+Success!
+New score after this turn: 0 (1-1) vs -1 (0-1)
+  gpt-5.4-mini (inventer): 1,299 in / 13,739 out
+  gemini-3-flash-preview (solver): 331 in / 10,356 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 10:
+        return False
+    
+    # ASCII range check for printable characters
+    v = [ord(c) for c in x]
+    if not all(32 <= c <= 126 for c in v):
+        return False
+
+    # Phase 1: Modular multiplication and offset
+    # Each character is transformed independently.
+    for i in range(10):
+        v[i] = (v[i] * 31 + i) % 256
+        
+    # Phase 2: Incremental accumulation
+    # This round creates a dependency between each character and all previous ones.
+    for i in range(9):
+        v[i+1] = (v[i+1] + v[i]) % 256
+        
+    # Phase 3: Bitwise rotation
+    # Each byte is rotated left by 3 bits.
+    for i in range(10):
+        v[i] = ((v[i] << 3) | (v[i] >> 5)) & 0xFF
+        
+    # Final state check
+    return v == [197, 195, 66, 59, 216, 90, 184, 39, 0, 34]
+
+```
+
+The function `mystery(x)` takes a string `x` of length 10 and performs three distinct phases of transformation on its ASCII values:
+
+1.  **Modular Transformation**: Each character's ASCII value is multiplied by 31 and shifted by its index, with the result taken modulo 256. Since 31 and 256 are coprime, this is a bijective mapping for each position.
+2.  **Accumulation**: The function performs a prefix-sum-like operation, where each byte becomes the sum of itself and the (already transformed) previous byte, again modulo 256. This ensures that a change in any character affects all subsequent bytes in the resulting sequence.
+3.  **Bitwise Rotation**: Each byte is subjected to a circular left shift (rotation) by 3 bits.
+
+To find the value that returns `True`, one must reverse these three phases in opposite order:
+1.  Reverse the bitwise rotation by performing a circular right shift (or a left shift by 5 bits).
+2.  Reverse the accumulation by subtracting the preceding byte from each byte in the sequence (starting from the end).
+3.  Reverse the modular transformation by subtracting the index and then multiplying by the modular multiplicative inverse of 31 modulo 256.
+
+The resulting ASCII values will then reveal the 10-character string.
+
+SOLUTION: "HardPuzzle" 
+Checking sample solution  "HardPuzzle"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "HardPuzzle". Checking.
+Success!
+New score after this turn: 0 (1-1) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 2,195 in / 30,224 out
+  gpt-5.4-mini (solver): 367 in / 2,076 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8 or not x.isdigit():
+        return False
+
+    d = [ord(c) - 48 for c in x]
+
+    for _ in range(4):
+        d = [(d[i] + d[i - 1] + i) % 10 for i in range(8)]
+
+    d = [(d[i] * 7 + d[(i + 3) % 8]) % 10 for i in range(8)]
+
+    return d == [6, 4, 1, 7, 4, 8, 9, 5]
+```
+
+This puzzle is a small circular digit mixer: the input must be an 8-digit string, then it goes through four rounds of neighborhood-dependent updates, followed by one more cross-linked pass. The final state is checked against a fixed target vector, so finding a valid input means reversing a fairly tangled but deterministic transform.
+
+SOLUTION: "40276158" 
+Checking sample solution  "40276158"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "10931535". Checking.
+Failure!
+New score after this turn: 1 (2-1) vs -1 (0-1)
+  gpt-5.4-mini (inventer): 1,887 in / 12,133 out
+  gemini-3-flash-preview (solver): 256 in / 43,028 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    # Check for printable ASCII characters
+    v = [ord(c) for c in x]
+    if any(c < 32 or c > 126 for c in v):
+        return False
+
+    # Phase 1: Modular affine transformation
+    for i in range(8):
+        v[i] = (v[i] * 13 + 36) % 256
+        
+    # Phase 2: XOR dependency chain
+    for i in range(7, 0, -1):
+        v[i] ^= v[i-1]
+    v[0] ^= v[7]
+        
+    # Phase 3: Bitwise rotation (left shift by 5)
+    for i in range(8):
+        v[i] = ((v[i] << 5) | (v[i] >> 3)) & 0xFF
+        
+    # Phase 4: Fixed permutation
+    p = [5, 2, 0, 7, 4, 1, 3, 6]
+    v = [v[p[i]] for i in range(8)]
+    
+    # Phase 5: Final XOR with constant
+    for i in range(8):
+        v[i] ^= 66
+        
+    return v == [227, 106, 9, 143, 55, 237, 206, 98]
+```
+
+### Explanation
+The function `mystery(x)` performs a series of reversible transformations on an 8-character string:
+
+1.  **Modular Affine Transformation**: Each character's ASCII value is mapped using the function $f(n) = (13n + 36) \pmod{256}$. Since 13 and 256 are coprime, this is a bijection.
+2.  **XOR Chain**: A dependency is created between characters. Each byte (from index 7 down to 1) is XORed with its predecessor. Finally, the first byte (index 0) is XORed with the newly modified last byte.
+3.  **Bitwise Rotation**: Each byte is rotated left by 5 bits. This is equivalent to a circular shift within the 8 bits of each byte.
+4.  **Permutation**: The bytes are reordered according to the permutation indices `[5, 2, 0, 7, 4, 1, 3, 6]`.
+5.  **Final XOR**: Every byte is XORed with the constant 66 (`0x42`).
+
+To solve the puzzle, one must reverse these steps in the opposite order:
+1.  XOR the target values with 66.
+2.  Reverse the permutation to restore the original order.
+3.  Perform a bitwise right rotation of 5 bits (or a left rotation of 3 bits) on each byte.
+4.  Reverse the XOR chain:
+    *   $v_0 = v'_0 \oplus v'_7$
+    *   $v_i = v'_i \oplus v_{i-1}$ for $i=1 \dots 7$
+5.  Reverse the modular affine transformation by subtracting 36 and multiplying by the modular multiplicative inverse of 13 modulo 256 (which is 197).
+
+SOLUTION: "Python3!" 
+Checking sample solution  "Python3!"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 1 (2-1) vs -2 (0-2)
+  gemini-3-flash-preview (inventer): 3,032 in / 14,762 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x)
+    if len(s) != 9 or any(not (32 <= ord(c) <= 126) for c in s):
+        return False
+
+    v = [ord(c) for c in s]
+
+    for i in range(9):
+        v[i] = (v[i] + 17 * i * i + 29) & 0xFF
+
+    for i in range(8, 0, -1):
+        v[i] ^= v[i - 1]
+
+    p = [3, 7, 2, 6, 1, 5, 0, 4, 8]
+    v = [v[p[i]] for i in range(9)]
+
+    for i in range(9):
+        v[i] = ((v[i] << 1) | (v[i] >> 7)) & 0xFF
+
+    return v == [170, 186, 155, 139, 98, 210, 188, 51, 2]
+```
+
+This one hides the answer behind a byte-level scramble: a quadratic offset per position, a backward XOR chain, a fixed permutation, and a 1-bit rotation. The returned value is True only when the 9-character printable input lands exactly on the target byte pattern.
+
+SOLUTION: "AAAAAAAAA" 
+Checking sample solution  "AAAAAAAAA"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "AAAAAAAAA". Checking.
+Success!
+New score after this turn: 1 (2-1) vs -2 (0-2)
+  gpt-5.4-mini (inventer): 2,473 in / 11,089 out
+  gemini-3-flash-preview (solver): 366 in / 21,560 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    # Check for printable ASCII characters
+    v = [ord(c) for c in x]
+    if any(c < 32 or c > 126 for c in v):
+        return False
+
+    # Phase 1: Affine transformation with index dependency
+    for i in range(8):
+        v[i] = (v[i] * 53 + i * 17 + 89) % 256
+
+    # Phase 2: XOR dependency chain
+    for i in range(1, 8):
+        v[i] ^= v[i-1]
+
+    # Phase 3: Bitwise nibble swap
+    for i in range(8):
+        v[i] = ((v[i] << 4) | (v[i] >> 4)) & 0xFF
+
+    # Phase 4: Fixed permutation
+    p = [3, 0, 5, 2, 7, 4, 1, 6]
+    v = [v[p[i]] for i in range(8)]
+
+    # Phase 5: Modular addition chain
+    for i in range(1, 8):
+        v[i] = (v[i] + v[i-1]) % 256
+
+    return v == [212, 114, 164, 220, 217, 36, 200, 111]
+```
+
+### Explanation
+The function `mystery(x)` transforms an 8-character string through a series of reversible operations:
+
+1.  **Affine Transformation**: Each character's ASCII value is mapped using a linear function $f(n, i) = (53n + 17i + 89) \pmod{256}$, where $n$ is the character's code and $i$ is its index.
+2.  **XOR Chain**: A dependency is created between characters. Each byte (from index 1 to 7) is XORed with its immediate predecessor.
+3.  **Nibble Swap**: The high and low 4 bits (nibbles) of each byte are swapped.
+4.  **Permutation**: The bytes are reordered according to the index map `[3, 0, 5, 2, 7, 4, 1, 6]`.
+5.  **Addition Chain**: Each byte (from index 1 to 7) is replaced by the sum of itself and the (already transformed) previous byte, modulo 256.
+
+To find the solution, one must reverse these steps in the opposite order:
+1.  Reverse the addition chain by subtracting the predecessor from each byte.
+2.  Undo the permutation to restore the original order of bytes.
+3.  Reverse the nibble swap (it is its own inverse).
+4.  Reverse the XOR chain by XORing each byte with the predecessor, working backwards from the end.
+5.  Reverse the affine transformation by subtracting the offset and multiplying by the modular multiplicative inverse of 53 modulo 256 (which is 29).
+
+SOLUTION: "Puzzler!" 
+Checking sample solution  "Puzzler!"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 1 (2-1) vs -3 (0-3)
+  gemini-3-flash-preview (inventer): 4,151 in / 21,439 out
+Logs written to runs/classic/gpt-5.4-mini_vs_gemini-3-flash-preview.log and runs/classic/gpt-5.4-mini_vs_gemini-3-flash-preview.jsonl
+
+=== Token Usage Summary ===
+Turn 0: gpt-5.4-mini vs gemini-3-flash-preview - 607 in / 52,630 out (?) [failure]
+Turn 1: gemini-3-flash-preview vs gpt-5.4-mini - 850 in / 44,738 out (?) [success]
+Turn 2: gpt-5.4-mini vs gemini-3-flash-preview - 789 in / 11,758 out (?) [puzzle-wrong]
+Turn 3: gemini-3-flash-preview vs gpt-5.4-mini - 1,298 in / 29,713 out (?) [puzzle-wrong]
+Turn 4: gpt-5.4-mini vs gemini-3-flash-preview - 1,630 in / 24,095 out (?) [success]
+Turn 5: gemini-3-flash-preview vs gpt-5.4-mini - 2,562 in / 32,300 out (?) [success]
+Turn 6: gpt-5.4-mini vs gemini-3-flash-preview - 2,143 in / 55,161 out (?) [failure]
+Turn 7: gemini-3-flash-preview vs gpt-5.4-mini - 3,032 in / 14,762 out (?) [puzzle-wrong]
+Turn 8: gpt-5.4-mini vs gemini-3-flash-preview - 2,839 in / 32,649 out (?) [success]
+Turn 9: gemini-3-flash-preview vs gpt-5.4-mini - 4,151 in / 21,439 out (?) [puzzle-wrong]
+
+=== Totals by Model ===
+gpt-5.4-mini: 7,469 in / 82,521 out
+gemini-3-flash-preview: 12,432 in / 236,724 out

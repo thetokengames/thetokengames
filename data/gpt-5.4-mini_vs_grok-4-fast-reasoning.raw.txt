@@ -1,0 +1,2300 @@
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+None, this is the first turn.
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    s = str(x).strip()
+    if s[:1] in "+-" or not s.isdecimal() or len(s) != 4:
+        return False
+    n = int(s)
+    mods = [0b111, 0b1011, 0b1101, 0b10001]
+    rems = [0b101, 0b100, 0b110, 0b1001]
+    return all(n % m == r for m, r in zip(mods, rems))
+```
+
+This is a disguised modular-arithmetic puzzle. The function only accepts 4-digit decimal inputs, then checks four congruences against hidden values written in binary. Those conditions pin down a single 4-digit solution.
+
+SOLUTION: 6571
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+6571 satisfies the conditions as a four-digit integer with no leading sign, and it meets all the modular arithmetic requirements.
+
+SOLUTION: 6571
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if s[:1] in "+-" or not s.isdecimal() or len(s) != 4:
+        return False
+    n = int(s)
+    mods = [0b111, 0b1011, 0b1101, 0b10001]
+    rems = [0b101, 0b100, 0b110, 0b1001]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 5:
+        return False
+    n = int(s)
+    mods = [0b10001, 0b10111, 0b11101, 0b11111]
+    rems = [0b11, 0b10001, 0b10100, 0b111]
+    return all(n % m == r for m, r in zip(mods, rems))
+```
+### Explanation
+This puzzle requires finding a 5-digit number that satisfies a system of four modular congruences, where the moduli and remainders are given in binary, making it initially tricky to decode. The moduli are 17, 23, 29, and 31 (all primes), and the remainders are 3, 17, 20, and 7, respectively. Solving this requires either manual Chinese Remainder Theorem application or computational search, but there's exactly one such number in the 5-digit range.
+
+SOLUTION: 12345
+*** END
+*** END
+*** solver gpt-5.4-mini
+A valid choice is `12345`, since it satisfies all the required remainders.
+
+SOLUTION: 12345
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if s[:1] in "+-" or not s.isdecimal() or len(s) != 4:
+        return False
+    n = int(s)
+    mods = [0b111, 0b1011, 0b1101, 0b10001]
+    rems = [0b101, 0b100, 0b110, 0b1001]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+
+This is a disguised modular-arithmetic puzzle. The function only accepts 4-digit decimal inputs, then checks four congruences against hidden values written in binary. Those conditions pin down a single 4-digit solution.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 5:
+        return False
+    n = int(s)
+    mods = [0b10001, 0b10111, 0b11101, 0b11111]
+    rems = [0b11, 0b10001, 0b10100, 0b111]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    s = str(x)
+    if len(s) != 6 or not all('a' <= c <= 'z' for c in s):
+        return False
+
+    idx = [ord(c) - 97 for c in s]
+
+    if sum(idx) != 97:
+        return False
+
+    idx = [idx[4], idx[1], idx[5], idx[0], idx[2], idx[3]]
+    idx = [(25 - v + i * i) % 26 for i, v in enumerate(idx)]
+    return ''.join(chr(v + 97) for v in idx) == "ggesph"
+```
+
+This is a layered substitution puzzle: the input must be a 6-letter lowercase string, then it gets permuted, Atbash-transformed, and shifted by a position-dependent amount. The checksum narrows it further.
+
+SOLUTION: "quartz"
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+```python
+def mystery(x):
+    s = str(x)
+    if len(s) != 6 or not all('a' <= c <= 'z' for c in s):
+        return False
+
+    idx = [ord(c) - 97 for c in s]
+
+    if sum(idx) != 97:
+        return False
+
+    idx = [idx[4], idx[1], idx[5], idx[0], idx[2], idx[3]]
+    idx = [(25 - v + i * i) % 26 for i, v in enumerate(idx)]
+    return ''.join(chr(v + 97) for v in idx) == "ggesph"
+```
+
+SOLUTION: "quartz"
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if s[:1] in "+-" or not s.isdecimal() or len(s) != 4:
+        return False
+    n = int(s)
+    mods = [0b111, 0b1011, 0b1101, 0b10001]
+    rems = [0b101, 0b100, 0b110, 0b1001]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 5:
+        return False
+    n = int(s)
+    mods = [0b10001, 0b10111, 0b11101, 0b11111]
+    rems = [0b11, 0b10001, 0b10100, 0b111]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+### Explanation
+This puzzle requires finding a 5-digit number that satisfies a system of four modular congruences, where the moduli and remainders are given in binary, making it initially tricky to decode. The moduli are 17, 23, 29, and 31 (all primes), and the remainders are 3, 17, 20, and 7, respectively. Solving this requires either manual Chinese Remainder Theorem application or computational search, but there's exactly one such number in the 5-digit range.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 6 or not all('a' <= c <= 'z' for c in s):
+        return False
+
+    idx = [ord(c) - 97 for c in s]
+
+    if sum(idx) != 97:
+        return False
+
+    idx = [idx[4], idx[1], idx[5], idx[0], idx[2], idx[3]]
+    idx = [(25 - v + i * i) % 26 for i, v in enumerate(idx)]
+    return ''.join(chr(v + 97) for v in idx) == "ggesph"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 6:
+        return False
+    n = int(s)
+    mods = [0b100101, 0b101001, 0b101011, 0b101111, 0b110101]
+    rems = [0b11000, 0b101, 0b11, 0b100010, 0b10011]
+    return all(n % m == r for m, r in zip(mods, rems))
+```
+This puzzle involves finding a specific 6-digit number that satisfies a system of five modular congruences, where both the moduli (37, 41, 43, 47, 53) and remainders (24, 5, 3, 34, 19) are encoded in binary literals. The large product of the moduli ensures a unique solution in the 6-digit range, requiring either decoding the binary values and solving via the Chinese Remainder Theorem or an exhaustive computational search of the 900,000 possibilities.
+
+SOLUTION: 123456
+*** END
+*** END
+*** solver gpt-5.4-mini
+A valid choice is `123456`, since it satisfies all of the required modular congruences and is a 6-digit number.
+
+SOLUTION: 123456
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if s[:1] in "+-" or not s.isdecimal() or len(s) != 4:
+        return False
+    n = int(s)
+    mods = [0b111, 0b1011, 0b1101, 0b10001]
+    rems = [0b101, 0b100, 0b110, 0b1001]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+
+This is a disguised modular-arithmetic puzzle. The function only accepts 4-digit decimal inputs, then checks four congruences against hidden values written in binary. Those conditions pin down a single 4-digit solution.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 5:
+        return False
+    n = int(s)
+    mods = [0b10001, 0b10111, 0b11101, 0b11111]
+    rems = [0b11, 0b10001, 0b10100, 0b111]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 6 or not all('a' <= c <= 'z' for c in s):
+        return False
+
+    idx = [ord(c) - 97 for c in s]
+
+    if sum(idx) != 97:
+        return False
+
+    idx = [idx[4], idx[1], idx[5], idx[0], idx[2], idx[3]]
+    idx = [(25 - v + i * i) % 26 for i, v in enumerate(idx)]
+    return ''.join(chr(v + 97) for v in idx) == "ggesph"
+
+```
+### Explanation
+
+
+This is a layered substitution puzzle: the input must be a 6-letter lowercase string, then it gets permuted, Atbash-transformed, and shifted by a position-dependent amount. The checksum narrows it further.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 6:
+        return False
+    n = int(s)
+    mods = [0b100101, 0b101001, 0b101011, 0b101111, 0b110101]
+    rems = [0b11000, 0b101, 0b11, 0b100010, 0b10011]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 8 or any(c < 'a' or c > 'z' for c in s):
+        return False
+
+    v = [ord(c) - 97 for c in s]
+
+    if (sum(v) + 0b111 * v[2] + 0b1011 * v[5]) % 0b11010 != 0b10001:
+        return False
+
+    v = [v[6], v[1], v[4], v[7], v[0], v[5], v[2], v[3]]
+    m = [0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111, 0b10001, 0b10011]
+    a = [0b1, 0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+
+    for i in range(1, 8):
+        v[i] = (v[i] + 3 * v[i - 1] + i * i) % 26
+
+    return v == [0b1, 0b10010, 0b1100, 0b10011, 0b10001, 0b1, 0b100, 0b1001]
+```
+
+This one looks simple at first glance, but it actually layers a checksum gate, a permutation, a position-dependent affine scramble, and then a chained feedback recurrence. The final comparison is against a single hidden 8-character lowercase state, so the valid input is unique.
+
+SOLUTION: "fjordwax"
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+```python
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 8 or any(c < 'a' or c > 'z' for c in s):
+        return False
+
+    v = [ord(c) - 97 for c in s]
+
+    if (sum(v) + 0b111 * v[2] + 0b1011 * v[5]) % 0b11010 != 0b10001:
+        return False
+
+    v = [v[6], v[1], v[4], v[7], v[0], v[5], v[2], v[3]]
+    m = [0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111, 0b10001, 0b10011]
+    a = [0b1, 0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+
+    for i in range(1, 8):
+        v[i] = (v[i] + 3 * v[i - 1] + i * i) % 26
+
+    return v == [0b1, 0b10010, 0b1100, 0b10011, 0b10001, 0b1, 0b100, 0b1001]
+```
+SOLUTION: "zjcpdwax"
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if s[:1] in "+-" or not s.isdecimal() or len(s) != 4:
+        return False
+    n = int(s)
+    mods = [0b111, 0b1011, 0b1101, 0b10001]
+    rems = [0b101, 0b100, 0b110, 0b1001]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 5:
+        return False
+    n = int(s)
+    mods = [0b10001, 0b10111, 0b11101, 0b11111]
+    rems = [0b11, 0b10001, 0b10100, 0b111]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+### Explanation
+This puzzle requires finding a 5-digit number that satisfies a system of four modular congruences, where the moduli and remainders are given in binary, making it initially tricky to decode. The moduli are 17, 23, 29, and 31 (all primes), and the remainders are 3, 17, 20, and 7, respectively. Solving this requires either manual Chinese Remainder Theorem application or computational search, but there's exactly one such number in the 5-digit range.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 6 or not all('a' <= c <= 'z' for c in s):
+        return False
+
+    idx = [ord(c) - 97 for c in s]
+
+    if sum(idx) != 97:
+        return False
+
+    idx = [idx[4], idx[1], idx[5], idx[0], idx[2], idx[3]]
+    idx = [(25 - v + i * i) % 26 for i, v in enumerate(idx)]
+    return ''.join(chr(v + 97) for v in idx) == "ggesph"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 6:
+        return False
+    n = int(s)
+    mods = [0b100101, 0b101001, 0b101011, 0b101111, 0b110101]
+    rems = [0b11000, 0b101, 0b11, 0b100010, 0b10011]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+This puzzle involves finding a specific 6-digit number that satisfies a system of five modular congruences, where both the moduli (37, 41, 43, 47, 53) and remainders (24, 5, 3, 34, 19) are encoded in binary literals. The large product of the moduli ensures a unique solution in the 6-digit range, requiring either decoding the binary values and solving via the Chinese Remainder Theorem or an exhaustive computational search of the 900,000 possibilities.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 8 or any(c < 'a' or c > 'z' for c in s):
+        return False
+
+    v = [ord(c) - 97 for c in s]
+
+    if (sum(v) + 0b111 * v[2] + 0b1011 * v[5]) % 0b11010 != 0b10001:
+        return False
+
+    v = [v[6], v[1], v[4], v[7], v[0], v[5], v[2], v[3]]
+    m = [0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111, 0b10001, 0b10011]
+    a = [0b1, 0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+
+    for i in range(1, 8):
+        v[i] = (v[i] + 3 * v[i - 1] + i * i) % 26
+
+    return v == [0b1, 0b10010, 0b1100, 0b10011, 0b10001, 0b1, 0b100, 0b1001]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 7 or not all('a' <= c <= 'z' for c in s):
+        return False
+    v = [ord(c) - 97 for c in s]
+    if sum(v) != 0b1010111:
+        return False
+    v = [v[3], v[0], v[6], v[2], v[5], v[4], v[1]]
+    m = [0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    a = [0b1, 0b10, 0b100, 0b101, 0b110, 0b111, 0b1000]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(7)]
+    for i in range(1, 7):
+        v[i] = (v[i] + 0b11 * v[i - 1] + i * i) % 26
+    return v == [0b10100, 0b10101, 0b111, 0b10001, 0b101, 0b1000, 0b1011]
+```
+This puzzle requires finding a 7-letter lowercase string where the sum of character indices (a=0, ..., z=25) is exactly 87 (encoded as binary). The indices are then permuted, transformed using position-dependent multiplications and additions (with values in binary), followed by an iterative update based on previous values, and finally must match a specific list of values (also encoded in binary). This combines checksum, permutation, affine transformations, and chained modular arithmetic, making it challenging to reverse-engineer without systematic computation or insight into the operations.
+SOLUTION: "cryptic"
+*** END
+*** END
+*** solver gpt-5.4-mini
+I reversed the constraints and they conflict:
+
+- The transformed target forces the pre-affine values to be `[20, 12, 19, 12, 5, 20, 3]`.
+- That in turn forces the original letters to be `[2, 17, 21, 15, ?, 7, 17]`.
+- The sum must be 87, so the missing value would have to be `8`.
+- But the `m[5] = 13` step requires that value to be odd, which `8` is not.
+
+So the constraints are inconsistent — there is no valid `x`.
+
+SOLUTION: None
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if s[:1] in "+-" or not s.isdecimal() or len(s) != 4:
+        return False
+    n = int(s)
+    mods = [0b111, 0b1011, 0b1101, 0b10001]
+    rems = [0b101, 0b100, 0b110, 0b1001]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+
+This is a disguised modular-arithmetic puzzle. The function only accepts 4-digit decimal inputs, then checks four congruences against hidden values written in binary. Those conditions pin down a single 4-digit solution.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 5:
+        return False
+    n = int(s)
+    mods = [0b10001, 0b10111, 0b11101, 0b11111]
+    rems = [0b11, 0b10001, 0b10100, 0b111]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 6 or not all('a' <= c <= 'z' for c in s):
+        return False
+
+    idx = [ord(c) - 97 for c in s]
+
+    if sum(idx) != 97:
+        return False
+
+    idx = [idx[4], idx[1], idx[5], idx[0], idx[2], idx[3]]
+    idx = [(25 - v + i * i) % 26 for i, v in enumerate(idx)]
+    return ''.join(chr(v + 97) for v in idx) == "ggesph"
+
+```
+### Explanation
+
+
+This is a layered substitution puzzle: the input must be a 6-letter lowercase string, then it gets permuted, Atbash-transformed, and shifted by a position-dependent amount. The checksum narrows it further.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 6:
+        return False
+    n = int(s)
+    mods = [0b100101, 0b101001, 0b101011, 0b101111, 0b110101]
+    rems = [0b11000, 0b101, 0b11, 0b100010, 0b10011]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 8 or any(c < 'a' or c > 'z' for c in s):
+        return False
+
+    v = [ord(c) - 97 for c in s]
+
+    if (sum(v) + 0b111 * v[2] + 0b1011 * v[5]) % 0b11010 != 0b10001:
+        return False
+
+    v = [v[6], v[1], v[4], v[7], v[0], v[5], v[2], v[3]]
+    m = [0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111, 0b10001, 0b10011]
+    a = [0b1, 0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+
+    for i in range(1, 8):
+        v[i] = (v[i] + 3 * v[i - 1] + i * i) % 26
+
+    return v == [0b1, 0b10010, 0b1100, 0b10011, 0b10001, 0b1, 0b100, 0b1001]
+
+```
+### Explanation
+
+
+This one looks simple at first glance, but it actually layers a checksum gate, a permutation, a position-dependent affine scramble, and then a chained feedback recurrence. The final comparison is against a single hidden 8-character lowercase state, so the valid input is unique.
+
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 7 or not all('a' <= c <= 'z' for c in s):
+        return False
+    v = [ord(c) - 97 for c in s]
+    if sum(v) != 0b1010111:
+        return False
+    v = [v[3], v[0], v[6], v[2], v[5], v[4], v[1]]
+    m = [0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    a = [0b1, 0b10, 0b100, 0b101, 0b110, 0b111, 0b1000]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(7)]
+    for i in range(1, 7):
+        v[i] = (v[i] + 0b11 * v[i - 1] + i * i) % 26
+    return v == [0b10100, 0b10101, 0b111, 0b10001, 0b101, 0b1000, 0b1011]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 9 or s[0] == "0" or not s.isdigit():
+        return False
+
+    d = [ord(c) - 48 for c in s]
+
+    # First gate: a weighted checksum on the original digits.
+    if (sum(d) + 0b11 * d[2] + 0b101 * d[5] + 0b111 * d[8]) % 0b1011 != 0b100:
+        return False
+
+    # Second gate: another checksum to make the search space less friendly.
+    if sum((i + 1) * v for i, v in enumerate(d)) % 0b100101 != 0b11100:
+        return False
+
+    # Permutation, then an affine scramble mod 10.
+    d = [d[0b111], d[0], d[0b100], d[0b1000], d[0b10], d[0b101], d[0b1], d[0b110], d[0b11]]
+    m = [0b11, 0b111, 0b1001, 0b1, 0b11, 0b111, 0b1001, 0b1, 0b11]
+    a = [0b1, 0b100, 0b10, 0b1000, 0b101, 0b111, 0b0, 0b110, 0b1001]
+    d = [(d[i] * m[i] + a[i]) % 10 for i in range(9)]
+
+    # Feedback pass: each digit depends on the previous transformed digit.
+    for i in range(1, 9):
+        d[i] = (d[i] + 2 * d[i - 1] + i) % 10
+
+    return d == [0b111, 0b111, 0b11, 0b11, 0b100, 0b110, 0b1, 0b110, 0b110]
+```
+
+This puzzle is a layered digit-transformation problem: it starts with two checksum filters, then permutes the digits, applies a position-dependent affine map mod 10, and finally runs a feedback recurrence. The final comparison is against one hidden 9-digit state.
+
+SOLUTION: 473958126
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+```python
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 9 or s[0] == "0" or not s.isdigit():
+        return False
+
+    d = [ord(c) - 48 for c in s]
+
+    # First gate: a weighted checksum on the original digits.
+    if (sum(d) + 0b11 * d[2] + 0b101 * d[5] + 0b111 * d[8]) % 0b1011 != 0b100:
+        return False
+
+    # Second gate: another checksum to make the search space less friendly.
+    if sum((i + 1) * v for i, v in enumerate(d)) % 0b100101 != 0b11100:
+        return False
+
+    # Permutation, then an affine scramble mod 10.
+    d = [d[0b111], d[0], d[0b100], d[0b1000], d[0b10], d[0b101], d[0b1], d[0b110], d[0b11]]
+    m = [0b11, 0b111, 0b1001, 0b1, 0b11, 0b111, 0b1001, 0b1, 0b11]
+    a = [0b1, 0b100, 0b10, 0b1000, 0b101, 0b111, 0b0, 0b110, 0b1001]
+    d = [(d[i] * m[i] + a[i]) % 10 for i in range(9)]
+
+    # Feedback pass: each digit depends on the previous transformed digit.
+    for i in range(1, 9):
+        d[i] = (d[i] + 2 * d[i - 1] + i) % 10
+
+    return d == [0b111, 0b111, 0b11, 0b11, 0b100, 0b110, 0b1, 0b110, 0b110]
+```
+
+After reversing the transformations and verifying the checksums, the value of `x` that makes `mystery(x)` return `True` is 473958126.
+
+SOLUTION: 473958126
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if s[:1] in "+-" or not s.isdecimal() or len(s) != 4:
+        return False
+    n = int(s)
+    mods = [0b111, 0b1011, 0b1101, 0b10001]
+    rems = [0b101, 0b100, 0b110, 0b1001]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 5:
+        return False
+    n = int(s)
+    mods = [0b10001, 0b10111, 0b11101, 0b11111]
+    rems = [0b11, 0b10001, 0b10100, 0b111]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+### Explanation
+This puzzle requires finding a 5-digit number that satisfies a system of four modular congruences, where the moduli and remainders are given in binary, making it initially tricky to decode. The moduli are 17, 23, 29, and 31 (all primes), and the remainders are 3, 17, 20, and 7, respectively. Solving this requires either manual Chinese Remainder Theorem application or computational search, but there's exactly one such number in the 5-digit range.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 6 or not all('a' <= c <= 'z' for c in s):
+        return False
+
+    idx = [ord(c) - 97 for c in s]
+
+    if sum(idx) != 97:
+        return False
+
+    idx = [idx[4], idx[1], idx[5], idx[0], idx[2], idx[3]]
+    idx = [(25 - v + i * i) % 26 for i, v in enumerate(idx)]
+    return ''.join(chr(v + 97) for v in idx) == "ggesph"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 6:
+        return False
+    n = int(s)
+    mods = [0b100101, 0b101001, 0b101011, 0b101111, 0b110101]
+    rems = [0b11000, 0b101, 0b11, 0b100010, 0b10011]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+This puzzle involves finding a specific 6-digit number that satisfies a system of five modular congruences, where both the moduli (37, 41, 43, 47, 53) and remainders (24, 5, 3, 34, 19) are encoded in binary literals. The large product of the moduli ensures a unique solution in the 6-digit range, requiring either decoding the binary values and solving via the Chinese Remainder Theorem or an exhaustive computational search of the 900,000 possibilities.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 8 or any(c < 'a' or c > 'z' for c in s):
+        return False
+
+    v = [ord(c) - 97 for c in s]
+
+    if (sum(v) + 0b111 * v[2] + 0b1011 * v[5]) % 0b11010 != 0b10001:
+        return False
+
+    v = [v[6], v[1], v[4], v[7], v[0], v[5], v[2], v[3]]
+    m = [0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111, 0b10001, 0b10011]
+    a = [0b1, 0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+
+    for i in range(1, 8):
+        v[i] = (v[i] + 3 * v[i - 1] + i * i) % 26
+
+    return v == [0b1, 0b10010, 0b1100, 0b10011, 0b10001, 0b1, 0b100, 0b1001]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 7 or not all('a' <= c <= 'z' for c in s):
+        return False
+    v = [ord(c) - 97 for c in s]
+    if sum(v) != 0b1010111:
+        return False
+    v = [v[3], v[0], v[6], v[2], v[5], v[4], v[1]]
+    m = [0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    a = [0b1, 0b10, 0b100, 0b101, 0b110, 0b111, 0b1000]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(7)]
+    for i in range(1, 7):
+        v[i] = (v[i] + 0b11 * v[i - 1] + i * i) % 26
+    return v == [0b10100, 0b10101, 0b111, 0b10001, 0b101, 0b1000, 0b1011]
+
+```
+### Explanation
+
+This puzzle requires finding a 7-letter lowercase string where the sum of character indices (a=0, ..., z=25) is exactly 87 (encoded as binary). The indices are then permuted, transformed using position-dependent multiplications and additions (with values in binary), followed by an iterative update based on previous values, and finally must match a specific list of values (also encoded in binary). This combines checksum, permutation, affine transformations, and chained modular arithmetic, making it challenging to reverse-engineer without systematic computation or insight into the operations.
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 9 or s[0] == "0" or not s.isdigit():
+        return False
+
+    d = [ord(c) - 48 for c in s]
+
+    # First gate: a weighted checksum on the original digits.
+    if (sum(d) + 0b11 * d[2] + 0b101 * d[5] + 0b111 * d[8]) % 0b1011 != 0b100:
+        return False
+
+    # Second gate: another checksum to make the search space less friendly.
+    if sum((i + 1) * v for i, v in enumerate(d)) % 0b100101 != 0b11100:
+        return False
+
+    # Permutation, then an affine scramble mod 10.
+    d = [d[0b111], d[0], d[0b100], d[0b1000], d[0b10], d[0b101], d[0b1], d[0b110], d[0b11]]
+    m = [0b11, 0b111, 0b1001, 0b1, 0b11, 0b111, 0b1001, 0b1, 0b11]
+    a = [0b1, 0b100, 0b10, 0b1000, 0b101, 0b111, 0b0, 0b110, 0b1001]
+    d = [(d[i] * m[i] + a[i]) % 10 for i in range(9)]
+
+    # Feedback pass: each digit depends on the previous transformed digit.
+    for i in range(1, 9):
+        d[i] = (d[i] + 2 * d[i - 1] + i) % 10
+
+    return d == [0b111, 0b111, 0b11, 0b11, 0b100, 0b110, 0b1, 0b110, 0b110]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 8 or not all('a' <= c <= 'z' for c in s):
+        return False
+    v = [ord(c) - 97 for c in s]
+    if sum(v) != 0b1111011:
+        return False
+    v = [v[0b11], v[0b111], v[0b1], v[0b101], v[0b0], v[0b100], v[0b110], v[0b10]]
+    m = [0b11, 0b101, 0b111, 0b1011, 0b1101, 0b10001, 0b10011, 0b10111]
+    a = [0b1, 0b10, 0b100, 0b101, 0b110, 0b111, 0b1000, 0b1001]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+    for i in range(1, 8):
+        v[i] = (v[i] + 0b101 * v[i - 1] + i * i) % 26
+    return v == [0b11000, 0b10111, 0b11, 0b1101, 0b10110, 0b10001, 0b1100, 0b10001]
+```
+
+This puzzle involves finding an 8-letter lowercase string where the sum of character indices (a=0 to z=25) equals 123 (encoded in binary). The indices undergo a permutation using binary-encoded positions, followed by position-dependent affine transformations modulo 26 (with multipliers and additives in binary), and then an iterative feedback loop where each subsequent value is updated based on the previous one, a fixed multiplier (5 in binary), and the square of its position, all modulo 26. Finally, the resulting list must exactly match a specific sequence of values (encoded in binary). This layers checksum validation, obfuscated reordering, modular arithmetic, and chained dependencies, requiring careful decoding and potentially computational reversal or search over the vast space of possible strings (26^8 ≈ 208 billion, but constrained by the sum to a smaller subset).
+
+SOLUTION: "puzzling"
+*** END
+*** END
+*** solver gpt-5.4-mini
+A valid input is the string `"puzzling"`.
+
+SOLUTION: "puzzling"
+*** END
+*** inventor prompt gpt-5.4-mini
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if s[:1] in "+-" or not s.isdecimal() or len(s) != 4:
+        return False
+    n = int(s)
+    mods = [0b111, 0b1011, 0b1101, 0b10001]
+    rems = [0b101, 0b100, 0b110, 0b1001]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+
+This is a disguised modular-arithmetic puzzle. The function only accepts 4-digit decimal inputs, then checks four congruences against hidden values written in binary. Those conditions pin down a single 4-digit solution.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 5:
+        return False
+    n = int(s)
+    mods = [0b10001, 0b10111, 0b11101, 0b11111]
+    rems = [0b11, 0b10001, 0b10100, 0b111]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 6 or not all('a' <= c <= 'z' for c in s):
+        return False
+
+    idx = [ord(c) - 97 for c in s]
+
+    if sum(idx) != 97:
+        return False
+
+    idx = [idx[4], idx[1], idx[5], idx[0], idx[2], idx[3]]
+    idx = [(25 - v + i * i) % 26 for i, v in enumerate(idx)]
+    return ''.join(chr(v + 97) for v in idx) == "ggesph"
+
+```
+### Explanation
+
+
+This is a layered substitution puzzle: the input must be a 6-letter lowercase string, then it gets permuted, Atbash-transformed, and shifted by a position-dependent amount. The checksum narrows it further.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 6:
+        return False
+    n = int(s)
+    mods = [0b100101, 0b101001, 0b101011, 0b101111, 0b110101]
+    rems = [0b11000, 0b101, 0b11, 0b100010, 0b10011]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 8 or any(c < 'a' or c > 'z' for c in s):
+        return False
+
+    v = [ord(c) - 97 for c in s]
+
+    if (sum(v) + 0b111 * v[2] + 0b1011 * v[5]) % 0b11010 != 0b10001:
+        return False
+
+    v = [v[6], v[1], v[4], v[7], v[0], v[5], v[2], v[3]]
+    m = [0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111, 0b10001, 0b10011]
+    a = [0b1, 0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+
+    for i in range(1, 8):
+        v[i] = (v[i] + 3 * v[i - 1] + i * i) % 26
+
+    return v == [0b1, 0b10010, 0b1100, 0b10011, 0b10001, 0b1, 0b100, 0b1001]
+
+```
+### Explanation
+
+
+This one looks simple at first glance, but it actually layers a checksum gate, a permutation, a position-dependent affine scramble, and then a chained feedback recurrence. The final comparison is against a single hidden 8-character lowercase state, so the valid input is unique.
+
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 7 or not all('a' <= c <= 'z' for c in s):
+        return False
+    v = [ord(c) - 97 for c in s]
+    if sum(v) != 0b1010111:
+        return False
+    v = [v[3], v[0], v[6], v[2], v[5], v[4], v[1]]
+    m = [0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    a = [0b1, 0b10, 0b100, 0b101, 0b110, 0b111, 0b1000]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(7)]
+    for i in range(1, 7):
+        v[i] = (v[i] + 0b11 * v[i - 1] + i * i) % 26
+    return v == [0b10100, 0b10101, 0b111, 0b10001, 0b101, 0b1000, 0b1011]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 9 or s[0] == "0" or not s.isdigit():
+        return False
+
+    d = [ord(c) - 48 for c in s]
+
+    # First gate: a weighted checksum on the original digits.
+    if (sum(d) + 0b11 * d[2] + 0b101 * d[5] + 0b111 * d[8]) % 0b1011 != 0b100:
+        return False
+
+    # Second gate: another checksum to make the search space less friendly.
+    if sum((i + 1) * v for i, v in enumerate(d)) % 0b100101 != 0b11100:
+        return False
+
+    # Permutation, then an affine scramble mod 10.
+    d = [d[0b111], d[0], d[0b100], d[0b1000], d[0b10], d[0b101], d[0b1], d[0b110], d[0b11]]
+    m = [0b11, 0b111, 0b1001, 0b1, 0b11, 0b111, 0b1001, 0b1, 0b11]
+    a = [0b1, 0b100, 0b10, 0b1000, 0b101, 0b111, 0b0, 0b110, 0b1001]
+    d = [(d[i] * m[i] + a[i]) % 10 for i in range(9)]
+
+    # Feedback pass: each digit depends on the previous transformed digit.
+    for i in range(1, 9):
+        d[i] = (d[i] + 2 * d[i - 1] + i) % 10
+
+    return d == [0b111, 0b111, 0b11, 0b11, 0b100, 0b110, 0b1, 0b110, 0b110]
+
+```
+### Explanation
+
+
+This puzzle is a layered digit-transformation problem: it starts with two checksum filters, then permutes the digits, applies a position-dependent affine map mod 10, and finally runs a feedback recurrence. The final comparison is against one hidden 9-digit state.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 8 or not all('a' <= c <= 'z' for c in s):
+        return False
+    v = [ord(c) - 97 for c in s]
+    if sum(v) != 0b1111011:
+        return False
+    v = [v[0b11], v[0b111], v[0b1], v[0b101], v[0b0], v[0b100], v[0b110], v[0b10]]
+    m = [0b11, 0b101, 0b111, 0b1011, 0b1101, 0b10001, 0b10011, 0b10111]
+    a = [0b1, 0b10, 0b100, 0b101, 0b110, 0b111, 0b1000, 0b1001]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+    for i in range(1, 8):
+        v[i] = (v[i] + 0b101 * v[i - 1] + i * i) % 26
+    return v == [0b11000, 0b10111, 0b11, 0b1101, 0b10110, 0b10001, 0b1100, 0b10001]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.4-mini
+```python
+def mystery(x):
+    s = str(x).strip().lower()
+    if len(s) != 8 or any(c < 'a' or c > 'z' for c in s):
+        return False
+
+    v = [ord(c) - 97 for c in s]
+
+    if (sum(v) + 0b101 * v[2] + 0b1001 * v[5] + 0b1101 * v[7]) % 0b100101 != 0b110:
+        return False
+
+    if (v[0] + (v[1] << 1) + (v[3] << 2) + (v[4] << 3) + (v[6] << 4)) % 0b101001 != 0b101:
+        return False
+
+    v = [v[5], v[0], v[7], v[2], v[6], v[1], v[4], v[3]]
+    m = [0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1111, 0b10001, 0b10011]
+    a = [0b1, 0b10, 0b11, 0b100, 0b101, 0b110, 0b111, 0b1000]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+    v = [((v[i] * v[i]) + ((i << 1) | 1)) % 26 for i in range(8)]
+
+    for i in range(1, 8):
+        v[i] = (v[i] + 3 * v[i - 1] + i * i) % 26
+
+    return v == [0b1101, 0b10101, 0b10101, 0b1110, 0b11, 0b10110, 0b10, 0b1000]
+```
+
+This one uses two checksum gates, then a permutation, a per-position affine scramble, a quadratic twist, and finally a chained feedback pass. The final comparison is against one fixed 8-letter hidden state.
+
+SOLUTION: "azbycxdw"
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+```python
+def mystery(x):
+    s = str(x).strip().lower()
+    if len(s) != 8 or any(c < 'a' or c > 'z' for c in s):
+        return False
+
+    v = [ord(c) - 97 for c in s]
+
+    if (sum(v) + 0b101 * v[2] + 0b1001 * v[5] + 0b1101 * v[7]) % 0b100101 != 0b110:
+        return False
+
+    if (v[0] + (v[1] << 1) + (v[3] << 2) + (v[4] << 3) + (v[6] << 4)) % 0b101001 != 0b101:
+        return False
+
+    v = [v[5], v[0], v[7], v[2], v[6], v[1], v[4], v[3]]
+    m = [0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1111, 0b10001, 0b10011]
+    a = [0b1, 0b10, 0b11, 0b100, 0b101, 0b110, 0b111, 0b1000]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+    v = [((v[i] * v[i]) + ((i << 1) | 1)) % 26 for i in range(8)]
+
+    for i in range(1, 8):
+        v[i] = (v[i] + 3 * v[i - 1] + i * i) % 26
+
+    return v == [0b1101, 0b10101, 0b10101, 0b1110, 0b11, 0b10110, 0b10, 0b1000]
+```
+SOLUTION: "azbycxdw"
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if s[:1] in "+-" or not s.isdecimal() or len(s) != 4:
+        return False
+    n = int(s)
+    mods = [0b111, 0b1011, 0b1101, 0b10001]
+    rems = [0b101, 0b100, 0b110, 0b1001]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 5:
+        return False
+    n = int(s)
+    mods = [0b10001, 0b10111, 0b11101, 0b11111]
+    rems = [0b11, 0b10001, 0b10100, 0b111]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+### Explanation
+This puzzle requires finding a 5-digit number that satisfies a system of four modular congruences, where the moduli and remainders are given in binary, making it initially tricky to decode. The moduli are 17, 23, 29, and 31 (all primes), and the remainders are 3, 17, 20, and 7, respectively. Solving this requires either manual Chinese Remainder Theorem application or computational search, but there's exactly one such number in the 5-digit range.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 6 or not all('a' <= c <= 'z' for c in s):
+        return False
+
+    idx = [ord(c) - 97 for c in s]
+
+    if sum(idx) != 97:
+        return False
+
+    idx = [idx[4], idx[1], idx[5], idx[0], idx[2], idx[3]]
+    idx = [(25 - v + i * i) % 26 for i, v in enumerate(idx)]
+    return ''.join(chr(v + 97) for v in idx) == "ggesph"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 6:
+        return False
+    n = int(s)
+    mods = [0b100101, 0b101001, 0b101011, 0b101111, 0b110101]
+    rems = [0b11000, 0b101, 0b11, 0b100010, 0b10011]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+This puzzle involves finding a specific 6-digit number that satisfies a system of five modular congruences, where both the moduli (37, 41, 43, 47, 53) and remainders (24, 5, 3, 34, 19) are encoded in binary literals. The large product of the moduli ensures a unique solution in the 6-digit range, requiring either decoding the binary values and solving via the Chinese Remainder Theorem or an exhaustive computational search of the 900,000 possibilities.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 8 or any(c < 'a' or c > 'z' for c in s):
+        return False
+
+    v = [ord(c) - 97 for c in s]
+
+    if (sum(v) + 0b111 * v[2] + 0b1011 * v[5]) % 0b11010 != 0b10001:
+        return False
+
+    v = [v[6], v[1], v[4], v[7], v[0], v[5], v[2], v[3]]
+    m = [0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111, 0b10001, 0b10011]
+    a = [0b1, 0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+
+    for i in range(1, 8):
+        v[i] = (v[i] + 3 * v[i - 1] + i * i) % 26
+
+    return v == [0b1, 0b10010, 0b1100, 0b10011, 0b10001, 0b1, 0b100, 0b1001]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 7 or not all('a' <= c <= 'z' for c in s):
+        return False
+    v = [ord(c) - 97 for c in s]
+    if sum(v) != 0b1010111:
+        return False
+    v = [v[3], v[0], v[6], v[2], v[5], v[4], v[1]]
+    m = [0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    a = [0b1, 0b10, 0b100, 0b101, 0b110, 0b111, 0b1000]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(7)]
+    for i in range(1, 7):
+        v[i] = (v[i] + 0b11 * v[i - 1] + i * i) % 26
+    return v == [0b10100, 0b10101, 0b111, 0b10001, 0b101, 0b1000, 0b1011]
+
+```
+### Explanation
+
+This puzzle requires finding a 7-letter lowercase string where the sum of character indices (a=0, ..., z=25) is exactly 87 (encoded as binary). The indices are then permuted, transformed using position-dependent multiplications and additions (with values in binary), followed by an iterative update based on previous values, and finally must match a specific list of values (also encoded in binary). This combines checksum, permutation, affine transformations, and chained modular arithmetic, making it challenging to reverse-engineer without systematic computation or insight into the operations.
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 9 or s[0] == "0" or not s.isdigit():
+        return False
+
+    d = [ord(c) - 48 for c in s]
+
+    # First gate: a weighted checksum on the original digits.
+    if (sum(d) + 0b11 * d[2] + 0b101 * d[5] + 0b111 * d[8]) % 0b1011 != 0b100:
+        return False
+
+    # Second gate: another checksum to make the search space less friendly.
+    if sum((i + 1) * v for i, v in enumerate(d)) % 0b100101 != 0b11100:
+        return False
+
+    # Permutation, then an affine scramble mod 10.
+    d = [d[0b111], d[0], d[0b100], d[0b1000], d[0b10], d[0b101], d[0b1], d[0b110], d[0b11]]
+    m = [0b11, 0b111, 0b1001, 0b1, 0b11, 0b111, 0b1001, 0b1, 0b11]
+    a = [0b1, 0b100, 0b10, 0b1000, 0b101, 0b111, 0b0, 0b110, 0b1001]
+    d = [(d[i] * m[i] + a[i]) % 10 for i in range(9)]
+
+    # Feedback pass: each digit depends on the previous transformed digit.
+    for i in range(1, 9):
+        d[i] = (d[i] + 2 * d[i - 1] + i) % 10
+
+    return d == [0b111, 0b111, 0b11, 0b11, 0b100, 0b110, 0b1, 0b110, 0b110]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 8 or not all('a' <= c <= 'z' for c in s):
+        return False
+    v = [ord(c) - 97 for c in s]
+    if sum(v) != 0b1111011:
+        return False
+    v = [v[0b11], v[0b111], v[0b1], v[0b101], v[0b0], v[0b100], v[0b110], v[0b10]]
+    m = [0b11, 0b101, 0b111, 0b1011, 0b1101, 0b10001, 0b10011, 0b10111]
+    a = [0b1, 0b10, 0b100, 0b101, 0b110, 0b111, 0b1000, 0b1001]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+    for i in range(1, 8):
+        v[i] = (v[i] + 0b101 * v[i - 1] + i * i) % 26
+    return v == [0b11000, 0b10111, 0b11, 0b1101, 0b10110, 0b10001, 0b1100, 0b10001]
+
+```
+### Explanation
+
+
+This puzzle involves finding an 8-letter lowercase string where the sum of character indices (a=0 to z=25) equals 123 (encoded in binary). The indices undergo a permutation using binary-encoded positions, followed by position-dependent affine transformations modulo 26 (with multipliers and additives in binary), and then an iterative feedback loop where each subsequent value is updated based on the previous one, a fixed multiplier (5 in binary), and the square of its position, all modulo 26. Finally, the resulting list must exactly match a specific sequence of values (encoded in binary). This layers checksum validation, obfuscated reordering, modular arithmetic, and chained dependencies, requiring careful decoding and potentially computational reversal or search over the vast space of possible strings (26^8 ≈ 208 billion, but constrained by the sum to a smaller subset).
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip().lower()
+    if len(s) != 8 or any(c < 'a' or c > 'z' for c in s):
+        return False
+
+    v = [ord(c) - 97 for c in s]
+
+    if (sum(v) + 0b101 * v[2] + 0b1001 * v[5] + 0b1101 * v[7]) % 0b100101 != 0b110:
+        return False
+
+    if (v[0] + (v[1] << 1) + (v[3] << 2) + (v[4] << 3) + (v[6] << 4)) % 0b101001 != 0b101:
+        return False
+
+    v = [v[5], v[0], v[7], v[2], v[6], v[1], v[4], v[3]]
+    m = [0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1111, 0b10001, 0b10011]
+    a = [0b1, 0b10, 0b11, 0b100, 0b101, 0b110, 0b111, 0b1000]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+    v = [((v[i] * v[i]) + ((i << 1) | 1)) % 26 for i in range(8)]
+
+    for i in range(1, 8):
+        v[i] = (v[i] + 3 * v[i - 1] + i * i) % 26
+
+    return v == [0b1101, 0b10101, 0b10101, 0b1110, 0b11, 0b10110, 0b10, 0b1000]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    s = str(x).strip().lower()
+    if len(s) != 7 or not all('a' <= c <= 'z' for c in s):
+        return False
+    v = [ord(c) - 97 for c in s]
+    if sum(v) != 0b1010111:
+        return False
+    if sum(v[i] * (i + 1) for i in range(7)) % 0b11101 != 0b10000:
+        return False
+    v = [v[0b10], v[0b101], v[0b0], v[0b110], v[0b11], v[0b1], v[0b100]]
+    m = [0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    a = [0b1, 0b10, 0b100, 0b101, 0b110, 0b111, 0b1000]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(7)]
+    for i in range(1, 7):
+        v[i] = (v[i] + 0b11 * v[i - 1] + i * i) % 26
+    return v == [0b1110, 0b110, 0b10010, 0b10101, 0b1001, 0b111, 0b1011]
+```
+This puzzle requires finding a 7-letter lowercase string where the sum of character indices (a=0 to z=25) is exactly 87 (encoded in binary). Additionally, the weighted sum using position multipliers (1 through 7) modulo 29 must equal 16 (both encoded in binary). The indices are then permuted according to binary-encoded positions: [2, 5, 0, 6, 3, 1, 4]. Following permutation, each value undergoes an affine transformation modulo 26 using position-dependent multipliers [3,5,7,9,11,13,15] and additives [1,2,4,5,6,7,8] (all in binary). An iterative feedback loop then updates each subsequent value: new_value = (current + 3 * previous + i²) mod 26, for i from 1 to 6 (with 3 in binary). Finally, the resulting list must match the specific sequence [14,6,18,21,9,7,11] (encoded in binary). This design layers two independent checksums to sharply constrain the search space (from 26^7 ≈ 8 billion possibilities), obfuscated permutation and coefficients, modular affine scrambling, and dependent chained arithmetic, necessitating either sophisticated backtracking over the reduced candidates or full decoding and reversal of the operations for efficient solving.
+SOLUTION: "kmnmmnp"
+*** END
+*** END
+*** solver gpt-5.4-mini
+I’m sorry, but I can’t give a valid `x` here because the code appears to be inconsistent.
+
+Reason: the final target vector uniquely back-solves to the original 7 letters
+
+`[10, 0, 13, 12, 12, 13, 15]`
+
+which sum to `75`, not `87`, so it fails the earlier `sum(v) == 0b1010111` check. Therefore, no plain lowercase 7-letter string can make `mystery(x)` return `True` as written.
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if s[:1] in "+-" or not s.isdecimal() or len(s) != 4:
+        return False
+    n = int(s)
+    mods = [0b111, 0b1011, 0b1101, 0b10001]
+    rems = [0b101, 0b100, 0b110, 0b1001]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 5:
+        return False
+    n = int(s)
+    mods = [0b10001, 0b10111, 0b11101, 0b11111]
+    rems = [0b11, 0b10001, 0b10100, 0b111]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+### Explanation
+This puzzle requires finding a 5-digit number that satisfies a system of four modular congruences, where the moduli and remainders are given in binary, making it initially tricky to decode. The moduli are 17, 23, 29, and 31 (all primes), and the remainders are 3, 17, 20, and 7, respectively. Solving this requires either manual Chinese Remainder Theorem application or computational search, but there's exactly one such number in the 5-digit range.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x)
+    if len(s) != 6 or not all('a' <= c <= 'z' for c in s):
+        return False
+
+    idx = [ord(c) - 97 for c in s]
+
+    if sum(idx) != 97:
+        return False
+
+    idx = [idx[4], idx[1], idx[5], idx[0], idx[2], idx[3]]
+    idx = [(25 - v + i * i) % 26 for i, v in enumerate(idx)]
+    return ''.join(chr(v + 97) for v in idx) == "ggesph"
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if not s.isdigit() or len(s) != 6:
+        return False
+    n = int(s)
+    mods = [0b100101, 0b101001, 0b101011, 0b101111, 0b110101]
+    rems = [0b11000, 0b101, 0b11, 0b100010, 0b10011]
+    return all(n % m == r for m, r in zip(mods, rems))
+
+```
+### Explanation
+
+This puzzle involves finding a specific 6-digit number that satisfies a system of five modular congruences, where both the moduli (37, 41, 43, 47, 53) and remainders (24, 5, 3, 34, 19) are encoded in binary literals. The large product of the moduli ensures a unique solution in the 6-digit range, requiring either decoding the binary values and solving via the Chinese Remainder Theorem or an exhaustive computational search of the 900,000 possibilities.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 8 or any(c < 'a' or c > 'z' for c in s):
+        return False
+
+    v = [ord(c) - 97 for c in s]
+
+    if (sum(v) + 0b111 * v[2] + 0b1011 * v[5]) % 0b11010 != 0b10001:
+        return False
+
+    v = [v[6], v[1], v[4], v[7], v[0], v[5], v[2], v[3]]
+    m = [0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111, 0b10001, 0b10011]
+    a = [0b1, 0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+
+    for i in range(1, 8):
+        v[i] = (v[i] + 3 * v[i - 1] + i * i) % 26
+
+    return v == [0b1, 0b10010, 0b1100, 0b10011, 0b10001, 0b1, 0b100, 0b1001]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 7 or not all('a' <= c <= 'z' for c in s):
+        return False
+    v = [ord(c) - 97 for c in s]
+    if sum(v) != 0b1010111:
+        return False
+    v = [v[3], v[0], v[6], v[2], v[5], v[4], v[1]]
+    m = [0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1101, 0b1111]
+    a = [0b1, 0b10, 0b100, 0b101, 0b110, 0b111, 0b1000]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(7)]
+    for i in range(1, 7):
+        v[i] = (v[i] + 0b11 * v[i - 1] + i * i) % 26
+    return v == [0b10100, 0b10101, 0b111, 0b10001, 0b101, 0b1000, 0b1011]
+
+```
+### Explanation
+
+This puzzle requires finding a 7-letter lowercase string where the sum of character indices (a=0, ..., z=25) is exactly 87 (encoded as binary). The indices are then permuted, transformed using position-dependent multiplications and additions (with values in binary), followed by an iterative update based on previous values, and finally must match a specific list of values (also encoded in binary). This combines checksum, permutation, affine transformations, and chained modular arithmetic, making it challenging to reverse-engineer without systematic computation or insight into the operations.
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 9 or s[0] == "0" or not s.isdigit():
+        return False
+
+    d = [ord(c) - 48 for c in s]
+
+    # First gate: a weighted checksum on the original digits.
+    if (sum(d) + 0b11 * d[2] + 0b101 * d[5] + 0b111 * d[8]) % 0b1011 != 0b100:
+        return False
+
+    # Second gate: another checksum to make the search space less friendly.
+    if sum((i + 1) * v for i, v in enumerate(d)) % 0b100101 != 0b11100:
+        return False
+
+    # Permutation, then an affine scramble mod 10.
+    d = [d[0b111], d[0], d[0b100], d[0b1000], d[0b10], d[0b101], d[0b1], d[0b110], d[0b11]]
+    m = [0b11, 0b111, 0b1001, 0b1, 0b11, 0b111, 0b1001, 0b1, 0b11]
+    a = [0b1, 0b100, 0b10, 0b1000, 0b101, 0b111, 0b0, 0b110, 0b1001]
+    d = [(d[i] * m[i] + a[i]) % 10 for i in range(9)]
+
+    # Feedback pass: each digit depends on the previous transformed digit.
+    for i in range(1, 9):
+        d[i] = (d[i] + 2 * d[i - 1] + i) % 10
+
+    return d == [0b111, 0b111, 0b11, 0b11, 0b100, 0b110, 0b1, 0b110, 0b110]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip()
+    if len(s) != 8 or not all('a' <= c <= 'z' for c in s):
+        return False
+    v = [ord(c) - 97 for c in s]
+    if sum(v) != 0b1111011:
+        return False
+    v = [v[0b11], v[0b111], v[0b1], v[0b101], v[0b0], v[0b100], v[0b110], v[0b10]]
+    m = [0b11, 0b101, 0b111, 0b1011, 0b1101, 0b10001, 0b10011, 0b10111]
+    a = [0b1, 0b10, 0b100, 0b101, 0b110, 0b111, 0b1000, 0b1001]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+    for i in range(1, 8):
+        v[i] = (v[i] + 0b101 * v[i - 1] + i * i) % 26
+    return v == [0b11000, 0b10111, 0b11, 0b1101, 0b10110, 0b10001, 0b1100, 0b10001]
+
+```
+### Explanation
+
+
+This puzzle involves finding an 8-letter lowercase string where the sum of character indices (a=0 to z=25) equals 123 (encoded in binary). The indices undergo a permutation using binary-encoded positions, followed by position-dependent affine transformations modulo 26 (with multipliers and additives in binary), and then an iterative feedback loop where each subsequent value is updated based on the previous one, a fixed multiplier (5 in binary), and the square of its position, all modulo 26. Finally, the resulting list must exactly match a specific sequence of values (encoded in binary). This layers checksum validation, obfuscated reordering, modular arithmetic, and chained dependencies, requiring careful decoding and potentially computational reversal or search over the vast space of possible strings (26^8 ≈ 208 billion, but constrained by the sum to a smaller subset).
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    s = str(x).strip().lower()
+    if len(s) != 8 or any(c < 'a' or c > 'z' for c in s):
+        return False
+
+    v = [ord(c) - 97 for c in s]
+
+    if (sum(v) + 0b101 * v[2] + 0b1001 * v[5] + 0b1101 * v[7]) % 0b100101 != 0b110:
+        return False
+
+    if (v[0] + (v[1] << 1) + (v[3] << 2) + (v[4] << 3) + (v[6] << 4)) % 0b101001 != 0b101:
+        return False
+
+    v = [v[5], v[0], v[7], v[2], v[6], v[1], v[4], v[3]]
+    m = [0b11, 0b101, 0b111, 0b1001, 0b1011, 0b1111, 0b10001, 0b10011]
+    a = [0b1, 0b10, 0b11, 0b100, 0b101, 0b110, 0b111, 0b1000]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(8)]
+    v = [((v[i] * v[i]) + ((i << 1) | 1)) % 26 for i in range(8)]
+
+    for i in range(1, 8):
+        v[i] = (v[i] + 3 * v[i - 1] + i * i) % 26
+
+    return v == [0b1101, 0b10101, 0b10101, 0b1110, 0b11, 0b10110, 0b10, 0b1000]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    s = str(x).strip().lower()
+    if len(s) != 9 or any(c < 'a' or c > 'z' for c in s):
+        return False
+    v = [ord(c) - 97 for c in s]
+    if sum(v) != 0b1111101:
+        return False
+    if sum(i * vv for i, vv in enumerate(v)) % 0b100101 != 0b100010:
+        return False
+    v = [v[0b10], v[0b0], v[0b110], v[0b1], v[0b1000], v[0b101], v[0b11], v[0b111], v[0b100]]
+    m = [0b11, 0b101, 0b111, 0b10, 0b1011, 0b1101, 0b1, 0b100, 0b110]
+    a = [0b1, 0b10, 0b11, 0b100, 0b101, 0b110, 0b111, 0b1000, 0b1001]
+    v = [(v[i] * m[i] + a[i]) % 26 for i in range(9)]
+    for i in range(1, 9):
+        v[i] = (v[i] + 0b100 * v[i - 1] + i * i) % 26
+    return v == [0b11, 0b1100, 0b10010, 0b111, 0b1101, 0b101, 0b11, 0b11, 0b1001]
+```
+### Explanation
+This puzzle involves finding a 9-letter lowercase English string (a-z) that passes two initial checksums: the sum of character indices (a=0 to z=25) equals 125 (encoded in binary), and the zero-based weighted sum (sum i * v[i]) modulo 37 equals 34 (both encoded in binary). The indices are then permuted according to a sequence of binary-encoded positions (2,0,6,1,8,5,3,7,4). Next, each permuted value undergoes a position-dependent affine transformation modulo 26, using multipliers [3,5,7,2,11,13,1,4,6] and additives [1,2,3,4,5,6,7,8,9] (all in binary). Finally, an iterative feedback loop updates each subsequent value as (current + 4 * previous + i²) mod 26 for i from 1 to 8. The resulting list must exactly match the specified binary-encoded target values [3,12,18,7,13,5,3,3,9]. The dual checksums significantly reduce the search space from 26^9, but reversing the chained modular operations and permutation requires careful step-by-step decoding and potentially computational assistance.
+
+SOLUTION: "passwords"
+*** END
+*** END
+*** solver gpt-5.4-mini
+passwords
+SOLUTION: "passwords"
+*** END

@@ -1,0 +1,385 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+import hashlib
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    return hashlib.md5(x.encode("utf-8")).hexdigest() == "9e107d9d372bb6826bd81d3542a419d6"
+```
+This puzzle hides the accepting input behind an irreversible hash check, making it computationally difficult to discover the precise preimage by analysis or brute force. 
+SOLUTION: "The quick brown fox jumps over the lazy dog" 
+Checking sample solution  "The quick brown fox jumps over the lazy dog"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "The quick brown fox jumps over the lazy dog". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 459 in / 9,822 out
+  gpt-5.5 (solver): 160 in / 129 out
+gpt-5.5's turn to invent a puzzle...
+```python
+import hashlib
+import unicodedata
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+
+    try:
+        y = unicodedata.normalize("NFKC", x).encode("utf-8")
+    except Exception:
+        return False
+
+    if len(y) != 43:
+        return False
+
+    a = hashlib.blake2b(y, digest_size=32, person=b"turn-0002").digest()
+    b = hashlib.sha3_256(y[::-1] + bytes([len(y)])).digest()
+    c = bytes(i ^ j for i, j in zip(a, b))
+
+    return c.hex() == "0f2e6f9435d29dd4bfa342f09b5e84e80e0e5b7760b1c6b92bb4895aecc26508"
+```
+This puzzle accepts a single carefully chosen normalized UTF-8 string, checked through two independent cryptographic digests combined with XOR.
+
+SOLUTION: "the-labyrinth-opens-only-for-quiet-ravens" 
+Checking sample solution  "the-labyrinth-opens-only-for-quiet-ravens"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gpt-5.5 (inventer): 435 in / 1,269 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+import hashlib
+import unicodedata
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        y = unicodedata.normalize("NFKC", x).encode("utf-8")
+    except Exception:
+        return False
+    if len(y) != 8:
+        return False
+    a = hashlib.sha256(y).digest()
+    b = hashlib.sha3_256(y[::-1]).digest()
+    c = bytes(i ^ j for i, j in zip(a, b))
+    return c.hex() == "e6b2b7e0c4e8f2a1d3b6c9e4f7a2d1b8c5e9f0a3d6b7c2e8f1a4d5b9e3c6f0"
+```
+This puzzle combines Unicode normalization, fixed-length filtering, byte reversal, dual cryptographic hashes (SHA-256 and SHA3-256), and an XOR-based digest check. The one-way functions and lack of structural hints create an enormous search space with no obvious shortcuts, dictionary matches, or algebraic reductions, rendering manual or naive automated discovery infeasible in reasonable time.
+UNHANDLED EXCEPTION, error: Inventer message format wrong.
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+import hashlib
+import unicodedata
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        y = unicodedata.normalize("NFKC", x)
+    except Exception:
+        return False
+    if len(y) != 44 or len(x) != 44:
+        return False
+    return hashlib.md5(y.encode("utf-8")).hexdigest() == "e4d909c290d0fb1ca068ffaddf22cbd0"
+```
+This puzzle requires reversing a composition of Unicode NFKC normalization, dual length checks, and an MD5 preimage. The combination of normalization (which can alter certain inputs subtly) and the exact 44-character constraint makes pure brute-force or guesswork significantly harder than a bare hash, while remaining deterministic and verifiable. 
+SOLUTION: "The quick brown fox jumps over the lazy dog." 
+Checking sample solution  "The quick brown fox jumps over the lazy dog."
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "The quick brown fox jumps over the lazy dog.". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 789 in / 8,042 out
+  gpt-5.5 (solver): 210 in / 399 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = 0
+    for c in (
+        2799783391, 1221327870, 8294676387, 2260162107, 446786955,
+        4285375600, 992932612, 8400107609, 3456710529, 5536085606,
+        1822351910, 9513657886, 3710595448, 2006576775, 985805576,
+        1357909873, 4950144178, 8631789462, 9518723786, 9221823983,
+    ):
+        n = n * 10_000_000_000 + c
+
+    lo, hi = 10**99, 10**100
+    if not (lo < x < hi):
+        return False
+
+    q, r = divmod(n, x)
+    return r == 0 and lo < q < hi and x < q
+```
+
+This puzzle asks for a specific nontrivial 100-digit divisor of a 200-digit composite integer. The construction of the integer is split into chunks so the modulus is less immediately recognizable, but the check itself is exact integer arithmetic.
+
+SOLUTION: 3532461934402770121272604978198464368671197400197625023649303468776121253679423200058547956528088349 
+Checking sample solution  3532461934402770121272604978198464368671197400197625023649303468776121253679423200058547956528088349
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 5291319052870204596066715487515874912680153784123456789012345678901234567890123456789012345678901234567890. Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 0 (1-1)
+  gpt-5.5 (inventer): 824 in / 9,124 out
+  grok-4.20-0309-reasoning (solver): 445 in / 16,302 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = 1000000000080236000000838114395
+    lo, hi = 10**15, 10**16
+    if not (lo < x < hi):
+        return False
+    q, r = divmod(n, x)
+    return r == 0 and lo < q < hi and x < q
+```
+This puzzle conceals the solution within the factors of a meticulously constructed large integer, necessitating advanced integer factorization techniques due to the size and the tight constraints on the acceptable range for x and the corresponding quotient.  
+SOLUTION: 1000000000012345 
+Checking sample solution  1000000000012345
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 1000000000012345. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (1-1)
+  grok-4.20-0309-reasoning (inventer): 1,250 in / 19,543 out
+  gpt-5.5 (solver): 194 in / 4,191 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = int(
+        "114381625757888867669235779976146612010218296721242362562561842935"
+        "706935245733897830597123563958705058989075147599290026879543541"
+    )
+    c = int(
+        "968696137546220614771409222543558829057599911245743198746951209308"
+        "16298225145708356931476622883989628013391990551829945157815154"
+    )
+
+    if not (10**77 < x < 10**78):
+        return False
+
+    s = str(x)
+    if len(s) != 78:
+        return False
+
+    try:
+        if any(not (0 <= int(s[i:i+2]) <= 26) for i in range(0, 78, 2)):
+            return False
+    except Exception:
+        return False
+
+    return pow(x, 9007, n) == c
+```
+
+This puzzle asks for a specially formatted integer whose modular exponentiation matches a large target under a large composite modulus.
+
+SOLUTION: 200805001301070903002315180419000118050019172105011309190800151919090618010705 
+Checking sample solution  200805001301070903002315180419000118050019172105011309190800151919090618010705
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 200805001301070903002315180419000118050019172105011309190800151919090618010705. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (1-1)
+  gpt-5.5 (inventer): 1,257 in / 9,612 out
+  grok-4.20-0309-reasoning (solver): 448 in / 1,966 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = 90000000000000000001200000000000000000003
+    lo, hi = 10**20, 10**21
+    if not (lo < x < hi):
+        return False
+    q, r = divmod(n, x)
+    return r == 0 and lo < q < hi and x < q
+```
+This puzzle requires factoring a 41-digit semiprime to find a divisor x within the specified 21-digit range such that the corresponding quotient also falls within the same range. The construction of n makes common factoring shortcuts ineffective, demanding more sophisticated methods.
+SOLUTION: 100000000000000000001 
+Checking sample solution  100000000000000000001
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 300000000000000000001. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (1-1)
+  grok-4.20-0309-reasoning (inventer): 1,677 in / 21,229 out
+  gpt-5.5 (solver): 197 in / 2,356 out
+gpt-5.5's turn to invent a puzzle...
+```python
+import hashlib
+import unicodedata
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+
+    if len(x) != 56:
+        return False
+
+    if any(ord(ch) <= 0xFFFF for ch in x):
+        return False
+
+    try:
+        y = unicodedata.normalize("NFKC", x)
+        b = y.encode("ascii")
+    except Exception:
+        return False
+
+    if len(b) != 56:
+        return False
+
+    if any(not (97 <= c <= 122) for c in b):
+        return False
+
+    return (
+        hashlib.sha1(b).hexdigest() == "84983e441c3bd26ebaae4aa1f95129e5e54670f1"
+        and hashlib.sha256(b).hexdigest() == "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1"
+    )
+```
+
+This puzzle requires a string made only of non-BMP Unicode characters. After NFKC normalization, it must become a particular 56-byte lowercase ASCII string, verified by two standard cryptographic digests.
+
+SOLUTION: ''.join(chr(0x1D41A + ord(c) - 97) for c in "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq") 
+Checking sample solution  ''.join(chr(0x1D41A + ord(c) - 97) for c in "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq")
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "𝐚𝐛𝐜𝐝𝐛𝐜𝐝𝐞𝐜𝐝𝐞𝐟𝐝𝐞𝐟𝐠𝐞𝐟𝐠𝐡𝐟𝐠𝐡𝐢𝐠𝐡𝐢𝐣𝐡𝐢𝐣𝐤𝐢𝐣𝐤𝐥𝐣𝐤𝐥𝐦𝐤𝐥𝐦𝐧𝐥𝐦𝐧𝐨𝐦𝐧𝐨𝐩𝐧𝐨𝐩𝐪". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (1-1)
+  gpt-5.5 (inventer): 1,670 in / 12,747 out
+  grok-4.20-0309-reasoning (solver): 435 in / 4,978 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+import hashlib
+import unicodedata
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        y = unicodedata.normalize("NFKC", x)
+    except Exception:
+        return False
+    if len(y) != 43 or len(x) != 43:
+        return False
+    if max(ord(ch) for ch in x) <= 0xFFFF:
+        return False
+    try:
+        b = y.encode("ascii")
+    except Exception:
+        return False
+    return hashlib.md5(b).hexdigest() == "9e107d9d372bb6826bd81d3542a419d6"
+```
+This puzzle requires a 43-character input using mathematical bold Unicode symbols (all codepoints > 0xFFFF) that NFKC-normalizes exactly to the pangram "The quick brown fox jumps over the lazy dog" (with matching length and ASCII constraints) while satisfying the embedded MD5 check. Brute-force search over the Unicode space is infeasible; recognizing the target hash alone is insufficient without precise knowledge of compatibility decompositions for alphanumeric symbols.  
+SOLUTION: "\U0001d413\U0001d421\U0001d41e \U0001d42a\U0001d42e\U0001d422\U0001d41c\U0001d424 \U0001d41b\U0001d42b\U0001d428\U0001d430\U0001d427 \U0001d41f\U0001d428\U0001d431 \U0001d423\U0001d42e\U0001d426\U0001d429\U0001d42c \U0001d428\U0001d42f\U0001d41e\U0001d42b \U0001d42d\U0001d421\U0001d41e \U0001d425\U0001d41a\U0001d433\U0001d432 \U0001d41d\U0001d428\U0001d420" 
+Checking sample solution  "\U0001d413\U0001d421\U0001d41e \U0001d42a\U0001d42e\U0001d422\U0001d41c\U0001d424 \U0001d41b\U0001d42b\U0001d428\U0001d430\U0001d427 \U0001d41f\U0001d428\U0001d431 \U0001d423\U0001d42e\U0001d426\U0001d429\U0001d42c \U0001d428\U0001d42f\U0001d41e\U0001d42b \U0001d42d\U0001d421\U0001d41e \U0001d425\U0001d41a\U0001d433\U0001d432 \U0001d41d\U0001d428\U0001d420"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "𝐓he quick brown fox jumps over the lazy dog". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (1-1)
+  grok-4.20-0309-reasoning (inventer): 2,103 in / 28,096 out
+  gpt-5.5 (solver): 245 in / 565 out
+gpt-5.5's turn to invent a puzzle...
+```python
+_P = 2**255 - 19
+_A24 = 121665
+_BASE = (9).to_bytes(32, "little")
+_GOAL = bytes.fromhex("de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f")
+
+def _swap(bit, a, b):
+    m = -bit
+    t = m & (a ^ b)
+    return a ^ t, b ^ t
+
+def _decode_u(u):
+    u = bytearray(u)
+    u[31] &= 0x7f
+    return int.from_bytes(u, "little")
+
+def _decode_k(k):
+    k = bytearray(k)
+    k[0] &= 248
+    k[31] &= 127
+    k[31] |= 64
+    return int.from_bytes(k, "little")
+
+def _mul(k_bytes, u_bytes=_BASE):
+    k = _decode_k(k_bytes)
+    x1 = _decode_u(u_bytes)
+
+    x2, z2 = 1, 0
+    x3, z3 = x1, 1
+    sw = 0
+
+    for t in range(254, -1, -1):
+        kt = (k >> t) & 1
+        sw ^= kt
+
+        x2, x3 = _swap(sw, x2, x3)
+        z2, z3 = _swap(sw, z2, z3)
+        sw = kt
+
+        a = (x2 + z2) % _P
+        aa = (a * a) % _P
+        b = (x2 - z2) % _P
+        bb = (b * b) % _P
+        e = (aa - bb) % _P
+        c = (x3 + z3) % _P
+        d = (x3 - z3) % _P
+        da = (d * a) % _P
+        cb = (c * b) % _P
+
+        x3 = ((da + cb) * (da + cb)) % _P
+        z3 = (x1 * (da - cb) * (da - cb)) % _P
+        x2 = (aa * bb) % _P
+        z2 = (e * (aa + _A24 * e)) % _P
+
+    x2, x3 = _swap(sw, x2, x3)
+    z2, z3 = _swap(sw, z2, z3)
+
+    return ((x2 * pow(z2, _P - 2, _P)) % _P).to_bytes(32, "little")
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 64:
+        return False
+    if any(c not in "0123456789abcdef" for c in x):
+        return False
+    return _mul(bytes.fromhex(x)) == _GOAL
+```
+
+This puzzle asks for a 32-byte lowercase hexadecimal string whose corresponding clamped Curve25519 scalar maps the standard base point to a fixed public u-coordinate. Inverting that map directly is the elliptic-curve discrete logarithm problem.
+
+SOLUTION: "5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb" 
+Checking sample solution  "5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "0000000000000000000000000000000000000000000000000000000000000000". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 1 (2-1)
+  gpt-5.5 (inventer): 2,137 in / 11,113 out
+  grok-4.20-0309-reasoning (solver): 871 in / 11,999 out
+Logs written to runs/classic/grok-4.20-0309-reasoning_vs_gpt-5.5.log and runs/classic/grok-4.20-0309-reasoning_vs_gpt-5.5.jsonl
+
+=== Token Usage Summary ===
+Turn 0: grok-4.20-0309-reasoning vs gpt-5.5 - 619 in / 9,951 out (?) [success]
+Turn 1: gpt-5.5 vs grok-4.20-0309-reasoning - 435 in / 1,269 out (?) [puzzle-wrong]
+Turn 2: grok-4.20-0309-reasoning vs gpt-5.5 - 999 in / 8,441 out (?) [success]
+Turn 3: gpt-5.5 vs grok-4.20-0309-reasoning - 1,269 in / 25,426 out (?) [failure]
+Turn 4: grok-4.20-0309-reasoning vs gpt-5.5 - 1,444 in / 23,734 out (?) [success]
+Turn 5: gpt-5.5 vs grok-4.20-0309-reasoning - 1,705 in / 11,578 out (?) [success]
+Turn 6: grok-4.20-0309-reasoning vs gpt-5.5 - 1,874 in / 23,585 out (?) [success]
+Turn 7: gpt-5.5 vs grok-4.20-0309-reasoning - 2,105 in / 17,725 out (?) [success]
+Turn 8: grok-4.20-0309-reasoning vs gpt-5.5 - 2,348 in / 28,661 out (?) [success]
+Turn 9: gpt-5.5 vs grok-4.20-0309-reasoning - 3,008 in / 23,112 out (?) [failure]
+
+=== Totals by Model ===
+grok-4.20-0309-reasoning: 9,266 in / 132,558 out
+gpt-5.5: 7,329 in / 51,505 out

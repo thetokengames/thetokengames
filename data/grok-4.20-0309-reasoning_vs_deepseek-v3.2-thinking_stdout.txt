@@ -1,0 +1,447 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, str):
+        if not x.isdigit():
+            return False
+        x = int(x)
+    if not isinstance(x, int) or len(str(x)) != 5:
+        return False
+    a = x // 100
+    b = x % 100
+    return a * b == 2**3 * 11 * 23 and a > b
+```
+This puzzle defines a mathematical condition based on splitting a 5-digit value into a 3-digit prefix and 2-digit suffix, then checking a product and inequality. The code is structured to require factoring a composite number and validating multiple constraints on the resulting digits, making brute-force or ad-hoc guessing inefficient without systematic analysis of the arithmetic relationships. There are only a handful of valid solutions in the entire integer domain.
+UNHANDLED EXCEPTION, error: Inventer message format wrong.
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    t = [3**5 - 2**7 + (4**0 - 1), 2**7 - 27 + 0 * 13, 11**2 - 22 * 1, 5**3 - 11 - (2**0 - 1), 2**7 - 27, 11**2 - 5 + (1 - 1)]
+    for i in range(len(t)):
+        if ord(x[i]) != t[i]:
+            return False
+    return True
+```
+This puzzle encodes the target string as a list of integers computed via layered exponentiation, subtraction, and neutral operations (multiplication by zero, addition of zero, etc.). The solver must manually evaluate each expression in sequence to discover the precise sequence of character codes required, with no obvious keywords or patterns to guess from. 
+SOLUTION: "secret" 
+Checking sample solution  "secret"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "secret". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 459 in / 7,798 out
+  deepseek-v3.2-thinking (solver): 237 in / 774 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    y = x[::-1]
+    t = [229, 239, 244, 230, 209, 196, 206, 223]
+    for i in range(8):
+        if (ord(y[i]) + ord(y[(i + 1) % 8])) % 256 != t[i]:
+            return False
+    return True
+```
+
+SOLUTION: "o_elzzup" 
+Checking sample solution  "o_elzzup"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "s[ih~vyl". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 523 in / 16,322 out
+  grok-4.20-0309-reasoning (solver): 322 in / 9,301 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 9:
+        return False
+    t = [(2**7 - 27 + (4**0 - 1)) * (13**0) + 0 * (11**2), (11**2 - 11 + 0 * (5**3 - 4**5)) // (2**0), 5**3 - 20 + (7**2 - 49) * 2**10, (10**2 + 3 ) * (5**0) + (1 - 1**5)*100, (11**2 - 12) + (13 -13)* (2**8), 10**2 - 3 + 0 * (3**6 // 9 - 100), 5**3 - 9 + (4**3 - 64), (7**3 - 238) * 1** (4**2) - 0, (10**2 - 1) + (2**1 - 2)* (5**4)]
+    for i in range(len(t)):
+        if ord(x[i]) != t[i]:
+            return False
+    return True
+```
+This puzzle encodes a 9-character string via a list of deliberately layered expressions that combine exponentiation with varying bases, strategic neutral multipliers (by 0 or 1), additive identities, integer division by 1, and carefully balanced parentheses. Each element of `t` must be evaluated manually in full to obtain the exact sequence of required `ord()` values; the expressions contain enough nested subterms and irrelevant large intermediates to make mental arithmetic error-prone and to obscure any immediate numeric patterns. No keywords, semantic hints, or easily reversible operations are present.  
+SOLUTION: "enigmatic" 
+Checking sample solution  "enigmatic"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "enigmatic". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 819 in / 7,142 out
+  deepseek-v3.2-thinking (solver): 361 in / 1,171 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 5:
+        return False
+    t = [
+        (3**2 - 1) * (2**0) + (1 - 1**5) * 100,
+        (2**8) - (10**2) + (0 * (3**6)),
+        ((5+7) ** (3-1)) * (1**9) + 0,
+        (1<<8) - (4*11) * (1**0),
+        ((5-1)*(8-2)) * (2**0)
+    ]
+    s = (2**9) + (2**2)*5
+    for i in range(5):
+        if (ord(x[i]) * ord(x[(i+1) % 5])) % 256 != t[i]:
+            return False
+    if sum(ord(c) for c in x) != s:
+        return False
+    return True
+```
+
+SOLUTION: "hello" 
+Checking sample solution  "hello"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "hello". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 951 in / 10,606 out
+  grok-4.20-0309-reasoning (solver): 433 in / 3,272 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 7:
+        return False
+    t = [
+        ((5**3 - 13) * (1 ** (4**5))) // (2**0) + (13**2 * 0),
+        (11**2 * (5**0)) + ((2**7 - 2**7) * 13),
+        ((10**2 + 2**4) * (3**0)) + ((4**0 - 1) * (5**4)),
+        (2**7 - (5**2 - (4**0))) * (11**0) + (3**5 * 0),
+        (10**2 + 11) * (13**0) - ((2**3 - 2**3)),
+        (11**2 - 11**1) + (2**10 * 0),
+        (5**2 * 2**1) + (13**0) + (4**3 * 0)
+    ]
+    for i in range(len(t)):
+        if ord(x[i]) != t[i]:
+            return False
+    s = (5**4 + 10**2) + ((3**3 - 3**3) * 100)
+    if sum(ord(c) for c in x) != s:
+        return False
+    return True
+```
+This puzzle requires evaluating a list of intricately nested expressions that combine multiple layers of exponentiation (with bases like 2, 3, 4, 5, 10, 11 and large irrelevant exponents), exact neutral elements (multiplication or addition by 0/1, subtraction of identical terms, division by 1), and balanced parentheses to obscure the resulting integer values. An additional sum constraint over all character codes uses its own layered expression. The combination forces error-prone manual arithmetic across many steps with no obvious patterns, keywords, partial strings, or reversible structure to guide the solver.
+UNHANDLED EXCEPTION, error: Inventer message format wrong.
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    t = [(2**6 + 5) * (3**0) + (4**0 - 1) * (5**3), (2**7) - ((5**2 * 2) * (11**0)) + (1**5 -1), (7**2 + (5**2 -1 )) * (2**0) + 0 * (13**2), (8**2 + (11**1 - 4**1)) * (1**5) - 0*(2**10), (10**2 - (5**2 - 2**1 )), (8**2 + 4**0) * (7**0) + (3**5 - 3**5)]
+    for i in range(len(t)):
+        if ord(x[i]) != t[i]:
+            return False
+    return True
+```
+This puzzle encodes the target string as a list of integers computed via heavily nested exponentiation (varying bases like 2, 3, 4, 5, 7, 8, 10, 11, 13), strategic neutral operations (multiplication by 0 or 1**n or **0, adding/subtracting self-cancelling terms like 3**5 - 3**5, adding 0), integer arithmetic, and non-obvious parentheses to raise the chance of evaluation errors. No recognizable constants, keywords, semantic hints, or simple patterns are used; each of the six expressions must be expanded and calculated manually in strict order with no shortcuts.
+UNHANDLED EXCEPTION, error: Inventer message format wrong.
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    t = [
+        (5**3 - 27 + (4**0 - 1)) * (13**0) + 0 * (11**2 - 22),
+        (5**3 - 28 + (7**2 - 49)) * (2**0) + (1**10 - 1),
+        (5**3 - 23) + (2**8 - 256) * (3**5 // 3**5),
+        (11**2 - 19) * (5**0) + (4**3 - 64) * 0,
+        (11**2 - 13) + (2**7 - 128) * 1**(5**2),
+        (10**2 + 5) * (1**1) + (2**3 - 8) * (11**2 // 11**2),
+        (11**2 - 11) + (13**2 - 169) * (2**0),
+        (5**3 - 22) * (3**0) - (4**1 - 4) * (7**3)
+    ]
+    for i in range(len(t)):
+        if ord(x[i]) != t[i]:
+            return False
+    s = (2**10 - (7**3 - (12**2)))
+    if sum(ord(c) for c in x) != s:
+        return False
+    return True
+```
+This puzzle obfuscates an 8-character string target by computing each required ord() value through a unique combination of exponentiations with varying bases, strategic additions/subtractions of identical subexpressions (yielding zero), multiplications by 1**n or **0, integer divisions that cancel to 1, and other identity operations scattered among larger irrelevant intermediates. A final global checksum on the sum of all ordinals is also hidden behind its own layered expression. The solver must evaluate every term and subterm by hand in strict order (respecting Python precedence and left-to-right associativity) with no obvious numeric shortcuts, keywords, or reversible patterns present; any single miscalculation in the large nestings will point to the wrong character.
+UNHANDLED EXCEPTION, error: Inventer message format wrong.
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 9:
+        return False
+    t = [
+        (2**8 - (5**2 - 6)) + (11**2 - 121) * (2**10),
+        (5**3 + (7**2 + 4)) + (2**1 - 2) * (5**4),
+        (2**6 + (3**2 - 3)) * (11**0) + 0 * (13**2),
+        (5**3 - 55) + (1**(10**2) - 1) * 100,
+        (2**8 - (2**3)) + (13**2 - 169) * (5**0),
+        (11**2 + (5**2 - 10)) * (2**0) + (7**2 - 49) * (3**5),
+        (5**2 + 1) + (4**0 - 1) * (2**7),
+        (13**2 + (5**3 - 85)) * (1**5) + 0 * (11**2),
+        (7**2 - (5**2 - (4**2 - 1))) * (13**0) + (2**0 - 1) * 39
+    ]
+    s = (10**3 - 13) + (2**7 - 128) * (11**2 // 11**2)
+    for i in range(9):
+        if (ord(x[i]) * ord(x[(i + 1) % 9])) % 256 != t[i]:
+            return False
+    if sum(ord(c) for c in x) != s:
+        return False
+    return True
+```
+This puzzle defines a cyclic chain of equations using modular multiplications of adjacent character codes (wrapping around at the end) that must match a list of heavily obfuscated integer targets `t`. It layers in an additional exact sum check on all character codes. Each value in `t` and the sum `s` is expressed via deliberately intricate combinations of exponentiation with varying bases, additions/subtractions of balanced terms that cancel, multiplications by zero or one (via powers or differences), integer division by one, and nested parentheses. This forces manual evaluation of many error-prone subexpressions with large intermediates and no obvious semantic anchors, making it laborious to derive candidate character sequences that satisfy the full interdependent system.  
+SOLUTION: "conundrum" 
+Checking sample solution  "conundrum"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "conundrum". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,469 in / 9,638 out
+  deepseek-v3.2-thinking (solver): 490 in / 12,013 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 10:
+        return False
+    t = [
+        (1<<8) - (1<<5) + (4**0),
+        (2**8) - (2**5) - (2**1),
+        (1<<8) - (3**3),
+        (1<<8) - (1<<4) - ((1<<2) - 1),
+        (1<<1) * ((1<<2) - 1) * (5**2),
+        (2**7) + (2**2)*(3**2),
+        (1<<7) + (1<<2)*11,
+        (2**7) + 5 * (2**1) * 3,
+        (3**2) * ( (1<<4) + 3 ),
+        (1<<7) + (1<<5) + (2**1)*3
+    ]
+    for i in range(10):
+        if (ord(x[i]) + ord(x[(i+3)%10])) % 256 != t[i]:
+            return False
+    s = 10**3 - 5*10 - 3
+    if sum(ord(c) for c in x) != s:
+        return False
+    return True
+```
+
+SOLUTION: "mystery123" 
+Checking sample solution  "mystery123"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "mystery123". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 1,619 in / 6,310 out
+  grok-4.20-0309-reasoning (solver): 504 in / 4,738 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    t = [
+        (11**2 * 2**1 - 2**3) + (5**3 - 125) * (13**0),
+        (5**3 + 10**2) + (4**0 - 1) * (2**7),
+        (13**2 + 4**1) + (11**2 - 121) * (3**3),
+        (2**8 - (5**2 - 5)) + (7**2 - 49) * (10**1),
+        (11**2 + (5**2 - 5**1)) + (2**0 - 1) * (7**4),
+        (13**2 - (7**1 - 1**2)) + (4**5 - 1024) * (13**0),
+        (3**5 - (13**1 - 1**3)) + (5**3 - 125) * (11**2 - 121),
+        (13**2 - (2**4 - 2**1)) + (11**2 - 121) * (7**2 - 49)
+    ]
+    for i in range(8):
+        if (ord(x[i]) + ord(x[(i + 3) % 8])) % 256 != t[i]:
+            return False
+    s = (10**3 - (13**2 + (7**2 + 3**1))) + (4**0 - 1) * (5**3)
+    if sum(ord(c) for c in x) != s:
+        return False
+    return True
+```
+This puzzle establishes a system of eight interdependent modular additions (offset by 3 positions in a cycle of length 8) together with a precise total ordinal sum. Every integer target (both the eight modular values and the sum) is wrapped in multilayered expressions that interleave exponentiation across varying bases, deliberate cancellations via subtraction of identical powers, multiplications by zero derived from differences of unity, additions of zero, and other algebraic identities. The nesting, varying operator precedence, and inclusion of large intermediate values that must cancel exactly are all chosen to maximize the chance of arithmetic error during manual evaluation while providing no recognizable constants, keywords, or structural hints that might allow shortcuts or pattern-based guessing. The cyclic offset further entangles the character values, forcing the solver to treat the entire string as a single consistent solution to the resulting linear system.
+UNHANDLED EXCEPTION, error: Inventer message format wrong.
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 7:
+        return False
+    t = [
+        (3**5 - (4**2 + 4**1)) + (11**2 - 121) * (2**10),
+        (3**5 - (11**1 - 1**0)) + (13**2 - 169) * (5**2),
+        (2**8) - (7**2 - 7**1) + (4**0 - 1) * (3**5),
+        (3**5 - (5**2 - 1**(2**0))) * (13**0) + 0 * (10**2),
+        (2**8 - 3**3) + (7**2 - 49) * (11**2),
+        (3**5 - 3**2) + (2**1 - 2**0 - 1) * (2**7),
+        (5**3 + 3**4) + (2**0 - 1) * (13**2)
+    ]
+    for i in range(7):
+        if (ord(x[i]) + ord(x[(i + 3) % 7])) % 256 != t[i]:
+            return False
+    s = (2**9) + (2**8) + (2**4) - (5**1) + (11**2 - 121) * (13**2 - 169)
+    if sum(ord(c) for c in x) != s:
+        return False
+    return True
+```
+This puzzle uses a cyclic chain of modular additions between characters separated by 3 positions (coprime to length 7, ensuring full mixing), combined with an exact total ordinal sum check. Each target value in `t` and the sum `s` is hidden behind unique, nested arithmetic expressions featuring exponentiation with different bases, cancellations via equal subtractions, multiplications by zero, additions of zero, and strategic neutral multipliers/divisors. This creates an error-prone web of interdependent constraints that must be manually decoded and solved as a system, without obvious patterns, keywords, or simple inverses. 
+SOLUTION: "quantum" 
+Checking sample solution  "quantum"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "quantum". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 2,349 in / 7,176 out
+  deepseek-v3.2-thinking (solver): 449 in / 2,737 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    t1 = [
+        (1<<8) - 7*11,
+        3**5 - (1<<5) - 4*13,
+        (1<<8) - 8*13,
+        (1<<8) - 4*11,
+        11*(1<<4) - 3,
+        (1<<7) - 3**2,
+        11*(1<<3),
+        (1<<7) - 13*2
+    ]
+    t2 = [
+        7**2 + 2**2,
+        (1<<6) + 2,
+        (1<<8) - 5*7,
+        3*(1<<6),
+        (1<<7) - 3*7,
+        1<<6,
+        (1<<8) - 5*9,
+        5*9+1
+    ]
+    for i in range(8):
+        if (ord(x[i]) + ord(x[(i+1)%8])) % 256 != t1[i]:
+            return False
+        if (ord(x[i]) * ord(x[(i+2)%8])) % 256 != t2[i]:
+            return False
+    if sum(ord(c) for c in x) != (10**2)*6 - 8:
+        return False
+    return True
+```
+
+SOLUTION: "En1gm@7!" 
+Checking sample solution  "En1gm@7!"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "En1gm@7!". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 2,317 in / 6,309 out
+  grok-4.20-0309-reasoning (solver): 532 in / 3,565 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    t1 = [
+        (1<<8) - (11**2 - (4**2 - 4)) + (2**0 - 1)*(5**3),
+        (2**7 + (5**2 - 2)) + (4**0 - 1)*(11**2),
+        (2**7 + (2**4)) + (4**0 - 1)*(3**5),
+        (1<<7) + (5**2 - 5) + (11**2 - 121)*(2**10),
+        (5**3 + (4**2 + 1)) + (4**0 - 1)*(3**5),
+        (5**3 - (2**3)) + (7**2 - 49)*(11**2),
+        (10**2 + (2**1)) + (13**2 - 169)*(2**8),
+        (5**3 - (4**1 + 2)) + (11**2 - 121)*(13**2)
+    ]
+    t2 = [
+        (7**2 - (2**4)) + (2**1) + (11**2 - 121)*(5**3),
+        (5**3 - (2**3 - 1)) + (4**0 - 1)*(13**2),
+        (11**2 + (2**4)) + (7**2 - 49)*(13**0),
+        (5**3 - (4**2 + 1)) + (11**2 - 121)*(2**7),
+        (2**3 + (2**1)) + (11**2 - 121)*(2**0),
+        (5**3 + (2**3)) + (4**0 - 1)*(11**2),
+        (2**8 - (7**2 - (3**2))) + (5**0 - 1)*(13**2),
+        (1<<6) + (2**1) + (13**2 - 169)*(5**2)
+    ]
+    for i in range(8):
+        if (ord(x[i]) + ord(x[(i + 1) % 8])) % 256 != t1[i]:
+            return False
+        if (ord(x[i]) * ord(x[(i + 3) % 8])) % 256 != t2[i]:
+            return False
+    s = (2**9 + (5**2 - 2)) + (11**2 - 121)*(13**2)
+    if sum(ord(c) for c in x) != s:
+        return False
+    return True
+```
+This puzzle deploys a pair of tightly coupled cyclic constraints over a length-8 string: one equating adjacent ordinal sums modulo 256, the other equating products of characters separated by three positions (coprime to 8, producing full diffusion) modulo 256, plus a precise global ordinal sum. All 17 target constants are concealed inside distinct, deeply nested expressions built from mixed-base exponentiation, deliberate cancellations that evaluate to the desired small integers only after multiple cancelling subterms, zero-multipliers produced by differences such as (11**2 - 121), (7**2 - 49), (4**0 - 1) and (2**0 - 1), and additive identities scaled by large powers. The resulting system is dense, error-prone to decode by hand, and devoid of recognizable keywords, arithmetic shortcuts, or semantic clues, forcing exhaustive manual evaluation followed by simultaneous solution of the modular web.  
+SOLUTION: "ENIGMA42" 
+Checking sample solution  "ENIGMA42"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "ENIGMA42". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 3,195 in / 11,634 out
+  deepseek-v3.2-thinking (solver): 695 in / 6,882 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 11:
+        return False
+    t1 = [
+        (1<<7) + (1<<5) + (1<<4) + (1<<2) + (1<<0) + (13**2 - 169)*(2**10),
+        (1<<8) - 3*7 + (11**2 - 121)*(5**0),
+        (2**8) - (2**4 + (2**3 - 1)) + (7**2 - 49)*(11**0),
+        (1<<8) - 4*7 + (5**3 - 125)*(13**0),
+        (1<<7) + (1<<5) + (1<<2) + (1<<0) + (3**5 - 243)*(2**0),
+        (1<<8) - (3**3 * 4) + (10**2 - 100)*(7**0),
+        (1<<7) + (1<<5) + (1<<4) + (1<<1) + (1<<0) + (13**2 - 169)*(1**5),
+        (1<<8) - (7*(2**3) + 3) + (11**2 - 121)*(2**0),
+        (1<<8) - (2**4 + 1) + (5**3 - 125)*(3**0),
+        (1<<8) - 3*4 + (7**2 - 49)*(11**0),
+        (1<<7) + (1<<5) + (1<<4) + (1<<3) + (1<<2) + (1<<0) + (10**2 - 100)*(13**0)
+    ]
+    t2 = [
+        (1<<7) + (1<<5) + (1<<3) + (1<<1) + (1<<0) + (3**5 - 243)*(2**10),
+        (1<<8) - (1<<5) + (11**2 - 121)*(5**0),
+        (1<<8) - 4*11 + (7**2 - 49)*(13**0),
+        (1<<7) - (1<<4) + (5**3 - 125)*(11**0),
+        (1<<8) - (6**2) + (13**2 - 169)*(2**0),
+        (1<<6) + (1<<4) + (10**2 - 100)*(7**0),
+        (1<<6) - 1 + (11**2 - 121)*(3**0),
+        (1<<5) + (5**3 - 125)*(1**9),
+        (1<<8) - ((1<<6) - 2) + (7**2 - 49)*(11**0),
+        (1<<8) - 2*(3**2) + (13**2 - 169)*(5**0),
+        (1<<6) + (1<<4) + (1<<2) + (10**2 - 100)*(7**0)
+    ]
+    s = (10**3) + 7*((1<<4) + 1) + (11**2 - 121)*(2**8)
+    for i in range(11):
+        if (ord(x[i]) + ord(x[(i+1)%11])) % 256 != t1[i]:
+            return False
+        if (ord(x[i]) * ord(x[(i+2)%11])) % 256 != t2[i]:
+            return False
+    if sum(ord(c) for c in x) != s:
+        return False
+    return True
+```
+
+SOLUTION: "Crypt1cPuzz" 
+Checking sample solution  "Crypt1cPuzz"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "Crypt1cPuzz". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 3,270 in / 12,037 out
+  grok-4.20-0309-reasoning (solver): 1,040 in / 4,167 out
+Logs written to runs/classic/grok-4.20-0309-reasoning_vs_deepseek-v3.2-thinking.log and runs/classic/grok-4.20-0309-reasoning_vs_deepseek-v3.2-thinking.jsonl
+
+=== Token Usage Summary ===
+Turn 0: grok-4.20-0309-reasoning vs deepseek-v3.2-thinking - 696 in / 8,572 out (?) [success]
+Turn 1: deepseek-v3.2-thinking vs grok-4.20-0309-reasoning - 845 in / 25,623 out (?) [success]
+Turn 2: grok-4.20-0309-reasoning vs deepseek-v3.2-thinking - 1,180 in / 8,313 out (?) [success]
+Turn 3: deepseek-v3.2-thinking vs grok-4.20-0309-reasoning - 1,384 in / 13,878 out (?) [success]
+Turn 4: grok-4.20-0309-reasoning vs deepseek-v3.2-thinking - 1,959 in / 21,651 out (?) [success]
+Turn 5: deepseek-v3.2-thinking vs grok-4.20-0309-reasoning - 2,123 in / 11,048 out (?) [success]
+Turn 6: grok-4.20-0309-reasoning vs deepseek-v3.2-thinking - 2,798 in / 9,913 out (?) [success]
+Turn 7: deepseek-v3.2-thinking vs grok-4.20-0309-reasoning - 2,849 in / 9,874 out (?) [success]
+Turn 8: grok-4.20-0309-reasoning vs deepseek-v3.2-thinking - 3,890 in / 18,516 out (?) [success]
+Turn 9: deepseek-v3.2-thinking vs grok-4.20-0309-reasoning - 4,310 in / 16,204 out (?) [success]
+
+=== Totals by Model ===
+grok-4.20-0309-reasoning: 18,337 in / 111,973 out
+deepseek-v3.2-thinking: 10,912 in / 75,161 out

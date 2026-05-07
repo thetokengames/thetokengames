@@ -1,0 +1,391 @@
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 5:
+        return False
+    s = [ord(c) for c in x]
+    return sum(s) == 530 and s[0] * s[1] * s[2] * s[3] * s[4] == 13272505344
+```
+The condition hides the target behind numeric invariants (length, sum and product of ordinals) on a 5-char string; reversing requires factoring the large product into plausible ASCII values near 100 that also sum to 530. Common English words can be checked systematically but the numbers do not immediately suggest an obvious candidate.  
+SOLUTION: "apple" 
+Checking sample solution  "apple"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "apple". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 459 in / 7,776 out
+  claude-sonnet-4-6 (solver): 223 in / 3,116 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    if not x.isalpha():
+        return False
+    target = [80, 89, 84, 72, 79, 78, 73, 67]
+    result = [(ord(c.upper()) - 65 + i * i) % 26 + 65 for i, c in enumerate(x)]
+    return result == target
+```
+
+**Explanation (hidden from solver):**
+
+The function takes an 8-character alphabetic string and applies a *quadratic Caesar cipher* — each character at position `i` is shifted forward by `i²` positions in the alphabet (mod 26). The result must match the target byte sequence `[80, 89, 84, 72, 79, 78, 73, 67]`.
+
+To find the solution, one must:
+1. Recognize that `[80, 89, 84, 72, 79, 78, 73, 67]` are the ASCII codes for **"PYTHONIC"**
+2. Invert the cipher: for each position `i`, the required letter satisfies `(letter + i²) % 26 = target_letter`, so `letter = (target_letter - i²) % 26`
+
+Computing position-by-position:
+- i=0: (P=15 − 0) % 26 = 15 → **P**
+- i=1: (Y=24 − 1) % 26 = 23 → **X**
+- i=2: (T=19 − 4) % 26 = 15 → **P**
+- i=3: (H= 7 − 9) % 26 = 24 → **Y**
+- i=4: (O=14 − 16) % 26 = 24 → **Y**
+- i=5: (N=13 − 25) % 26 = 14 → **O**
+- i=6: (I= 8 − 36) % 26 = 24 → **Y**
+- i=7: (C= 2 − 49) % 26 =  5 → **F**
+
+SOLUTION: "PXPYYOYF" 
+Checking sample solution  "PXPYYOYF"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "PXPYYOYF". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 520 in / 15,044 out
+  grok-4.20-0309-reasoning (solver): 319 in / 1,657 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    s = [ord(c) for c in x]
+    if sum(s) != 668:
+        return False
+    p = 1
+    for c in s:
+        p *= c
+    if p != 1886433010176:
+        return False
+    return sum(c * c for c in s) == 74606
+```
+The puzzle constrains a 6-character string to three symmetric statistics on its ordinal values (1st power sum, 2nd power sum, and product). These must be satisfied simultaneously by integers in the typical printable range (~65-122). The large product can be factored but recombining the factors into exactly six plausible ordinals that also match both power sums is combinatorially expensive by hand and not obvious from common words or patterns.  
+SOLUTION: "rhythm" 
+Checking sample solution  "rhythm"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "mhhrty". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 758 in / 7,622 out
+  claude-sonnet-4-6 (solver): 247 in / 9,960 out
+claude-sonnet-4-6's turn to invent a puzzle...
+Looking at this puzzle, I want to create something with two independent constraints that together make brute force very difficult.
+
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.islower() or not x.isalpha():
+        return False
+    # Constraint 1: polynomial rolling hash
+    h = 0
+    for c in x:
+        h = (h * 131 + ord(c)) % (10**9 + 7)
+    if h != 248711814:
+        return False
+    # Constraint 2: alternating sign sum of ASCII values
+    alt_sum = sum(ord(x[i]) * (1 if i % 2 == 0 else -1) for i in range(8))
+    return alt_sum == 10
+```
+
+**Explanation (hidden from solver):**
+
+The function requires an 8-character lowercase alphabetic string satisfying two independent constraints:
+
+1. **Polynomial rolling hash** — Each character is processed as `h = (h * 131 + ord(c)) % (10^9 + 7)`, producing a final hash of `248711814`. This is essentially a Rabin-Karp style hash, which is not practically invertible — you can only verify it, not reverse it.
+
+2. **Alternating sum** — `ord(x[0]) - ord(x[1]) + ord(x[2]) - ... - ord(x[7]) == 10`. This means the sum of even-indexed characters exceeds the sum of odd-indexed characters by exactly 10.
+
+For `"necklace"` (n=110, e=101, c=99, k=107, l=108, a=97, c=99, e=101):
+- Alternating sum: `110−101+99−107+108−97+99−101 = 9−8+11−2 = 10` ✓
+- Hash (verified by manual step-by-step computation): `248711814` ✓
+
+The combination of two independent constraints narrows the solution space dramatically. A solver would need to either invert the hash (infeasible directly) or run a dictionary search checking all 8-letter lowercase words against both constraints — a non-trivial effort.
+
+SOLUTION: "necklace" 
+Checking sample solution  "necklace"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "aakaaaaa". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  claude-sonnet-4-6 (inventer): 1,251 in / 25,740 out
+  grok-4.20-0309-reasoning (solver): 376 in / 55,567 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.islower() or not x.isalpha():
+        return False
+    h = 0
+    for c in x:
+        h = (h * 137 + ord(c)) % (10**9 + 9)
+    if h != 410197146:
+        return False
+    alt_sum = sum(ord(x[i]) * (1 if i % 2 == 0 else -1) for i in range(8))
+    return alt_sum == 30
+```
+The puzzle requires an 8-letter lowercase alphabetic string satisfying a rolling hash (base 137, mod 1000000009) equaling a specific large integer *and* an alternating-sign ASCII sum exactly equal to 30. The hash is easy to compute forward but hard to invert analytically; the linear constraint prunes candidates yet still leaves an enormous space that is non-obvious to search by hand or simple guessing.  
+SOLUTION: "hardness" 
+Checking sample solution  "hardness"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 7:
+        return False
+    s = [ord(c) for c in x]
+    if sum(s) != 747:
+        return False
+    p = 1
+    for c in s:
+        p *= c
+    if p != 154948411488000:
+        return False
+    return sum(c * c for c in s) == 80103
+```
+The puzzle requires a 7-character string whose ordinal values simultaneously satisfy three independent aggregate constraints (sum, product, and sum-of-squares). The enormous product forces a search over multisets of 7 plausible ASCII integers (~32-126) whose factors multiply exactly to the given value; only those multisets that also match both power sums survive. Brute-force enumeration or backtracking search is feasible programmatically but combinatorially explosive by hand, and the resulting ordinals do not map to any immediately recognizable word or pattern.  
+SOLUTION: "hardest" 
+Checking sample solution  "hardest"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "threads". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  grok-4.20-0309-reasoning (inventer): 1,167 in / 6,900 out
+  claude-sonnet-4-6 (solver): 247 in / 4,607 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    if not x.islower() or not x.isalpha():
+        return False
+
+    # Constraint 1: polynomial rolling hash (base 131)
+    h = 0
+    for c in x:
+        h = (h * 131 + ord(c)) % (10**9 + 7)
+    if h != 571110587:
+        return False
+
+    # Constraint 2: alternating sign sum of ASCII values
+    alt = sum(ord(x[i]) * (1 if i % 2 == 0 else -1) for i in range(8))
+    if alt != -16:
+        return False
+
+    # Constraint 3: polynomial rolling hash (base 137)
+    h2 = 0
+    for c in x:
+        h2 = (h2 * 137 + ord(c)) % (10**9 + 9)
+    if h2 != 205099035:
+        return False
+
+    return True
+```
+
+This puzzle requires an 8-character lowercase alphabetic string satisfying **three simultaneous constraints**:
+
+1. **Rolling hash (base 131, mod 10⁹+7)** — A Rabin-Karp style hash. Not practically invertible.
+2. **Alternating sum** — Even-indexed ASCII values minus odd-indexed ASCII values must equal −16.
+3. **Rolling hash (base 137, mod 10⁹+9)** — A second independent hash with a different base and modulus.
+
+Two independent hash constraints with moduli around 10⁹ each means the expected number of accidental collisions across all 26⁸ ≈ 2×10¹¹ inputs is on the order of 10⁻⁷ — effectively unique. A dictionary attack over 8-letter English words must satisfy all three constraints simultaneously, which is a very narrow target.
+
+SOLUTION: "gradient" 
+Checking sample solution  "gradient"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says None. Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 2 (2-0)
+  claude-sonnet-4-6 (inventer): 1,964 in / 21,795 out
+  grok-4.20-0309-reasoning (solver): 445 in / 29,822 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    s = [ord(c) for c in x]
+    if sum(s) != 836:
+        return False
+    p = 1
+    for c in s:
+        p *= c
+    if p != 14053379539680000:
+        return False
+    if sum(c * c for c in s) != 87624:
+        return False
+    h = 0
+    for c in s:
+        h = (h * 131 + c) % (10**9 + 7)
+    if h != 526007723:
+        return False
+    return True
+```
+The condition hides the target behind numeric invariants (length, sum, product, sum-of-squares, and rolling hash of ordinals) on an 8-char string; reversing requires factoring the large product into plausible ASCII values near 100 that also match both power sums and the specific hash value. Common English words can be checked systematically but the numbers do not immediately suggest an obvious candidate.  
+SOLUTION: "hardmode" 
+Checking sample solution  "hardmode"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "addehmor". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 2 (2-0)
+  grok-4.20-0309-reasoning (inventer): 1,661 in / 25,384 out
+  claude-sonnet-4-6 (solver): 307 in / 36,776 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    if not x.islower() or not x.isalpha():
+        return False
+
+    # Constraint 1: alternating sign sum of ASCII values
+    alt = sum(ord(x[i]) * (1 if i % 2 == 0 else -1) for i in range(6))
+    if alt != -8:
+        return False
+
+    # Constraint 2: polynomial rolling hash (base 131, mod 10^9+7)
+    h = 0
+    for c in x:
+        h = (h * 131 + ord(c)) % (10**9 + 7)
+    if h != 860887633:
+        return False
+
+    # Constraint 3: polynomial rolling hash (base 137, mod 10^9+9)
+    h2 = 0
+    for c in x:
+        h2 = (h2 * 137 + ord(c)) % (10**9 + 9)
+    if h2 != 822509333:
+        return False
+
+    return True
+```
+
+**Explanation:**
+
+This puzzle requires a 6-character lowercase alphabetic string satisfying **three simultaneous constraints**:
+
+1. **Alternating sum** — Even-indexed character ASCII values minus odd-indexed values must equal −8. This narrows the search space but is still individually invertible.
+
+2. **Rolling hash (base 131, mod 10⁹+7)** — A Rabin-Karp style hash. With modulus ~10⁹, this is not practically invertible alone.
+
+3. **Rolling hash (base 137, mod 10⁹+9)** — A second independent hash with different base and modulus.
+
+Two independent hash constraints with moduli around 10⁹ each mean the expected number of accidental collisions across all 26⁶ ≈ 309 million lowercase 6-letter strings is approximately 10⁻⁷ — effectively unique. A dictionary attack must find a 6-letter word satisfying all three constraints simultaneously, while algebraic reversal of the hashes is infeasible.
+
+SOLUTION: "sphinx" 
+Checking sample solution  "sphinx"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "aaaiaa". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 3 (3-0)
+  claude-sonnet-4-6 (inventer): 2,690 in / 17,430 out
+  grok-4.20-0309-reasoning (solver): 461 in / 55,926 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 7:
+        return False
+    if not x.islower() or not x.isalpha():
+        return False
+    alt = sum(ord(x[i]) * (1 if i % 2 == 0 else -1) for i in range(7))
+    if alt != 91:
+        return False
+    h = 0
+    for c in x:
+        h = (h * 131 + ord(c)) % (10**9 + 7)
+    if h != 797351941:
+        return False
+    h2 = 0
+    for c in x:
+        h2 = (h2 * 137 + ord(c)) % (10**9 + 9)
+    if h2 != 827057095:
+        return False
+    return True
+```
+The puzzle requires a 7-character lowercase alphabetic string satisfying an alternating-sign ASCII sum plus two independent rolling polynomial hashes (distinct prime bases, distinct large prime moduli). The search space is 26^7 ≈ 8e9 candidates; satisfying all three numeric invariants simultaneously is combinatorially rare and cannot be done by simple pattern matching or manual trial of common words. Brute-force enumeration is possible in principle but computationally expensive in pure Python without heavy optimization.  
+SOLUTION: "quantum" 
+Checking sample solution  "quantum"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "aaaaaga". Checking.
+Failure!
+New score after this turn: 2 (2-0) vs 3 (3-0)
+  grok-4.20-0309-reasoning (inventer): 2,200 in / 8,393 out
+  claude-sonnet-4-6 (solver): 353 in / 36,754 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    if not x.islower() or not x.isalpha():
+        return False
+    # Constraint 1: alternating sign sum of ASCII values
+    alt = sum(ord(x[i]) * (1 if i % 2 == 0 else -1) for i in range(8))
+    if alt != 8:
+        return False
+    # Constraint 2: polynomial rolling hash (base 131, mod 10^9+7)
+    h = 0
+    for c in x:
+        h = (h * 131 + ord(c)) % (10**9 + 7)
+    if h != 956830731:
+        return False
+    # Constraint 3: polynomial rolling hash (base 137, mod 10^9+9)
+    h2 = 0
+    for c in x:
+        h2 = (h2 * 137 + ord(c)) % (10**9 + 9)
+    if h2 != 553988357:
+        return False
+    return True
+```
+
+This puzzle requires an 8-character lowercase alphabetic string satisfying **three simultaneous constraints**:
+
+1. **Alternating sum** — Even-indexed ASCII values minus odd-indexed values equals exactly 8. This is independently satisfiable but still constrained.
+
+2. **Rolling hash (base 131, mod 10⁹+7)** — A Rabin-Karp style hash targeting `956830731`. Not practically invertible.
+
+3. **Rolling hash (base 137, mod 10⁹+9)** — A second independent hash with a different base and modulus targeting `553988357`.
+
+The two hash constraints together have an expected collision probability of ~1/10¹⁸ across all possible inputs, making the solution effectively unique. Dictionary attacks must find an 8-letter lowercase word satisfying all three constraints simultaneously.
+
+SOLUTION: "function" 
+Checking sample solution  "function"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "fxdtihbs"**. Checking.
+RuntimeError while checking sample -- marking as wrong!
+Error: Error running mystery():
+  File "<stdin>", line 29
+    result = mystery("fxdtihbs"**)
+                                 ^
+SyntaxError: invalid syntax
+
+Failure!
+New score after this turn: 2 (2-0) vs 4 (4-0)
+  claude-sonnet-4-6 (inventer): 3,512 in / 10,783 out
+  grok-4.20-0309-reasoning (solver): 461 in / 33,131 out
+Turn 0: grok-4.20-0309-reasoning vs claude-sonnet-4-6 - 682 in / 10,892 out (?) [success]
+Turn 1: claude-sonnet-4-6 vs grok-4.20-0309-reasoning - 839 in / 16,701 out (?) [success]
+Turn 2: grok-4.20-0309-reasoning vs claude-sonnet-4-6 - 1,005 in / 17,582 out (?) [success]
+Turn 3: claude-sonnet-4-6 vs grok-4.20-0309-reasoning - 1,627 in / 81,307 out (?) [failure]
+Turn 4: grok-4.20-0309-reasoning vs claude-sonnet-4-6 - 1,414 in / 11,507 out (?) [success]
+Turn 5: claude-sonnet-4-6 vs grok-4.20-0309-reasoning - 2,409 in / 51,617 out (?) [failure]
+Turn 6: grok-4.20-0309-reasoning vs claude-sonnet-4-6 - 1,968 in / 62,160 out (?) [failure]
+Turn 7: claude-sonnet-4-6 vs grok-4.20-0309-reasoning - 3,151 in / 73,356 out (?) [failure]
+Turn 8: grok-4.20-0309-reasoning vs claude-sonnet-4-6 - 2,553 in / 45,147 out (?) [failure]
+Turn 9: claude-sonnet-4-6 vs grok-4.20-0309-reasoning - 3,973 in / 43,914 out (?) [failure-ex]
+grok-4.20-0309-reasoning: 9,474 in / 240,882 out
+claude-sonnet-4-6: 11,608 in / 246,005 out
+grok-4.20-0309-reasoning ./. claude-sonnet-4-6     (2-0) vs (4-0)     [1 failed, see runs/classic/grok-4.20-0309-reasoning_vs_claude-sonnet-4-6.log]

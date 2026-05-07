@@ -1,0 +1,387 @@
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+    found = 0
+    a = 1
+    while True:
+        a4 = a ** 4
+        if a4 >= x:
+            break
+        b = a
+        while True:
+            b4 = b ** 4
+            s = a4 + b4
+            if s == x:
+                found += 1
+                if found >= 2:
+                    return True
+            if s > x:
+                break
+            b += 1
+        a += 1
+    return False
+```
+This puzzle implements a check for whether the input integer x can be expressed as the sum of two fourth powers of positive integers in at least two distinct ways (with pairs ordered a <= b). This is a taxicab number for k=4. The code uses nested loops to search for such pairs, making it non-obvious at first glance what property x must satisfy. Brute-forcing by testing sequential x values is computationally expensive (O(M^{3/2}) time for search up to M), discouraging simple scripts without optimization. Understanding the code reveals the property, allowing a solver to generate candidate sums efficiently to find a solution like 635318657.
+
+SOLUTION: 635318657 
+Checking sample solution  635318657
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 635318657. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4-fast-reasoning (inventer): 491 in / 10,107 out
+  gpt-5.5 (solver): 236 in / 559 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    N = 10941738641570527421809707322040357612003732945449205990913842131476349984288934784717997257891267332497625752899781833797076537244027146743531593354333897
+
+    return (
+        isinstance(x, int)
+        and not isinstance(x, bool)
+        and 1 < x
+        and x * x < N
+        and N % x == 0
+    )
+```
+
+This puzzle asks for a nontrivial integer divisor of the displayed number, specifically the smaller one.
+
+SOLUTION: 102639592829741105772054196573991675900716567808038066803341933521790711307779 
+Checking sample solution  102639592829741105772054196573991675900716567808038066803341933521790711307779
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str):
+        return False
+    if not (1 <= len(x) <= 64):
+        return False
+
+    try:
+        y = bytes((ord(c) ^ 0x55) for c in x)
+    except ValueError:
+        return False
+
+    return hashlib.sha256(y).hexdigest() == (
+        "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380"
+        "ee9088f7ace2efcde9"
+    )
+```
+
+This puzzle hides the accepted input behind a bytewise transformation followed by a SHA-256 preimage check.
+
+SOLUTION: "=099:u\":'91" 
+Checking sample solution  "=099:u\":'91"
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says {repr(result)}"). Checking.
+RuntimeError while checking sample -- marking as wrong!
+Error: Error running mystery():
+  File "<stdin>", line 24
+    result = mystery({repr(result)}"))
+                                   ^
+SyntaxError: unterminated string literal (detected at line 24)
+
+Failure!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  gpt-5.5 (inventer): 511 in / 6,896 out
+  grok-4-fast-reasoning (solver): 378 in / 11,646 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str):
+        return False
+    if not (1 <= len(x) <= 30):
+        return False
+
+    try:
+        y = bytes((ord(c) ^ 0x20) for c in x)
+    except ValueError:
+        return False
+
+    return hashlib.sha256(y).hexdigest() == (
+        "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425"
+        "e73043362938b9824"
+    )
+```
+This puzzle requires finding a string x such that after XORing each character's ordinal with 0x20 (which swaps case for letters), the resulting bytes' SHA256 hash matches the given digest. The search space is enormous, making brute-force attacks impractical without significant computational resources or luck. The code limits length to 1-30 to bound it somewhat, but still infeasible to exhaustively search printable characters. Understanding the transformation might inspire trying case-flipped common words, but the specific target corresponds to a particular input.
+
+SOLUTION: "HELLO" 
+Checking sample solution  "HELLO"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "HELLO". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  grok-4-fast-reasoning (inventer): 943 in / 13,664 out
+  gpt-5.5 (solver): 233 in / 258 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import base64
+    import codecs
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 60:
+        return False
+
+    try:
+        s = codecs.decode(x[::-1], "rot_13")
+        raw = base64.b64decode(s.encode("ascii"), validate=True)
+    except Exception:
+        return False
+
+    if len(raw) != 43:
+        return False
+    if base64.b64encode(raw).decode("ascii") != s:
+        return False
+
+    return hashlib.sha256(raw).digest()[::-1].hex() == (
+        "92e5c937bfd0022d76db3c6de451568d"
+        "4f2e08b0bc9aca699480d707b3fba8d7"
+    )
+```
+
+This puzzle uses a reversible-looking text layer followed by a cryptographic digest check, with the digest stored in a mildly scrambled form. The canonical Base64 check removes easy alternate encodings.
+
+SOLUTION: "==jMiETV5cKLfOFMbEUVlIzqiOlpj1JqdOPriMTVhq3olWTVeAJn1SUVyuTI" 
+Checking sample solution  "==jMiETV5cKLfOFMbEUVlIzqiOlpj1JqdOPriMTVhq3olWTVeAJn1SUVyuTI"
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says None (infeasible to compute). Checking.
+RuntimeError while checking sample -- marking as wrong!
+Error: Error running mystery():
+  File "<stdin>", line 30
+    result = mystery(None (infeasible to compute))
+                           ^^^^^^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+Failure!
+New score after this turn: 0 (0-0) vs 2 (2-0)
+  gpt-5.5 (inventer): 859 in / 15,285 out
+  grok-4-fast-reasoning (solver): 426 in / 26,571 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+    found = 0
+    a = 1
+    while True:
+        a3 = a ** 3
+        if a3 >= x:
+            break
+        b = a
+        while True:
+            b3 = b ** 3
+            s = a3 + b3
+            if s == x:
+                found += 1
+                if found >= 3:
+                    return True
+            if s > x:
+                break
+            b += 1
+        a += 1
+    return False
+```
+This puzzle checks whether the positive integer x can be expressed as the sum of two positive cubes (a^3 + b^3 with 1 ≤ a ≤ b) in at least three distinct ways. This is an instance of a taxicab number for exponent 3 and multiplicity 3. The nested loops search exhaustively for such pairs, but the property is non-trivial to discern from the code alone without familiarity with Diophantine equations or taxicab numbers. Brute-forcing by testing x values is inefficient due to the cubic growth, requiring optimization or mathematical insight to find solutions like 87539319 efficiently.
+
+SOLUTION: 87539319 
+Checking sample solution  87539319
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 87539319. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 2 (2-0)
+  grok-4-fast-reasoning (inventer): 1,418 in / 4,093 out
+  gpt-5.5 (solver): 236 in / 529 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int or x <= 1:
+        return False
+
+    n = (
+        (1 << 4610)
+        - (1 << 4089)
+        - (1 << 4003)
+        - (1 << 3331)
+        - (1 << 2407)
+        + (1 << 3482)
+        + (1 << 2810)
+        + (1 << 2724)
+        + (1 << 1886)
+        + (1 << 1800)
+        + (1 << 1128)
+        - (1 << 2203)
+        - (1 << 1279)
+        - (1 << 607)
+        - (1 << 521)
+        + 1
+    )
+
+    return x.bit_length() == 1279 and n % x == 0
+```
+
+This puzzle asks for a very particular large integer divisor of a large integer that is written in a deliberately unhelpful sparse binary form. The bit-length restriction rules out many incidental divisors.
+
+SOLUTION: (1 << 1279) - 1 
+Checking sample solution  (1 << 1279) - 1
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says 2**1279 - 2**666 + 2**166. Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 3 (3-0)
+  gpt-5.5 (inventer): 1,274 in / 16,301 out
+  grok-4-fast-reasoning (solver): 436 in / 20,624 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+    found = 0
+    a = 1
+    while True:
+        a3 = a ** 3
+        if a3 >= x:
+            break
+        b = a
+        while True:
+            b3 = b ** 3
+            s = a3 + b3
+            if s == x:
+                found += 1
+                if found >= 4:
+                    return True
+            if s > x:
+                break
+            b += 1
+        a += 1
+    return False
+```
+This puzzle checks whether the positive integer x can be written as the sum of the cubes of two positive integers (with a ≤ b) in at least four different ways. This corresponds to the taxicab number Ta(3,4), the smallest number expressible as the sum of two positive cubes in four distinct ways. The nested loops exhaustively search for such representations, but the required x is extremely large, making blind brute-force searching over x values computationally infeasible (the search space grows cubically). Solvers must analyze the code to recognize the mathematical property and recall or look up the relevant taxicab number to find a solution.
+
+SOLUTION: 6963472309248 
+Checking sample solution  6963472309248
+RuntimeError while checking sample -- penalizing!
+Error: mystery() execution timed out after 5s
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 3 (3-0)
+  grok-4-fast-reasoning (inventer): 1,929 in / 11,264 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+    import unicodedata
+
+    if type(x) is not str or len(x) != 24:
+        return False
+
+    if any(not (0xFF00 <= ord(c) <= 0xFFEF) for c in x):
+        return False
+
+    try:
+        y = unicodedata.normalize("NFKC", x).encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    salt = (b"saltSALT" * 4) + b"salt"
+    got = hashlib.pbkdf2_hmac("sha1", y, salt, 4096, 25)
+
+    return got[::-1].hex() == (
+        "3870f0f24c961a298b4ae4c06236d8c8"
+        "809b841ce44fec2e3d"
+    )
+```
+
+This puzzle forces the input through a Unicode compatibility-normalization layer before applying a deliberately slow password-derived digest check. The digest is stored reversed to make direct recognition less immediate, and the character-range restriction rules out the plain normalized text.
+
+SOLUTION: "ｐａｓｓｗｏｒｄＰＡＳＳＷＯＲＤｐａｓｓｗｏｒｄ" 
+Checking sample solution  "ｐａｓｓｗｏｒｄＰＡＳＳＷＯＲＤｐａｓｓｗｏｒｄ"
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says "ｓａｌｔＳＡＬＴｓａｌｔＳＡＬＴｓａｌｔＳＡＬＴ". Checking.
+Failure!
+New score after this turn: -1 (0-1) vs 4 (4-0)
+  gpt-5.5 (inventer): 1,704 in / 19,450 out
+  grok-4-fast-reasoning (solver): 439 in / 10,461 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str):
+        return False
+    if not (1 <= len(x) <= 20):
+        return False
+
+    try:
+        y = ''.join(chr(ord(c) ^ 0xAA) for c in x)
+        y = y[::-1]
+        y = y.replace(' ', '').lower()
+    except ValueError:
+        return False
+
+    return hashlib.sha256(y.encode('utf-8')).hexdigest() == (
+        "a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e"
+    )
+```
+This puzzle requires finding a string x of length between 1 and 20 such that after XORing each character's ASCII value with 0xAA, reversing the resulting string, removing spaces, and converting to lowercase, the SHA256 hash of the UTF-8 encoded result matches the specified digest. The XOR with 0xAA is a byte-wise flip that alters characters in a non-trivial way (e.g., it maps 'a' (97) to 175, which is not printable ASCII, but the code handles it via chr). The multiple transformations (XOR, reverse, clean, lower) obscure the original input, and the bounded length still leaves a vast search space of possible strings (e.g., ~95^20 possibilities), making brute-force impractical. Solvers might try common phrases or words, applying the inverse transformations manually, but the specific target corresponds to an uncommon input after all steps, requiring insight or luck to reverse-engineer without exhaustive search.
+
+SOLUTION: x = "Open Sesame" 
+Checking sample solution  x = "Open Sesame"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -2 (0-2) vs 4 (4-0)
+  grok-4-fast-reasoning (inventer): 2,450 in / 33,511 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import codecs
+    import hashlib
+    import hmac
+
+    if type(x) is not str or len(x) != 28:
+        return False
+    if any(not (32 <= ord(c) <= 126) for c in x):
+        return False
+
+    try:
+        msg = codecs.decode(x[::-1], "rot_13").encode("ascii")
+    except Exception:
+        return False
+
+    key = codecs.decode("Wrsr", "rot_13").encode("ascii")
+    got = hmac.new(key, msg, hashlib.sha256).digest()
+
+    return got[::-1].hex() == (
+        "4338ec64b958ec9d8339279d083f005a"
+        "c77595082624046a4e7560bf46c1dc5b"
+    )
+```
+
+This puzzle applies a reversible-looking text transformation, then checks a byte-reversed HMAC-SHA256 digest. The printable ASCII and exact-length checks remove many accidental inputs.
+
+SOLUTION: "?tavugba ebs ganj nl bq gnuj" 
+Checking sample solution  "?tavugba ebs ganj nl bq gnuj"
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says "?tavugba ebs ganj nl bq gnuj". Checking.
+Success!
+New score after this turn: -2 (0-2) vs 4 (4-0)
+  gpt-5.5 (inventer): 2,159 in / 10,080 out
+  grok-4-fast-reasoning (solver): 428 in / 4,113 out
+Turn 0: grok-4-fast-reasoning vs gpt-5.5 - 727 in / 10,666 out (?) [success]
+Turn 1: gpt-5.5 vs grok-4-fast-reasoning - 889 in / 18,542 out (?) [failure-ex]
+Turn 2: grok-4-fast-reasoning vs gpt-5.5 - 1,176 in / 13,922 out (?) [success]
+Turn 3: gpt-5.5 vs grok-4-fast-reasoning - 1,285 in / 41,856 out (?) [failure-ex]
+Turn 4: grok-4-fast-reasoning vs gpt-5.5 - 1,654 in / 4,622 out (?) [success]
+Turn 5: gpt-5.5 vs grok-4-fast-reasoning - 1,710 in / 36,925 out (?) [failure]
+Turn 6: grok-4-fast-reasoning vs gpt-5.5 - 1,929 in / 11,264 out (?) [puzzle-wrong-ex]
+Turn 7: gpt-5.5 vs grok-4-fast-reasoning - 2,143 in / 29,911 out (?) [failure]
+Turn 8: grok-4-fast-reasoning vs gpt-5.5 - 2,450 in / 33,511 out (?) [puzzle-wrong]
+Turn 9: gpt-5.5 vs grok-4-fast-reasoning - 2,587 in / 14,193 out (?) [success]
+grok-4-fast-reasoning: 9,695 in / 173,853 out
+gpt-5.5: 7,723 in / 76,773 out
+grok-4-fast-reasoning ./. gpt-5.5     (0-2) vs (4-0)     [1 failed, see runs/classic/grok-4-fast-reasoning_vs_gpt-5.5.log]

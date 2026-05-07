@@ -1,0 +1,625 @@
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    from math import factorial
+    if isinstance(x, bool) or not isinstance(x, int) or x < 0:
+        return False
+    s = str(x)
+    return sum(factorial(int(digit)) for digit in s) == x
+```
+
+This puzzle checks for a mathematical property involving the digits of positive integers. The function takes each digit of the number, applies a specific operation to it, sums all the results, and checks if the sum equals the original number. There are very few integers that satisfy this property.
+
+SOLUTION: 145 
+Checking sample solution  145
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 145. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 395 in / 8,277 out
+  deepseek-v3.2-thinking (solver): 166 in / 1,004 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    import math
+
+    # x must be a string
+    if not isinstance(x, str):
+        return False
+
+    # Check if x is a palindrome
+    if x != x[::-1]:
+        return False
+
+    # Check if length of x is prime
+    n = len(x)
+    if n < 2:
+        return False
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+
+    # Compute sum and product of ASCII values
+    total = 0
+    prod = 1
+    for ch in x:
+        v = ord(ch)
+        total += v
+        prod *= v
+
+    # Check if total is prime
+    if total < 2:
+        return False
+    for i in range(2, int(math.isqrt(total)) + 1):
+        if total % i == 0:
+            return False
+
+    # Check if binary representation of total is a palindrome
+    b = bin(total)[2:]
+    if b != b[::-1]:
+        return False
+
+    # Check if product is a perfect square
+    root = math.isqrt(prod)
+    if root * root != prod:
+        return False
+
+    return True
+```
+
+SOLUTION: "XQX" 
+Checking sample solution  "XQX"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says " \t ". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 446 in / 20,126 out
+  claude-haiku-4-5 (solver): 442 in / 13,001 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) == 0:
+        return False
+    
+    # Must be lowercase letters only
+    if not x.islower() or not x.isalpha():
+        return False
+    
+    # Length must be odd
+    if len(x) % 2 == 0:
+        return False
+    
+    # Check if it's a palindrome
+    if x != x[::-1]:
+        return False
+    
+    vowels = set('aeiou')
+    consonants = set('bcdfghjklmnpqrstvwxyz')
+    
+    has_vowel = any(c in vowels for c in x)
+    has_consonant = any(c in consonants for c in x)
+    
+    # Must have both vowels and consonants
+    if not has_vowel or not has_consonant:
+        return False
+    
+    # Check if the middle character is a vowel
+    middle_idx = len(x) // 2
+    if x[middle_idx] not in vowels:
+        return False
+    
+    # Check if the number of vowels equals the number of consonants plus 1
+    vowel_count = sum(1 for c in x if c in vowels)
+    consonant_count = sum(1 for c in x if c in consonants)
+    
+    if vowel_count != consonant_count + 1:
+        return False
+    
+    # Check if all consonants are the same letter
+    consonant_set = set(c for c in x if c in consonants)
+    if len(consonant_set) != 1:
+        return False
+    
+    return True
+```
+
+This puzzle checks for strings satisfying multiple interconnected properties:
+
+1. **String format**: Must be lowercase alphabetic characters only
+2. **Length**: Must have odd length
+3. **Palindrome**: The string must read the same forwards and backwards
+4. **Mixed characters**: Must contain both vowels and consonants
+5. **Middle character**: The character at the center position must be a vowel
+6. **Vowel-consonant balance**: The count of vowels must exceed the count of consonants by exactly one
+7. **Consonant uniformity**: All consonants in the string must be the same letter
+
+These seven constraints work together to form a challenging puzzle. The combination of structural requirements (palindrome, odd length, middle vowel) with numerical constraints (vowel count = consonant count + 1) and the consonant uniformity requirement makes valid solutions quite rare.
+
+SOLUTION: "abeba" 
+Checking sample solution  "abeba"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "taeat". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 898 in / 19,333 out
+  deepseek-v3.2-thinking (solver): 433 in / 4,417 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    # Check if x is a positive integer
+    if not isinstance(x, int) or x <= 0:
+        return False
+    
+    s = str(x)
+    
+    # Must have exactly 5 digits
+    if len(s) != 5:
+        return False
+    
+    # Must be a palindrome
+    if s != s[::-1]:
+        return False
+    
+    # Must contain exactly three distinct digits
+    if len(set(s)) != 3:
+        return False
+    
+    # Sum of digits must be prime
+    digit_sum = sum(int(d) for d in s)
+    if digit_sum < 2:
+        return False
+    for i in range(2, int(digit_sum ** 0.5) + 1):
+        if digit_sum % i == 0:
+            return False
+    
+    # Product of digits must be a perfect cube
+    digit_product = 1
+    for d in s:
+        digit_product *= int(d)
+    if digit_product != 0:
+        # Compute integer cube root
+        root = int(round(digit_product ** (1/3)))
+        if root ** 3 != digit_product:
+            # Try adjacent integer
+            if (root + 1) ** 3 != digit_product and (root - 1) ** 3 != digit_product:
+                return False
+    
+    # x itself must be prime
+    if x % 2 == 0 or x % 5 == 0:
+        return False
+    for i in range(3, int(x ** 0.5) + 1, 2):
+        if x % i == 0:
+            return False
+    
+    # x squared must be a palindrome
+    sq = x * x
+    if str(sq) != str(sq)[::-1]:
+        return False
+    
+    # x modulo 7 must equal 4
+    if x % 7 != 4:
+        return False
+    
+    return True
+```
+
+The puzzle requires finding a 5-digit integer that satisfies a collection of stringent mathematical and structural properties. It must be a prime palindrome with exactly three distinct digits. The sum and product of its digits have specific primality and perfect-power conditions. Additionally, its square must also be a palindrome, and it must satisfy a particular modular congruence. The constraints are interconnected, making brute-force search nontrivial, but the puzzle is designed to have at least one solution.
+
+SOLUTION: 10301 
+Checking sample solution  10301
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  deepseek-v3.2-thinking (inventer): 1,101 in / 21,206 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    
+    if len(x) != 4:
+        return False
+    
+    if not x.isalpha() or not x.islower():
+        return False
+    
+    # All characters must be distinct
+    if len(set(x)) != 4:
+        return False
+    
+    # Sum of ASCII values must be divisible by 3
+    ascii_sum = sum(ord(c) for c in x)
+    if ascii_sum % 3 != 0:
+        return False
+    
+    # Product of character positions in alphabet (0-25) must equal 120
+    product = 1
+    for c in x:
+        product *= (ord(c) - ord('a'))
+    if product != 120:
+        return False
+    
+    # Characters must be in alphabetical order
+    if x != ''.join(sorted(x)):
+        return False
+    
+    return True
+```
+
+## Explanation
+
+This puzzle requires a 4-character lowercase alphabetic string satisfying several interconnected constraints:
+
+1. **Format**: Must be exactly 4 lowercase letters, all distinct
+2. **ASCII sum property**: The sum of the ASCII values of all characters must be divisible by 3
+3. **Positional product constraint**: Each letter maps to its position in the alphabet (a=0, b=1, c=2, ..., z=25). The product of all four positions must equal a specific mathematical constant
+4. **Alphabetical ordering**: The characters must appear in strictly alphabetical order
+
+The combination of the positional product requirement with the ASCII divisibility constraint creates a very constrained solution space. Finding valid answers requires understanding what each constraint enforces and systematically working through the limited possibilities.
+
+SOLUTION: "cdef" 
+Checking sample solution  "cdef"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "bcdu". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  claude-haiku-4-5 (inventer): 2,072 in / 12,667 out
+  deepseek-v3.2-thinking (solver): 300 in / 2,616 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    # Check input type and positivity
+    if not isinstance(x, int) or x <= 0:
+        return False
+    
+    # Decimal palindrome
+    s = str(x)
+    if s != s[::-1]:
+        return False
+    
+    # Binary palindrome
+    b = bin(x)[2:]
+    if b != b[::-1]:
+        return False
+    
+    # Divisibility by 3 and 11
+    if x % 3 != 0 or x % 11 != 0:
+        return False
+    
+    # Not prime (composite)
+    if x < 2:
+        return False
+    is_prime = True
+    for i in range(2, int(x**0.5) + 1):
+        if x % i == 0:
+            is_prime = False
+            break
+    if is_prime:
+        return False
+    
+    # Product of digits is a perfect square
+    prod = 1
+    for ch in s:
+        prod *= int(ch)
+    if prod <= 0:
+        return False
+    root = int(prod ** 0.5)
+    if root * root != prod:
+        return False
+    
+    # Sum of digits is a triangular number
+    total = sum(int(d) for d in s)
+    n = int((2 * total) ** 0.5)
+    if n * (n + 1) != 2 * total:
+        return False
+    
+    # Congruence modulo 13
+    if x % 13 != 7:
+        return False
+    
+    return True
+```
+
+SOLUTION: 33 
+Checking sample solution  33
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 33. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  deepseek-v3.2-thinking (inventer): 1,869 in / 19,198 out
+  claude-haiku-4-5 (solver): 531 in / 7,867 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    # Exclude booleans (which are technically ints in Python)
+    if isinstance(x, bool):
+        return False
+    
+    # Must be a 4-digit positive integer
+    if not isinstance(x, int) or x < 1000 or x >= 10000:
+        return False
+    
+    # Must be divisible by 37
+    if x % 37 != 0:
+        return False
+    
+    # All digits must be distinct
+    s = str(x)
+    if len(set(s)) != 4:
+        return False
+    
+    # Sum of digits must be a perfect square
+    digit_sum = sum(int(d) for d in s)
+    root = int(digit_sum ** 0.5)
+    if root * root != digit_sum:
+        return False
+    
+    # Must not be a perfect square itself
+    sqrt_x = int(x ** 0.5)
+    if sqrt_x * sqrt_x == x:
+        return False
+    
+    # x modulo 11 must equal 5
+    if x % 11 != 5:
+        return False
+    
+    return True
+```
+
+## Explanation
+
+This puzzle requires a 4-digit positive integer satisfying six independent mathematical constraints:
+
+1. **Divisibility constraint**: The number must be divisible by 37, which immediately eliminates 96% of all numbers in the range.
+
+2. **Digit uniqueness**: All four digits must be distinct (no repeated digits), further restricting the solution space.
+
+3. **Perfect square digit sum**: The sum of all four digits must be a perfect square (4, 9, 16, 25, 36, etc.). For a 4-digit number with distinct digits, this is surprisingly limiting.
+
+4. **Non-perfect-square property**: The number itself must not be a perfect square, ruling out certain "obvious" candidates.
+
+5. **Modular arithmetic**: The number modulo 11 must equal exactly 5. Combined with the divisibility by 37, this creates a very specific residue class (numbers of the form 407k + 148).
+
+6. **Range restriction**: The number must be between 1000 and 9999 (4-digit range).
+
+The interaction of these constraints means valid solutions are extremely rare. Systematic searching through the constraints is necessary, making random guessing essentially futile.
+
+SOLUTION: 2590 
+Checking sample solution  2590
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 2590. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  claude-haiku-4-5 (inventer): 2,958 in / 16,676 out
+  deepseek-v3.2-thinking (solver): 336 in / 2,904 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    import math
+    
+    # x must be a positive integer
+    if not isinstance(x, int) or x <= 0:
+        return False
+    
+    # x must have exactly 6 digits
+    if x < 100000 or x > 999999:
+        return False
+    
+    s = str(x)
+    
+    # x must be a palindrome
+    if s != s[::-1]:
+        return False
+    
+    # x must be a perfect square
+    root = int(math.isqrt(x))
+    if root * root != x:
+        return False
+    
+    # product of digits must be a perfect square and non-zero
+    prod = 1
+    for ch in s:
+        prod *= int(ch)
+    if prod <= 0:
+        return False
+    prod_root = int(math.isqrt(prod))
+    if prod_root * prod_root != prod:
+        return False
+    
+    # x must be divisible by 11
+    if x % 11 != 0:
+        return False
+    
+    # x must not be divisible by 3
+    if x % 3 == 0:
+        return False
+    
+    # x modulo 7 must be 2
+    if x % 7 != 2:
+        return False
+    
+    # x modulo 13 must be 3
+    if x % 13 != 3:
+        return False
+    
+    # sum of digits must be twice a prime
+    digit_sum = sum(int(d) for d in s)
+    if digit_sum % 2 != 0:
+        return False
+    half = digit_sum // 2
+    if half < 2:
+        return False
+    for i in range(2, int(math.isqrt(half)) + 1):
+        if half % i == 0:
+            return False
+    
+    # square root of x must be even
+    if root % 2 != 0:
+        return False
+    
+    # square root of x must not be a palindrome
+    if str(root) == str(root)[::-1]:
+        return False
+    
+    # (digit_sum^2 - 1) must be divisible by 5
+    if (digit_sum * digit_sum - 1) % 5 != 0:
+        return False
+    
+    return True
+```
+
+SOLUTION: 698896 
+Checking sample solution  698896
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 698896. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  deepseek-v3.2-thinking (inventer): 2,499 in / 12,284 out
+  claude-haiku-4-5 (solver): 715 in / 14,331 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    # Must be a string
+    if not isinstance(x, str):
+        return False
+    
+    # Must be exactly 5 characters long
+    if len(x) != 5:
+        return False
+    
+    # Must contain only uppercase letters
+    if not x.isupper() or not x.isalpha():
+        return False
+    
+    # Must start with a vowel
+    vowels = set('AEIOU')
+    if x[0] not in vowels:
+        return False
+    
+    # Must end with a consonant
+    if x[-1] in vowels:
+        return False
+    
+    # Sum of character positions (A=1, B=2, ..., Z=26) must be divisible by 5
+    position_sum = sum(ord(c) - ord('A') + 1 for c in x)
+    if position_sum % 5 != 0:
+        return False
+    
+    # Must contain exactly 2 distinct vowels total
+    vowel_set = set(c for c in x if c in vowels)
+    if len(vowel_set) != 2:
+        return False
+    
+    # Must contain exactly 3 distinct consonants total
+    consonant_set = set(c for c in x if c not in vowels)
+    if len(consonant_set) != 3:
+        return False
+    
+    # The count of each vowel must be equal
+    from collections import Counter
+    char_counts = Counter(x)
+    vowel_counts = [char_counts[v] for v in vowel_set]
+    if vowel_counts[0] != vowel_counts[1]:
+        return False
+    
+    # The two vowels must not be adjacent
+    vowel_positions = [i for i, c in enumerate(x) if c in vowels]
+    if len(vowel_positions) == 2 and vowel_positions[1] - vowel_positions[0] == 1:
+        return False
+    
+    return True
+```
+
+## Explanation
+
+This puzzle requires a 5-character uppercase string satisfying seven interconnected constraints:
+
+1. **Format**: Must be exactly 5 uppercase alphabetic characters
+2. **Opening character**: Must start with a vowel (A, E, I, O, U)
+3. **Closing character**: Must end with a consonant
+4. **Alphabetic position sum**: The sum of each character's position in the alphabet (A=1, B=2, ..., Z=26) must be divisible by 5
+5. **Vowel variety**: Must contain exactly 2 distinct vowels
+6. **Consonant variety**: Must contain exactly 3 distinct consonants  
+7. **Vowel distribution**: Each distinct vowel must appear the same number of times (which forces exactly one occurrence per vowel given the 5-character constraint)
+8. **Vowel separation**: The two vowels must not be adjacent to each other
+
+The combination of the positional sum divisibility constraint with the specific character count requirements creates a highly constrained solution space. The adjacency constraint further restricts valid placements of the vowels, making random guessing essentially futile. Systematic analysis is required to find valid solutions.
+
+SOLUTION: ABDIN 
+Checking sample solution  ABDIN
+RuntimeError while checking sample -- penalizing!
+Error: Error running mystery():
+Traceback (most recent call last):
+  File "<stdin>", line 57, in <module>
+NameError: name 'ABDIN' is not defined
+
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs -1 (0-1)
+  claude-haiku-4-5 (inventer): 4,175 in / 14,158 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    # x must be a string
+    if not isinstance(x, str):
+        return False
+    # must be exactly 5 characters long
+    if len(x) != 5:
+        return False
+    # must be all uppercase letters
+    if not x.isupper() or not x.isalpha():
+        return False
+    # must be a palindrome
+    if x != x[::-1]:
+        return False
+    # must contain exactly two distinct letters
+    if len(set(x)) != 2:
+        return False
+    # both letters must be consonants
+    vowels = set('AEIOU')
+    for ch in x:
+        if ch in vowels:
+            return False
+    # the two distinct letters must be consecutive in the alphabet
+    letters = sorted(set(x))
+    if ord(letters[1]) - ord(letters[0]) != 1:
+        return False
+    # sum of letter positions (A=1, B=2, ..., Z=26) must be prime
+    total = 0
+    for ch in x:
+        total += ord(ch) - ord('A') + 1
+    if total < 2:
+        return False
+    for i in range(2, int(total**0.5) + 1):
+        if total % i == 0:
+            return False
+    # product of letter positions must be a perfect cube
+    prod = 1
+    for ch in x:
+        prod *= ord(ch) - ord('A') + 1
+    # check if prod is a perfect cube
+    cube_root = round(prod ** (1/3))
+    if cube_root ** 3 != prod:
+        return False
+    return True
+```
+
+SOLUTION: "GHGHG" 
+Checking sample solution  "GHGHG"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "GHGHG". Checking.
+Success!
+New score after this turn: -1 (0-1) vs -1 (0-1)
+  deepseek-v3.2-thinking (inventer): 3,443 in / 23,105 out
+  claude-haiku-4-5 (solver): 545 in / 11,801 out
+Turn 0: claude-haiku-4-5 vs deepseek-v3.2-thinking - 561 in / 9,281 out (?) [success]
+Turn 1: deepseek-v3.2-thinking vs claude-haiku-4-5 - 888 in / 33,127 out (?) [success]
+Turn 2: claude-haiku-4-5 vs deepseek-v3.2-thinking - 1,331 in / 23,750 out (?) [success]
+Turn 3: deepseek-v3.2-thinking vs claude-haiku-4-5 - 1,101 in / 21,206 out (?) [puzzle-wrong]
+Turn 4: claude-haiku-4-5 vs deepseek-v3.2-thinking - 2,372 in / 15,283 out (?) [success]
+Turn 5: deepseek-v3.2-thinking vs claude-haiku-4-5 - 2,400 in / 27,065 out (?) [success]
+Turn 6: claude-haiku-4-5 vs deepseek-v3.2-thinking - 3,294 in / 19,580 out (?) [success]
+Turn 7: deepseek-v3.2-thinking vs claude-haiku-4-5 - 3,214 in / 26,615 out (?) [success]
+Turn 8: claude-haiku-4-5 vs deepseek-v3.2-thinking - 4,175 in / 14,158 out (?) [puzzle-wrong-ex]
+Turn 9: deepseek-v3.2-thinking vs claude-haiku-4-5 - 3,988 in / 34,906 out (?) [success]
+claude-haiku-4-5: 12,731 in / 118,111 out
+deepseek-v3.2-thinking: 10,593 in / 106,860 out
+claude-haiku-4-5 ./. deepseek-v3.2-thinking     (0-1) vs (0-1)     [0 failed, see runs/classic/claude-haiku-4-5_vs_deepseek-v3.2-thinking.log]

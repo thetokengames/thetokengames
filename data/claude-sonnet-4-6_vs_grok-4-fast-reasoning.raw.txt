@@ -1,0 +1,3773 @@
+*** inventor prompt claude-sonnet-4-6
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+None, this is the first turn.
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-sonnet-4-6
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 0 or len(x) != 4 or x[0] == '0':
+        return False
+
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    a, b = 1, 2
+    while b < s:
+        a, b = b, a + b
+    if b != s:
+        return False
+
+    return x == x[::-1]
+```
+
+This puzzle takes a string representing a 4-digit positive integer (no leading zeros) and puts it through three independent hidden checks before returning True. Each check tests a different mathematical property of the number, and all three must be satisfied simultaneously. Figuring out what each loop is actually computing — and then finding a number that satisfies all constraints at once — is the challenge.
+
+Good luck!
+
+SOLUTION: "1331"
+*** END
+*** inventor reasoning claude-sonnet-4-6
+Let me create a tricky Python puzzle. I want to make it hard to figure out what values return True, while still having a valid solution.
+
+Let me think of something clever...
+
+I could use:
+1. Hash functions
+2. String manipulation tricks
+3. Mathematical properties
+4. Bitwise operations
+
+Let me create something that looks complex but has a specific solution.
+
+Here's an idea - I'll use a combination of checks that seem obscure:
+
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    h = 0
+    for c in x:
+
+
+```
+
+Still writing hash function...
+
+Actually, let me try a different approach. Instead of trying to reverse-engineer a specific hash value, I could base the puzzle on weighted character sums that are easier to construct but still look mysterious.
+
+I need to find a 5-character string where the sum of each character's ASCII value multiplied by its position equals 700. Let me work through some combinations—spaces give me 480, which is too low, and common words like "hello" overshoot significantly at 1617. I need to find the right balance of character values across the five positions.
+
+The average ASCII value per position needs to be around 46.7, which corresponds to the period character. Five periods gives me 690, just 10 short of 700. If I replace the last period with '0' (ASCII 48), I get exactly 700: 46+92+138+184+240 equals 700. Let me verify this works with "....0".
+
+Now I'm thinking about making the mystery function harder to crack by adding multiple validation conditions—checking the string length, using XOR operations on character codes with bit shifts, and requiring a specific dash position with digit constraints.
+
+Looking at the structure, I need to figure out what string format satisfies all these conditions. The function expects a nine-character string with digits in positions 0-3 and 5-8, a dash at position 4, and the XOR hash of all character codes (shifted by their position modulo 8) must equal 12345. Let me work through the bit-shifting pattern to find a valid input. I'm checking if 10101 works as a 5-digit palindrome divisible by 7, and it does—but that's too obvious, so I need something more obscured that won't be guessed immediately.
+
+I'm considering using a hash-based check where the input must produce an MD5 hash starting with zeros, which would have many valid solutions but be computationally hard to reverse-engineer. Then I'm thinking a number-theoretic approach might be better—something like checking if the Collatz sequence length equals a specific value, which would be tricky to figure out without running the computation.
+
+Now I'm pivoting to a multi-layered string validation that combines vowel positions, digit constraints, and modular arithmetic to make it harder to guess the pattern.
+
+Still writing validation logic... I'm checking what vowel pairs sum to 213, but none of the combinations work out—each pairing with a vowel gives me a non-vowel character. Let me recalculate the possible vowel sums to see what's actually achievable.
+
+Looking at all the vowel pair combinations, a+u equals 214, which is close. I'll use 214 as my target sum instead. For the middle four characters, I'll simplify the constraint to check if they form a perfect square when converted to an integer.
+
+Writing the validation function...
+
+Now I'm refining the logic: the function checks that the middle four digits form a prime number rather than a perfect square. So the mystery string needs to be exactly 6 characters with vowels at both ends, digits in the middle that sum to 214 when you add the character codes, and those middle digits must form a prime. Something like "a1009u" would work if 1009 is prime.
+
+Let me verify 1009 by testing divisibility against all primes up to its square root of about 31.8 — checking 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, and 31. Since 1009 is odd, not divisible by 3 (digit sum is 10), and none of the other prime divisors work out evenly, 1009 is indeed prime.
+
+So "a1009u" fits perfectly — it's 6 characters total, the substring from index 1 to 5 gives "1009", and the first and last characters ('a' and 'u') sum to 214. The puzzle works, but it feels a bit straightforward once you catch onto the pattern. I'm thinking about making it more interesting, maybe exploring something with encoding schemes or base conversions instead.
+
+I'm defining a function that validates 8-bit binary strings and checks if squaring the number produces exactly 7 ones in its binary representation. Now I'm searching through all possible values from 0 to 255 to find which ones satisfy this condition.
+
+I'm continuing to check more values in the range, but the results so far show that finding a number whose square has exactly 7 binary ones is proving difficult. Let me reconsider the puzzle design itself—I want something with a clear solution that's verifiable but not immediately obvious, so I'm pivoting to a different approach using ASCII values and a sum constraint instead.
+
+Writing function logic...
+
+Now I'm realizing the geometric sequence condition—if vals[0] * vals[4] equals vals[1] * vals[3], that creates a specific ratio relationship between the ASCII values. Combined with the strictly increasing constraint and the sum equaling 435, this should narrow down the possibilities significantly. With r=1.5, the sum works out to about 13.1875a, giving a≈33, but that produces non-integer values for the other terms. Let me try a different approach without assuming a geometric sequence. I'm testing specific character values like a=48, b=72, c=90, d=108, e=117, but the products don't match. I think I need to parametrize this differently—if I set a, d, and e as variables, then b must equal (a×e)/d to satisfy the constraint, but finding integer solutions is tricky. Maybe I should step back and work with a specific hidden word or phrase instead.
+
+I'm defining a validation function that checks multiple conditions: the input must be a 7-letter word where vowels occupy the even positions (0, 2, 4, 6) and consonants occupy the odd positions (1, 3, 5), plus the ASCII sum equals 721.
+
+Now I'm working through the math to find a candidate word. With four vowels at even positions, I'm testing different vowel combinations to see what consonant sum I'd need. Starting with 'e' repeated gives me a consonant sum of 317, which averages to around 105-106 per consonant.
+
+Since I don't actually need a real English word, I can just construct a valid string that matches the VCVCVCV pattern and hits the target sum of 721. I'm checking the feasible range for this pattern—vowels can sum between 388 and 468, consonants between 294 and 366, giving a total range of 682 to 834, so 721 is definitely achievable. Now I'm testing specific combinations: a, b, e, d, a, f, o gives 706, then trying variations with different consonants like h and g to inch closer to the target, getting 708, 728, and 727 respectively.
+
+I'm narrowing in on the exact combination by systematically adjusting the consonants downward—f, k, j, h each get me closer until a, f, e, g, a, n, o hits exactly 721, and I'm verifying this matches the required pattern. i=1: c='f', 1%2=1, 'f' not in vowels ✓
+- i=2: c='e', 2%2=0, 'e' is vowel ✓
+- i=3: c='g', 3%2=1, 'g' not in vowels ✓
+- i=4: c='a', 4%2=0, 'a' is vowel ✓
+- i=5: c='n', 5%2=1, 'n' not in vowels ✓
+- i=6: c='o', 6%2=0, 'o' is vowel ✓
+- sum = 97+102+101+103+97+110+111 = 721 ✓
+
+Now I'm verifying each character position matches the alternating pattern, and the ASCII sum checks out. The multiple conditions do make the puzzle's logic fairly transparent once you start testing it.
+
+Let me try something harder with bit shifting and modular arithmetic to obscure what's actually being checked. I'm combining bitwise operations on character codes with weighted sums and multiple modulo conditions that all need to be satisfied simultaneously. This approach is much harder to reverse-engineer analytically, so I'd need to compute a solution by brute force rather than working through it by hand.
+
+Actually, that's getting too convoluted even for me. Let me pivot to a different strategy using a cipher-based approach instead. I'll encode the input string through a transformation and check if it matches a known target, then work backwards to figure out what original string would produce that encoded result. The decoding isn't working out—I'm getting control characters instead of printable ASCII. Let me flip the approach and pick a solution first, then encode it to use as the target string.
+
+Testing "ABCDEF" as the solution, I'm working through the encoding formula for each character to see what the target would be, but I'm running into the same issue where the math produces non-printable characters. I'm switching to a completely different approach with a puzzle that checks multiple conditions: whether the input is a positive integer, a perfect square, has a digit sum that's also a perfect square, has a prime number of digits, and satisfies additional divisibility constraints.
+
+Checking test cases...
+
+Let me verify that 36 satisfies all the conditions: it's a positive integer, a perfect square (6²), has a digit sum of 9 which is also a perfect square (3²), has 2 digits which is prime, and isn't divisible by 10. All conditions check out. But 36 feels too straightforward, so I'm thinking about adding another constraint—maybe requiring that the reversed number is also a perfect square. When I reverse 36 to get 63, that's not a perfect square, so this additional condition would eliminate it.
+
+Now I'm checking 2-digit and 3-digit perfect squares against this new requirement. Most 2-digit squares fail when reversed—49 becomes 94, 81 becomes 18, and so on. But when I look at 3-digit squares, 169 stands out: it's 13², has a digit sum of 16 which is 4², and when reversed becomes 961 which is 31². This looks like a strong candidate that satisfies all the conditions.
+
+I'm now writing a function to formalize these checks: verifying the input is a positive integer, confirming it's a perfect square, checking that the digit sum is also a perfect square, and validating that the reversed number is a perfect square too.
+
+Defining the mystery function... I'm testing 100 as another candidate—it satisfies all four conditions, but I realize I should add back the constraint that the number can't be divisible by 10 to exclude these trivial cases. Single-digit numbers like 1 fail the prime length requirement anyway.
+
+Looking at 121, it's a perfect square that's also a palindrome when reversed, has a digit sum of 4 (which is a perfect square), and its length of 3 is prime—so it works too. But 121 is still fairly obvious, so I'm thinking about making the puzzle harder by restricting the range to 4-digit numbers, which would eliminate the prime length condition since 4 isn't prime.
+
+Actually, let me reconsider: only numbers with a prime digit count would work—that's 2-digit, 3-digit, 5-digit, 7-digit, etc. So requiring 5 digits would make this much trickier. For 5-digit perfect squares, I need to find the range: from 100² = 10,000 up to around 316² = 99,856.
+
+Now I'm testing specific 5-digit squares against the mystery conditions: the number itself must be a perfect square, its digit sum must be a perfect square, its reverse must also be a perfect square, and it can't end in zero. I found that 10201 (which is 101²) works—it's a palindrome with digit sum 4, and its reverse is itself. Similarly, 12321 (111²) also satisfies all the conditions with digit sum 9. These palindromic squares might be too obvious though.
+
+I'm reconsidering what would make a good puzzle. Rather than excluding palindromes or adding more constraints, I think I should try a different approach entirely—maybe using a hash-based check instead to make it less transparent.
+
+Writing hash-based check... I'm working through the hash calculation step by step for "hello", computing each character's contribution to the djb2 hash value and applying the bitwise operations to keep it within the 32-bit range.
+
+Now I see that "hello" hashes to 0xF91F1E35, which isn't my target value of 0x3D6B2F4A, so I need to try a different string. Let me test "Python3" instead and calculate its hash the same way.
+
+Continuing through the remaining characters, I'm working through 'h', 'o', and 'n' to get the final hash value for "Python3". Rather than continuing with longer strings, I'll switch to a simpler approach—computing the hash for "abc" gives me 0x0B888D0B, which I can use as my target. But "abc" is too trivial as a solution, so I need to think about what makes this puzzle actually challenging for someone trying to reverse it.
+
+The hash function itself is complex enough that brute force would be tedious, but for a game puzzle, I should probably design something that rewards analysis and clever thinking rather than just computation. Let me create a function with multiple conditions that looks complicated but has an elegant solution.
+
+Writing the mystery function... Now I'm checking which 4-digit perfect cubes are palindromes—cubes with roots from 10 to 21 range from 1000 to 9261. I'm testing candidates like 1331 to see if they satisfy all the conditions, starting with whether the digit sum is a Fibonacci number.
+
+I found that 1331 works: it's 11³, reads the same forwards and backwards, has a digit sum of 8 (which is Fibonacci), and passes all the mystery function checks. Though 1331 is a well-known cube, so I should look for other 4-digit palindromic cubes that might be less obvious.
+
+Checking through the ABBA palindrome format systematically, 1331 turns out to be the only 4-digit palindrome that's also a perfect cube—the next cube after 1331 is 1728, which isn't a palindrome, and then 2197, which is too large.
+
+The puzzle actually works well as-is since the combination of constraints—4 digits, palindrome, perfect cube, and Fibonacci digit sum—creates enough complexity that solvers need to verify all conditions even if they recognize 1331. I'm refining the code to make the logic slightly less transparent...
+
+Writing verification logic...
+
+Actually, I need to double-check my Fibonacci validation. Walking through an example where the digit sum is 8: starting with f=1, g=1, I iterate until g reaches or exceeds 8, and the final value of g should equal the digit sum. This approach correctly identifies Fibonacci numbers in the sequence. the logic works correctly for identifying Fibonacci numbers. Now I'm checking whether the cube root approach is reliable for detecting perfect cubes like 1331—since floating point arithmetic can introduce rounding errors, I'm considering a safer approach that rounds the result and then verifies by cubing it back to confirm the original number. Refining the Fibonacci sequence logic...
+
+I'm testing different digit sum values to verify the sequence works correctly with the 1,2 starting point—it properly identifies Fibonacci numbers while rejecting 1 as a valid sum. Since 1331 has a digit sum of 8, which is Fibonacci, the function still passes that case. Now I'm finalizing the mystery function with the four-digit string validation and perfect cube check.
+
+Finishing the function logic...
+
+The complete function checks that the input is a 4-digit positive integer without leading zeros, verifies it's a perfect cube, confirms the digit sum matches a Fibonacci number, and finally validates that the string reads the same forwards and backwards. The answer "1331" satisfies all these conditions—it's a perfect cube (11³), has a digit sum of 8 (Fibonacci), and is a palindrome. I'm considering whether the puzzle difficulty is right; the palindrome check is obvious from the code, and the Fibonacci digit sum is also visible, though the cube requirement adds some complexity. Still writing obfuscation code... I'm calculating whether "QQQQQ" works by computing 49^5 mod 10007, which gives 7660 instead of the needed 6660, so I need to try a different approach.
+
+Let me test some actual 5-character strings to see if I can find one that matches the checksum requirements. I'm trying "Magic" and "Hello" but their character sums don't equal 245, so I need to find a combination of five characters in the valid range that averages to 49 per character. Found it! "OPQRS" gives us the sum of 245. Now I'm calculating the product of these five consecutive numbers modulo 10007, multiplying them step by step and reducing at each stage to keep the numbers manageable, which gives me a final result of 17.
+
+But that doesn't match the target product of 6660, so I need to find a different string. Let me think about adjusting one character while keeping the sum constant, or maybe I should try a completely different approach since finding the right combination by hand is getting unwieldy.
+
+Actually, this brute-force search is too tedious. Let me step back and try the 4-digit palindromic cube puzzle instead, which should be more tractable to verify manually.
+
+I'm defining a function that checks if a number is a 4-digit palindromic perfect cube, with the additional constraint that the digit sum must be a Fibonacci number. The answer would be "1331", but I'm concerned this might be too straightforward, so I'm considering adding another constraint to make it more interesting.
+
+Finalizing the puzzle definition...
+
+Now I'm implementing the validation function that checks three conditions: whether the input is a 4-digit perfect cube, whether the digit sum matches a Fibonacci number, and whether it reads the same forwards and backwards. Let me verify that 1331 satisfies all of them—it's a perfect cube (11³), its digits sum to 8 which is Fibonacci, and it's a palindrome. I'm checking whether Python's rounding handles the floating point precision correctly for cube roots—testing cases like 1331, 1000, and 1728 to confirm the approach works reliably across different inputs.
+
+Now I'm thinking about the puzzle's difficulty level. The palindrome check is fairly obvious from the code, but the Fibonacci digit sum condition is hidden in the loop logic, which should make it reasonably challenging. I'm considering whether to obscure the cube root verification further by disguising it with bit manipulation instead of making it explicit.
+
+Refactoring the validation logic... The loop correctly identifies that 11³ equals 1331, so this approach avoids floating-point precision issues. I'll use this version for the final solution, which checks if the input is a valid four-digit number that's a perfect cube, has a digit sum matching a Fibonacci number, and reads the same forwards and backwards. I'm verifying the Fibonacci check works correctly—the sequence I'm using starts with 1, 2 rather than the standard 1, 1, so I need to make sure 8 (the sum of digits in 1331) actually appears in my sequence. It does, so the puzzle logic holds up. I'm satisfied with the difficulty level since recognizing the cube root check and the Fibonacci validation are the trickiest parts to identify.
+
+Now let me verify that 1331 is truly the only 4-digit palindromic perfect cube by checking the range systematically. So 1331 is the only 4-digit palindromic cube, and its digit sum of 8 is a Fibonacci number, making it the unique answer. Now I'm writing a function that validates whether a string represents this special number by checking if it's a valid 4-digit palindromic cube and confirming its digit sum appears in the Fibonacci sequence.
+*** END
+*** solver grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 0 or len(x) != 4 or x[0] == '0':
+        return False
+
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    a, b = 1, 2
+    while b < s:
+        a, b = b, a + b
+    if b != s:
+        return False
+
+    return x == x[::-1]
+```
+SOLUTION: "1331"
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 0 or len(x) != 4 or x[0] == '0':
+        return False
+
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    a, b = 1, 2
+    while b < s:
+        a, b = b, a + b
+    if b != s:
+        return False
+
+    return x == x[::-1]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = 0
+    for c in x:
+        s += int(c)
+    if s < 2:
+        return False
+    p = 2
+    while p * p <= s:
+        if s % p == 0:
+            return False
+        p += 1
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 3:
+        return False
+    zeros = 0
+    for c in x:
+        if c == '0':
+            zeros += 1
+    if zeros != 2:
+        return False
+    return True
+```
+
+### Private Explanation
+This puzzle requires x to be a 6-digit string of digits (no leading zero) representing a perfect cube (checked via incremental loop for the cube root). The sum of its digits must be a prime number (checked via trial division starting from 2). It must contain exactly 3 even digits (including 0) and exactly 2 zeros. These conditions combine numerical, string, and mathematical properties to make reverse-engineering tricky without testing many candidates or deeply analyzing the loops. The sample "300763" is 67 cubed, sum=19 (prime), 3 evens (0,0,6), and 2 zeros.
+
+SOLUTION: "300763"
+*** END
+*** END
+*** solver claude-sonnet-4-6
+## Analyzing the Function
+
+Let me trace through each requirement:
+
+1. `x` must be a string of all digits
+2. Must convert to a valid integer `n`
+3. Must be exactly **6 digits** and **not start with '0'**
+4. `n` must be a **perfect cube** (k³ = n for some integer k)
+5. Sum of digits `s` must be **prime** (≥ 2, no divisors)
+6. Exactly **3 even digits**
+7. Exactly **2 zeros**
+
+## Finding the Solution
+
+Six-digit numbers: 100,000–999,999, so k ranges from 47 to 99.
+
+Checking cubes with exactly 2 zeros:
+- 52³ = 140608 → digits: 1,4,0,6,0,8 → zeros=2 ✓, but evens=5 ✗
+- 63³ = 250047 → digits: 2,5,0,0,4,7 → zeros=2 ✓, but evens=4 ✗
+- **67³ = 300763** → digits: 3,0,0,7,6,3
+
+Checking 300763:
+- ✅ All digits, 6 chars, starts with '3'
+- ✅ 67³ = 300763 (perfect cube)
+- ✅ Sum = 3+0+0+7+6+3 = **19** (prime)
+- ✅ Even digits: 0, 0, 6 → count = **3**
+- ✅ Zeros: position 1, 2 → count = **2**
+
+All conditions satisfied!
+
+```python
+mystery("300763")  # Returns True
+```
+
+SOLUTION: "300763"
+*** solver reasoning claude-sonnet-4-6
+Let me analyze this function step by step:
+
+1. `x` must be a string of all digits
+2. `n = int(x)` must be valid
+3. `len(x) == 6` and `x[0] != '0'`
+4. `n` must be a perfect cube
+5. The sum of digits `s` must be prime (and >= 2)
+6. Exactly 3 even digits
+7. Exactly 2 zeros
+
+So I need a 6-digit perfect cube where:
+
+
+- First digit is not 0
+- Sum of digits is prime
+- Exactly 3 even digits
+- Exactly 2 zeros
+
+Now I'm finding which perfect cubes fall in the 6-digit range. Since 100,000 to 999,999 is my target, I need to find the cube roots at the boundaries—that puts me looking at cubes from around 47³ up to 99³.
+
+Let me systematically check each cube in this range for the constraints. I need exactly 2 zeros, exactly 3 even digits total (where the two zeros count as even, so I need one more even non-zero digit), a prime digit sum, and a non-zero first digit. Starting with 47³ and working upward, I'm examining each cube's digits to see which ones satisfy all four conditions. Continuing through the cubes, I find that 67³ = 300763 has exactly 2 zeros and 3 even digits, which matches the criteria. The digit sum is 19, which is prime—this looks like the answer I'm looking for. Let me double-check the calculation to be sure. = 4489
+67^3 = 67 * 4489 = 300763
+
+digits: 3,0,0,7,6,3
+- zeros: positions 2 and 3 → 2 zeros ✓
+- evens: 0,0,6 → 3 even digits ✓
+- sum: 3+0+0+7+6+3 = 19 → prime ✓
+- 6 digits ✓
+- first digit is 3 ≠ 0 ✓
+- perfect cube ✓
+
+So x = "300763" should work!
+
+Let me double-check the code logic:
+
+1. isinstance("300763", str) → True, all digits → True ✓
+2. n = 300763 ✓
+3. len("300763") == 6 → True, x[0] == '3' ≠ '0' → True ✓
+4. The loop increments k while (k+1)^3 stays at or below n, so after it exits, (k+1)^3 exceeds n. Then it checks if k^3 equals n exactly. For n = 300763, this should find k = 67 since 67^3 = 300763.
+5. The digit sum is 19, which is prime, and there are exactly 2 zeros and 3 even digits, so all conditions pass.
+
+The answer is "300763".
+*** END
+*** inventor prompt claude-sonnet-4-6
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 0 or len(x) != 4 or x[0] == '0':
+        return False
+
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    a, b = 1, 2
+    while b < s:
+        a, b = b, a + b
+    if b != s:
+        return False
+
+    return x == x[::-1]
+
+```
+### Explanation
+
+
+This puzzle takes a string representing a 4-digit positive integer (no leading zeros) and puts it through three independent hidden checks before returning True. Each check tests a different mathematical property of the number, and all three must be satisfied simultaneously. Figuring out what each loop is actually computing — and then finding a number that satisfies all constraints at once — is the challenge.
+
+Good luck!
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = 0
+    for c in x:
+        s += int(c)
+    if s < 2:
+        return False
+    p = 2
+    while p * p <= s:
+        if s % p == 0:
+            return False
+        p += 1
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 3:
+        return False
+    zeros = 0
+    for c in x:
+        if c == '0':
+            zeros += 1
+    if zeros != 2:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-sonnet-4-6
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+
+    k = 0
+    while k * k < n:
+        k += 1
+    if k * k != n:
+        return False
+
+    if x != x[::-1]:
+        return False
+
+    s = sum(int(c) for c in x)
+    if n % s != 0:
+        return False
+    q = n // s
+    j = 0
+    while j * j < q:
+        j += 1
+    if j * j != q:
+        return False
+
+    return True
+```
+
+This puzzle takes a 5-digit numeric string and runs it through three independent hidden checks. Each check uses an obfuscated loop rather than a direct comparison, so figuring out what each condition is testing — and then finding a number that satisfies all three simultaneously — is the challenge. Good luck!
+
+SOLUTION: "12321"
+*** END
+*** inventor reasoning claude-sonnet-4-6
+Let me create a challenging puzzle. I need to find a value x where mystery(x) returns True, and make it hard to figure out what the function does.
+
+Let me think of some interesting mathematical properties I can combine:
+
+1. x must be a string representation of a number
+2. Multiple obscure checks
+
+Let me design something clever:
+
+- A 5-digit number
+- Must be a perfect power of some kind
+- Digit product must satisfy some property
+- Some other constraint
+
+Let me think carefully and make sure I have a valid solution.
+
+Let me try:
+- A 7-digit number that is a perfect square
+
+
+- The sum of digits must be a perfect cube
+- The number must be a palindrome
+
+Now I'm searching for 7-digit palindromes that are also perfect squares. A palindrome with this structure would be abcdcba, and I need to find values between 1000000 and 9999999 that satisfy both conditions. This is quite restrictive, so let me reconsider and simplify the puzzle to something more feasible—maybe a 5-digit perfect square with additional digit-based constraints instead.
+
+For 5-digit perfect squares, I'm looking at the range from 100² to 316². The conditions are that when reversed, the number must also be a perfect square, and the digit sum needs to be prime. Testing some palindromic squares like 10201, 12321, and 14641, I notice their digit sums (4, 9, and 16 respectively) aren't prime. But 10404 reversed gives 40401, which is 201²—so that's a valid pair where both the original and reverse are perfect squares.
+
+Now I'm checking 10404 more carefully: it's 102², and its digit sum is 9, which isn't prime. For non-palindromes like 16900, reversing it gives 961, but that drops to 3 digits, which might not fit the constraint. Let me shift my approach entirely and look for 5-digit triangular numbers instead, where the sum of each digit squared equals a perfect square, and the number itself is odd.
+
+Starting with triangular numbers around k=141 where k*(k+1)/2 reaches 5 digits, I get 10011, but squaring its digits gives 1+0+0+1+1=3, which isn't a perfect square. This is getting complicated, so let me just write out a cleaner function that checks for a 5-digit number that's a perfect square.
+
+Writing the validation function...
+
+Now I'm checking if the number is a perfect square, then if its reverse is a perfect cube, and finally if the digit sum is prime. So I need a 5-digit perfect square whose reverse is a perfect cube and whose digits sum to a prime number.
+
+Let me work through this systematically—I'll check perfect squares from 100² up to 316² and see which ones have reversals that are perfect cubes. The reversed number might have fewer than 5 digits if there are trailing zeros, so I need to account for that. I'm starting to enumerate some cubes to get a sense of what I'm looking for: 22³ gives 10648, 23³ gives 12167, and so on. I'm checking whether the reverses of these cubes are perfect squares—so far none of them are working out, but I'm systematically testing each one to see if any cube's reverse happens to be a perfect square. Continuing through the cubes: 57824 reversed gives 35³, not a perfect square. 65664 reversed is 36³, also not a perfect square. Moving through 37³, 38³, and 39³ — none of their reversals are perfect squares either.
+
+Now checking 41³ through 46³ and their reversals against perfect squares. So far, none of these numbers are perfect squares when I check their square roots.
+
+This approach isn't yielding results, so I'm switching tactics. Instead of mathematical patterns, I'm designing a string-based puzzle that checks for ascending ASCII values across adjacent characters, validates that the sum of character codes meets a modular arithmetic condition, and ensures the length is a perfect square.
+
+Writing the mystery function... I'm testing specific character combinations to find one that satisfies all three conditions. "adgl" works perfectly—the ASCII values 97, 100, 103, and 108 are strictly increasing, sum to 408 which is divisible by 17, and the string has length 4, which is a perfect square.
+
+Now I'm thinking the character puzzle might be too straightforward to solve by random guessing, so I want to design something more mathematically intricate. I'm considering a puzzle around a 6-digit number with multiple constraints: it needs to be divisible by each of its non-zero digits, have a digit product that's a perfect square, and satisfy some additional property. Let me work backward from an actual number that meets these criteria rather than trying to construct one from scratch.
+
+I'm testing candidates like 123456 and 123240, but running into issues—123456 fails divisibility by 5, and 123240 has repeated digits. So I'm shifting my approach to focus on what makes a puzzle genuinely difficult: obfuscated constraint checks, multiple independent conditions layered together, and constraints that aren't immediately obvious from reading the code. I'm building a function that validates a lowercase alphabetic string where the length must be a triangular number and the characters must be in ascending order...
+
+Writing validation logic... I'm working through the constraints for a length-6 string: it needs six distinct lowercase letters in ascending order where the sum of their position values equals a perfect square. Starting with the minimum sum of 21 from {a,b,c,d,e,f}, I can reach 25 by swapping the last letter to 'j', giving me "abcdej" which satisfies all the requirements.
+
+I'm also checking if there are alternative solutions—"abcdfi" works too since 1+2+3+4+6+9 also equals 25. Now I'm considering whether this puzzle strikes the right balance of difficulty for a solver.
+
+The main challenge is recognizing the triangular number constraint and the perfect square sum requirement, while the sorted unique characters part is more straightforward. There seem to be enough solutions to make it solvable without being trivial.
+
+I'm wondering if I should increase the difficulty by using a less obvious constraint instead of triangular numbers, or maybe shift to a numeric puzzle with more unusual properties. Let me explore a different approach with a five-digit number puzzle...
+
+Defining the mystery function... I'm realizing the even/odd constraint won't work for a 5-digit number since you can't split 5 digits evenly. Let me switch to a different set of constraints: the number must be a 5-digit perfect square, have a prime digit sum, and have 0 as the middle digit. Now I'm searching through perfect squares to find ones that match these criteria, checking things like whether 10201 actually has 0 in the middle position. I'm checking perfect squares to find ones where the hundreds digit is 0, which means the third digit from the left in a 5-digit number is 0. Let me systematically go through squares starting from 100² and verify which ones have this property and meet any other criteria.
+
+Actually, let me step back and pick a specific perfect square I like, then build the puzzle around it. I'm considering 113² = 12769, which has digits summing to 25, or 181² = 32761 with digits that sum to 19.
+
+That 32761 works well—it's a perfect square, the digit sum is prime, and I'm noticing other interesting properties like having three odd digits and two even digits. Let me explore what else makes this number special, maybe checking if its reverse or some other characteristic could be a useful puzzle constraint.
+
+Now checking if the reverse, 16723, has any special properties. It factors as 7 × 2389, where 2389 turns out to be prime after testing divisibility up to its square root.
+
+Wait, I need to reconsider—2389 isn't actually prime. Let me pivot to a different approach entirely. I'm thinking about creating a puzzle that's harder to crack by mixing string operations with mathematical constraints, like checking if a six-character string can be split into two three-digit numbers whose product forms a perfect square.
+
+Writing the validation function... I'm listing out all the perfect squares up to 999 that could work for the first half, then reconsidering whether the first digit needs to be non-zero or if leading zeros are allowed in this 6-digit string.
+
+Actually, I realize if a is a perfect square and a*b is also a perfect square, then b must be a perfect square too—since multiplying two perfect squares always gives a perfect square. Let me verify this logic holds and then search systematically through valid pairs.
+
+So I need both a and b to be perfect squares where their sum is prime. Looking at small perfect squares: 1+1=2 (prime), 1+4=5 (prime), 1+9=10 (not prime), 4+4=8 (not prime), 4+9=13 (prime)...
+
+But the actual constraint is that a and b need to be 3-digit numbers between 100 and 999. That's a much tighter restriction—I need perfect squares in that range, which means I'm looking at 10² through 31² (since 32² = 1024). So the candidates are 100, 121, 144, 169, 196, 225, 256, 289, 324, 361, 400, 441, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961. Now I need to find pairs from this list that sum to a prime number. I need one even and one odd square to get an odd sum that could be prime. Let me check some combinations: 100 + 121 = 221, which factors as 13 × 17, so that's not prime. Trying 100 + 169 gives 269, which I need to verify is actually prime by checking divisibility up to its square root.
+
+Now I'm verifying that 269 is indeed prime and checking whether the string "100169" satisfies all the mystery function requirements: the two parts parse as perfect squares, their product is also a perfect square, their sum is prime, the total length is 6, and it doesn't start with 0. Writing the validation function...
+
+Now I'm realizing the constraints create an interesting property: if the first half is a perfect square and their product is also a perfect square, then the second half must be a perfect square too. So the puzzle really boils down to finding two perfect squares that sum to a prime number, which isn't immediately obvious from reading the code. So both substrings need to be 3-digit numbers between 100 and 999, which means they're both perfect squares from that range. I need to find pairs where one is even and one is odd so their sum could be prime, then check which combinations actually give prime sums.
+
+Looking through the possibilities, I'm finding several valid pairs like 100+169=269, 100+289=389, 100+441=541, and 100+961=1061 that all work. There are definitely multiple solutions here.
+
+Now I'm thinking about whether this puzzle is too straightforward—the solver can deduce that the code is checking for perfect squares and primality from the loops, and they'll figure out the string splitting and the multiplication/addition operations pretty quickly.
+
+I want to increase the difficulty by adding a more obscure constraint. Instead of just checking if the first half is a perfect square, what if I require that the first half reversed is also a perfect square? That would force me to find 3-digit perfect squares whose reverses are also perfect squares, which is a much tighter constraint and would make the puzzle significantly harder to solve.
+
+Let me check which 3-digit perfect squares have reverses that are also perfect squares. Looking through the list, I can see that 121 works since it's a palindrome, 144 reverses to 441 which is a perfect square, and 169 reverses to 961 which is also a perfect square. I found that 961 also works since its reverse is 169, which is 13². So my valid "a" values are 100, 121, 144, 169, 441, 484, 676, and 961. Now I need to find "b" values that are perfect squares between 100-999, where a + b is prime. Actually, I'm second-guessing whether I should add this reverse constraint at all—it's making the puzzle significantly harder. Let me just stick with the simpler version I already have.
+
+Implementing the mystery function...
+
+Let me verify the solution works: "100169" passes all the checks—it's 6 digits, both halves are perfect squares (100 and 169), their product is a perfect square (16900), and their sum is prime (269). I'm wondering if I should add another constraint to make it trickier, since once someone figures out the three conditions, the puzzle becomes fairly mechanical.
+
+I'm adding a fourth check: the count of distinct digits must itself be a perfect square. For "100169", there are 4 distinct digits {1, 0, 6, 9}, and 4 is a perfect square, so it passes. Adding validation logic to verify this constraint...
+
+Now checking the other candidates: "100289" has 5 distinct digits (not a perfect square), and "100441" has only 3 (also not a perfect square), so they'd be filtered out. I'm also verifying "121196" where a=121 and b=196 multiply to 23716, which equals 154², and checking that the sum works out.
+
+For "121196", the sum is 317 which is prime, both 121 and 196 are perfect squares, and it has exactly 4 distinct digits. So that's another valid solution. Now I'm deciding whether to include a fourth constraint or keep it simpler with three checks—I think three is cleaner and makes for a better puzzle. I'll go with "100169" as my final answer, though I could also consider redesigning the puzzle from scratch to make it more elegant and ensure there aren't too many solutions.
+
+Let me pivot to a different approach: a 5-digit perfect square where the digit sum is also a perfect square and there are no zeros. The possible digit sums are 9, 16, 25, or 36 since those are perfect squares in the valid range. Manually checking all 5-digit perfect squares is tedious, so I need a smarter way to construct this puzzle.
+
+Actually, let me try a string-based puzzle instead. I'm writing a function that checks if a string is valid based on whether its characters can be formed from the letters in "MATHEMATICS" without exceeding the available count of each letter. The function also needs to verify some additional property about the string itself, though I'm still working out what that constraint should be.
+
+Let me reconsider this approach—converting a string to a numeric value and checking primality gets unwieldy with longer strings, and the alphabet-ordering requirement might be too restrictive. I should simplify and find a cleaner puzzle concept.
+
+I'm switching to a numeric puzzle instead: a 5-digit perfect square where all digits are odd and the digit sum is prime. Since any number with all odd digits must itself be odd, I need to find perfect squares in that range that satisfy these constraints. The possible prime sums for five odd digits range from 5 to 45, giving me candidates like 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, and 43 to work with.
+
+Now I'm checking specific perfect squares systematically—starting with odd values of n between 100 and 316—but I'm noticing that finding a 5-digit perfect square with exclusively odd digits is extremely restrictive. Most candidates I'm testing contain at least one even digit, so I need to continue searching more carefully through the possibilities. have all odd digits.
+
+All digits odd means digits from {1,3,5,7,9}. These numbers are 1*10000+..., so 11111 to 99999 with all odd digits.
+
+The smallest such perfect square... let me think. Any n² ending in 5 must have n ending in 5, but then n = ...5, n² = ...25 (ends in 5 and 2, but 2 is even). Actually n = 5k: (5k)² = 25k², which ends in 5 if k² ends in 1 (so k ends in 1 or 9), but the tens digit of 25k² must be odd...
+
+This is getting complicated. Let me just check a few:
+- 33345 = not a perfect square. 182² = 33124, 183² = 33489.
+- 11111: sqrt ≈ 105.4. Not perfect square.
+- 13311: sqrt ≈ 115.4. Not perfect square.
+
+Actually, I should think about this more systematically. Perfect squares have restricted last two digits mod 100, and since all digits must be odd, the last digit is 1, 5, or 9. The tens digit also needs to be odd. Let me check which two-digit endings are actually possible for perfect squares with these constraints.
+
+Checking which perfect square residues mod 100 have both digits odd: 21, 25, 29, 41, 49, 61, 69, 81, 89 are the valid endings.
+
+Now I need to find which values of n produce squares ending in each of these, then check if any five-digit perfect squares with all odd digits exist.
+
+Looking at squares ending in 25 specifically—those come from n ending in 5—but when I test them (145², 155², 165², 175²), they all contain 0 or even digits, so this approach isn't yielding results. I'm starting to think a five-digit perfect square with all odd digits might not exist.
+
+Let me shift to a different puzzle structure: finding a five-digit palindromic perfect square where dividing it by its digit sum also gives a perfect square. Checking 10201 (which is 101²), the digit sum is 4, but 10201/4 doesn't work out. However, 12321 equals 111² and is palindromic, with a digit sum of 9—and 12321/9 equals 1369, which is 37².
+
+Now I need to verify this actually satisfies all the constraints and think through how to properly check divisibility before computing the quotient.
+
+Writing the validation function...
+
+Let me trace through "12321" to verify it works: it's a 5-digit palindrome, 111 squared equals 12321, the digit sum is 9, and 12321 divided by 9 gives 1369 which is 37 squared. Now I'm checking if there are other 5-digit palindromic perfect squares that satisfy all the conditions—10201, 14641, and others don't work because their digit sums don't divide evenly into the number or the quotient isn't a perfect square. 5-digit palindromic perfect squares:
+
+A 5-digit palindrome is of the form n = 10001a + 1010b + 100c where a∈{1,...,9}, b∈{0,...,9}, c∈{0,...,9}.
+
+Perfect squares: I need n to be a perfect square.
+- 10201 = 101² ✓
+- 12321 = 111² ✓  
+- 14641 = 121² ✓
+- 16761 is a palindrome but not a perfect square
+- 19881 = 141² but checking the digits: 1,9,8,8,1 reversed is 1,8,8,9,1, so it's not actually a palindrome
+
+Let me take a more systematic approach. I'll check all perfect squares from 100² to 316² and test which ones are palindromes, since the square root of a 5-digit number falls in that range.
+
+Going through the candidates: 101², 111², 121², 212² all produce palindromes. So far I've found 10201, 12321, 14641, and 44944 as 5-digit palindromic perfect squares.
+
+Now checking 264²=69696, which is also a palindrome. The digit sum is 36, and 69696÷36=1936, which equals 44². This satisfies all three conditions! Let me verify that 264² actually equals 69696.
+
+I'm also testing other 5-digit palindromic squares like 14641 and 10201, but their digit sums don't divide evenly into the numbers themselves, so they don't work. So far I've found two valid solutions: 12321 and 69696.
+
+This puzzle has a nice difficulty curve—finding a 5-digit palindromic perfect square is straightforward, but the additional constraint that the digit sum must divide the number and produce a perfect square quotient is the hidden layer that makes it interesting.
+
+I'll go with 12321 as my answer. Let me verify my perfect square check logic one more time to make sure it's correct.
+
+Writing the validation function... So the verification confirms "12321" satisfies all the hidden constraints: it's a perfect square itself, its digit sum divides evenly into it to produce another perfect square, and it's a palindrome. The puzzle essentially chains together three mathematical properties that all need to hold simultaneously.
+*** END
+*** solver grok-4-fast-reasoning
+```python
+x = "12321"
+print(mystery(x))  # Should print True
+```
+SOLUTION: "12321"
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 0 or len(x) != 4 or x[0] == '0':
+        return False
+
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    a, b = 1, 2
+    while b < s:
+        a, b = b, a + b
+    if b != s:
+        return False
+
+    return x == x[::-1]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = 0
+    for c in x:
+        s += int(c)
+    if s < 2:
+        return False
+    p = 2
+    while p * p <= s:
+        if s % p == 0:
+            return False
+        p += 1
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 3:
+        return False
+    zeros = 0
+    for c in x:
+        if c == '0':
+            zeros += 1
+    if zeros != 2:
+        return False
+    return True
+
+```
+### Explanation
+
+
+### Private Explanation
+This puzzle requires x to be a 6-digit string of digits (no leading zero) representing a perfect cube (checked via incremental loop for the cube root). The sum of its digits must be a prime number (checked via trial division starting from 2). It must contain exactly 3 even digits (including 0) and exactly 2 zeros. These conditions combine numerical, string, and mathematical properties to make reverse-engineering tricky without testing many candidates or deeply analyzing the loops. The sample "300763" is 67 cubed, sum=19 (prime), 3 evens (0,0,6), and 2 zeros.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+
+    k = 0
+    while k * k < n:
+        k += 1
+    if k * k != n:
+        return False
+
+    if x != x[::-1]:
+        return False
+
+    s = sum(int(c) for c in x)
+    if n % s != 0:
+        return False
+    q = n // s
+    j = 0
+    while j * j < q:
+        j += 1
+    if j * j != q:
+        return False
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = sum(int(c) for c in x)
+    if s != k:
+        return False
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 1:
+        return False
+    return True
+```
+This puzzle requires x to be a 5-digit string of digits (no leading zero) that represents a perfect cube n = k³ where the sum of the digits equals k and there is exactly one even digit. The sample solution is 17576, as 26³ = 17576, digit sum = 1+7+5+7+6 = 26, and even digits: only '6'.
+SOLUTION: '17576'
+*** END
+*** END
+*** solver claude-sonnet-4-6
+## Analysis
+
+Let me work through the constraints:
+
+1. `x` must be a string of digits
+2. Must be exactly 5 digits, no leading zero
+3. `n = int(x)` must be a **perfect cube** (`k³ = n`)
+4. The **sum of digits** must equal `k` (the cube root)
+5. Exactly **1 even digit**
+
+**Finding 5-digit perfect cubes:**
+- k=22: 22³ = 10648, digit sum = 1+0+6+4+8 = 19 ≠ 22
+- k=23: 23³ = 12167, digit sum = 17 ≠ 23
+- k=24: 24³ = 13824, digit sum = 18 ≠ 24
+- k=25: 25³ = 15625, digit sum = 19 ≠ 25
+- **k=26: 26³ = 17576, digit sum = 1+7+5+7+6 = 26 ✓**
+
+**Check even digits in "17576":**
+- 1 (odd), 7 (odd), 5 (odd), 7 (odd), 6 (even) → exactly **1 even digit** ✓
+
+All conditions satisfied!
+
+```python
+mystery("17576")  # Returns True
+```
+
+SOLUTION: "17576"
+*** solver reasoning claude-sonnet-4-6
+Let me analyze the mystery function step by step:
+
+1. `x` must be a string
+2. All characters must be digits
+3. Must be convertible to int `n`
+4. Must have exactly 5 digits and not start with '0'
+5. `n` must be a perfect cube - specifically `k^3 = n` where k is the cube root
+6. Sum of digits must equal `k`
+7. Exactly 1 even digit among the 5 digits
+
+So I need a 5-digit perfect cube where:
+- The cube root `k` equals the sum of digits
+
+
+- Exactly 1 even digit
+
+Now I'm checking 5-digit perfect cubes systematically. Starting with k=22 through k=25, I'm calculating each cube and summing the digits to see if any match the cube root value.
+
+Found it at k=26: 26³ = 17576, which has a digit sum of 26, and contains exactly one even digit (the 6). This satisfies all the conditions.
+*** END
+*** inventor prompt claude-sonnet-4-6
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 0 or len(x) != 4 or x[0] == '0':
+        return False
+
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    a, b = 1, 2
+    while b < s:
+        a, b = b, a + b
+    if b != s:
+        return False
+
+    return x == x[::-1]
+
+```
+### Explanation
+
+
+This puzzle takes a string representing a 4-digit positive integer (no leading zeros) and puts it through three independent hidden checks before returning True. Each check tests a different mathematical property of the number, and all three must be satisfied simultaneously. Figuring out what each loop is actually computing — and then finding a number that satisfies all constraints at once — is the challenge.
+
+Good luck!
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = 0
+    for c in x:
+        s += int(c)
+    if s < 2:
+        return False
+    p = 2
+    while p * p <= s:
+        if s % p == 0:
+            return False
+        p += 1
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 3:
+        return False
+    zeros = 0
+    for c in x:
+        if c == '0':
+            zeros += 1
+    if zeros != 2:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+
+    k = 0
+    while k * k < n:
+        k += 1
+    if k * k != n:
+        return False
+
+    if x != x[::-1]:
+        return False
+
+    s = sum(int(c) for c in x)
+    if n % s != 0:
+        return False
+    q = n // s
+    j = 0
+    while j * j < q:
+        j += 1
+    if j * j != q:
+        return False
+
+    return True
+
+```
+### Explanation
+
+
+This puzzle takes a 5-digit numeric string and runs it through three independent hidden checks. Each check uses an obfuscated loop rather than a direct comparison, so figuring out what each condition is testing — and then finding a number that satisfies all three simultaneously — is the challenge. Good luck!
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = sum(int(c) for c in x)
+    if s != k:
+        return False
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 1:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-sonnet-4-6
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 7 or x[0] == '0':
+        return False
+    n = int(x)
+
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 3:
+        return False
+
+    s = 0
+    for c in x:
+        s += int(c)
+    j = 0
+    while j * j < s:
+        j += 1
+    if j * j != s:
+        return False
+
+    return True
+```
+
+This puzzle takes a 7-digit numeric string and runs it through three independent hidden checks. Each check uses an obfuscated loop or bit operation rather than a direct comparison, making it tricky to identify what's really being tested. All three conditions must be satisfied simultaneously, and the search space is large enough to make brute force tedious by hand.
+
+Good luck!
+
+SOLUTION: "1336336"
+*** END
+*** inventor reasoning claude-sonnet-4-6
+Let me design a challenging puzzle. I need to find a value x that satisfies multiple conditions that are hard to identify from the code.
+
+Let me think about what conditions to impose:
+
+1. x must be a string of digits
+2. Some specific length
+3. Multiple mathematical properties that are obfuscated
+
+Let me think of a complex puzzle:
+
+- x is a 7-digit string
+- n must be a perfect 4th power (obfuscated)
+- digit sum must be a perfect square (obfuscated)
+- number must be divisible by some specific value
+- some pattern in digits
+
+Let me try:
+
+
+Now I'm checking which 7-digit perfect 4th powers could work. I need to find candidates where the digit sum is a triangular number, there are exactly 2 odd digits, and the number is divisible by 11. Let me calculate the 4th powers in the 7-digit range and see which ones fit these constraints. I'm continuing to verify fourth powers through the 50s, and they all check out as seven-digit numbers. Now I'm realizing I should approach this problem differently rather than just computing more values.
+
+Let me shift to a more challenging constraint set. I'm thinking about an 8-character string where the first and last 4 characters are each perfect squares, the full number is divisible by 13, and the digit sum is prime. But that might still be too straightforward to brute force.
+
+Actually, I'm going to try something harder: a 6-digit number that's a perfect square, where reversing its digits also gives a perfect square, and the digit sum is divisible by 7. I'm checking which perfect squares have this property—like 317² = 100489, which reverses to 984001.
+
+Hmm, this is getting complicated. Let me try yet another approach with a 7-digit perfect cube instead. I need to find cubes where the digit sum is itself a perfect square, plus some alternating digit constraint. The 7-digit cubes range from 100³ to 215³, so I'm working through those to find candidates that satisfy all the conditions. The brute force approach is too slow, so I need a better strategy. Let me work backwards instead—pick a number I know works, then construct constraints around it to make the problem harder to solve. I'm thinking about what properties would be interesting: maybe a 6-digit number that's divisible by the product of its non-zero digits, with additional constraints like having a palindromic digit sum.
+
+Actually, triangular numbers could work well here. Let me check if there are 6-digit triangular numbers with useful properties—like T(1413) = 998,991, which has a digit sum of 9.
+
+I'm testing various triangular numbers to find one where the digit sum is prime, but so far the candidates I'm checking—T(1000), T(1001), T(1010), T(1012), T(1014)—all have composite digit sums like 10, 12, 21, and 28.
+
+This manual approach is getting repetitive, so I should write code to systematically search for valid solutions instead. I'm thinking of creating a puzzle that's harder to reverse-engineer by combining multiple constraints—like requiring a 7-digit number that's a perfect fourth power and has a digit sum that's a Fibonacci number.
+
+Writing the verification function...
+
+Now I'm checking which 7-digit fourth powers satisfy all the constraints, starting with 32^4 and working upward to see which ones have exactly 3 distinct digits. Continuing through the fourth powers, I'm checking 38 through 43 to see if any have exactly 3 distinct digits and a digit sum that's Fibonacci—so far none of them qualify. Continuing to check fourth powers, I'm systematically computing each result and counting the distinct digits to see if any match the target of exactly 5 unique digits. I see that 34^4 = 1,336,336 has a digit sum of 25, which is a perfect square. So I'm shifting my criteria: instead of requiring a Fibonacci digit sum, I'll look for 7-digit fourth powers with exactly 3 distinct digits where the digit sum is a perfect square. This number checks all three boxes.
+
+Now I'm working on obfuscating the validation logic...
+
+Writing obfuscated checks... Completing the bit-checking logic and then verifying the digit sum is a perfect square. Let me trace through with "1336336" to confirm it satisfies all three conditions: it's a perfect fourth power, has exactly three distinct digits, and its digit sum equals a perfect square. 6 → bits 1, 3, 6 set → seen = 0b1001010 = 74 → cnt = 3 ✓
+  Wait, let me recalculate: 1 << 1 = 2, 1 << 3 = 8, 1 << 6 = 64
+  seen = 2 | 8 | 64 = 74 = 0b1001010
+  Count bits: 3 ✓
+- s = 1+3+3+6+3+3+6 = 25
+  j*j = 25, j = 5 ✓
+
+Great, the solution works! Now I'm verifying this is the unique answer by checking if any other 7-digit 4th powers have exactly 3 distinct digits with a digit sum that's a perfect square. Looking back at my analysis, 34^4 = 1,336,336 is the only one that satisfies the 3 distinct digits constraint, so this puzzle has a single solution. Let me double-check a few of the other candidates to confirm—43^4 has 5 distinct digits, 33^4 has 5 distinct digits, and 34^4 is the clear winner with just {1, 3, 6}. → seen = 10
+- '3': seen |= 8 → seen = 10
+- '6': seen |= (1 << 6) = 64 → seen = 74
+- '3': seen |= 8 → seen = 74
+- '3': seen |= 8 → seen = 74
+- '6': seen |= 64 → seen = 74
+
+So 74 in binary is 1001010, which has exactly 3 bits set at positions 1, 3, and 6. Now I'm tracing through the bit-counting loop to verify it correctly identifies those three set bits.
+
+Writing the validation function... I'm ready to write up the final response explaining this puzzle solution.
+*** END
+*** solver grok-4-fast-reasoning
+```python
+x = "1336336"
+print(mystery(x))  # Should print True
+```
+
+SOLUTION: "1336336"
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 0 or len(x) != 4 or x[0] == '0':
+        return False
+
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    a, b = 1, 2
+    while b < s:
+        a, b = b, a + b
+    if b != s:
+        return False
+
+    return x == x[::-1]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = 0
+    for c in x:
+        s += int(c)
+    if s < 2:
+        return False
+    p = 2
+    while p * p <= s:
+        if s % p == 0:
+            return False
+        p += 1
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 3:
+        return False
+    zeros = 0
+    for c in x:
+        if c == '0':
+            zeros += 1
+    if zeros != 2:
+        return False
+    return True
+
+```
+### Explanation
+
+
+### Private Explanation
+This puzzle requires x to be a 6-digit string of digits (no leading zero) representing a perfect cube (checked via incremental loop for the cube root). The sum of its digits must be a prime number (checked via trial division starting from 2). It must contain exactly 3 even digits (including 0) and exactly 2 zeros. These conditions combine numerical, string, and mathematical properties to make reverse-engineering tricky without testing many candidates or deeply analyzing the loops. The sample "300763" is 67 cubed, sum=19 (prime), 3 evens (0,0,6), and 2 zeros.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+
+    k = 0
+    while k * k < n:
+        k += 1
+    if k * k != n:
+        return False
+
+    if x != x[::-1]:
+        return False
+
+    s = sum(int(c) for c in x)
+    if n % s != 0:
+        return False
+    q = n // s
+    j = 0
+    while j * j < q:
+        j += 1
+    if j * j != q:
+        return False
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = sum(int(c) for c in x)
+    if s != k:
+        return False
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 1:
+        return False
+    return True
+
+```
+### Explanation
+
+This puzzle requires x to be a 5-digit string of digits (no leading zero) that represents a perfect cube n = k³ where the sum of the digits equals k and there is exactly one even digit. The sample solution is 17576, as 26³ = 17576, digit sum = 1+7+5+7+6 = 26, and even digits: only '6'.
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 7 or x[0] == '0':
+        return False
+    n = int(x)
+
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 3:
+        return False
+
+    s = 0
+    for c in x:
+        s += int(c)
+    j = 0
+    while j * j < s:
+        j += 1
+    if j * j != s:
+        return False
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    n = int(x)
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = sum(int(c) for c in x)
+    j = 0
+    while j * j < s:
+        j += 1
+    if j * j != s:
+        return False
+    if n % s != 0:
+        return False
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 4:
+        return False
+    if '0' in x:
+        return False
+    return True
+```
+### Private Explanation
+This puzzle requires x to be a 6-digit string of digits (no leading zero) representing a perfect cube n = k³. The sum of its digits s must be a perfect square j². Additionally, n must be divisible by s (Harshad number), it must contain exactly 4 even digits, and no zeros. These conditions blend perfect power checks, modular arithmetic, digit parity counting, and absence of specific digits, making it challenging to reverse-engineer without systematic testing or code analysis. The sample "884736" satisfies: 96³ = 884736, s=36=6², 884736 ÷ 36 = 24576 (integer), even digits: 8,8,4,6 (four), no zeros.
+
+SOLUTION: 884736
+*** END
+*** END
+*** inventor prompt claude-sonnet-4-6
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 0 or len(x) != 4 or x[0] == '0':
+        return False
+
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    a, b = 1, 2
+    while b < s:
+        a, b = b, a + b
+    if b != s:
+        return False
+
+    return x == x[::-1]
+
+```
+### Explanation
+
+
+This puzzle takes a string representing a 4-digit positive integer (no leading zeros) and puts it through three independent hidden checks before returning True. Each check tests a different mathematical property of the number, and all three must be satisfied simultaneously. Figuring out what each loop is actually computing — and then finding a number that satisfies all constraints at once — is the challenge.
+
+Good luck!
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = 0
+    for c in x:
+        s += int(c)
+    if s < 2:
+        return False
+    p = 2
+    while p * p <= s:
+        if s % p == 0:
+            return False
+        p += 1
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 3:
+        return False
+    zeros = 0
+    for c in x:
+        if c == '0':
+            zeros += 1
+    if zeros != 2:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+
+    k = 0
+    while k * k < n:
+        k += 1
+    if k * k != n:
+        return False
+
+    if x != x[::-1]:
+        return False
+
+    s = sum(int(c) for c in x)
+    if n % s != 0:
+        return False
+    q = n // s
+    j = 0
+    while j * j < q:
+        j += 1
+    if j * j != q:
+        return False
+
+    return True
+
+```
+### Explanation
+
+
+This puzzle takes a 5-digit numeric string and runs it through three independent hidden checks. Each check uses an obfuscated loop rather than a direct comparison, so figuring out what each condition is testing — and then finding a number that satisfies all three simultaneously — is the challenge. Good luck!
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = sum(int(c) for c in x)
+    if s != k:
+        return False
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 1:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 7 or x[0] == '0':
+        return False
+    n = int(x)
+
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 3:
+        return False
+
+    s = 0
+    for c in x:
+        s += int(c)
+    j = 0
+    while j * j < s:
+        j += 1
+    if j * j != s:
+        return False
+
+    return True
+
+```
+### Explanation
+
+
+This puzzle takes a 7-digit numeric string and runs it through three independent hidden checks. Each check uses an obfuscated loop or bit operation rather than a direct comparison, making it tricky to identify what's really being tested. All three conditions must be satisfied simultaneously, and the search space is large enough to make brute force tedious by hand.
+
+Good luck!
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    n = int(x)
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = sum(int(c) for c in x)
+    j = 0
+    while j * j < s:
+        j += 1
+    if j * j != s:
+        return False
+    if n % s != 0:
+        return False
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 4:
+        return False
+    if '0' in x:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-sonnet-4-6
+```python
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 8 or x[0] == '0':
+        return False
+    n = int(x)
+
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    j = 1
+    while j ** 3 < s:
+        j += 1
+    if j ** 3 != s:
+        return False
+
+    if n % s != 0:
+        return False
+
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 4:
+        return False
+
+    return True
+```
+
+This puzzle takes an 8-digit numeric string and puts it through four independent hidden checks before returning `True`. Each check is deliberately obfuscated using loops or bit operations rather than direct comparisons, so you'll need to figure out what each block is actually testing — and then find a number satisfying all four constraints simultaneously. The search space for 8-digit numbers is large, making brute force by hand quite tedious.
+
+Good luck!
+
+SOLUTION: "22667121"
+*** END
+*** inventor reasoning claude-sonnet-4-6
+Let me design a challenging puzzle. I need to create a `mystery` function that:
+1. Has multiple independent conditions that must all be satisfied
+2. Uses obfuscated loops rather than direct comparisons
+3. Is hard to solve but has a valid solution I can provide
+
+Let me think of a good puzzle. I'll use multiple mathematical properties.
+
+Let me think of constraints that are hard to figure out but have a valid solution:
+
+1. x is a string representing an 8-digit number
+2. The number is a perfect 5th power (n = k^5)
+3. The digit sum is a perfect square
+
+
+4. The number is divisible by 11
+5. Has exactly 2 odd digits
+
+Now I need to find actual solutions that satisfy all these constraints before I build the puzzle. Let me check which 8-digit perfect 5th powers work—I'm looking at values where k^5 falls between 10 million and 99 million, testing candidates like 26^5 and 27^5 to see which ones meet all the criteria. Checking 27^5 for divisibility by 11 using the alternating digit sum, which gives -12, so that's ruled out. Moving through 28 and 29, neither has a perfect square digit sum. But 30^5 = 24300000 has a digit sum of 9, which is 3², though it also fails the divisibility test. Continuing with 31...
+
+31^5 gives a digit sum of 34, and 32^5 gives 29—both not perfect squares. Then 33^5 = 39135393 has a digit sum of 36, which equals 6², and checking divisibility by 11 using the alternating digit sum gives exactly 0, so this one works. Let me verify the division and confirm the digit sum of the quotient.
+
+Now I'm reconsidering the puzzle structure itself—maybe I should pick a solution first and design the conditions around it rather than searching randomly. I'm exploring different constraint combinations: an 8-digit perfect cube with a prime digit sum and exactly 3 even digits, or a 7-digit perfect square where the digit sum is itself a cube. But these feel either too restrictive or not interesting enough, so I'm going to try a completely different approach to building this puzzle.
+
+Writing the mystery function... Finishing the validation logic...
+
+Now I'm searching through 8-digit perfect fourth powers to find candidates that meet all three criteria. Let me check k=57: that gives 10556001, but the digit sum is 18, which isn't a perfect cube, so that doesn't work.
+
+Continuing through k=58, 59, and 60—none of their digit sums (31, 22, and 18 respectively) are perfect cubes either. Moving on to k=61 to keep checking. Continuing through the values, k=65 gives 34, k=66 gives 45, k=67 gives 13, and k=68 gives 31—all not perfect cubes. But k=69 works: 69^4 = 22667121 with a digit sum of 27, which equals 3^3.
+
+Let me verify this calculation by computing 69^2 = 4761, then squaring that to get 22667121. The digit sum checks out as 27, and the distinct digits are 1, 2, 6, and 7—exactly four unique digits.
+
+Now I'm confirming all the conditions are satisfied: it's an 8-digit string with no leading zeros, it's a perfect fourth power, the digit sum is a perfect cube, and it has exactly 4 distinct digits. I'm considering whether to add another constraint to make the problem more challenging, maybe something involving the product of digits or divisibility properties.
+
+Let me check if there are other solutions in the valid range by testing fourth powers from k=57 to k=84, starting with k=70 to see if its digit sum also forms a perfect cube. not a cube... wait 2+4+0+1+0+0+0+0=7, not a cube
+- k=71: 71^4 = 25411681, digit sum = 2+5+4+1+1+6+8+1 = 28, not a cube
+- k=72: 72^4 = 26873856, digit sum = 2+6+8+7+3+8+5+6 = 45, not a cube
+- k=73: 73^4 = 28398241, digit sum = 2+8+3+9+8+2+4+1 = 37, not a cube
+- k=74: 74^4 = 29986576, digit sum = 2+9+9+8+6+5+7+6 = 52, not a cube
+- k=75: 75^4 = 31640625, digit sum = 3+1+6+4+0+6+2+5 = 27 = 3^3 ✓
+  Distinct digits: {0,1,2,3,4,5,6} → 7 distinct digits, not 4
+
+Found another one at k=78 where 78^4 = 37015056 has digit sum 27, which is 3^3, but it has 6 distinct digits instead of 4. Continuing through k=79 where the digit sum calculation is starting...
+
+Continuing to check k=79 through k=85, looking for cases where k^4 has a digit sum that's a perfect cube and exactly 4 distinct digits. So far k=81 also has digit sum 27 but too many distinct digits. Moving through k=82 to k=85 where none of the digit sums are perfect cubes. Checking the remaining values from k=57 through k=62, none of them produce digit sums that are perfect cubes either. I'm finishing the verification for k=67, then confirming that k=69 with "22667121" is the unique solution satisfying all three conditions. Now I need to write obfuscated code that checks for fourth powers, cube digit sums, and distinct digits, while potentially adding a product-of-digits constraint to increase difficulty. I'm exploring whether a digit appears exactly 3 times as a potential condition, and I'm considering how to obfuscate that check in code. But this approach might be too transparent, so I'm thinking about a more subtle condition instead—maybe something involving the sum of digits or another property that's harder to reverse-engineer. I've verified that 22667121 is divisible by its digit sum of 27, which makes it a Harshad number—that's a good fourth condition to add. Now I'm writing the function to check these conditions: validating the input format, ensuring it's 8 digits without a leading zero, and checking divisibility by the digit sum.
+
+Implementing the core checks...
+
+Now I'm verifying the example with x = "22667121" — confirming it's a valid 8-digit string, that 22667121 equals 69 to the fourth power, the digit sum is 27 which is 3 cubed, the number divides evenly by 27, and there are exactly 4 distinct digits present.
+
+Let me check if there are other 8-digit fourth powers that also have a digit sum of 27 but fail the distinct digit requirement — k=75 gives 31640625 with 7 distinct digits, k=78 gives 37015056 with 6 distinct digits, and k=81 gives 43046721 with 7 distinct digits, so none of those work. I should also explore whether digit sums of 8 or 64 (the other perfect cubes) might yield additional solutions. I'm checking whether any 8-digit 4th power has digit sum 64, which would require digits averaging 8 each—but since 85^4 already exceeds 8 digits, I need to verify if any smaller k values produce this digit sum. I'm checking 98^4 = 92236816, which has a digit sum of 37. Looking at the full range of 8-digit fourth powers from k=57 to k=99, the maximum digit sum I'm finding is around 37, nowhere near 64. And for the minimum, 57^4 = 10556001 gives a digit sum of 18, so digit sum = 8 is also impossible for valid k values.
+
+Now I'm verifying which values give digit sum = 27. I found k=69, 75, 78, 81 work, but when I check k=86, I get 54700816 with digit sum 31 instead. Let me continue checking the remaining values in this range. Continuing with k=91 through k=93, checking their fourth powers against the digit sum of 27. I'm getting 46, 43, and need to recalculate 93 more carefully since my arithmetic on that last one seems off.
+
+Let me verify k=93 properly: 93² = 8649, and squaring that again gives 74805201. The digit sum is indeed 27, which is promising, but this number has 7 distinct digits rather than the 4 we're looking for, so it doesn't meet the criteria either.
+
+Now I'm checking k=94: 94² = 8836, and 8836² = 78074896. The digit sum here is 49, not 27, so this one fails immediately. Moving on to k=95 next. Continuing with k=97, I'm calculating 9409 squared to get 88529281, which has a digit sum of 43. Moving through k=98 with 9604 squared giving 92236816 and a digit sum of 37. Now checking k=99 where 9801 squared equals 96059601, and I'm summing those digits.
+
+After reviewing all the 8-digit fourth powers with digit sum 27, only k=69 producing 22667121 meets all four conditions—it has exactly 4 distinct digits and is divisible by 27. This is the unique solution. Let me verify the calculation for 69^4 by squaring 4761.
+
+Writing the solution function... I'm verifying that 22667121 satisfies all the conditions: it's an 8-digit string starting with a non-zero digit, equals 69 to the 4th power, has a digit sum of 27 (which is 3 cubed), is divisible by 27, and contains exactly 4 distinct digits. when k^4 >= n
+  - Start: k=1, 1 < 22667121, increment to k=2, 16 < 22667121, ...
+  - Eventually k=69: 69^4 = 22667121, 22667121 < 22667121 is False, loop stops
+  - Check: 69^4 = 22667121 = n ✓
+- s = 2+2+6+6+7+1+2+1 = 27
+- j starts at 1, increments while j^3 < 27
+  - j=1: 1 < 27, j=2
+  - j=2: 8 < 27, j=3
+  - j=3: 27 < 27 is False, loop stops at j=3
+  - Check: 3^3 = 27 = s ✓
+- n % s = 22667121 % 27 = 0 ✓
+- Now I'm tracking which digits appear in the number using a bitmask, setting bits for each digit encountered: 2, 6, 7, and 1 all get marked, resulting in a final bitmask of 198 with exactly 4 bits set ✓
+
+All conditions check out—the solution is valid.
+
+Now I'm thinking about how to present this to the user without spoiling the mathematical structure. I should describe the puzzle in a way that hints at the hidden properties without revealing the exact mechanism.
+*** END
+*** solver grok-4-fast-reasoning
+SOLUTION: "22667121"
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 0 or len(x) != 4 or x[0] == '0':
+        return False
+
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    a, b = 1, 2
+    while b < s:
+        a, b = b, a + b
+    if b != s:
+        return False
+
+    return x == x[::-1]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = 0
+    for c in x:
+        s += int(c)
+    if s < 2:
+        return False
+    p = 2
+    while p * p <= s:
+        if s % p == 0:
+            return False
+        p += 1
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 3:
+        return False
+    zeros = 0
+    for c in x:
+        if c == '0':
+            zeros += 1
+    if zeros != 2:
+        return False
+    return True
+
+```
+### Explanation
+
+
+### Private Explanation
+This puzzle requires x to be a 6-digit string of digits (no leading zero) representing a perfect cube (checked via incremental loop for the cube root). The sum of its digits must be a prime number (checked via trial division starting from 2). It must contain exactly 3 even digits (including 0) and exactly 2 zeros. These conditions combine numerical, string, and mathematical properties to make reverse-engineering tricky without testing many candidates or deeply analyzing the loops. The sample "300763" is 67 cubed, sum=19 (prime), 3 evens (0,0,6), and 2 zeros.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+
+    k = 0
+    while k * k < n:
+        k += 1
+    if k * k != n:
+        return False
+
+    if x != x[::-1]:
+        return False
+
+    s = sum(int(c) for c in x)
+    if n % s != 0:
+        return False
+    q = n // s
+    j = 0
+    while j * j < q:
+        j += 1
+    if j * j != q:
+        return False
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = sum(int(c) for c in x)
+    if s != k:
+        return False
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 1:
+        return False
+    return True
+
+```
+### Explanation
+
+This puzzle requires x to be a 5-digit string of digits (no leading zero) that represents a perfect cube n = k³ where the sum of the digits equals k and there is exactly one even digit. The sample solution is 17576, as 26³ = 17576, digit sum = 1+7+5+7+6 = 26, and even digits: only '6'.
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 7 or x[0] == '0':
+        return False
+    n = int(x)
+
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 3:
+        return False
+
+    s = 0
+    for c in x:
+        s += int(c)
+    j = 0
+    while j * j < s:
+        j += 1
+    if j * j != s:
+        return False
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    n = int(x)
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = sum(int(c) for c in x)
+    j = 0
+    while j * j < s:
+        j += 1
+    if j * j != s:
+        return False
+    if n % s != 0:
+        return False
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 4:
+        return False
+    if '0' in x:
+        return False
+    return True
+
+```
+### Explanation
+
+### Private Explanation
+This puzzle requires x to be a 6-digit string of digits (no leading zero) representing a perfect cube n = k³. The sum of its digits s must be a perfect square j². Additionally, n must be divisible by s (Harshad number), it must contain exactly 4 even digits, and no zeros. These conditions blend perfect power checks, modular arithmetic, digit parity counting, and absence of specific digits, making it challenging to reverse-engineer without systematic testing or code analysis. The sample "884736" satisfies: 96³ = 884736, s=36=6², 884736 ÷ 36 = 24576 (integer), even digits: 8,8,4,6 (four), no zeros.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 8 or x[0] == '0':
+        return False
+    n = int(x)
+
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    j = 1
+    while j ** 3 < s:
+        j += 1
+    if j ** 3 != s:
+        return False
+
+    if n % s != 0:
+        return False
+
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 4:
+        return False
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    ss = 0
+    for c in x:
+        d = int(c)
+        ss += d * d
+    j = 0
+    while (j + 1) ** 2 <= ss:
+        j += 1
+    if j ** 2 != ss:
+        return False
+    zeros = 0
+    prod = 1
+    for c in x:
+        d = int(c)
+        if d == 0:
+            zeros += 1
+        else:
+            prod *= d
+    if zeros != 1:
+        return False
+    m = 0
+    while (m + 1) ** 2 <= prod:
+        m += 1
+    if m ** 2 != prod:
+        return False
+    return True
+```
+
+This puzzle requires x to be a 6-digit string of digits (no leading zero) representing a perfect cube. The sum of the squares of its digits must be a perfect square. It must contain exactly one zero, and the product of its non-zero digits must also be a perfect square. These conditions involve perfect power verification, quadratic sums, digit counting, multiplicative properties, and exclusion of zeros in the product, making it difficult to identify without thorough computation or code dissection.
+
+SOLUTION: "493039"
+*** END
+*** END
+*** solver claude-sonnet-4-6
+Looking at this function, I need to find a 6-digit string where:
+1. All characters are digits, first digit ≠ '0'
+2. The number is a perfect cube
+3. Sum of squares of digits is a perfect square
+4. Exactly one digit is '0'
+5. Product of non-zero digits is a perfect square
+
+**Step 1: Find 6-digit perfect cubes (47³ to 99³)**
+
+**Step 2: Filter for exactly one zero digit**
+Candidates: 103823, 110592, 205379, 328509, 389017, 405224, 493039, 592704, 636056, 658503, 704969, 804357, 830584, 970299
+
+**Step 3: Check sum of squares is a perfect square**
+For 493039 → digits: 4,9,3,0,3,9
+→ Sum of squares: 16+81+9+0+9+81 = **196 = 14²** ✓
+
+**Step 4: Verify it's a perfect cube**
+79³ = 493,039 ✓
+
+**Step 5: Check product of non-zero digits**
+4×9×3×3×9 = 2916 = **54²** ✓
+
+All conditions satisfied for "493039"!
+
+SOLUTION: "493039"
+*** solver reasoning claude-sonnet-4-6
+Let me analyze the constraints:
+
+1. x must be a string of exactly 6 digits
+2. First digit cannot be '0'
+3. n = int(x) must be a perfect cube
+4. Sum of squares of digits must be a perfect square
+5. Exactly one digit must be 0
+6. Product of non-zero digits must be a perfect square
+
+Let me find 6-digit perfect cubes first:
+- 100^3 = 1,000,000 (7 digits, too large)
+- 46^3 = 97,336 (5 digits)
+- 47^3 = 103,823 (6 digits) ✓
+
+
+- 99^3 = 970,299 (6 digits) ✓
+
+So I need to check all perfect cubes from 47³ through 99³, which gives me a range from 103,823 to 970,299.
+
+Compiling the complete list of 6-digit perfect cubes...
+
+Now filtering for those with exactly one zero digit—47³ and 48³ both qualify, but 49³ doesn't contain any zeros.
+
+Continuing through the range, 59³ = 205379 has exactly one zero, while most others either have no zeros or multiple ones like 50³ and 60³. Continuing through the cubes, 73³ gives one zero, as does 74³, and 79³ as well, but 80³ has three zeros so that's ruled out. Continuing through the cubes, 92 has no zero, but 93 and 94 both have exactly one. I'm now compiling the complete list of candidates that meet the criteria—numbers whose cubes contain exactly one zero digit.
+
+Now I'm checking which of these candidates have digit squares that sum to a perfect square. Most fail this test, but 493039 works since its digits squared sum to 196, which is 14². I'm verifying that 493039 is indeed 79 cubed, and checking all the conditions: the sum of squared digits equals 196 which is 14 squared, there's exactly one zero, and the product of non-zero digits is 2916 which equals 54 squared. All conditions check out.
+*** END
+*** inventor prompt claude-sonnet-4-6
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 0 or len(x) != 4 or x[0] == '0':
+        return False
+
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    a, b = 1, 2
+    while b < s:
+        a, b = b, a + b
+    if b != s:
+        return False
+
+    return x == x[::-1]
+
+```
+### Explanation
+
+
+This puzzle takes a string representing a 4-digit positive integer (no leading zeros) and puts it through three independent hidden checks before returning True. Each check tests a different mathematical property of the number, and all three must be satisfied simultaneously. Figuring out what each loop is actually computing — and then finding a number that satisfies all constraints at once — is the challenge.
+
+Good luck!
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = 0
+    for c in x:
+        s += int(c)
+    if s < 2:
+        return False
+    p = 2
+    while p * p <= s:
+        if s % p == 0:
+            return False
+        p += 1
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 3:
+        return False
+    zeros = 0
+    for c in x:
+        if c == '0':
+            zeros += 1
+    if zeros != 2:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+
+    k = 0
+    while k * k < n:
+        k += 1
+    if k * k != n:
+        return False
+
+    if x != x[::-1]:
+        return False
+
+    s = sum(int(c) for c in x)
+    if n % s != 0:
+        return False
+    q = n // s
+    j = 0
+    while j * j < q:
+        j += 1
+    if j * j != q:
+        return False
+
+    return True
+
+```
+### Explanation
+
+
+This puzzle takes a 5-digit numeric string and runs it through three independent hidden checks. Each check uses an obfuscated loop rather than a direct comparison, so figuring out what each condition is testing — and then finding a number that satisfies all three simultaneously — is the challenge. Good luck!
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = sum(int(c) for c in x)
+    if s != k:
+        return False
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 1:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 7 or x[0] == '0':
+        return False
+    n = int(x)
+
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 3:
+        return False
+
+    s = 0
+    for c in x:
+        s += int(c)
+    j = 0
+    while j * j < s:
+        j += 1
+    if j * j != s:
+        return False
+
+    return True
+
+```
+### Explanation
+
+
+This puzzle takes a 7-digit numeric string and runs it through three independent hidden checks. Each check uses an obfuscated loop or bit operation rather than a direct comparison, making it tricky to identify what's really being tested. All three conditions must be satisfied simultaneously, and the search space is large enough to make brute force tedious by hand.
+
+Good luck!
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    n = int(x)
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = sum(int(c) for c in x)
+    j = 0
+    while j * j < s:
+        j += 1
+    if j * j != s:
+        return False
+    if n % s != 0:
+        return False
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 4:
+        return False
+    if '0' in x:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 8 or x[0] == '0':
+        return False
+    n = int(x)
+
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    j = 1
+    while j ** 3 < s:
+        j += 1
+    if j ** 3 != s:
+        return False
+
+    if n % s != 0:
+        return False
+
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 4:
+        return False
+
+    return True
+
+```
+### Explanation
+
+
+This puzzle takes an 8-digit numeric string and puts it through four independent hidden checks before returning `True`. Each check is deliberately obfuscated using loops or bit operations rather than direct comparisons, so you'll need to figure out what each block is actually testing — and then find a number satisfying all four constraints simultaneously. The search space for 8-digit numbers is large, making brute force by hand quite tedious.
+
+Good luck!
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    ss = 0
+    for c in x:
+        d = int(c)
+        ss += d * d
+    j = 0
+    while (j + 1) ** 2 <= ss:
+        j += 1
+    if j ** 2 != ss:
+        return False
+    zeros = 0
+    prod = 1
+    for c in x:
+        d = int(c)
+        if d == 0:
+            zeros += 1
+        else:
+            prod *= d
+    if zeros != 1:
+        return False
+    m = 0
+    while (m + 1) ** 2 <= prod:
+        m += 1
+    if m ** 2 != prod:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-sonnet-4-6
+```python
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 7 or x[0] == '0':
+        return False
+    n = int(x)
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+    s = sum(int(c) for c in x)
+    j = 1
+    while j ** 3 < s:
+        j += 1
+    if j ** 3 != s:
+        return False
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 7:
+        return False
+    return True
+```
+
+This puzzle takes a 7-digit numeric string and runs it through three independent hidden checks before returning `True`. Each check is deliberately obfuscated using loops or bitwise operations instead of direct comparisons, so you'll need to figure out what each block is actually testing — and then find a number satisfying all three simultaneously. The intersection of constraints is very tight, making the search space small once you understand what's being checked.
+
+Good luck!
+
+SOLUTION: "5308416"
+*** END
+*** inventor reasoning claude-sonnet-4-6
+Let me design a challenging puzzle. I need to make it hard to solve but ensure I have a valid solution.
+
+Let me think about what constraints to use:
+
+1. The input is a numeric string of some length
+2. Multiple mathematical properties that must all be satisfied simultaneously
+
+Let me try to build a puzzle around these constraints:
+
+- 9-digit number
+- Must be a perfect 5th power
+- Digit sum must be a triangular number
+- Must have exactly 2 zeros
+- Product of non-zero digits must be a perfect cube
+- Must be palindrome? Maybe too easy to combine with other constraints
+
+Let me think more carefully and find an actual solution first.
+
+
+Now I need to figure out which 5th powers give 9-digit numbers. Working out the range: k^5 needs to fall between 10^8 and 10^9, which means k is between roughly 40 and 63. Let me start computing some of these values to see what I'm working with.
+
+I'm verifying my calculations more carefully—40^5 gives 102400000 and 41^5 gives 115856201, both confirmed as 9-digit numbers. Rather than just listing all the 5th powers in this range, I should think about what makes a number interesting. Maybe I should work backwards from a specific property I want, like finding a 6-digit perfect square with a prime digit sum, then build other constraints around that.
+
+Let me test 166375, which is 55^3. The digits sum to 28, which isn't prime, and the product of non-zero digits is 3780—not particularly elegant. I think I need to be more systematic about what constraints I actually want before searching. Let me define something concrete: a 7-digit perfect square where the digit sum is also a perfect square, and maybe add a divisibility requirement.
+
+Actually, let me try something more interesting—an 8-digit perfect square with exactly 3 distinct digits, where the digit sum is a Fibonacci number and no digit repeats more than 3 times. I need to search through 8-digit perfect squares, which means checking values of k from roughly 3163 to 10000. I'm checking those examples and they don't quite work—100489 has a digit sum of 22 which isn't a perfect square, and 102400 has three zeros instead of two. Let me pivot to something different entirely, maybe involving string manipulation or digit positioning rather than just numeric properties. I'm thinking about 7-digit perfect 5th powers where the digit sum is a perfect cube and there are exactly 2 distinct prime digits.
+
+Now I'm calculating the range for k where k^5 falls between 1,000,000 and 9,999,999, which gives me k from 16 to 25. Testing these values: 16^5 = 1048576 has a digit sum of 31 (prime, not a cube), and 17^5 = 1419857 has a digit sum of 35 (also not a cube).
+
+Continuing through the remaining values in the range, checking 18^5 through 21^5 and their digit sums to see if any are perfect cubes—so far 18^5 gives 45, 19^5 gives 37 (prime), 20^5 gives 5 (prime), and 21^5 gives 18, none of which are cubes.
+
+Moving on to 22^5 through 24^5, I'm finding that 22^5 has a digit sum of 25 (a perfect square but not a cube), 23^5 gives 29 (prime), and 24^5 yields 36, which is 6^2—still not a perfect cube.
+
+Since none of the 7-digit fifth powers work out, I'm switching to fourth powers instead, looking for k^4 values between 1 and 10 million, which means k needs to be roughly between 32 and 56.
+
+I found one! 33^4 = 1185921 has a digit sum of 27, which is 3^3—a perfect cube. Let me verify this is correct and check what other properties this number has, like how many distinct digits it contains and which are even. I'm working through potential constraints for this puzzle—the 4th power and digit sum being a perfect cube are solid, but I need something more elegant for the fourth condition. The number of odd digits (5) doesn't match the cube root of 27 (3), and the product of distinct digits (720) isn't particularly special, so let me search for a different 4th power that might have more interesting properties. interesting properties.
+
+34^4 = 34^2 * 34^2 = 1156 * 1156 = 1336336
+  Sum: 1+3+3+6+3+3+6 = 25 (perfect square, not cube)
+  
+35^4 = 35^2 * 35^2 = 1225 * 1225 = 1500625
+  Sum: 1+5+0+0+6+2+5 = 19 (prime)
+  
+36^4 = 36^2 * 36^2 = 1296 * 1296 = 1679616
+  Sum: 1+6+7+9+6+1+6 = 36 (perfect square)
+  
+37^4 = 1874161
+  Sum: 1+8+7+4+1+6+1 = 28 (not a cube)
+  
+38^4 = 2085136
+  Sum: 2+0+8+5+1+3+6 = 25 (perfect square)
+  
+39^4 = 2313441
+  Sum: 2+3+1+3+4+4+1 = 18 (not a cube, not a square)
+  
+40^4 = 2560000
+  Sum: 2+5+6+0+0+0+0 = 13 (prime)
+  
+41^4 = 2825761
+  Sum: 2+8+2+5+7+6+1 = 31 (prime)
+  
+42^4 = 3111696
+  Sum: 3+1+1+1+6+9+6 = 27 = 3^3 ✓
+
+Found one! 42 to the fourth power gives a digit sum of 27, which is a perfect cube.
+
+Let me verify the calculation and check the digit properties: 42^2 is 1764, and multiplying that by itself gives 3111696. The digits sum to 27, which equals 3^3. I'm also noting there are 4 distinct digits (3, 1, 6, 9) with 2 even and 5 odd digits total.
+
+Now I'll continue checking the next values to see if there are other numbers with this property.
+
+Checking 43^4 through 48^4, I'm looking at their digit sums. Most give primes or other values, but 48^4 also yields a digit sum of 27, matching the pattern I found with 42^4. I've found three fourth powers with digit sum 27, but they differ in how many distinct digits they contain. The key constraint that separates them is that 5308416 is the only one with exactly 4 even digits, so I'll use that along with the perfect fourth power and digit sum requirements to create a clean puzzle.
+
+Now I'm verifying the other fourth powers in the range to confirm there's no other solution that also satisfies the even digit constraint. Sum: 6+7+6+5+2+0+1 = 27 ✓
+  Digits: 6,7,6,5,2,0,1
+  Even: 6,6,2,0 → 4 even ✓✓
+  
+  Hmm! 51^4 also satisfies conditions 1, 2, 3, 4!
+  
+  51^4 = 51^2 * 51^2 = 2601 * 2601
+  2601 * 2601:
+  2601 * 2000 = 5202000
+  2601 * 601 = 2601 * 600 + 2601 = 1560600 + 2601 = 1563201
+  5202000 + 1563201 = 6765201 ✓
+  
+So both 48^4 = 5308416 and 51^4 = 6765201 work, which is fine since the puzzle just needs one solution. Let me keep checking though—54^4 = 8503056 also meets all four conditions with a digit sum of 27 and four even digits.
+
+I've found multiple valid solutions now: 5308416, 6765201, and 8503056, which confirms the puzzle is well-formed with several answers.
+
+Now I'm writing a function that validates whether a number satisfies all the conditions—checking that it's a 7-digit perfect fourth power, has a digit sum that's a perfect cube, contains exactly 4 even digits, and has no repeated digits.
+
+Actually, I'm realizing that adding divisibility by the fourth root doesn't really make the puzzle harder since any fourth power is automatically divisible by its root. I need to think of a genuinely more constraining condition instead. ishing condition.
+
+What about: k (the 4th root) must be even?
+- 48 is even ✓
+- 51 is odd ✗
+- 54 is even ✓
+
+So with this extra constraint, solutions would be: 5308416 (48^4) and 8503056 (54^4).
+
+Or I could add: the number must be a palindrome? Let me check:
+- 5308416: reversed = 6148035 ≠ 5308416 ✗
+- 8503056: reversed = 6503058 ≠ 8503056 ✗
+
+That eliminates all solutions, so that won't work.
+
+Let me try: the product of even digits must be a perfect square.
+- 5308416 (48^4): even digits = {0,8,4,6}, product = 0*8*4*6 = 0. Since 0 = 0^2, that's technically a perfect square but not interesting.
+
+What if I require no zeros in the number? That eliminates all three candidates. But requiring exactly 1 zero leaves me with 5308416 and 6765201. Now I'm looking at which 4th powers have digit sum 27, exactly 4 even digits, and no zeros. I'm noticing that only 5308416 has all seven digits distinct, which would make a perfect fourth constraint. Let me verify this works: the digits 5, 3, 0, 8, 4, 1, 6 are indeed all different. So I'm settling on four conditions: a 7-digit number with no leading zero, a perfect fourth power, digit sum that's a perfect cube, and all digits must be distinct. Now I'm implementing a bitmask approach to efficiently check whether all digits are unique...
+
+Counting distinct digits via bit operations...
+
+Now I should verify that 5308416 is actually the only solution among all 7-digit perfect fourth powers. So if we exclude 3 digits summing to 18, there are several possible digit sets that work. For 5308416, we're excluding {2,7,9} which checks out. Now I need to verify whether this is the only 7-digit 4th power with all distinct digits and a digit sum of 27 by checking all possibilities from 32^4 through 56^4. Starting with 32^4 = 1048576, which has all distinct digits {0,1,4,5,6,7,8}.
+
+Checking the digit sum: that gives 31, not 27. Moving through the next several values, most have repeated digits—33^4 has three 1's, 34^4 has multiple 3's and 6's, 35^4 repeats 0 and 5, and so on. But 38^4 = 2085136 has all distinct digits {0,1,2,3,5,6,8}.
+
+38^4 gives a digit sum of 25, still not matching. Continuing the search, 44^4 = 3748096 finally has all distinct digits with a sum of 37, but that's still too high. I'm working through the remaining candidates where 45^4 through 48^4 either have repeated digits or are cut off mid-calculation.
+
+Found it! 48^4 = 5308416 has all distinct digits {5,3,0,8,4,1,6} and the sum equals exactly 27. Checking the rest of the range confirms this is the only solution—49^4 has distinct digits but sums to 31, and everything after that either repeats digits or doesn't work.
+
+Now I'm writing obfuscated code... The bitmask and popcount approach cleverly obscures the distinct digit check. The unique solution is 5308416, which equals 48 to the fourth power—I can verify this satisfies all three conditions: it's a perfect fourth power, its digits sum to 27 (which is 3 cubed), and all seven digits are distinct. The loop condition `while k**4 < n` means it stops just before k reaches 49, confirming 48 is the final value checked. , so when j reaches 3, the loop stops since 3^3 equals the digit sum. The check passes because they match. Now I'm tracking the distinct digits using a bitmask—setting bits for each digit position as I encounter them in the number, and I'm verifying that all digits are unique. = 256+32+16+8+1 = 313
+- Let me recalculate more carefully:
+  Start: seen = 0
+  '5': seen = 0b100000 = 32
+  '3': seen = 0b101000 = 40
+  '0': seen = 0b101001 = 41
+  '8': seen = 0b101001 | 0b100000000 = 0b100101001 = 297
+  '4': seen = 0b100101001 | 0b10000 = 0b100111001 = 313
+  '1': seen = 0b100111001 | 0b10 = 0b100111011 = 315
+  '6': seen = 0b100111011 | 0b1000000 = 0b101111011 = 379
+
+Now I'm mapping out the bit positions for each digit 0-8, where each digit gets its own bit position. For the number 5308416, I'm setting the corresponding bits by shifting 1 left by each digit's position and ORing them together. Writing the validation function...
+
+I'm concerned about whether this puzzle is sufficiently challenging given the solver's track record with my previous ones. The three conditions—perfect fourth power, digit sum as a perfect cube, and all distinct digits—require recognizing the bitmask pattern to decode, which should add complexity. With only 25 candidate fourth powers in the seven-digit range and just one valid solution at k=48, it seems like a reasonable difficulty level. Let me verify my answer one more time before finalizing.
+
+I've confirmed that 5308416 is indeed the unique solution by checking all 7-digit fourth powers. The other candidates with distinct digits all fail the digit sum requirement, so I'm confident in this answer. So 57^4 gives me an 8-digit number, confirming that k = 32 to 56 is the right range for 7-digit fourth powers. Now I need to systematically check which of these have all distinct digits and whose digit sum is a perfect cube. Starting with 32^4 = 1048576, which has all distinct digits and sums to 31—not a cube. Moving through 33^4, which repeats the digit 1, so that's out. Let me continue checking the rest. Continuing through the fourth powers, 41 has a repeated 2, and 42 repeats 1 and 6. Moving to 43, I see repeated 8s and 1s. Then 44 gives me all distinct digits—3, 7, 4, 8, 0, 9, 6—which sum to 37, but that's not a perfect cube either. The next few candidates fail due to repeated digits until I reach 47.
+
+Finishing 47's check, the digits repeat 8. But 48 is promising—5, 3, 0, 8, 4, 1, 6 are all distinct, and they sum to 27, which equals 3³. That's my answer. Moving on, 49 also has all distinct digits but sums to 31, which isn't a cube. Then 50 repeats 0s, 51 repeats 6, and 52 repeats as well. At 53, the 8 appears twice, so that's out too.
+
+Continuing through 54, 55, and 56, I'm finding repeated digits in each case—0 and 5 in 54, 5 in 55, and 4 and 9 in 56. So 48^4 = 5308416 is the unique solution: a 7-digit fourth power with all distinct digits whose sum is a perfect cube.
+
+Now I'm ready to write up the puzzle with its explanation and code, making sure to reveal the structure without giving away the answer too easily.
+
+Verifying the solution function...
+
+Now I'm checking each condition: the string passes the digit validation, has exactly 7 digits without a leading zero, and 5308416 equals 48 to the fourth power. The digit sum is 27, which equals 3 cubed. All seven distinct digits appear in the number, so the function correctly returns True for "5308416".
+*** END
+*** solver grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 7 or x[0] == '0':
+        return False
+    n = int(x)
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+    s = sum(int(c) for c in x)
+    j = 1
+    while j ** 3 < s:
+        j += 1
+    if j ** 3 != s:
+        return False
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 7:
+        return False
+    return True
+
+# The value of x that makes mystery(x) return True is "5308416".
+# Verification:
+# - x is a string of 7 digits, no leading zero.
+# - n = 5308416 = 48^4 (since 48^2 = 2304, 2304^2 = 5308416).
+# - Sum of digits s = 5+3+0+8+4+1+6 = 27 = 3^3.
+# - Digits are 5,3,0,8,4,1,6: all distinct (7 unique digits).
+```
+SOLUTION: "5308416"
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 0 or len(x) != 4 or x[0] == '0':
+        return False
+
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    a, b = 1, 2
+    while b < s:
+        a, b = b, a + b
+    if b != s:
+        return False
+
+    return x == x[::-1]
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = 0
+    for c in x:
+        s += int(c)
+    if s < 2:
+        return False
+    p = 2
+    while p * p <= s:
+        if s % p == 0:
+            return False
+        p += 1
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 3:
+        return False
+    zeros = 0
+    for c in x:
+        if c == '0':
+            zeros += 1
+    if zeros != 2:
+        return False
+    return True
+
+```
+### Explanation
+
+
+### Private Explanation
+This puzzle requires x to be a 6-digit string of digits (no leading zero) representing a perfect cube (checked via incremental loop for the cube root). The sum of its digits must be a prime number (checked via trial division starting from 2). It must contain exactly 3 even digits (including 0) and exactly 2 zeros. These conditions combine numerical, string, and mathematical properties to make reverse-engineering tricky without testing many candidates or deeply analyzing the loops. The sample "300763" is 67 cubed, sum=19 (prime), 3 evens (0,0,6), and 2 zeros.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    try:
+        n = int(x)
+    except:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+
+    k = 0
+    while k * k < n:
+        k += 1
+    if k * k != n:
+        return False
+
+    if x != x[::-1]:
+        return False
+
+    s = sum(int(c) for c in x)
+    if n % s != 0:
+        return False
+    q = n // s
+    j = 0
+    while j * j < q:
+        j += 1
+    if j * j != q:
+        return False
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if len(x) != 5 or x[0] == '0':
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = sum(int(c) for c in x)
+    if s != k:
+        return False
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 1:
+        return False
+    return True
+
+```
+### Explanation
+
+This puzzle requires x to be a 5-digit string of digits (no leading zero) that represents a perfect cube n = k³ where the sum of the digits equals k and there is exactly one even digit. The sample solution is 17576, as 26³ = 17576, digit sum = 1+7+5+7+6 = 26, and even digits: only '6'.
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 7 or x[0] == '0':
+        return False
+    n = int(x)
+
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 3:
+        return False
+
+    s = 0
+    for c in x:
+        s += int(c)
+    j = 0
+    while j * j < s:
+        j += 1
+    if j * j != s:
+        return False
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    n = int(x)
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    s = sum(int(c) for c in x)
+    j = 0
+    while j * j < s:
+        j += 1
+    if j * j != s:
+        return False
+    if n % s != 0:
+        return False
+    evens = 0
+    for c in x:
+        if int(c) % 2 == 0:
+            evens += 1
+    if evens != 4:
+        return False
+    if '0' in x:
+        return False
+    return True
+
+```
+### Explanation
+
+### Private Explanation
+This puzzle requires x to be a 6-digit string of digits (no leading zero) representing a perfect cube n = k³. The sum of its digits s must be a perfect square j². Additionally, n must be divisible by s (Harshad number), it must contain exactly 4 even digits, and no zeros. These conditions blend perfect power checks, modular arithmetic, digit parity counting, and absence of specific digits, making it challenging to reverse-engineer without systematic testing or code analysis. The sample "884736" satisfies: 96³ = 884736, s=36=6², 884736 ÷ 36 = 24576 (integer), even digits: 8,8,4,6 (four), no zeros.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 8 or x[0] == '0':
+        return False
+    n = int(x)
+
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+
+    s = sum(int(c) for c in x)
+    j = 1
+    while j ** 3 < s:
+        j += 1
+    if j ** 3 != s:
+        return False
+
+    if n % s != 0:
+        return False
+
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 4:
+        return False
+
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    ss = 0
+    for c in x:
+        d = int(c)
+        ss += d * d
+    j = 0
+    while (j + 1) ** 2 <= ss:
+        j += 1
+    if j ** 2 != ss:
+        return False
+    zeros = 0
+    prod = 1
+    for c in x:
+        d = int(c)
+        if d == 0:
+            zeros += 1
+        else:
+            prod *= d
+    if zeros != 1:
+        return False
+    m = 0
+    while (m + 1) ** 2 <= prod:
+        m += 1
+    if m ** 2 != prod:
+        return False
+    return True
+
+```
+### Explanation
+
+
+This puzzle requires x to be a 6-digit string of digits (no leading zero) representing a perfect cube. The sum of the squares of its digits must be a perfect square. It must contain exactly one zero, and the product of its non-zero digits must also be a perfect square. These conditions involve perfect power verification, quadratic sums, digit counting, multiplicative properties, and exclusion of zeros in the product, making it difficult to identify without thorough computation or code dissection.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 7 or x[0] == '0':
+        return False
+    n = int(x)
+    k = 1
+    while k ** 4 < n:
+        k += 1
+    if k ** 4 != n:
+        return False
+    s = sum(int(c) for c in x)
+    j = 1
+    while j ** 3 < s:
+        j += 1
+    if j ** 3 != s:
+        return False
+    seen = 0
+    for c in x:
+        seen |= (1 << int(c))
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 7:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, str) or not all(c.isdigit() for c in x):
+        return False
+    if len(x) != 6 or x[0] == '0':
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    k = 0
+    while (k + 1) ** 3 <= n:
+        k += 1
+    if k ** 3 != n:
+        return False
+    ss = 0
+    for c in x:
+        d = int(c)
+        ss += d * d
+    j = 0
+    while (j + 1) ** 2 <= ss:
+        j += 1
+    if j ** 2 != ss:
+        return False
+    zeros = 0
+    for c in x:
+        if c == '0':
+            zeros += 1
+    if zeros != 1:
+        return False
+    prod = 1
+    for c in x:
+        d = int(c)
+        if d != 0:
+            prod *= d
+    m = 0
+    while (m + 1) ** 2 <= prod:
+        m += 1
+    if m ** 2 != prod:
+        return False
+    seen = 0
+    for c in x:
+        d = int(c)
+        seen |= (1 << d)
+    cnt = 0
+    tmp = seen
+    while tmp:
+        cnt += tmp & 1
+        tmp >>= 1
+    if cnt != 4:
+        return False
+    return True
+```
+
+This puzzle builds on numerical and digit-based constraints to create a challenging combination. It requires x to be a 6-digit perfect cube (verified via incremental cube root search). The sum of the squares of its digits must be a perfect square (via sqrt loop). There must be exactly one '0' digit. The product of the non-zero digits must be a perfect square (via sqrt loop on product). Finally, there must be exactly 4 distinct digits (verified using a bitmask to track presence and count set bits). These layered conditions—blending powers, quadratic forms, digit statistics, and bit operations—make it difficult to reverse-engineer without exhaustive checking or deep code analysis. The sample "493039" satisfies all: 79³ = 493039, digit squares sum to 196 = 14², one zero, non-zero product 4×9×3×3×9 = 2916 = 54², distinct digits {0,3,4,9}.
+SOLUTION: "493039"
+*** END
+*** END
+*** solver claude-sonnet-4-6
+Looking at this function, I need to find a 6-digit string `x` where:
+1. All characters are digits, length is 6, doesn't start with '0'
+2. `int(x)` is a perfect cube
+3. Sum of squares of digits is a perfect square
+4. Exactly one '0' digit
+5. Product of non-zero digits is a perfect square
+6. Exactly 4 distinct digits
+
+**Step 1: Find 6-digit perfect cubes with exactly one '0' and exactly 4 distinct digits:**
+Checking cubes from 47³ to 99³, candidates are:
+- 74³ = 405224: digits {0,2,4,5} — 4 distinct ✓
+- 79³ = 493039: digits {0,3,4,9} — 4 distinct ✓
+- 86³ = 636056: digits {0,3,5,6} — 4 distinct ✓
+- 99³ = 970299: digits {0,2,7,9} — 4 distinct ✓
+
+**Step 2: Check sum of squares of digits:**
+- 405224: 16+0+25+4+4+16 = 65 ✗
+- **493039**: 16+81+9+0+9+81 = **196 = 14²** ✓
+- 636056: 36+9+36+0+25+36 = 142 ✗
+- 970299: 81+49+0+4+81+81 = 296 ✗
+
+**Step 3: Check product of non-zero digits for 493039:**
+4 × 9 × 3 × 3 × 9 = 4 × 27 × 27 = **2916 = 54²** ✓
+
+**Verification for "493039":**
+- ✅ All digits, length 6, no leading zero
+- ✅ 79³ = 493039 (perfect cube)
+- ✅ Digit square sum = 196 = 14²
+- ✅ Exactly one '0'
+- ✅ Non-zero digit product = 2916 = 54²
+- ✅ Exactly 4 distinct digits {0, 3, 4, 9}
+
+SOLUTION: "493039"
+*** solver reasoning claude-sonnet-4-6
+Let me analyze the constraints:
+
+1. x must be a string of digits, length 6, not starting with 0
+2. n = int(x) must be a perfect cube
+3. Sum of squares of digits must be a perfect square
+4. Exactly one '0' digit
+5. Product of non-zero digits must be a perfect square
+6. Exactly 4 distinct digits
+
+Let me find 6-digit perfect cubes:
+- 46^3 = 97336
+
+
+- Now I'm checking cubes from 47 through 61 to see which ones fall in the 6-digit range and meet the other constraints.
+
+Continuing through the higher numbers... Now I'm filtering through these cubes to find ones with exactly one zero digit. Looking at the list, 110592, 205379, and 250047 each have exactly one zero, while the others either have no zeros or multiple zeros. Now I'm filtering through the cubes with exactly one zero digit and checking which ones meet all three additional criteria: having exactly 4 distinct digits, a sum of squares that's a perfect square, and a product of non-zero digits that's also a perfect square. } = 6 ✗
+
+**405224** has one zero and four distinct digits, but the sum of squares is 65, which isn't a perfect square. **493039** looks promising—it has one zero, four distinct digits {0,3,4,9}, and the sum of squares equals 196, which is 14². Now I need to verify the product of the non-zero digits.
+
+The product 4×9×3×3×9 equals 972, but that's not a perfect square since √972 ≈ 31.17. Moving on to check the remaining candidates: **592704** has too many distinct digits, **636056** fails the sum of squares test, **658503** has five distinct digits, and I'm starting to examine **704969**. - Distinct: {0,1,2,3,8} = 5 ✗
+
+Now let me systematically go through all 6-digit perfect cubes, starting from 47³ and working up through 63³, checking each one against the criteria.
+
+Continuing with cubes from 64³ through 99³...
+
+Now I'm systematically checking each 6-digit cube to find ones with exactly one zero and all distinct digits. So far 47³, 48³, and 59³ have one zero but only five distinct digits, while 52³ and 63³ have two zeros. Let me keep examining the remaining candidates like 69³.
+
+Continuing through the list: 69³ has one zero and six distinct digits but fails the perfect square test. 73³ also has six distinct digits. Then 74³ has one zero and only four distinct digits, but the sum of squares (65) isn't a perfect square. 79³ is more promising—it has one zero, four distinct digits, and the sum of squares equals 196 = 14², but the product of non-zero digits (972) isn't a perfect square. Moving on to check 84³ and 86³. = 636056: 6,3,6,0,5,6 - one zero ✓, distinct: {0,3,5,6}=4 ✓
+   sum sq: 36+9+36+0+25+36=142 - not perfect square (12²=144) ✗
+87^3 = 658503: 6,5,8,5,0,3 - one zero ✓, distinct: {0,3,5,6,8}=5 ✗
+89^3 = 704969: 7,0,4,9,6,9 - one zero ✓, distinct: {0,4,6,7,9}=5 ✗
+93^3 = 804357: 8,0,4,3,5,7 - one zero ✓, distinct: {0,3,4,5,7,8}=6 ✗
+94^3 = 830584: 8,3,0,5,8,4 - one zero ✓, distinct: {0,3,4,5,8}=5 ✗
+99^3 = 970299: 9,7,0,2,9,9 - one zero ✓, distinct: {0,2,7,9}=4 ✓
+   sum sq: 81+49+0+4+81+81=296 - not perfect square (17²=289, 18²=324) ✗
+
+None of these candidates work, but let me verify 493039 more carefully. It's 79 cubed, and the sum of squares of its digits is 16+81+9+0+9+81 = 196, which equals 14². Now I need to check if the product of its non-zero digits equals 972. I'm checking larger cubes systematically and finding they all have multiple zeros in the ones place. Let me step back and think about whether any 6-digit cube actually satisfies all these conditions—maybe I should verify if 493039 works or if the function is impossible to satisfy. = 108, 108 × 3 = 324, 324 × 9 = 2916. So the product is 2916, which is 54². Let me verify the sum of squares: 4² + 9² + 3² + 0² + 3² + 9² = 16 + 81 + 9 + 0 + 9 + 81 = 196 = 14². So 493039 satisfies all the conditions—it's 79³, and both the sum of squares of its digits and the product of its non-zero digits are perfect squares.
+*** END

@@ -1,0 +1,484 @@
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (10**15 <= x < 10**16):
+        return False
+    if (x + 864197532) % 987654321 != 0:
+        return False
+    h = (x ^ (x >> 17)) * 0x517cc1b727220a95
+    h &= 0xFFFFFFFFFFFFFFFF
+    return (h ^ (h >> 31)) == 0xb7616110b8f43358
+```
+
+The function `mystery(x)` takes an integer `x` and performs several checks. First, it ensures that `x` is a 16-digit positive integer. Then, it verifies a specific modular arithmetic condition. Finally, it applies a bitwise transformation (a common mixing function used in hash algorithms) to `x` and compares the resulting 64-bit value against a fixed constant. To find the solution, you'll need to identify which 16-digit integers satisfy the modular constraint and then test those against the bitwise finalizer.
+
+SOLUTION: 1219325983359196 
+Checking sample solution  1219325983359196
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 346 in / 16,461 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 81:
+        return False
+        
+    s = "".join(chr(ord(char) ^ 1) for char in x)
+    
+    clues = "ME  T    A  PCM    CI    A I   A   EU  I E  PT   N   A A    NI  I  PC  M    I  TC"
+    for i in range(81):
+        if clues[i] != ' ' and s[i] != clues[i]:
+            return False
+            
+    rows = [s[i:i+9] for i in range(0, 81, 9)]
+    cols = [s[i::9] for i in range(9)]
+    boxes = [s[i*27+j*3:i*27+j*3+3] + s[i*27+j*3+9:i*27+j*3+12] + s[i*27+j*3+18:i*27+j*3+21] for i in range(3) for j in range(3)]
+    
+    return all(set(g) == set("PNEUMATIC") for g in rows + cols + boxes)
+```
+
+### Explanation
+This puzzle is a disguised 9x9 Sudoku grid.
+
+1. **Length constraint**: The string `x` must be exactly 81 characters long, corresponding to the 9x9 board.
+2. **Cipher**: The input string `x` is first decrypted by XORing the ASCII value of each character with `1`. This transforms the problem so the solver must reverse this step at the end. 
+3. **Clues Check**: The decrypted string `s` is checked against a hardcoded string of `clues` (with spaces denoting empty cells). This forces the Sudoku to have a specific initial state.
+4. **Sudoku Verification**: Instead of standard digits `1-9`, the cells must be filled with characters from the word `"PNEUMATIC"`. The puzzle checks that every row, column, and 3x3 block contains exactly the set of characters in `"PNEUMATIC"` without duplicates.
+
+To solve the puzzle, the solver must:
+- Extract the given clues from the `clues` string.
+- Map the characters `"PNEUMATIC"` to numbers `1-9` to use a standard Sudoku algorithm or solver.
+- Solve the 9x9 grid.
+- Map the numbers back to `"PNEUMATIC"`.
+- XOR each character with `1` to generate the final acceptable string `x`.
+
+SOLUTION: "LDT@UHBQO@UOQBLDTHQBHDTOL@UHLBU@QTODTO@HLDUBQUQDBOTHL@B@QLDUOHTOHUTQB@DLDTLOH@QUB" 
+Checking sample solution  "LDT@UHBQO@UOQBLDTHQBHDTOL@UHLBU@QTODTO@HLDUBQUQDBOTHL@B@QLDUOHTOHUTQB@DLDTLOH@QUB"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "LDOVTQUHB@@OHVQLDVTQBHD@LVTOTH@BUTFUD@HLQOBHUODOLQT@HB@BDLQUOTHHLB@QVT DOTOHBD@L". Checking.
+Failure!
+New score after this turn: -1 (0-1) vs 1 (1-0)
+  gemini-3.1-pro-preview (inventer): 533 in / 27,332 out
+  gemini-3-flash-preview (solver): 404 in / 34,524 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    # Extract Unicode code points
+    d = [ord(c) for c in x]
+    
+    # A non-linear mixing step using an XOR chain
+    # Each value is combined with the next to create a new sequence
+    for i in range(7):
+        d[i] ^= d[i+1]
+    
+    # The mixed values are treated as coefficients of a polynomial:
+    # P(z) = d[0] + d[1]*z + d[2]*z^2 + ... + d[7]*z^7
+    # This polynomial is evaluated at points z = 1, 2, ..., 8 in the field GF(257)
+    res = []
+    for i in range(1, 9):
+        v = sum(d[j] * pow(i, j, 257) for j in range(8)) % 257
+        res.append(v)
+        
+    # Check the resulting evaluations against the target sequence
+    return res == [218, 173, 172, 175, 128, 205, 36, 26]
+```
+
+The function `mystery(x)` takes a string `x` of length 8. It first transforms the characters' code points through an XOR chain, where each character is XORed with its successor. The resulting eight values are treated as coefficients $d_0, d_1, \dots, d_7$ of a polynomial $P(z) = \sum_{j=0}^7 d_j z^j$. This polynomial is evaluated at eight distinct points ($z=1$ to $z=8$) within the finite field $\text{GF}(257)$. Finally, it checks if these evaluations match a specific target sequence. To solve this, you must effectively perform polynomial interpolation over the finite field to recover the coefficients and then invert the XOR chain to find the original string.
+
+SOLUTION: "Ziggurat" 
+Checking sample solution  "Ziggurat"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -2 (0-2) vs 1 (1-0)
+  gemini-3-flash-preview (inventer): 986 in / 24,048 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 64: 
+        return False
+    
+    Q = {'W': 2, 'O': 3, 'L': 5, 'F': 7, 'R': 11, 'A': 13, 'M': 17, 'S': 19}
+    try:
+        V = [Q[c] for c in x]
+    except KeyError:
+        return False
+        
+    def check(indices):
+        p = 1
+        for i in indices: 
+            p *= V[i]
+        return p == 9699690
+
+    for i in range(8):
+        if not check(range(i*8, i*8+8)): return False
+        if not check(range(i, 64, 8)): return False
+        
+    for i in range(4):
+        for j in range(2):
+            if not check([r*8+c for r in range(i*2, i*2+2) for c in range(j*4, j*4+4)]):
+                return False
+                
+    C = [
+        (0, 'WOLFRAMS'),
+        (8, 'RAMS'),
+        (16, 'OLFWAMSR'),
+        (24, 'AMSROLFW'),
+        (32, 'LFWOMSRA'),
+        (56, 'SRAMFWOL')
+    ]
+    for idx, s in C:
+        if x[idx:idx+len(s)] != s: 
+            return False
+        
+    return True
+```
+
+### Explanation
+
+This puzzle is a heavily disguised 8x8 Sudoku grid.
+
+1. **Length and Characters Constraint**: The string `x` must be exactly 64 characters long, corresponding to an 8x8 grid. The valid characters are `W, O, L, F, R, A, M, S`.
+2. **Prime Number Mapping**: Each character is mapped to one of the first 8 prime numbers.
+3. **The Magic Constant**: The target product `9699690` is exactly the product of the first 8 primes ($2 \times 3 \times 5 \times 7 \times 11 \times 13 \times 17 \times 19 = 9699690$). By the fundamental theorem of arithmetic, the only way 8 numbers from this set can multiply to `9699690` is if each prime appears exactly once. 
+4. **Sudoku Constraints**: The `check()` function is called to verify that the product of elements in every row, every column, and every 2x4 block is `9699690`. This enforces the standard Sudoku rule that each character must appear exactly once in each of these regions.
+5. **Clues**: The array `C` acts as the initial hints. It explicitly provides complete or partial rows. 
+
+To solve the puzzle, a smart solver must:
+- Notice the constant `9699690` and factor it to realize it's the product of the mapped values.
+- Recognize the problem as an 8x8 Sudoku grid where rows, columns, and 2x4 regions must contain unique characters.
+- Use the strings in `C` to fill in the starting cells of the grid.
+- Deduce the remaining rows using logical deduction or a backtracking algorithm.
+
+The missing elements uniquely resolve to form the valid Latin Square block design!
+
+SOLUTION: "WOLFRAMSRAMSWOLFOLFWAMSRAMSROLFWLFWOMSRAMSRALFWOFWOLSRAMSRAMFWOL" 
+Checking sample solution  "WOLFRAMSRAMSWOLFOLFWAMSRAMSROLFWLFWOMSRAMSRALFWOFWOLSRAMSRAMFWOL"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "WOLFRAMSRAMSWOLFOLFWAMSRAMSROLFWLFWOMSRALFWOFWOLSRAMSRAMFWOL". Checking.
+Failure!
+New score after this turn: -2 (0-2) vs 2 (2-0)
+  gemini-3.1-pro-preview (inventer): 1,511 in / 30,151 out
+  gemini-3-flash-preview (solver): 487 in / 23,806 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 12 or not x.isdigit():
+        return False
+    
+    # Part 1: Recursive additive check
+    # We treat the string as six 2-digit numbers
+    v = [int(x[i:i+2]) for i in range(0, 12, 2)]
+    
+    # Each number (after the first two) must be the modular sum of the previous two
+    if any(v[i] != (v[i-1] + v[i-2]) % 100 for i in range(2, 6)):
+        return False
+    
+    # Part 2: Statistical constraints
+    # The sum and product of these six integers must match specific targets
+    if sum(v) != 348 or (v[0] * v[1]) != 1656:
+        return False
+        
+    # Part 3: Block-wise product constraint
+    # We partition the string into three 4-digit integers and check their product
+    m = [int(x[i:i+4]) for i in range(0, 12, 4)]
+    return (m[0] * m[1] * m[2]) == 141354223596
+```
+
+The function `mystery(x)` takes a 12-digit string and interprets it as a sequence of integers. First, it verifies that the string consists of six 2-digit integers which follow a Fibonacci-like modular recurrence: each subsequent value is the sum of the preceding two modulo 100. Next, it imposes constraints on the total sum and the product of the first two numbers in this sequence. Finally, it divides the string into three 4-digit blocks and checks if their product equals a large target value. To find the correct value, you must identify the initial 2-digit numbers that generate the specific sequence and satisfy all these arithmetic conditions.
+
+SOLUTION: "237295676229" 
+Checking sample solution  "237295676229"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "237295676229". Checking.
+Success!
+New score after this turn: -2 (0-2) vs 2 (2-0)
+  gemini-3-flash-preview (inventer): 1,917 in / 21,478 out
+  gemini-3.1-pro-preview (solver): 408 in / 3,439 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) > 38:
+        return False
+        
+    tape = [0] * 100
+    ptr = 0
+    out = ""
+    loops = {}
+    stack = []
+    
+    for i, c in enumerate(x):
+        if c == '[':
+            stack.append(i)
+        elif c == ']':
+            if not stack:
+                return False
+            start = stack.pop()
+            loops[start] = i
+            loops[i] = start
+            
+    if stack:
+        return False
+        
+    pc = 0
+    ticks = 0
+    while pc < len(x) and ticks < 5000:
+        c = x[pc]
+        if c == '>': ptr = (ptr + 1) % 100
+        elif c == '<': ptr = (ptr - 1) % 100
+        elif c == '+': tape[ptr] = (tape[ptr] + 1) % 256
+        elif c == '-': tape[ptr] = (tape[ptr] - 1) % 256
+        elif c == '.': out += chr(tape[ptr])
+        elif c == '[' and tape[ptr] == 0: pc = loops[pc]
+        elif c == ']' and tape[ptr] != 0: pc = loops[pc]
+        
+        pc += 1
+        ticks += 1
+        
+    return out == "Z3"
+```
+
+### Explanation
+
+This puzzle embeds a complete, standard Brainfuck interpreter. The function verifies if the input string `x` is a valid Brainfuck program that outputs exactly the string `"Z3"`.
+
+The difficulty of this puzzle lies in the strict constraint: `len(x) > 38`. 
+To print `"Z3"`, the program must generate the ASCII values `90` ('Z') and `51` ('3'). 
+- A naive approach of repeating `+` characters takes over 140 characters.
+- Using two separate loops (one for 90, one for 51) usually requires around 45-55 characters.
+- Traditional SMT solvers (like Z3) are notoriously bad at handling loops, sequence generation, and variable execution states, meaning they usually fail to synthesize bounded Turing-machine programs.
+- Brute-forcing the space of 38-character Brainfuck programs is mathematically impossible due to the exponential state space ($8^{38}$).
+
+To solve the puzzle, the solver must deduce a highly-golfed approach using a single combined loop that multiplies values into adjacent memory cells simultaneously. 
+By calculating the factors of our target values (e.g., $10 \times 9 = 90$ and $10 \times 5 = 50$), we can write an optimized loop structure:
+1. Initialize cell 0 to `10`.
+2. Loop while cell 0 is non-zero, adding `9` to cell 1 and `5` to cell 2, then decrementing cell 0.
+3. Once the loop exits, cell 1 is exactly `90` ('Z'), and cell 2 is `50` (which we increment by `1` to get `51` ('3')).
+
+This beautifully fits in exactly 36 characters: `++++++++++[>+++++++++>+++++<<-]>.>+.`
+
+SOLUTION: "++++++++++[>+++++++++>+++++<<-]>.>+." 
+Checking sample solution  "++++++++++[>+++++++++>+++++<<-]>.>+."
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "++++++++++[>+++++++++>+++++<<-]>.>+.". Checking.
+Success!
+New score after this turn: -2 (0-2) vs 2 (2-0)
+  gemini-3.1-pro-preview (inventer): 2,697 in / 27,239 out
+  gemini-3-flash-preview (solver): 458 in / 13,303 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 16:
+        return False
+    
+    # Check for 16 unique characters from 'A' to 'P'
+    if len(set(x)) != 16 or any(ord(c) < 65 or ord(c) > 80 for c in x):
+        return False
+        
+    v = [ord(c) for c in x]
+    
+    # Calculate sums of each row, column, and the two main diagonals
+    # For a 16-character string representing a 4x4 magic square
+    rows = [sum(v[i*4 : i*4+4]) for i in range(4)]
+    cols = [sum(v[i::4]) for i in range(4)]
+    diags = [sum(v[i*5] for i in range(4)), sum(v[i*3+3] for i in range(4))]
+    
+    # All sums must equal the magic constant for the character set 'A' through 'P'
+    if any(s != 290 for s in rows + cols + diags):
+        return False
+        
+    # Geometric constraint on the product of the four corner elements
+    if v[0] * v[3] * v[12] * v[15] != 27227200:
+        return False
+        
+    # Permutation-specific weighted sum constraint
+    return sum((i + 1) * v[i] for i in range(16)) == 9860
+```
+
+The function `mystery(x)` takes a string `x` of length 16 and treats it as a 4x4 grid of characters. It first ensures that the string is a permutation of the uppercase letters from 'A' to 'P'. Then, it checks if the grid forms a magic square, where the sum of each row, each column, and both main diagonals equals the same magic constant (290 for this specific character set). Finally, it applies two more constraints: a product check on the four corner elements of the grid and a specific weighted sum of the character values to ensure only a unique permutation is the correct answer.
+
+To solve this, you need to find a 4x4 magic square using the ordinals of 'A' through 'P' that satisfies the geometric and weighted sum properties.
+
+SOLUTION: "PCBMEJKHIFGLDONA" 
+Checking sample solution  "PCBMEJKHIFGLDONA"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "PBCMEKJHIGFLDNOA". Checking.
+Success!
+New score after this turn: -2 (0-2) vs 2 (2-0)
+  gemini-3-flash-preview (inventer): 2,795 in / 22,966 out
+  gemini-3.1-pro-preview (solver): 472 in / 8,017 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) > 43:
+        return False
+        
+    tape = [0] * 300
+    ptr = 0
+    out = ""
+    loops = {}
+    stack = []
+    
+    for i, c in enumerate(x):
+        if c == '[':
+            stack.append(i)
+        elif c == ']':
+            if not stack:
+                return False
+            start = stack.pop()
+            loops[start] = i
+            loops[i] = start
+            
+    if stack:
+        return False
+        
+    pc = 0
+    ticks = 0
+    while pc < len(x) and ticks < 10000:
+        c = x[pc]
+        if c == '>': ptr = (ptr + 1) % 300
+        elif c == '<': ptr = (ptr - 1) % 300
+        elif c == '+': tape[ptr] = (tape[ptr] + 1) % 256
+        elif c == '-': tape[ptr] = (tape[ptr] - 1) % 256
+        elif c == '.': out += chr(tape[ptr])
+        elif c == '[' and tape[ptr] == 0: pc = loops[pc]
+        elif c == ']' and tape[ptr] != 0: pc = loops[pc]
+        
+        pc += 1
+        ticks += 1
+        
+    return out == "aeimquy"
+
+```
+
+This puzzle embeds a complete standard Brainfuck interpreter. The solver must provide a valid Brainfuck program that outputs exactly the string `"aeimquy"`. 
+
+The core difficulty lies in the exceptionally strict length constraint (`len(x) <= 43`). 
+The target string `"aeimquy"` consists of 7 characters, starting with `'a'` (ASCII 97) and stepping by 4. 
+- Using standard Brainfuck loops, you need to set up a loop counter and an initial character value. 
+- Generating `97` naively takes too many characters. A 2-loop sequence (one for 97, one for the print cycle) requires 46-47 characters and will fail the length check.
+- Standard SMT solvers (like Z3) cannot handle bounded loop unrolling of Brainfuck state machines dynamically, and the $8^{43}$ search space rules out brute force.
+
+To fit within exactly 43 characters, the solver must deduce a highly optimized, intertwined initialization loop. By taking the loop counter (`7`) as the multiplier for the base ASCII value, we compute the factorization $7 \times 14 - 1 = 97$. 
+This allows us to initialize the exact loop counter `7` and the starting value `97` simultaneously in a single, tight loop, manually subtracting `1` at the end to adjust the offset, before executing the print-and-add loop. 
+
+SOLUTION: "+++++++[>+>++++++++++++++<<-]>>-<[>.++++<-]" 
+Checking sample solution  "+++++++[>+>++++++++++++++<<-]>>-<[>.++++<-]"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "-[>++<-----]>---------<+++++++[>++++.<-]". Checking.
+Success!
+New score after this turn: -2 (0-2) vs 2 (2-0)
+  gemini-3.1-pro-preview (inventer): 3,915 in / 30,396 out
+  gemini-3-flash-preview (solver): 460 in / 18,345 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 16:
+        return False
+    
+    # Check if x is a permutation of a specific set of 16 characters
+    required_chars = ['1', '2', '3', '4', '5', 'F', 'H', 'I', 'N', 'N', 'O', 'P', 'S', 'T', 'U', 'Y']
+    if sorted(x) != required_chars:
+        return False
+        
+    v = [ord(c) for c in x]
+    
+    # Constraint 1: Row-wise XOR sums for each 4-character block
+    rows_xor = [v[i*4] ^ v[i*4+1] ^ v[i*4+2] ^ v[i*4+3] for i in range(4)]
+    if rows_xor != [21, 27, 108, 0]:
+        return False
+        
+    # Constraint 2: Column-wise arithmetic sums in the 4x4 grid
+    cols_sum = [sum(v[i::4]) for i in range(4)]
+    if cols_sum != [279, 303, 287, 257]:
+        return False
+        
+    # Constraint 3: Arithmetic sums of the two main diagonals
+    if (v[0] + v[5] + v[10] + v[15]) != 289 or (v[3] + v[6] + v[9] + v[12]) != 280:
+        return False
+        
+    # Constraint 4: A specific weighted sum to ensure a unique permutation
+    return sum((i + 1) * v[i] for i in range(16)) == 8754
+```
+
+The function `mystery(x)` takes a 16-character string and treats it as a 4x4 grid of characters. It first verifies that the string is a permutation of a specific set of alphanumeric characters (consisting of 11 letters and 5 digits). Then, it imposes four layers of constraints:
+1. **Bitwise XOR Constraints**: The characters in each row, when converted to their ASCII ordinal values, must satisfy a specific XOR sum.
+2. **Column Sums**: The ordinal values in each of the four columns must add up to specific target integers.
+3. **Diagonal Sums**: The two main diagonals (top-left to bottom-right and top-right to bottom-left) must also satisfy specific arithmetic sum targets.
+4. **Weighted Sequence Sum**: To ensure that only a specific permutation is correct, a weighted sum of the ordinal values (where each value is multiplied by its position in the string) must equal a large constant.
+
+To solve this puzzle, one must find an arrangement of the provided characters that satisfies all these bitwise and arithmetic constraints simultaneously.
+
+SOLUTION: "PYTHONISFUN12345" 
+Checking sample solution  "PYTHONISFUN12345"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "PYTHONISFUN12345". Checking.
+Success!
+New score after this turn: -2 (0-2) vs 2 (2-0)
+  gemini-3-flash-preview (inventer): 3,771 in / 17,461 out
+  gemini-3.1-pro-preview (solver): 530 in / 15,373 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    # x must be a list of exactly 100 elements
+    if type(x) is not list or len(x) != 100:
+        return False
+    
+    # Must be a permutation of 0 through 99
+    if len(set(x)) != 100 or min(x) != 0 or max(x) != 99:
+        return False
+        
+    # Diagonal constraints (N-Queens)
+    if len(set(i + x[i] for i in range(100))) != 100:
+        return False
+    if len(set(i - x[i] for i in range(100))) != 100:
+        return False
+        
+    # Geometric structure constraints
+    if sum(abs(x[i] - x[i+1]) for i in range(99)) != 295:
+        return False
+        
+    # Weighted positional constraints
+    if sum(i * x[i] for i in range(100)) != 285425:
+        return False
+        
+    # Adjacent product constraints
+    if sum(x[i] * x[i+1] for i in range(99)) != 318451:
+        return False
+        
+    return True
+
+```
+
+### Explanation
+This puzzle is a heavily constrained version of the 100-Queens problem (placing 100 non-attacking queens on a 100x100 chessboard). The input list `x` represents the column index of the queen in each row.
+
+1. **N-Queens Checks**: The first few conditions verify that the 100 queens do not share any row, column, or diagonal.
+2. **Global Checksums**: Since standard 100-Queens has an astronomical number of valid solutions, finding *any* solution is relatively easy for local search algorithms (like Min-Conflicts) or SMT solvers. However, the last three global arithmetic checksums (adjacent differences, positional dot product, and adjacent products) uniquely filter the solution space.
+3. **The Trap**: Adding dense global arithmetic constraints over 100 variables shatters the gradient for local search algorithms and causes SAT/SMT solvers (like Z3) to get bogged down in exponential branch-and-bound trees.
+4. **The Mathematical Trick**: The puzzle specifically targets an exact, mathematically known explicit construction for N-Queens. When $N \equiv 4 \pmod 6$, a valid N-Queens solution can be generated by simply taking all odd indices sequentially, followed by all even indices sequentially. For $N=100$, the sequence is exactly `1, 3, 5, ..., 99, 0, 2, 4, ..., 98`. 
+
+The checksums `295`, `285425`, and `318451` were rigorously pre-calculated from this exact explicit sequence. An AI that tries to solve this via Z3 will likely time out, while an AI that recognizes the explicit mathematical sequence for N-Queens will solve it instantly.
+
+SOLUTION: [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98] 
+Checking sample solution  [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98]
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33, 35, 37, 39, 41, 43, 45, 47, 49, 51, 53, 55, 57, 59, 61, 63, 65, 67, 69, 71, 73, 75, 77, 79, 81, 83, 85, 87, 89, 91, 93, 95, 97, 99, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98]. Checking.
+Success!
+New score after this turn: -2 (0-2) vs 2 (2-0)
+  gemini-3.1-pro-preview (inventer): 5,088 in / 34,769 out
+  gemini-3-flash-preview (solver): 410 in / 17,426 out
+Turn 0: gemini-3-flash-preview vs gemini-3.1-pro-preview - 346 in / 16,461 out (?) [puzzle-wrong]
+Turn 1: gemini-3.1-pro-preview vs gemini-3-flash-preview - 937 in / 61,856 out (?) [failure]
+Turn 2: gemini-3-flash-preview vs gemini-3.1-pro-preview - 986 in / 24,048 out (?) [puzzle-wrong]
+Turn 3: gemini-3.1-pro-preview vs gemini-3-flash-preview - 1,998 in / 53,957 out (?) [failure]
+Turn 4: gemini-3-flash-preview vs gemini-3.1-pro-preview - 2,325 in / 24,917 out (?) [success]
+Turn 5: gemini-3.1-pro-preview vs gemini-3-flash-preview - 3,155 in / 40,542 out (?) [success]
+Turn 6: gemini-3-flash-preview vs gemini-3.1-pro-preview - 3,267 in / 30,983 out (?) [success]
+Turn 7: gemini-3.1-pro-preview vs gemini-3-flash-preview - 4,375 in / 48,741 out (?) [success]
+Turn 8: gemini-3-flash-preview vs gemini-3.1-pro-preview - 4,301 in / 32,834 out (?) [success]
+Turn 9: gemini-3.1-pro-preview vs gemini-3-flash-preview - 5,498 in / 52,195 out (?) [success]
+gemini-3-flash-preview: 12,034 in / 209,818 out
+gemini-3.1-pro-preview: 15,154 in / 176,716 out
+gemini-3-flash-preview ./. gemini-3.1-pro-preview     (0-2) vs (2-0)     [0 failed, see runs/classic/gemini-3-flash-preview_vs_gemini-3.1-pro-preview.log]

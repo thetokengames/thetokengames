@@ -1,0 +1,546 @@
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 5:
+        return False
+    if not x[0].isdigit():
+        return False
+    letters = x[1:4]
+    if not all(c.isalpha() and c.islower() for c in letters):
+        return False
+    if not (letters[0] <= letters[1] <= letters[2]):
+        return False
+    if not x[4].isupper():
+        return False
+    if not x[4].lower() > letters[2]:
+        return False
+    return True
+```
+
+This puzzle requires finding a string that satisfies multiple specific constraints involving character types, string length, and internal ordering relationships. The solver will need to systematically test different character combinations and patterns to determine what structure makes the function return True. The requirements involve a precise interplay between positional constraints and lexicographic comparisons that should make trial-and-error somewhat challenging.
+
+SOLUTION: "1abcD" 
+Checking sample solution  "1abcD"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "1abcD". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 395 in / 8,395 out
+  gemini-3-flash-preview (solver): 245 in / 2,162 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+import hashlib
+
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 9 and x.isdigit()):
+        return False
+    
+    # x represents a 9-digit sequence
+    nums = [ord(c) - ord('0') for c in x]
+    
+    # Must use each digit from 1 to 9 exactly once
+    if len(set(nums)) != 9 or 0 in nums:
+        return False
+    
+    # Let the sequence represent a 3x3 grid:
+    # nums[0] nums[1] nums[2]
+    # nums[3] nums[4] nums[5]
+    # nums[6] nums[7] nums[8]
+    
+    # Define groups of indices for rows, columns, and diagonals
+    checks = [
+        nums[0:3], nums[3:6], nums[6:9],     # Horizontal
+        nums[0::3], nums[1::3], nums[2::3],  # Vertical
+        nums[0::4], nums[2:7:2]              # Diagonal
+    ]
+    
+    # Every group must sum to the same magic constant
+    if any(sum(group) != 15 for group in checks):
+        return False
+        
+    # Finally, verify the hash of the string
+    h = hashlib.sha256(x.encode()).hexdigest()
+    return h.startswith('0c04257850')
+```
+
+### Puzzle Explanation
+The `mystery` function defines a mathematical and cryptographic challenge. 
+1. **The Grid**: The input must be a 9-digit string containing the digits `1` through `9` exactly once. These digits are interpreted as a 3x3 magic square.
+2. **The Magic Square**: In a magic square of order 3, every row, column, and the two main diagonals must sum to the same value. For a square using digits 1-9, this "magic constant" is always 15.
+3. **The Hash**: There are exactly 8 such magic squares (including rotations and reflections). To narrow it down to a single solution, the function checks for a specific SHA-256 hash prefix (`0c04257850`). 
+
+A solver must identify the string as a magic square and then either check the 8 possible squares or brute-force the 9! (362,880) permutations to find the one matching the hash.
+
+SOLUTION: "816357492" 
+Checking sample solution  "816357492"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 525 in / 16,609 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 6:
+        return False
+    
+    # First two characters must be digits
+    if not x[:2].isdigit():
+        return False
+    
+    # Last four characters must be lowercase letters
+    if not (x[2:].isalpha() and x[2:].islower()):
+        return False
+    
+    # The two digits must sum to exactly 5
+    digit_sum = int(x[0]) + int(x[1])
+    if digit_sum != 5:
+        return False
+    
+    # The product of the two digits must be even
+    product = int(x[0]) * int(x[1])
+    if product % 2 != 0:
+        return False
+    
+    # The four letters must be in ascending order
+    letters = x[2:]
+    if letters != ''.join(sorted(letters)):
+        return False
+    
+    # All four letters must be distinct
+    if len(set(letters)) != 4:
+        return False
+    
+    # The first letter must be 'b' or 'c'
+    if not ('b' <= letters[0] < 'd'):
+        return False
+    
+    return True
+```
+
+This puzzle requires finding a 6-character string with a specific structure. The first two characters are digits and the last four are lowercase letters, but there are several hidden mathematical and lexicographic constraints between these components that aren't immediately obvious. The solver must discover that the digits have both an additive and multiplicative relationship to satisfy, the letters must follow a specific ordering pattern, and there's a constraint on which letter can start the final sequence. The combination of these interconnected requirements should make it challenging to find a solution through casual guessing.
+
+SOLUTION: "05bcde" 
+Checking sample solution  "05bcde"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "14bcde". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  claude-haiku-4-5 (inventer): 1,056 in / 7,396 out
+  gemini-3-flash-preview (solver): 396 in / 10,850 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 8):
+        return False
+    
+    # Check character categories: first 4 must be uppercase, last 4 must be digits
+    if not (x[:4].isalpha() and x[:4].isupper() and x[4:].isdigit()):
+        return False
+    
+    # Extract character values
+    a = [ord(c) for c in x[:4]]
+    b = [int(d) for d in x[4:]]
+    
+    # Algebraic constraints on letters
+    if a[0] + a[1] != 0x96 or a[0] * a[1] != 0x15E0:
+        return False
+    if a[2] + a[3] != 0xA0 or a[0] - a[2] != 5:
+        return False
+        
+    # Constraints on the digits
+    if sum(b) != 0x14 or (b[0]**2 + b[1]**2 - b[2]**2 - b[3]**2 != 160):
+        return False
+    
+    # Modular arithmetic and weighted check
+    if int(x[4:]) % 500 != 0x19B:
+        return False
+        
+    return sum((i + 1) * ord(c) for i, c in enumerate(x)) == 0x863
+```
+
+This puzzle requires solving two systems of equations. 
+
+The first system concerns the first four characters of the input string, which must be uppercase letters. By translating the given constraints into equations (where $a_0, a_1, a_2, a_3$ are the ASCII values of the characters), you can determine the only set of uppercase letters that satisfy the requirements. Specifically, $a_0$ and $a_1$ must be 80 ('P') and 70 ('F'), while $a_2$ and $a_3$ are constrained by $a_0$ and the second sum, leading to 'K' and 'U'.
+
+The second system concerns the last four characters, which must be digits. The sum of the digits, a sum-of-squares relationship, and a modular arithmetic check on the four-digit integer narrow the possibilities down to a unique sequence. 
+
+The final check is a weighted sum of the ASCII values of all characters in the string, which acts as a verification step for the entire sequence.
+
+SOLUTION: 'PFKU9911' 
+Checking sample solution  'PFKU9911'
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "PFKU9911". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 1,462 in / 19,388 out
+  claude-haiku-4-5 (solver): 490 in / 3,708 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    
+    # Must be 3 digits followed by 3 lowercase letters
+    if not (x[:3].isdigit() and x[3:].isalpha() and x[3:].islower()):
+        return False
+    
+    digits = [int(d) for d in x[:3]]
+    letters = x[3:]
+    
+    # Digits must be in ascending order
+    if digits != sorted(digits):
+        return False
+    
+    # Letters must be in ascending order and distinct
+    if letters != ''.join(sorted(letters)) or len(set(letters)) != 3:
+        return False
+    
+    # Each digit must be between 1 and 4
+    if not all(1 <= d <= 4 for d in digits):
+        return False
+    
+    # Sum of digits equals position of first letter in alphabet
+    digit_sum = sum(digits)
+    first_letter_pos = ord(letters[0]) - ord('a')
+    if digit_sum != first_letter_pos:
+        return False
+    
+    # Product of digits equals difference between last and first letter
+    digit_product = 1
+    for d in digits:
+        digit_product *= d
+    letter_diff = ord(letters[2]) - ord(letters[0])
+    if digit_product != letter_diff:
+        return False
+    
+    return True
+```
+
+This puzzle requires finding a 6-character string consisting of 3 digits followed by 3 lowercase letters. While the basic structure is clear, there are multiple hidden constraints: the digits and letters must each follow a specific ordering pattern, each digit must fall within a particular range, and there are non-obvious mathematical relationships that connect the numeric and alphabetic portions. The solver must discover how the sum and product of the digits relate to properties of the letters. These interconnected constraints make trial-and-error challenging and require systematic logical analysis to find a valid solution.
+
+SOLUTION: "123gjm" 
+Checking sample solution  "123gjm"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "112efg". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  claude-haiku-4-5 (inventer): 1,913 in / 10,857 out
+  gemini-3-flash-preview (solver): 440 in / 6,523 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 10):
+        return False
+    
+    # The string must follow a specific structure: 
+    # 4 lowercase letters, 2 digits, and 4 uppercase letters
+    if not (x[:4].isalpha() and x[:4].islower() and 
+            x[4:6].isdigit() and 
+            x[6:].isalpha() and x[6:].isupper()):
+        return False
+    
+    # The first 4 characters must follow a palindrome-like pattern (e.g., "abba")
+    # where the first and second characters are different.
+    l_vals = [ord(c) for c in x[:4]]
+    if l_vals[0] != l_vals[3] or l_vals[1] != l_vals[2] or l_vals[0] == l_vals[1]:
+        return False
+    
+    # The two digits, when taken together, must form a prime number.
+    num = int(x[4:6])
+    if not (all(num % i != 0 for i in range(2, int(num**0.5) + 1)) and num > 1):
+        return False
+    
+    # The sum of the two individual digits must equal the count of unique characters in the entire string.
+    if int(x[4]) + int(x[5]) != len(set(x)):
+        return False
+    
+    # The last 4 characters must be distinct uppercase letters that sum to a specific ASCII total.
+    u_vals = [ord(c) for c in x[6:]]
+    if sum(u_vals) != 312 or len(set(u_vals)) != 4:
+        return False
+    
+    # Finally, the string must satisfy a weighted ASCII sum check.
+    return sum((i + 1) * ord(c) for i, c in enumerate(x)) == 4239
+
+```
+
+### Puzzle Explanation
+The `mystery` function defines a multi-layered challenge involving character types, string patterns, number theory, and algebraic constraints.
+
+1.  **Structure**: The input must be a 10-character string partitioned into three segments: 4 lowercase letters, 2 digits, and 4 uppercase letters.
+2.  **Part 1 (Lowercase)**: The first four characters must form a symmetric pattern (like "abba") where the two letters used are not identical.
+3.  **Part 2 (Digits)**: The middle two characters must represent a 2-digit prime number. Furthermore, the sum of these two digits is tied to the global property of the string (the number of unique characters).
+4.  **Part 3 (Uppercase)**: The final four characters must be unique uppercase letters. Their ASCII values must sum to exactly 312.
+5.  **Global Constraint**: All the above must combine to satisfy a weighted sum of the ASCII values of all 10 characters: $\sum_{i=0}^{9} (i+1) \cdot \text{ord}(x_i) = 4239$.
+
+Finding a valid string requires identifying a prime number and a set of letters that balance all these equations simultaneously.
+
+SOLUTION: "deed53KLPQ" 
+Checking sample solution  "deed53KLPQ"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "ahha17LMOP". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 2,436 in / 23,338 out
+  claude-haiku-4-5 (solver): 614 in / 13,176 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 10:
+        return False
+    
+    # First 5 characters: lowercase letters
+    # Last 5 characters: digits
+    if not (x[:5].isalpha() and x[:5].islower() and x[5:].isdigit()):
+        return False
+    
+    letters = x[:5]
+    digits = x[5:]
+    
+    # All letters must be unique
+    if len(set(letters)) != 5:
+        return False
+    
+    # All digits must be unique
+    if len(set(digits)) != 5:
+        return False
+    
+    # Letters must be in ascending order
+    if letters != ''.join(sorted(letters)):
+        return False
+    
+    # The digit string, interpreted as a number, must be divisible by 9
+    num = int(digits)
+    if num % 9 != 0:
+        return False
+    
+    # Sum of letters (as positions) must equal sum of digits
+    letter_sum = sum(ord(c) - ord('a') for c in letters)
+    digit_sum = sum(int(d) for d in digits)
+    if letter_sum != digit_sum:
+        return False
+    
+    # The first letter must be from a-d
+    if letters[0] not in 'abcd':
+        return False
+    
+    # The last digit must be odd
+    if int(digits[-1]) % 2 == 0:
+        return False
+    
+    return True
+```
+
+This puzzle requires finding a 10-character string with 5 lowercase letters followed by 5 digits. The lowercase letters must be unique and in strictly ascending alphabetical order, while the 5 digits must also be unique. A key hidden constraint is that the sum of the letter positions (where a=0, b=1, ..., z=25) must equal the sum of the individual digit values. Additionally, the 5-digit number must be divisible by 9—which is determined by whether the digit sum itself is divisible by 9. The solver must also satisfy positional constraints: the first letter must be between 'a' and 'd', and the last digit must be odd. These interconnected mathematical and positional requirements make random guessing ineffective and require systematic logical deduction.
+
+SOLUTION: "abcfk01269" 
+Checking sample solution  "abcfk01269"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "abchi01269". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  claude-haiku-4-5 (inventer): 2,945 in / 13,738 out
+  gemini-3-flash-preview (solver): 461 in / 7,320 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 12):
+        return False
+    
+    # Dividing the string into three segments
+    lowers = x[:4]
+    digits = x[4:8]
+    uppers = x[8:]
+    
+    # Segment 1: Must be four lowercase letters, sorted and unique
+    if not (lowers.islower() and lowers.isalpha()):
+        return False
+    if lowers != "".join(sorted(lowers)) or len(set(lowers)) != 4:
+        return False
+    if sum(ord(c) for c in lowers) != 400:
+        return False
+    
+    # Segment 2: Must be four unique digits
+    if not (digits.isdigit() and len(set(digits)) == 4):
+        return False
+    val = int(digits)
+    # The middle segment, as a number, must be divisible by 137
+    # and the sum of its digits must be exactly 17
+    if val % 137 != 0 or sum(int(d) for d in digits) != 17:
+        return False
+        
+    # Segment 3: Must be four uppercase letters, sorted and unique
+    if not (uppers.isupper() and uppers.isalpha()):
+        return False
+    if uppers != "".join(sorted(uppers)) or len(set(uppers)) != 4:
+        return False
+    if sum(ord(c) for c in uppers) != 300:
+        return False
+        
+    # Final check: A global weighted ASCII sum across the entire string
+    return sum((i + 1) * ord(c) for i, c in enumerate(x)) == 5524
+```
+
+### Puzzle Explanation
+This puzzle challenges the solver to find a 12-character string composed of three distinct segments: four lowercase letters, four digits, and four uppercase letters. Each segment is governed by its own internal rules, including character type, uniqueness, sorting, and mathematical properties. 
+
+1.  **Segment 1 (Lowercase)**: The first four characters must be unique lowercase letters in alphabetical order that sum to an ASCII total of 400.
+2.  **Segment 2 (Digits)**: The next four characters must be unique digits that form a number divisible by 137, with their individual digits summing to 17.
+3.  **Segment 3 (Uppercase)**: The final four characters must be unique uppercase letters in alphabetical order that sum to an ASCII total of 300.
+4.  **Global Verification**: Finally, the entire string must satisfy a weighted ASCII check: $\sum_{i=0}^{11} (i+1) \cdot \text{ord}(x_i) = 5524$.
+
+Solving this requires identifying valid candidates for each segment and then finding the specific combination that satisfies the weighted sum.
+
+SOLUTION: "abcj5480IJLM" 
+Checking sample solution  "abcj5480IJLM"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "adef5480FKMN". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 3,604 in / 19,481 out
+  claude-haiku-4-5 (solver): 562 in / 7,685 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 7:
+        return False
+    
+    # Structure: 2 digits, 3 lowercase, 2 uppercase
+    digits = x[:2]
+    lowers = x[2:5]
+    uppers = x[5:]
+    
+    # Digits must be distinct, non-zero
+    if not (digits.isdigit() and len(set(digits)) == 2 and '0' not in digits):
+        return False
+    
+    # Lowercase must be in ascending order, distinct
+    if not (lowers.islower() and lowers == ''.join(sorted(lowers)) and len(set(lowers)) == 3):
+        return False
+    
+    # Uppercase must be in ascending order, distinct
+    if not (uppers.isupper() and uppers == ''.join(sorted(uppers)) and len(set(uppers)) == 2):
+        return False
+    
+    # Digit product equals number of unique letters
+    digit_product = int(digits[0]) * int(digits[1])
+    unique_letters = len(set(lowers + uppers))
+    if digit_product != unique_letters:
+        return False
+    
+    # Sum of lowercase positions equals product of uppercase positions
+    lower_pos_sum = sum(ord(c) - ord('a') for c in lowers)
+    upper_pos_prod = (ord(uppers[0]) - ord('A')) * (ord(uppers[1]) - ord('A'))
+    if lower_pos_sum != upper_pos_prod:
+        return False
+    
+    # First digit must be less than second digit
+    if int(digits[0]) >= int(digits[1]):
+        return False
+    
+    return True
+```
+
+## Explanation
+
+This puzzle requires finding a 7-character string with a specific structure: 2 non-zero digits, followed by 3 lowercase letters, followed by 2 uppercase letters. However, numerous hidden constraints interconnect these components in non-obvious ways.
+
+The solver must discover that:
+1. The digits must be distinct and in ascending order
+2. The lowercase letters must be distinct and in strictly ascending alphabetical order  
+3. The uppercase letters must be distinct and in strictly ascending alphabetical order
+4. There is a multiplicative relationship between the digits and the total count of unique letters
+5. There is a positional relationship between the lowercase and uppercase letters (treating letters as their alphabetical positions)
+
+These constraints are tightly coupled—satisfying one often dramatically constrains the others. The solver cannot solve this through casual guessing; they must use systematic logical deduction to work through the interconnected requirements and find a valid solution.
+
+SOLUTION: "15abeBF" 
+Checking sample solution  "15abeBF"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "15abcBD". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  claude-haiku-4-5 (inventer): 4,000 in / 17,648 out
+  gemini-3-flash-preview (solver): 518 in / 10,157 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 15):
+        return False
+    
+    # Structural check: must follow the pattern XXXXX-NNN-YYYYY
+    if x[5] != '-' or x[9] != '-':
+        return False
+    
+    p1 = x[:5]
+    p2 = x[6:9]
+    p3 = x[10:]
+    
+    # Part 1 and Part 3: Unique uppercase letters, with no overlap
+    if not (p1.isalpha() and p1.isupper() and len(set(p1)) == 5):
+        return False
+    if not (p3.isalpha() and p3.isupper() and len(set(p3)) == 5):
+        return False
+    if not set(p1).isdisjoint(p3):
+        return False
+    
+    # Part 2: Three unique digits
+    if not (p2.isdigit() and len(set(p2)) == 3):
+        return False
+        
+    # Bitwise XOR sum constraints for the letter blocks
+    xor1 = 0
+    for char in p1:
+        xor1 ^= ord(char)
+    xor3 = 0
+    for char in p3:
+        xor3 ^= ord(char)
+        
+    if xor1 != 76 or xor3 != 93:
+        return False
+        
+    # Relationship between letter block sums and the numeric middle part
+    s1 = sum(ord(c) for c in p1)
+    s3 = sum(ord(c) for c in p3)
+    if int(p2) != (s1 - s3) * 5 + 100:
+        return False
+        
+    # Final global weighted check
+    return sum((i + 1) * ord(c) for i, c in enumerate(x)) == 8006
+```
+
+### Puzzle Explanation
+This puzzle requires finding a 15-character string that satisfies several layers of constraints:
+
+1.  **Structural Pattern**: The string must be formatted as five uppercase letters, a hyphen, three digits, another hyphen, and five more uppercase letters (`XXXXX-NNN-YYYYY`).
+2.  **Letter Uniqueness and Disjointness**: Both sets of five letters must be internally unique (no character repeats within a block), and the two sets must be disjoint (no character exists in both blocks).
+3.  **Bitwise XOR Constraints**: Each letter block must satisfy a specific XOR sum based on the ASCII values of its characters ($76$ for the first block and $93$ for the third).
+4.  **Arithmetic Relationship**: The middle three-digit part, when interpreted as an integer, must be exactly equal to five times the difference between the ASCII sums of the two letter blocks, plus 100 ($p_2 = (s_1 - s_3) \times 5 + 100$).
+5.  **Weighted ASCII Check**: Finally, the entire string must pass a weighted ASCII sum check: $\sum_{i=0}^{14} (i+1) \cdot \text{ord}(x_i) = 8006$.
+
+Identifying a valid string requires balancing these bitwise, algebraic, and global properties simultaneously.
+
+SOLUTION: "CRYPT-285-GAMES" 
+Checking sample solution  "CRYPT-285-GAMES"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "JKLNO-215-ABCGZ". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 0 (1-1)
+  gemini-3-flash-preview (inventer): 4,760 in / 13,794 out
+  claude-haiku-4-5 (solver): 622 in / 48,811 out
+Turn 0: claude-haiku-4-5 vs gemini-3-flash-preview - 640 in / 10,557 out (?) [success]
+Turn 1: gemini-3-flash-preview vs claude-haiku-4-5 - 525 in / 16,609 out (?) [puzzle-wrong]
+Turn 2: claude-haiku-4-5 vs gemini-3-flash-preview - 1,452 in / 18,246 out (?) [success]
+Turn 3: gemini-3-flash-preview vs claude-haiku-4-5 - 1,952 in / 23,096 out (?) [success]
+Turn 4: claude-haiku-4-5 vs gemini-3-flash-preview - 2,353 in / 17,380 out (?) [success]
+Turn 5: gemini-3-flash-preview vs claude-haiku-4-5 - 3,050 in / 36,514 out (?) [success]
+Turn 6: claude-haiku-4-5 vs gemini-3-flash-preview - 3,406 in / 21,058 out (?) [success]
+Turn 7: gemini-3-flash-preview vs claude-haiku-4-5 - 4,166 in / 27,166 out (?) [success]
+Turn 8: claude-haiku-4-5 vs gemini-3-flash-preview - 4,518 in / 27,805 out (?) [success]
+Turn 9: gemini-3-flash-preview vs claude-haiku-4-5 - 5,382 in / 62,605 out (?) [failure]
+claude-haiku-4-5: 12,597 in / 131,414 out
+gemini-3-flash-preview: 14,847 in / 129,622 out
+claude-haiku-4-5 ./. gemini-3-flash-preview     (0-0) vs (1-1)     [0 failed, see runs/classic/claude-haiku-4-5_vs_gemini-3-flash-preview.log]

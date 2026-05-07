@@ -1,0 +1,419 @@
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, str):
+        try:
+            x = int(x)
+        except:
+            return False
+    
+    if not isinstance(x, int) or x < 0:
+        return False
+    
+    seen = set()
+    while x != 1 and x not in seen:
+        seen.add(x)
+        x = sum(int(d) ** 2 for d in str(x))
+    
+    return x == 1
+```
+
+This puzzle checks a hidden property of numbers based on iterative digit transformation. The function repeatedly replaces a number with the sum of the squares of its digits. Some numbers eventually reach a special target through this process, while others get caught in infinite loops. Try different positive integers to find the pattern—there are multiple solutions, but none are immediately obvious.
+
+SOLUTION: 7 
+Checking sample solution  7
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 7. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 395 in / 9,860 out
+  claude-sonnet-4-6 (solver): 255 in / 443 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, str):
+        try:
+            x = int(x)
+        except:
+            return False
+    
+    if not isinstance(x, int) or x <= 0:
+        return False
+    
+    s = str(x)
+    
+    for i, d in enumerate(s):
+        if s.count(str(i)) != int(d):
+            return False
+    
+    return True
+```
+
+This puzzle involves a number with a special self-referential property involving its own digits. The function checks whether the digits of `x` satisfy a particular relationship with the digit positions. There are only a small handful of numbers that satisfy this property — they're quite rare and the condition is subtle.
+
+Good luck figuring out what it checks!
+
+SOLUTION: 1210 
+Checking sample solution  1210
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 2020. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 552 in / 13,426 out
+  claude-haiku-4-5 (solver): 244 in / 2,450 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, str):
+        try:
+            x = int(x)
+        except:
+            return False
+    
+    if not isinstance(x, int) or x <= 0:
+        return False
+    
+    # Count the number of divisors
+    divisor_count = 0
+    for i in range(1, x + 1):
+        if x % i == 0:
+            divisor_count += 1
+    
+    # Calculate the product of digits
+    digit_product = 1
+    for digit in str(x):
+        digit_product *= int(digit)
+    
+    # Return True if divisor count equals digit product
+    return divisor_count == digit_product
+```
+
+This puzzle examines a hidden relationship between two distinct mathematical properties of positive integers. One property counts a fundamental structural characteristic of the number based on its divisibility, while the other derives from simple arithmetic operations on the individual digits themselves. The function returns True only when these two seemingly unrelated properties coincidentally yield the same value. Finding solutions requires systematic testing and understanding both properties—the pattern is not obvious, and solutions are scattered across the positive integers in a non-obvious way.
+
+SOLUTION: 24 
+Checking sample solution  24
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 1. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 767 in / 7,743 out
+  claude-sonnet-4-6 (solver): 310 in / 297 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, str):
+        try:
+            x = int(x)
+        except:
+            return False
+
+    if not isinstance(x, int) or x <= 1:
+        return False
+
+    def f(n):
+        count = 0
+        while n:
+            count += n & 1
+            n >>= 1
+        return count
+
+    def g(n):
+        result = 1
+        for c in str(n):
+            result *= int(c)
+        return result
+
+    def h(n):
+        if n < 2:
+            return False
+        for i in range(2, int(n**0.5) + 1):
+            if n % i == 0:
+                return False
+        return True
+
+    return h(x) and f(x) == g(x)
+```
+
+This puzzle involves three obscurely-named helper functions that each compute a different property of the input integer, and the final condition requires all relevant properties to align simultaneously. The combination of `f`, `g`, and `h` creates a constraint that is fairly rare among integers — solutions exist, but they require satisfying three independent conditions at once.
+
+Good luck figuring out what each helper does and which numbers satisfy the joint condition!
+
+SOLUTION: 131 
+Checking sample solution  131
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 13. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 987 in / 15,936 out
+  claude-haiku-4-5 (solver): 339 in / 5,711 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, str):
+        try:
+            x = int(x)
+        except:
+            return False
+    
+    if not isinstance(x, int) or x < 0:
+        return False
+    
+    def factorial(n):
+        if n <= 1:
+            return 1
+        result = 1
+        for i in range(2, n + 1):
+            result *= i
+        return result
+    
+    digit_factorial_sum = sum(factorial(int(d)) for d in str(x))
+    
+    return x == digit_factorial_sum
+```
+
+This puzzle checks if a number equals the sum of the factorials of its digits. Such numbers are extraordinarily rare—only a handful exist in the entire decimal number system. The function computes the factorial of each digit, sums them, and checks if this sum matches the original number. While some solutions appear at small values through basic exploration, discovering all solutions requires recognizing a subtle mathematical property. The solutions are scattered sparsely, making this a challenging puzzle to solve through trial and error alone.
+
+SOLUTION: 145 
+Checking sample solution  145
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 145. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,323 in / 4,695 out
+  claude-sonnet-4-6 (solver): 283 in / 352 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, str):
+        try:
+            x = int(x)
+        except:
+            return False
+    if not isinstance(x, int) or x <= 9:
+        return False
+
+    s = str(x)
+
+    # Unnamed check 1
+    acc = sum(int(s[i]) ** (i + 1) for i in range(len(s)))
+
+    # Unnamed check 2
+    sm = sum(int(c) for c in s)
+    sq = int((x + sm) ** 0.5)
+
+    return acc == x and sq * sq == x + sm
+```
+
+This puzzle involves two independent conditions that `x` must simultaneously satisfy. The first check computes an accumulation involving each digit of `x` and its position. The second check computes a transformation of `x` involving its digits and tests a number-theoretic property.
+
+Both conditions must hold at the same time, which makes brute-force guessing unlikely to stumble on the answer quickly, and the combination makes reverse-engineering the exact constraints non-trivial.
+
+SOLUTION: 135 
+Checking sample solution  135
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 135. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,508 in / 26,650 out
+  claude-haiku-4-5 (solver): 290 in / 1,647 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, str):
+        try:
+            x = int(x)
+        except:
+            return False
+    
+    if not isinstance(x, int) or x <= 9:
+        return False
+    
+    digit_product = 1
+    digit_sum = 0
+    for d in str(x):
+        digit_product *= int(d)
+        digit_sum += int(d)
+    
+    return digit_product == digit_sum
+```
+
+## Explanation
+
+This puzzle checks whether a number has a special digit property: the **product of its digits** must equal the **sum of its digits**. 
+
+For single-digit numbers, these two properties are always equal (e.g., the digit 5 has product 5 and sum 5), so the puzzle excludes them to make it interesting. This forces you to find multi-digit numbers where this coincidence occurs.
+
+While the condition is simple to state, finding solutions requires either systematic testing or mathematical insight. The solutions are scattered across the number space in a non-obvious way. There are multiple valid solutions, but discovering them all requires persistence and careful analysis of how digit products and sums behave.
+
+SOLUTION: 22 
+Checking sample solution  22
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 22. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,809 in / 10,342 out
+  claude-sonnet-4-6 (solver): 254 in / 544 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+
+    if len(x) < 2:
+        return False
+
+    def a(n):
+        if n < 2: return False
+        for i in range(2, int(n**0.5) + 1):
+            if n % i == 0: return False
+        return True
+
+    def b(s):
+        try:
+            return int(s)
+        except:
+            return None
+
+    def c(n):
+        return sum(int(d) for d in str(n))
+
+    v1 = b(x)
+    v2 = b(x[::-1])
+
+    if v1 is None or v2 is None:
+        return False
+
+    p = v1 * v2
+    ds = c(p)
+    r = int(ds ** 0.5)
+
+    return a(v1) and a(v2) and r * r == ds
+```
+
+This puzzle operates on a **string input** and applies three obscurely-named helper functions (`a`, `b`, `c`) to derive two intermediate integer values from the original and a transformed version of the string. All three conditions — one on `v1`, one on `v2`, and one on a derived quantity from their combination — must hold simultaneously.
+
+Good luck!
+
+SOLUTION: "113" 
+Checking sample solution  "113"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "11". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,961 in / 16,088 out
+  claude-haiku-4-5 (solver): 369 in / 3,568 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, str):
+        try:
+            x = int(x)
+        except:
+            return False
+    
+    if not isinstance(x, int) or x <= 10:
+        return False
+    
+    # Check if x is a triangular number: x = n(n+1)/2
+    discriminant = 1 + 8 * x
+    sqrt_disc = int(discriminant ** 0.5)
+    
+    if sqrt_disc * sqrt_disc != discriminant:
+        return False
+    
+    n = (-1 + sqrt_disc) // 2
+    
+    if n * (n + 1) // 2 != x:
+        return False
+    
+    # Check if digit sum equals the index n
+    digit_sum = sum(int(d) for d in str(x))
+    
+    return digit_sum == n
+```
+
+## Explanation
+
+This puzzle identifies numbers with a dual mathematical property. First, the number must be a member of a classical integer sequence—a sequence generated by a simple formula that appears throughout mathematics and combinatorics. Second, the sum of the number's digits must have a specific relationship to the number's position (index) within that sequence.
+
+While the underlying sequence contains infinitely many numbers, very few of them satisfy the additional digit sum constraint. This makes solutions exceptionally rare and scattered across the number space in a non-obvious way. Finding a solution requires either systematic testing of the sequence's members or mathematical insight into recognizing how digit sums relate to positional indices.
+
+The property is deterministic and precise, but discovering it requires patience and attention to both structural properties and digit arithmetic.
+
+SOLUTION: 55 
+Checking sample solution  55
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 45. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 2,395 in / 12,757 out
+  claude-sonnet-4-6 (solver): 351 in / 709 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+
+    s = x.lower().replace(' ', '')
+
+    if not s.isalpha() or len(s) < 2:
+        return False
+
+    m = [ord(c) - 96 for c in s]
+
+    # Check A
+    total = sum(m)
+    r = int(total ** 0.5)
+    if r * r != total:
+        return False
+
+    # Check B
+    prod = 1
+    for v in m:
+        prod *= v
+    if prod % len(s) != 0:
+        return False
+
+    # Check C
+    vc = sum(1 for c in s if c in 'aeiou')
+    if vc < 2:
+        return False
+    k = 2
+    while k * k <= vc:
+        if vc % k == 0:
+            return False
+        k += 1
+
+    # Check D
+    ln = len(s)
+    if int(ln ** 0.5) ** 2 != ln:
+        return False
+
+    return True
+```
+
+This puzzle operates on a string input and applies four distinct checks (A through D) to derived numerical quantities. Each check evaluates a different mathematical property of the string's characters. All four conditions must hold simultaneously — and they involve both the individual character values and the structure of the string as a whole. The combination makes the constraint rare and non-trivial to satisfy.
+
+Good luck!
+
+SOLUTION: "bone" 
+Checking sample solution  "bone"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "fade". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 2,570 in / 20,740 out
+  claude-haiku-4-5 (solver): 407 in / 11,458 out
+Turn 0: claude-haiku-4-5 vs claude-sonnet-4-6 - 650 in / 10,303 out (?) [success]
+Turn 1: claude-sonnet-4-6 vs claude-haiku-4-5 - 796 in / 15,876 out (?) [success]
+Turn 2: claude-haiku-4-5 vs claude-sonnet-4-6 - 1,077 in / 8,040 out (?) [success]
+Turn 3: claude-sonnet-4-6 vs claude-haiku-4-5 - 1,326 in / 21,647 out (?) [success]
+Turn 4: claude-haiku-4-5 vs claude-sonnet-4-6 - 1,606 in / 5,047 out (?) [success]
+Turn 5: claude-sonnet-4-6 vs claude-haiku-4-5 - 1,798 in / 28,297 out (?) [success]
+Turn 6: claude-haiku-4-5 vs claude-sonnet-4-6 - 2,063 in / 10,886 out (?) [success]
+Turn 7: claude-sonnet-4-6 vs claude-haiku-4-5 - 2,330 in / 19,656 out (?) [success]
+Turn 8: claude-haiku-4-5 vs claude-sonnet-4-6 - 2,746 in / 13,466 out (?) [success]
+Turn 9: claude-sonnet-4-6 vs claude-haiku-4-5 - 2,977 in / 32,198 out (?) [success]
+claude-haiku-4-5: 8,338 in / 70,231 out
+claude-sonnet-4-6: 9,031 in / 95,185 out
+claude-haiku-4-5 ./. claude-sonnet-4-6     (0-0) vs (0-0)     [0 failed, see runs/classic/claude-haiku-4-5_vs_claude-sonnet-4-6.log]

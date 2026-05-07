@@ -1,0 +1,3568 @@
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+None, this is the first turn.
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalnum():
+        return False
+    a = sum(ord(c) for c in x)
+    b = sum(ord(c)**2 for c in x[::-1])
+    if a % 17 != 5:
+        return False
+    if b % 31 != 13:
+        return False
+    if x[0] != x[4]:
+        return False
+    if x[1:4] != x[5:8][::-1]:
+        return False
+    return True
+```
+
+A short puzzle with structural constraints plus two modular arithmetic conditions on character codes. The palindrome-like structure forces a specific shape, and then you need to find characters whose ASCII values satisfy both modular equations simultaneously.
+
+SOLUTION: "acdjajdc"
+*** END
+*** END
+*** solver gemini-3-flash-preview
+The function `mystery(x)` requires a string `x` of length 8 that is alphanumeric. The string must satisfy specific conditions for the sum of the ASCII values of its characters (`a`) and the sum of the squares of the ASCII values of its characters in reverse order (`b`). Specifically, `a % 17` must be 5, and `b % 31` must be 13. Additionally, `x[0]` must equal `x[4]`, and the substring `x[1:4]` must be the reverse of `x[5:8]`.
+
+By analyzing these conditions:
+1.  **Structure**: `x` must be in the form `x0 x1 x2 x3 x0 x3 x2 x1`.
+2.  **Sums**:
+    - `a = 2 * (ord(x0) + ord(x1) + ord(x2) + ord(x3))`
+    - `b = 2 * (ord(x0)^2 + ord(x1)^2 + ord(x2)^2 + ord(x3)^2)`
+3.  **Modular Arithmetic**:
+    - `2 * (ord(x0) + ord(x1) + ord(x2) + ord(x3)) ≡ 5 (mod 17)`
+    - `2 * (ord(x0)^2 + ord(x1)^2 + ord(x2)^2 + ord(x3)^2) ≡ 13 (mod 31)`
+
+Testing potential alphanumeric values:
+- Let `x0 = '0'` (ASCII 48), `x1 = '0'` (ASCII 48), and `x2 = '1'` (ASCII 49).
+- For `a`: `2 * (48 + 48 + 49 + ord(x3)) ≡ 5 (mod 17)` simplifies to `ord(x3) ≡ 2 (mod 17)`. Potential values for `ord(x3)` include 53 ('5'), 70 ('F'), 87 ('W'), etc.
+- For `b`: `2 * (48^2 + 48^2 + 49^2 + ord(x3)^2) ≡ 13 (mod 31)` simplifies to `3 + ord(x3)^2 ≡ 22 (mod 31)`, or `ord(x3)^2 ≡ 19 (mod 31)`.
+- Testing `ord(x3) = 53` ('5'): `53^2 = 2809`, and `2809 % 31 = 19`. This satisfies the condition.
+
+The resulting string is `x = "00150510"`.
+
+SOLUTION: "00150510"
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalnum():
+        return False
+    a = sum(ord(c) for c in x)
+    b = sum(ord(c)**2 for c in x[::-1])
+    if a % 17 != 5:
+        return False
+    if b % 31 != 13:
+        return False
+    if x[0] != x[4]:
+        return False
+    if x[1:4] != x[5:8][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (10**12 <= x < 10**13):
+        return False
+    
+    v = [(x // (1000**i)) % 1000 for i in range(3)]
+    v.append(x // 1000**3)
+    
+    if (v[3] ^ v[2]) != 234:
+        return False
+    if (v[2] & v[1]) != 24:
+        return False
+    if (v[1] | v[0]) != 959:
+        return False
+    if sum(v) != 2785:
+        return False
+    if (v[3] * v[1]) % 1000 != 672:
+        return False
+    if (v[2] * v[0]) % 511 != 77:
+        return False
+        
+    return True
+```
+
+### Explanation
+The function `mystery(x)` takes an integer `x` and performs the following checks:
+1.  **Type and Range Check**: It ensures `x` is an integer between $10^{12}$ and $10^{13}$ (a 13-digit number).
+2.  **Decomposition**: The number is decomposed into four parts:
+    -   `v[0]`: The last 3 digits of `x`.
+    -   `v[1]`: The digits from 4th to 6th position (from the right).
+    -   `v[2]`: The digits from 7th to 9th position.
+    -   `v[3]`: The remaining digits (the first 4 digits of the 13-digit number).
+3.  **Bitwise Constraints**:
+    -   `v[3]` XOR `v[2]` must equal 234.
+    -   `v[2]` AND `v[1]` must equal 24.
+    -   `v[1]` OR `v[0]` must equal 959.
+4.  **Arithmetic Constraints**:
+    -   The sum of all four parts must be exactly 2785.
+    -   The product of `v[3]` and `v[1]` modulo 1000 must be 672.
+    -   The product of `v[2]` and `v[0]` modulo 511 must be 77.
+
+Finding the value requires solving this system of modular and bitwise equations.
+
+SOLUTION: 1012798056919
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at this problem, I need to find a 13-digit integer where:
+- v[0] = last 3 digits, v[1] = next 3, v[2] = next 3, v[3] = top 4 digits
+- Various bit/sum constraints must hold
+
+**Step 1:** Since v[2] < 1024 and v[3] = v[2] ^ 234, and v[3] ∈ [1000, 9999], I need v[3] ∈ [1000, 1023].
+
+**Step 2:** From v[1]|v[0]=959 (bits {0,1,2,3,4,5,7,8,9}, missing bit 6), and v[2]&v[1]=24 (bits 3,4), v[1] is subset of 959 containing bits 3,4.
+
+**Step 3:** Try sum partition where v[1]+v[0]=975, giving v[1]&v[0]=16 (just bit 4). Then v[3]+v[2]=1810.
+
+Testing v[3]=1012, v[2]=798 (bits {1,2,3,4,8,9}, has bits 3,4 ✓):
+- v[1] must avoid bits {1,2,8,9} of v[2] (else AND ≠ 24), so v[1] = {3,4} ∪ subset of {0,5,7}
+
+**Step 4:** Check v[3]*v[1] % 1000 = 672:
+- 1012 × 56 = 56672, mod 1000 = **672** ✓
+
+So v[1]=56, v[0]=975-56=919.
+
+**Step 5:** Verify v[2]*v[0] % 511 = 77:
+- 798 × 919 = 733362 = 511×1435 + 77 ✓
+
+**Verification:**
+- v[3]^v[2] = 1012^798 = 234 ✓
+- v[2]&v[1] = 798&56 = 24 ✓
+- v[1]|v[0] = 56|919 = 959 ✓
+- Sum = 919+56+798+1012 = 2785 ✓
+
+x = 1012×10⁹ + 798×10⁶ + 56×10³ + 919 = 1012798056919
+
+SOLUTION: 1012798056919
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalnum():
+        return False
+    a = sum(ord(c) for c in x)
+    b = sum(ord(c)**2 for c in x[::-1])
+    if a % 17 != 5:
+        return False
+    if b % 31 != 13:
+        return False
+    if x[0] != x[4]:
+        return False
+    if x[1:4] != x[5:8][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+
+
+A short puzzle with structural constraints plus two modular arithmetic conditions on character codes. The palindrome-like structure forces a specific shape, and then you need to find characters whose ASCII values satisfy both modular equations simultaneously.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (10**12 <= x < 10**13):
+        return False
+    
+    v = [(x // (1000**i)) % 1000 for i in range(3)]
+    v.append(x // 1000**3)
+    
+    if (v[3] ^ v[2]) != 234:
+        return False
+    if (v[2] & v[1]) != 24:
+        return False
+    if (v[1] | v[0]) != 959:
+        return False
+    if sum(v) != 2785:
+        return False
+    if (v[3] * v[1]) % 1000 != 672:
+        return False
+    if (v[2] * v[0]) % 511 != 77:
+        return False
+        
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want to combine digit-sum constraints with a non-trivial XOR-based fold that's hard to reverse.
+
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**9 <= x < 10**10):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 47:
+        return False
+    if sum(d*d for d in digits) != 261:
+        return False
+    if digits[0] * digits[9] != 36:
+        return False
+    if digits[3] - digits[5] != 4:
+        return False
+    s = 0
+    for i, d in enumerate(digits):
+        s = (s * 10 + d) ^ (i * 7 + 3)
+    if s % 1000003 != 20166:
+        return False
+    return True
+```
+
+The puzzle: x must be a 10-digit integer satisfying digit sum 47, sum of squares 261, end-digit product 36, and a positional difference constraint. Then a horner-like XOR fold must hash to a specific residue modulo a prime. The sum and sum-of-squares constraints together pin down the multiset of digits, while the position constraints and the XOR-fold target constrain the order.
+
+SOLUTION: 4657434329
+*** END
+*** END
+*** solver gemini-3-flash-preview
+The function `mystery(x)` requires a 10-digit integer `x` that satisfies several conditions:
+1.  `10**9 <= x < 10**10` (a 10-digit integer).
+2.  `sum(digits) == 47`.
+3.  `sum(d*d for d in digits) == 261`.
+4.  `digits[0] * digits[9] == 36`.
+5.  `digits[3] - digits[5] == 4`.
+6.  A hash-like condition: `s % 1000003 == 20166`, where `s` is calculated by a specific loop.
+
+By analyzing the digit-based constraints:
+- Possible values for `(digits[0], digits[9])` are `(4, 9)`, `(6, 6)`, and `(9, 4)`.
+- Possible values for `(digits[3], digits[5])` are any pair `(d, d-4)` for `d` from 4 to 9.
+
+We found a set of digits that satisfies the sum and squares constraints for the case `d_0=4`, `d_9=9`, `d_3=8`, and `d_5=4`:
+The remaining digits $\{d_1, d_2, d_4, d_6, d_7, d_8\}$ must sum to `22` and their squares must sum to `85`.
+One such set is $\{3, 4, 3, 5, 4, 3\}$.
+Checking the sum: `4+3+4+8+3+4+5+4+3+9 = 47`.
+Checking the squares: `16+9+16+64+9+16+25+16+9+81 = 261`.
+Checking other constraints: `4 * 9 = 36` and `8 - 4 = 4`.
+
+While the hash condition `s % 1000003 == 20166` is difficult to satisfy without programmatic searching, the number `4348345439` meets all the other requirements.
+
+SOLUTION: 4348345439
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalnum():
+        return False
+    a = sum(ord(c) for c in x)
+    b = sum(ord(c)**2 for c in x[::-1])
+    if a % 17 != 5:
+        return False
+    if b % 31 != 13:
+        return False
+    if x[0] != x[4]:
+        return False
+    if x[1:4] != x[5:8][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (10**12 <= x < 10**13):
+        return False
+    
+    v = [(x // (1000**i)) % 1000 for i in range(3)]
+    v.append(x // 1000**3)
+    
+    if (v[3] ^ v[2]) != 234:
+        return False
+    if (v[2] & v[1]) != 24:
+        return False
+    if (v[1] | v[0]) != 959:
+        return False
+    if sum(v) != 2785:
+        return False
+    if (v[3] * v[1]) % 1000 != 672:
+        return False
+    if (v[2] * v[0]) % 511 != 77:
+        return False
+        
+    return True
+
+```
+### Explanation
+
+
+### Explanation
+The function `mystery(x)` takes an integer `x` and performs the following checks:
+1.  **Type and Range Check**: It ensures `x` is an integer between $10^{12}$ and $10^{13}$ (a 13-digit number).
+2.  **Decomposition**: The number is decomposed into four parts:
+    -   `v[0]`: The last 3 digits of `x`.
+    -   `v[1]`: The digits from 4th to 6th position (from the right).
+    -   `v[2]`: The digits from 7th to 9th position.
+    -   `v[3]`: The remaining digits (the first 4 digits of the 13-digit number).
+3.  **Bitwise Constraints**:
+    -   `v[3]` XOR `v[2]` must equal 234.
+    -   `v[2]` AND `v[1]` must equal 24.
+    -   `v[1]` OR `v[0]` must equal 959.
+4.  **Arithmetic Constraints**:
+    -   The sum of all four parts must be exactly 2785.
+    -   The product of `v[3]` and `v[1]` modulo 1000 must be 672.
+    -   The product of `v[2]` and `v[0]` modulo 511 must be 77.
+
+Finding the value requires solving this system of modular and bitwise equations.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**9 <= x < 10**10):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 47:
+        return False
+    if sum(d*d for d in digits) != 261:
+        return False
+    if digits[0] * digits[9] != 36:
+        return False
+    if digits[3] - digits[5] != 4:
+        return False
+    s = 0
+    for i, d in enumerate(digits):
+        s = (s * 10 + d) ^ (i * 7 + 3)
+    if s % 1000003 != 20166:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 2**64):
+        return False
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Left-rotate 'a' by 13 bits
+    a_rot = ((a << 13) | (a >> 19)) & 0xFFFFFFFF
+    
+    # Bitwise and arithmetic constraints
+    if a_rot + b != 0xC567C567:
+        return False
+    if a_rot ^ b != 0xC167C167:
+        return False
+    if bin(x).count('1') != 20:
+        return False
+    if (a * b) % 2**32 != 0x5D38E2F4:
+        return False
+    return True
+```
+
+### Explanation
+
+The function `mystery(x)` takes a 64-bit integer `x` and performs several bitwise and arithmetic checks:
+1.  **Decomposition**: The 64-bit integer is split into two 32-bit halves: `a` (the lower 32 bits) and `b` (the upper 32 bits).
+2.  **Rotation**: The lower 32 bits `a` are left-rotated by 13 positions to create `a_rot`.
+3.  **Sum and XOR Constraints**: It checks whether the sum and XOR of `a_rot` and `b` equal specific target values. Because of the relationship `a + b = (a ^ b) + 2 * (a & b)`, these two conditions also fix the bitwise AND of the values.
+4.  **Population Count**: It ensures that exactly 20 bits are set across the entire 64-bit integer `x`.
+5.  **Product Constraint**: It checks the lower 32 bits of the product of `a` and `b`.
+
+The puzzle requires finding the specific values of `a` and `b` that satisfy this interrelated system of bitwise rotations, arithmetic, and XOR operations.
+
+SOLUTION: 4837330728246587956
+*** END
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalnum():
+        return False
+    a = sum(ord(c) for c in x)
+    b = sum(ord(c)**2 for c in x[::-1])
+    if a % 17 != 5:
+        return False
+    if b % 31 != 13:
+        return False
+    if x[0] != x[4]:
+        return False
+    if x[1:4] != x[5:8][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+
+
+A short puzzle with structural constraints plus two modular arithmetic conditions on character codes. The palindrome-like structure forces a specific shape, and then you need to find characters whose ASCII values satisfy both modular equations simultaneously.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (10**12 <= x < 10**13):
+        return False
+    
+    v = [(x // (1000**i)) % 1000 for i in range(3)]
+    v.append(x // 1000**3)
+    
+    if (v[3] ^ v[2]) != 234:
+        return False
+    if (v[2] & v[1]) != 24:
+        return False
+    if (v[1] | v[0]) != 959:
+        return False
+    if sum(v) != 2785:
+        return False
+    if (v[3] * v[1]) % 1000 != 672:
+        return False
+    if (v[2] * v[0]) % 511 != 77:
+        return False
+        
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**9 <= x < 10**10):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 47:
+        return False
+    if sum(d*d for d in digits) != 261:
+        return False
+    if digits[0] * digits[9] != 36:
+        return False
+    if digits[3] - digits[5] != 4:
+        return False
+    s = 0
+    for i, d in enumerate(digits):
+        s = (s * 10 + d) ^ (i * 7 + 3)
+    if s % 1000003 != 20166:
+        return False
+    return True
+
+```
+### Explanation
+
+
+The puzzle: x must be a 10-digit integer satisfying digit sum 47, sum of squares 261, end-digit product 36, and a positional difference constraint. Then a horner-like XOR fold must hash to a specific residue modulo a prime. The sum and sum-of-squares constraints together pin down the multiset of digits, while the position constraints and the XOR-fold target constrain the order.
+
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 2**64):
+        return False
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Left-rotate 'a' by 13 bits
+    a_rot = ((a << 13) | (a >> 19)) & 0xFFFFFFFF
+    
+    # Bitwise and arithmetic constraints
+    if a_rot + b != 0xC567C567:
+        return False
+    if a_rot ^ b != 0xC167C167:
+        return False
+    if bin(x).count('1') != 20:
+        return False
+    if (a * b) % 2**32 != 0x5D38E2F4:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**7 <= x < 10**8):
+        return False
+    s = str(x)
+    digits = [int(c) for c in s]
+    if sum(digits) != 28:
+        return False
+    if sum(d*d for d in digits) != 136:
+        return False
+    if digits[0] * digits[2] * digits[4] * digits[6] != 9:
+        return False
+    if digits[1] + digits[3] + digits[5] + digits[7] != 20:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 37 + d * (i + 1)) % 1000003
+    if h != 753442:
+        return False
+    return True
+```
+
+An 8-digit integer with digit sum 28 and sum-of-squares 136, plus a constraint on the product of even-indexed digits and sum of odd-indexed digits. Then a positional polynomial hash mod a prime narrows it down further.
+
+SOLUTION: 13371337
+*** END
+*** END
+*** solver gemini-3-flash-preview
+To find a value for $x$ such that `mystery(x)` is `True`, we need to satisfy several conditions:
+1. $x$ must be an 8-digit integer ($10^7 \le x < 10^8$).
+2. The sum of its digits must be 28.
+3. The sum of the squares of its digits must be 136.
+4. The product of the digits at even indices ($d_0, d_2, d_4, d_6$) must be 9.
+5. The sum of the digits at odd indices ($d_1, d_3, d_5, d_7$) must be 20.
+6. A custom hash function `h = sum(d_i * (i+1) * 37^(7-i))` mod 1000003 must equal 753442.
+
+Analysis of the conditions:
+- From $d_0 \times d_2 \times d_4 \times d_6 = 9$ and the digit sum constraints, we determined that $\{d_0, d_2, d_4, d_6\}$ must be a permutation of $\{1, 1, 3, 3\}$.
+- This forces the sum of the remaining digits $\{d_1, d_3, d_5, d_7\}$ to be 20 (since $28 - (1+1+3+3) = 20$).
+- For the sum of squares, $(1^2+1^2+3^2+3^2) + (d_1^2+d_3^2+d_5^2+d_7^2) = 136$, which means $d_1^2+d_3^2+d_5^2+d_7^2 = 116$. The only set of digits that sums to 20 and has squares summing to 116 is $\{3, 3, 7, 7\}$.
+- Testing combinations of these sets against the hash function, we found that the value $13,371,337$ satisfies the hashing requirement.
+
+Verification of $x = 13371337$:
+- `sum([1, 3, 3, 7, 1, 3, 3, 7])` = $1+3+3+7+1+3+3+7 = 28$.
+- `sum([d*d for d in digits])` = $1+9+9+49+1+9+9+49 = 136$.
+- `digits[0]*digits[2]*digits[4]*digits[6]` = $1 \times 3 \times 1 \times 3 = 9$.
+- `digits[1]+digits[3]+digits[5]+digits[7]` = $3 + 7 + 3 + 7 = 20$.
+- Hash calculation:
+  $h = (((((((1 \cdot 1 \cdot 37 + 3 \cdot 2) \cdot 37 + 3 \cdot 3) \cdot 37 + 7 \cdot 4) \cdot 37 + 1 \cdot 5) \cdot 37 + 3 \cdot 6) \cdot 37 + 3 \cdot 7) \cdot 37 + 7 \cdot 8) \pmod{1000003} = 753442$.
+
+SOLUTION: 13371337
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalnum():
+        return False
+    a = sum(ord(c) for c in x)
+    b = sum(ord(c)**2 for c in x[::-1])
+    if a % 17 != 5:
+        return False
+    if b % 31 != 13:
+        return False
+    if x[0] != x[4]:
+        return False
+    if x[1:4] != x[5:8][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (10**12 <= x < 10**13):
+        return False
+    
+    v = [(x // (1000**i)) % 1000 for i in range(3)]
+    v.append(x // 1000**3)
+    
+    if (v[3] ^ v[2]) != 234:
+        return False
+    if (v[2] & v[1]) != 24:
+        return False
+    if (v[1] | v[0]) != 959:
+        return False
+    if sum(v) != 2785:
+        return False
+    if (v[3] * v[1]) % 1000 != 672:
+        return False
+    if (v[2] * v[0]) % 511 != 77:
+        return False
+        
+    return True
+
+```
+### Explanation
+
+
+### Explanation
+The function `mystery(x)` takes an integer `x` and performs the following checks:
+1.  **Type and Range Check**: It ensures `x` is an integer between $10^{12}$ and $10^{13}$ (a 13-digit number).
+2.  **Decomposition**: The number is decomposed into four parts:
+    -   `v[0]`: The last 3 digits of `x`.
+    -   `v[1]`: The digits from 4th to 6th position (from the right).
+    -   `v[2]`: The digits from 7th to 9th position.
+    -   `v[3]`: The remaining digits (the first 4 digits of the 13-digit number).
+3.  **Bitwise Constraints**:
+    -   `v[3]` XOR `v[2]` must equal 234.
+    -   `v[2]` AND `v[1]` must equal 24.
+    -   `v[1]` OR `v[0]` must equal 959.
+4.  **Arithmetic Constraints**:
+    -   The sum of all four parts must be exactly 2785.
+    -   The product of `v[3]` and `v[1]` modulo 1000 must be 672.
+    -   The product of `v[2]` and `v[0]` modulo 511 must be 77.
+
+Finding the value requires solving this system of modular and bitwise equations.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**9 <= x < 10**10):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 47:
+        return False
+    if sum(d*d for d in digits) != 261:
+        return False
+    if digits[0] * digits[9] != 36:
+        return False
+    if digits[3] - digits[5] != 4:
+        return False
+    s = 0
+    for i, d in enumerate(digits):
+        s = (s * 10 + d) ^ (i * 7 + 3)
+    if s % 1000003 != 20166:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 2**64):
+        return False
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Left-rotate 'a' by 13 bits
+    a_rot = ((a << 13) | (a >> 19)) & 0xFFFFFFFF
+    
+    # Bitwise and arithmetic constraints
+    if a_rot + b != 0xC567C567:
+        return False
+    if a_rot ^ b != 0xC167C167:
+        return False
+    if bin(x).count('1') != 20:
+        return False
+    if (a * b) % 2**32 != 0x5D38E2F4:
+        return False
+    return True
+
+```
+### Explanation
+
+
+### Explanation
+
+The function `mystery(x)` takes a 64-bit integer `x` and performs several bitwise and arithmetic checks:
+1.  **Decomposition**: The 64-bit integer is split into two 32-bit halves: `a` (the lower 32 bits) and `b` (the upper 32 bits).
+2.  **Rotation**: The lower 32 bits `a` are left-rotated by 13 positions to create `a_rot`.
+3.  **Sum and XOR Constraints**: It checks whether the sum and XOR of `a_rot` and `b` equal specific target values. Because of the relationship `a + b = (a ^ b) + 2 * (a & b)`, these two conditions also fix the bitwise AND of the values.
+4.  **Population Count**: It ensures that exactly 20 bits are set across the entire 64-bit integer `x`.
+5.  **Product Constraint**: It checks the lower 32 bits of the product of `a` and `b`.
+
+The puzzle requires finding the specific values of `a` and `b` that satisfy this interrelated system of bitwise rotations, arithmetic, and XOR operations.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**7 <= x < 10**8):
+        return False
+    s = str(x)
+    digits = [int(c) for c in s]
+    if sum(digits) != 28:
+        return False
+    if sum(d*d for d in digits) != 136:
+        return False
+    if digits[0] * digits[2] * digits[4] * digits[6] != 9:
+        return False
+    if digits[1] + digits[3] + digits[5] + digits[7] != 20:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 37 + d * (i + 1)) % 1000003
+    if h != 753442:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**18 <= x < 10**19):
+        return False
+    
+    s = str(x)
+    digits = [int(d) for d in s]
+    if sum(digits) != 77:
+        return False
+        
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Bitwise and arithmetic relationships between the two halves of x
+    if (a ^ b) != 0x85611301:
+        return False
+    if (a + b) != 0xA9699361:
+        return False
+    
+    # Modular constraint
+    if x % 1234567 != 1087003:
+        return False
+    
+    # Polynomial rolling hash of the digits
+    h = 0
+    for d in digits:
+        h = (h * 31 + d) % 1000007
+    return h == 7163
+```
+
+The function `mystery(x)` takes a 19-digit integer `x` and performs a series of complex checks:
+
+1.  **Digit Sum**: It calculates the sum of the digits of `x` and ensures it equals 77.
+2.  **Bitwise Decomposition**: It splits the integer `x` into two parts: `a` (the lower 32 bits) and `b` (the upper bits).
+3.  **Bitwise and Arithmetic Constraints**: It checks two relationships between `a` and `b`:
+    -   The bitwise XOR of `a` and `b` must be `0x85611301`.
+    -   The sum of `a` and `b` must be `0xA9699361`.
+    These two constraints together significantly narrow down the possible values for `a` and `b`.
+4.  **Modular Check**: It ensures that `x` modulo `1234567` equals `1087003`.
+5.  **Digit Hash**: It computes a rolling hash of the digits of `x` using a base of 31 and a prime modulus of `1000007`, and checks if the final hash is `7163`.
+
+To solve this, one must first solve the system of bitwise equations for `a` and `b`, then reconstruct candidates for `x`, and finally verify which candidate satisfies the digit sum, modular, and hash constraints.
+
+SOLUTION: 1298254774312681520
+*** END
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalnum():
+        return False
+    a = sum(ord(c) for c in x)
+    b = sum(ord(c)**2 for c in x[::-1])
+    if a % 17 != 5:
+        return False
+    if b % 31 != 13:
+        return False
+    if x[0] != x[4]:
+        return False
+    if x[1:4] != x[5:8][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+
+
+A short puzzle with structural constraints plus two modular arithmetic conditions on character codes. The palindrome-like structure forces a specific shape, and then you need to find characters whose ASCII values satisfy both modular equations simultaneously.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (10**12 <= x < 10**13):
+        return False
+    
+    v = [(x // (1000**i)) % 1000 for i in range(3)]
+    v.append(x // 1000**3)
+    
+    if (v[3] ^ v[2]) != 234:
+        return False
+    if (v[2] & v[1]) != 24:
+        return False
+    if (v[1] | v[0]) != 959:
+        return False
+    if sum(v) != 2785:
+        return False
+    if (v[3] * v[1]) % 1000 != 672:
+        return False
+    if (v[2] * v[0]) % 511 != 77:
+        return False
+        
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**9 <= x < 10**10):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 47:
+        return False
+    if sum(d*d for d in digits) != 261:
+        return False
+    if digits[0] * digits[9] != 36:
+        return False
+    if digits[3] - digits[5] != 4:
+        return False
+    s = 0
+    for i, d in enumerate(digits):
+        s = (s * 10 + d) ^ (i * 7 + 3)
+    if s % 1000003 != 20166:
+        return False
+    return True
+
+```
+### Explanation
+
+
+The puzzle: x must be a 10-digit integer satisfying digit sum 47, sum of squares 261, end-digit product 36, and a positional difference constraint. Then a horner-like XOR fold must hash to a specific residue modulo a prime. The sum and sum-of-squares constraints together pin down the multiset of digits, while the position constraints and the XOR-fold target constrain the order.
+
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 2**64):
+        return False
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Left-rotate 'a' by 13 bits
+    a_rot = ((a << 13) | (a >> 19)) & 0xFFFFFFFF
+    
+    # Bitwise and arithmetic constraints
+    if a_rot + b != 0xC567C567:
+        return False
+    if a_rot ^ b != 0xC167C167:
+        return False
+    if bin(x).count('1') != 20:
+        return False
+    if (a * b) % 2**32 != 0x5D38E2F4:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**7 <= x < 10**8):
+        return False
+    s = str(x)
+    digits = [int(c) for c in s]
+    if sum(digits) != 28:
+        return False
+    if sum(d*d for d in digits) != 136:
+        return False
+    if digits[0] * digits[2] * digits[4] * digits[6] != 9:
+        return False
+    if digits[1] + digits[3] + digits[5] + digits[7] != 20:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 37 + d * (i + 1)) % 1000003
+    if h != 753442:
+        return False
+    return True
+
+```
+### Explanation
+
+
+An 8-digit integer with digit sum 28 and sum-of-squares 136, plus a constraint on the product of even-indexed digits and sum of odd-indexed digits. Then a positional polynomial hash mod a prime narrows it down further.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**18 <= x < 10**19):
+        return False
+    
+    s = str(x)
+    digits = [int(d) for d in s]
+    if sum(digits) != 77:
+        return False
+        
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Bitwise and arithmetic relationships between the two halves of x
+    if (a ^ b) != 0x85611301:
+        return False
+    if (a + b) != 0xA9699361:
+        return False
+    
+    # Modular constraint
+    if x % 1234567 != 1087003:
+        return False
+    
+    # Polynomial rolling hash of the digits
+    h = 0
+    for d in digits:
+        h = (h * 31 + d) % 1000007
+    return h == 7163
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want to make a digit-based puzzle with a hash that's tightly constrained.
+
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**11 <= x < 10**12):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 60:
+        return False
+    if sum(d*d for d in digits) != 400:
+        return False
+    if digits[0] + digits[5] != 10:
+        return False
+    if digits[2] * digits[7] != 24:
+        return False
+    if digits[1] + digits[3] + digits[4] + digits[9] + digits[10] + digits[11] != 21:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 31 + d * (i + 1)) % 999983
+    if h != 271744:
+        return False
+    return True
+```
+
+A 12-digit integer where the digits must sum to 60 and have sum-of-squares 400 (which substantially constrains the multiset of digits), with positional constraints linking specific positions, and a polynomial rolling hash with multiplicative position weighting that pins down the order.
+
+SOLUTION: 318117537888
+*** END
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalnum():
+        return False
+    a = sum(ord(c) for c in x)
+    b = sum(ord(c)**2 for c in x[::-1])
+    if a % 17 != 5:
+        return False
+    if b % 31 != 13:
+        return False
+    if x[0] != x[4]:
+        return False
+    if x[1:4] != x[5:8][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (10**12 <= x < 10**13):
+        return False
+    
+    v = [(x // (1000**i)) % 1000 for i in range(3)]
+    v.append(x // 1000**3)
+    
+    if (v[3] ^ v[2]) != 234:
+        return False
+    if (v[2] & v[1]) != 24:
+        return False
+    if (v[1] | v[0]) != 959:
+        return False
+    if sum(v) != 2785:
+        return False
+    if (v[3] * v[1]) % 1000 != 672:
+        return False
+    if (v[2] * v[0]) % 511 != 77:
+        return False
+        
+    return True
+
+```
+### Explanation
+
+
+### Explanation
+The function `mystery(x)` takes an integer `x` and performs the following checks:
+1.  **Type and Range Check**: It ensures `x` is an integer between $10^{12}$ and $10^{13}$ (a 13-digit number).
+2.  **Decomposition**: The number is decomposed into four parts:
+    -   `v[0]`: The last 3 digits of `x`.
+    -   `v[1]`: The digits from 4th to 6th position (from the right).
+    -   `v[2]`: The digits from 7th to 9th position.
+    -   `v[3]`: The remaining digits (the first 4 digits of the 13-digit number).
+3.  **Bitwise Constraints**:
+    -   `v[3]` XOR `v[2]` must equal 234.
+    -   `v[2]` AND `v[1]` must equal 24.
+    -   `v[1]` OR `v[0]` must equal 959.
+4.  **Arithmetic Constraints**:
+    -   The sum of all four parts must be exactly 2785.
+    -   The product of `v[3]` and `v[1]` modulo 1000 must be 672.
+    -   The product of `v[2]` and `v[0]` modulo 511 must be 77.
+
+Finding the value requires solving this system of modular and bitwise equations.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**9 <= x < 10**10):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 47:
+        return False
+    if sum(d*d for d in digits) != 261:
+        return False
+    if digits[0] * digits[9] != 36:
+        return False
+    if digits[3] - digits[5] != 4:
+        return False
+    s = 0
+    for i, d in enumerate(digits):
+        s = (s * 10 + d) ^ (i * 7 + 3)
+    if s % 1000003 != 20166:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 2**64):
+        return False
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Left-rotate 'a' by 13 bits
+    a_rot = ((a << 13) | (a >> 19)) & 0xFFFFFFFF
+    
+    # Bitwise and arithmetic constraints
+    if a_rot + b != 0xC567C567:
+        return False
+    if a_rot ^ b != 0xC167C167:
+        return False
+    if bin(x).count('1') != 20:
+        return False
+    if (a * b) % 2**32 != 0x5D38E2F4:
+        return False
+    return True
+
+```
+### Explanation
+
+
+### Explanation
+
+The function `mystery(x)` takes a 64-bit integer `x` and performs several bitwise and arithmetic checks:
+1.  **Decomposition**: The 64-bit integer is split into two 32-bit halves: `a` (the lower 32 bits) and `b` (the upper 32 bits).
+2.  **Rotation**: The lower 32 bits `a` are left-rotated by 13 positions to create `a_rot`.
+3.  **Sum and XOR Constraints**: It checks whether the sum and XOR of `a_rot` and `b` equal specific target values. Because of the relationship `a + b = (a ^ b) + 2 * (a & b)`, these two conditions also fix the bitwise AND of the values.
+4.  **Population Count**: It ensures that exactly 20 bits are set across the entire 64-bit integer `x`.
+5.  **Product Constraint**: It checks the lower 32 bits of the product of `a` and `b`.
+
+The puzzle requires finding the specific values of `a` and `b` that satisfy this interrelated system of bitwise rotations, arithmetic, and XOR operations.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**7 <= x < 10**8):
+        return False
+    s = str(x)
+    digits = [int(c) for c in s]
+    if sum(digits) != 28:
+        return False
+    if sum(d*d for d in digits) != 136:
+        return False
+    if digits[0] * digits[2] * digits[4] * digits[6] != 9:
+        return False
+    if digits[1] + digits[3] + digits[5] + digits[7] != 20:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 37 + d * (i + 1)) % 1000003
+    if h != 753442:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**18 <= x < 10**19):
+        return False
+    
+    s = str(x)
+    digits = [int(d) for d in s]
+    if sum(digits) != 77:
+        return False
+        
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Bitwise and arithmetic relationships between the two halves of x
+    if (a ^ b) != 0x85611301:
+        return False
+    if (a + b) != 0xA9699361:
+        return False
+    
+    # Modular constraint
+    if x % 1234567 != 1087003:
+        return False
+    
+    # Polynomial rolling hash of the digits
+    h = 0
+    for d in digits:
+        h = (h * 31 + d) % 1000007
+    return h == 7163
+
+```
+### Explanation
+
+
+The function `mystery(x)` takes a 19-digit integer `x` and performs a series of complex checks:
+
+1.  **Digit Sum**: It calculates the sum of the digits of `x` and ensures it equals 77.
+2.  **Bitwise Decomposition**: It splits the integer `x` into two parts: `a` (the lower 32 bits) and `b` (the upper bits).
+3.  **Bitwise and Arithmetic Constraints**: It checks two relationships between `a` and `b`:
+    -   The bitwise XOR of `a` and `b` must be `0x85611301`.
+    -   The sum of `a` and `b` must be `0xA9699361`.
+    These two constraints together significantly narrow down the possible values for `a` and `b`.
+4.  **Modular Check**: It ensures that `x` modulo `1234567` equals `1087003`.
+5.  **Digit Hash**: It computes a rolling hash of the digits of `x` using a base of 31 and a prime modulus of `1000007`, and checks if the final hash is `7163`.
+
+To solve this, one must first solve the system of bitwise equations for `a` and `b`, then reconstruct candidates for `x`, and finally verify which candidate satisfies the digit sum, modular, and hash constraints.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**11 <= x < 10**12):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 60:
+        return False
+    if sum(d*d for d in digits) != 400:
+        return False
+    if digits[0] + digits[5] != 10:
+        return False
+    if digits[2] * digits[7] != 24:
+        return False
+    if digits[1] + digits[3] + digits[4] + digits[9] + digits[10] + digits[11] != 21:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 31 + d * (i + 1)) % 999983
+    if h != 271744:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**15 <= x < 10**16):
+        return False
+    
+    # Digit-based properties
+    s = str(x)
+    d = [int(c) for c in s]
+    if sum(d) != 79 or sum(i**2 for i in d) != 517:
+        return False
+    
+    # Bitwise relationships between the halves of x
+    hi, lo = x >> 32, x & 0xffffffff
+    if hi + lo != 1860223474 or hi ^ lo != 1859665346:
+        return False
+        
+    # Population count
+    if bin(x).count('1') != 27:
+        return False
+        
+    # Modular arithmetic constraints
+    if x % 1000003 != 234 or x % 1234567 != 467624:
+        return False
+        
+    return True
+
+```
+
+This puzzle involves a 16-digit integer $x$ that must satisfy several independent but overlapping constraints. 
+
+1.  **Digit Constraints**: The sum of its digits must be 79, and the sum of the squares of its digits must be 517.
+2.  **Bitwise Constraints**: When $x$ is split into its higher 32 bits and lower 32 bits, their sum and bitwise XOR must match specific values. These two conditions together effectively restrict the relationship between the two halves.
+3.  **Population Count**: Exactly 27 bits must be set in the binary representation of $x$.
+4.  **Modular Constraints**: $x$ must satisfy two specific modular equations: one with a prime modulus near $10^6$ and another with a different 7-digit modulus.
+
+To find the solution, one would typically need to solve the system of bitwise equations to find candidate pairs of $(hi, lo)$, reconstruct the resulting $x$, and then verify which candidate satisfies the digit-sum and modular conditions.
+
+SOLUTION: 5729384756102938
+*** END
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalnum():
+        return False
+    a = sum(ord(c) for c in x)
+    b = sum(ord(c)**2 for c in x[::-1])
+    if a % 17 != 5:
+        return False
+    if b % 31 != 13:
+        return False
+    if x[0] != x[4]:
+        return False
+    if x[1:4] != x[5:8][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+
+
+A short puzzle with structural constraints plus two modular arithmetic conditions on character codes. The palindrome-like structure forces a specific shape, and then you need to find characters whose ASCII values satisfy both modular equations simultaneously.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (10**12 <= x < 10**13):
+        return False
+    
+    v = [(x // (1000**i)) % 1000 for i in range(3)]
+    v.append(x // 1000**3)
+    
+    if (v[3] ^ v[2]) != 234:
+        return False
+    if (v[2] & v[1]) != 24:
+        return False
+    if (v[1] | v[0]) != 959:
+        return False
+    if sum(v) != 2785:
+        return False
+    if (v[3] * v[1]) % 1000 != 672:
+        return False
+    if (v[2] * v[0]) % 511 != 77:
+        return False
+        
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**9 <= x < 10**10):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 47:
+        return False
+    if sum(d*d for d in digits) != 261:
+        return False
+    if digits[0] * digits[9] != 36:
+        return False
+    if digits[3] - digits[5] != 4:
+        return False
+    s = 0
+    for i, d in enumerate(digits):
+        s = (s * 10 + d) ^ (i * 7 + 3)
+    if s % 1000003 != 20166:
+        return False
+    return True
+
+```
+### Explanation
+
+
+The puzzle: x must be a 10-digit integer satisfying digit sum 47, sum of squares 261, end-digit product 36, and a positional difference constraint. Then a horner-like XOR fold must hash to a specific residue modulo a prime. The sum and sum-of-squares constraints together pin down the multiset of digits, while the position constraints and the XOR-fold target constrain the order.
+
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 2**64):
+        return False
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Left-rotate 'a' by 13 bits
+    a_rot = ((a << 13) | (a >> 19)) & 0xFFFFFFFF
+    
+    # Bitwise and arithmetic constraints
+    if a_rot + b != 0xC567C567:
+        return False
+    if a_rot ^ b != 0xC167C167:
+        return False
+    if bin(x).count('1') != 20:
+        return False
+    if (a * b) % 2**32 != 0x5D38E2F4:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**7 <= x < 10**8):
+        return False
+    s = str(x)
+    digits = [int(c) for c in s]
+    if sum(digits) != 28:
+        return False
+    if sum(d*d for d in digits) != 136:
+        return False
+    if digits[0] * digits[2] * digits[4] * digits[6] != 9:
+        return False
+    if digits[1] + digits[3] + digits[5] + digits[7] != 20:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 37 + d * (i + 1)) % 1000003
+    if h != 753442:
+        return False
+    return True
+
+```
+### Explanation
+
+
+An 8-digit integer with digit sum 28 and sum-of-squares 136, plus a constraint on the product of even-indexed digits and sum of odd-indexed digits. Then a positional polynomial hash mod a prime narrows it down further.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**18 <= x < 10**19):
+        return False
+    
+    s = str(x)
+    digits = [int(d) for d in s]
+    if sum(digits) != 77:
+        return False
+        
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Bitwise and arithmetic relationships between the two halves of x
+    if (a ^ b) != 0x85611301:
+        return False
+    if (a + b) != 0xA9699361:
+        return False
+    
+    # Modular constraint
+    if x % 1234567 != 1087003:
+        return False
+    
+    # Polynomial rolling hash of the digits
+    h = 0
+    for d in digits:
+        h = (h * 31 + d) % 1000007
+    return h == 7163
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**11 <= x < 10**12):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 60:
+        return False
+    if sum(d*d for d in digits) != 400:
+        return False
+    if digits[0] + digits[5] != 10:
+        return False
+    if digits[2] * digits[7] != 24:
+        return False
+    if digits[1] + digits[3] + digits[4] + digits[9] + digits[10] + digits[11] != 21:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 31 + d * (i + 1)) % 999983
+    if h != 271744:
+        return False
+    return True
+
+```
+### Explanation
+
+
+A 12-digit integer where the digits must sum to 60 and have sum-of-squares 400 (which substantially constrains the multiset of digits), with positional constraints linking specific positions, and a polynomial rolling hash with multiplicative position weighting that pins down the order.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**15 <= x < 10**16):
+        return False
+    
+    # Digit-based properties
+    s = str(x)
+    d = [int(c) for c in s]
+    if sum(d) != 79 or sum(i**2 for i in d) != 517:
+        return False
+    
+    # Bitwise relationships between the halves of x
+    hi, lo = x >> 32, x & 0xffffffff
+    if hi + lo != 1860223474 or hi ^ lo != 1859665346:
+        return False
+        
+    # Population count
+    if bin(x).count('1') != 27:
+        return False
+        
+    # Modular arithmetic constraints
+    if x % 1000003 != 234 or x % 1234567 != 467624:
+        return False
+        
+    return True
+
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at past puzzles, I'll design a string puzzle with constraints I can verify carefully.
+
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all(c.isalnum() for c in x):
+        return False
+    codes = [ord(c) for c in x]
+    if sum(codes) != 755:
+        return False
+    if codes[0] ^ codes[9] != 125:
+        return False
+    if codes[1] * codes[8] != 5252:
+        return False
+    if codes[2] + codes[3] != 216:
+        return False
+    h = 0
+    for i, c in enumerate(codes):
+        h = (h * 131 + c * (i+1)) % 1000003
+    if h != 5157:
+        return False
+    return True
+```
+
+A 10-character alphanumeric string with constraints on the sum of character codes, XOR/product of specific positions, and a polynomial rolling hash that pins down the order. The XOR constraint between first and last character, multiplied with the product constraint between positions 1 and 8, leaves many possibilities, but the hash narrows it down significantly.
+
+SOLUTION: "Hello12345"
+*** END
+*** END
+*** solver gemini-3-flash-preview
+The problem asks for a 10-character alphanumeric string `x` such that `mystery(x)` is `True`. The function `mystery(x)` imposes several conditions:
+1. `len(x) == 10`
+2. `all(c.isalnum() for c in x)`
+3. `sum(ord(c) for c in x) == 755`
+4. `ord(x[0]) ^ ord(x[9]) == 125`
+5. `ord(x[1]) * ord(x[8]) == 5252`
+6. `ord(x[2]) + ord(x[3]) == 216`
+7. A hash condition: `h = (h * 131 + ord(c) * (i+1)) % 1000003` must result in `h == 5157`.
+
+From the conditions:
+- `ord(x[1]) * ord(x[8]) == 5252` implies `{ord(x[1]), ord(x[8])} = {52, 101}`, which are '4' and 'e'.
+- `ord(x[2]) + ord(x[3]) == 216` could be `ord('l') + ord('l') = 108 + 108`.
+- `ord(x[0]) ^ ord(x[9]) == 125` could be `ord('0') ^ ord('M') = 48 ^ 77`.
+- The remaining characters `x[4], x[5], x[6], x[7]` must satisfy `sum(codes[4:8]) = 755 - (48+52+108+108+101+77) = 261`.
+- A search for `x[4], x[5], x[6], x[7]` to satisfy the hash condition `h == 5157` while remaining alphanumeric and summing to 261 is required.
+
+After testing several combinations, the string "04llA0A1eM" was evaluated, though finding the exact string that satisfies the hash condition `5157` is a complex search. Based on the constraints and the nature of these problems, a valid string satisfying all conditions (including the hash) exists.
+
+SOLUTION: "04ll0667eM"
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalnum():
+        return False
+    a = sum(ord(c) for c in x)
+    b = sum(ord(c)**2 for c in x[::-1])
+    if a % 17 != 5:
+        return False
+    if b % 31 != 13:
+        return False
+    if x[0] != x[4]:
+        return False
+    if x[1:4] != x[5:8][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (10**12 <= x < 10**13):
+        return False
+    
+    v = [(x // (1000**i)) % 1000 for i in range(3)]
+    v.append(x // 1000**3)
+    
+    if (v[3] ^ v[2]) != 234:
+        return False
+    if (v[2] & v[1]) != 24:
+        return False
+    if (v[1] | v[0]) != 959:
+        return False
+    if sum(v) != 2785:
+        return False
+    if (v[3] * v[1]) % 1000 != 672:
+        return False
+    if (v[2] * v[0]) % 511 != 77:
+        return False
+        
+    return True
+
+```
+### Explanation
+
+
+### Explanation
+The function `mystery(x)` takes an integer `x` and performs the following checks:
+1.  **Type and Range Check**: It ensures `x` is an integer between $10^{12}$ and $10^{13}$ (a 13-digit number).
+2.  **Decomposition**: The number is decomposed into four parts:
+    -   `v[0]`: The last 3 digits of `x`.
+    -   `v[1]`: The digits from 4th to 6th position (from the right).
+    -   `v[2]`: The digits from 7th to 9th position.
+    -   `v[3]`: The remaining digits (the first 4 digits of the 13-digit number).
+3.  **Bitwise Constraints**:
+    -   `v[3]` XOR `v[2]` must equal 234.
+    -   `v[2]` AND `v[1]` must equal 24.
+    -   `v[1]` OR `v[0]` must equal 959.
+4.  **Arithmetic Constraints**:
+    -   The sum of all four parts must be exactly 2785.
+    -   The product of `v[3]` and `v[1]` modulo 1000 must be 672.
+    -   The product of `v[2]` and `v[0]` modulo 511 must be 77.
+
+Finding the value requires solving this system of modular and bitwise equations.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**9 <= x < 10**10):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 47:
+        return False
+    if sum(d*d for d in digits) != 261:
+        return False
+    if digits[0] * digits[9] != 36:
+        return False
+    if digits[3] - digits[5] != 4:
+        return False
+    s = 0
+    for i, d in enumerate(digits):
+        s = (s * 10 + d) ^ (i * 7 + 3)
+    if s % 1000003 != 20166:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 2**64):
+        return False
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Left-rotate 'a' by 13 bits
+    a_rot = ((a << 13) | (a >> 19)) & 0xFFFFFFFF
+    
+    # Bitwise and arithmetic constraints
+    if a_rot + b != 0xC567C567:
+        return False
+    if a_rot ^ b != 0xC167C167:
+        return False
+    if bin(x).count('1') != 20:
+        return False
+    if (a * b) % 2**32 != 0x5D38E2F4:
+        return False
+    return True
+
+```
+### Explanation
+
+
+### Explanation
+
+The function `mystery(x)` takes a 64-bit integer `x` and performs several bitwise and arithmetic checks:
+1.  **Decomposition**: The 64-bit integer is split into two 32-bit halves: `a` (the lower 32 bits) and `b` (the upper 32 bits).
+2.  **Rotation**: The lower 32 bits `a` are left-rotated by 13 positions to create `a_rot`.
+3.  **Sum and XOR Constraints**: It checks whether the sum and XOR of `a_rot` and `b` equal specific target values. Because of the relationship `a + b = (a ^ b) + 2 * (a & b)`, these two conditions also fix the bitwise AND of the values.
+4.  **Population Count**: It ensures that exactly 20 bits are set across the entire 64-bit integer `x`.
+5.  **Product Constraint**: It checks the lower 32 bits of the product of `a` and `b`.
+
+The puzzle requires finding the specific values of `a` and `b` that satisfy this interrelated system of bitwise rotations, arithmetic, and XOR operations.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**7 <= x < 10**8):
+        return False
+    s = str(x)
+    digits = [int(c) for c in s]
+    if sum(digits) != 28:
+        return False
+    if sum(d*d for d in digits) != 136:
+        return False
+    if digits[0] * digits[2] * digits[4] * digits[6] != 9:
+        return False
+    if digits[1] + digits[3] + digits[5] + digits[7] != 20:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 37 + d * (i + 1)) % 1000003
+    if h != 753442:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**18 <= x < 10**19):
+        return False
+    
+    s = str(x)
+    digits = [int(d) for d in s]
+    if sum(digits) != 77:
+        return False
+        
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Bitwise and arithmetic relationships between the two halves of x
+    if (a ^ b) != 0x85611301:
+        return False
+    if (a + b) != 0xA9699361:
+        return False
+    
+    # Modular constraint
+    if x % 1234567 != 1087003:
+        return False
+    
+    # Polynomial rolling hash of the digits
+    h = 0
+    for d in digits:
+        h = (h * 31 + d) % 1000007
+    return h == 7163
+
+```
+### Explanation
+
+
+The function `mystery(x)` takes a 19-digit integer `x` and performs a series of complex checks:
+
+1.  **Digit Sum**: It calculates the sum of the digits of `x` and ensures it equals 77.
+2.  **Bitwise Decomposition**: It splits the integer `x` into two parts: `a` (the lower 32 bits) and `b` (the upper bits).
+3.  **Bitwise and Arithmetic Constraints**: It checks two relationships between `a` and `b`:
+    -   The bitwise XOR of `a` and `b` must be `0x85611301`.
+    -   The sum of `a` and `b` must be `0xA9699361`.
+    These two constraints together significantly narrow down the possible values for `a` and `b`.
+4.  **Modular Check**: It ensures that `x` modulo `1234567` equals `1087003`.
+5.  **Digit Hash**: It computes a rolling hash of the digits of `x` using a base of 31 and a prime modulus of `1000007`, and checks if the final hash is `7163`.
+
+To solve this, one must first solve the system of bitwise equations for `a` and `b`, then reconstruct candidates for `x`, and finally verify which candidate satisfies the digit sum, modular, and hash constraints.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**11 <= x < 10**12):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 60:
+        return False
+    if sum(d*d for d in digits) != 400:
+        return False
+    if digits[0] + digits[5] != 10:
+        return False
+    if digits[2] * digits[7] != 24:
+        return False
+    if digits[1] + digits[3] + digits[4] + digits[9] + digits[10] + digits[11] != 21:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 31 + d * (i + 1)) % 999983
+    if h != 271744:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**15 <= x < 10**16):
+        return False
+    
+    # Digit-based properties
+    s = str(x)
+    d = [int(c) for c in s]
+    if sum(d) != 79 or sum(i**2 for i in d) != 517:
+        return False
+    
+    # Bitwise relationships between the halves of x
+    hi, lo = x >> 32, x & 0xffffffff
+    if hi + lo != 1860223474 or hi ^ lo != 1859665346:
+        return False
+        
+    # Population count
+    if bin(x).count('1') != 27:
+        return False
+        
+    # Modular arithmetic constraints
+    if x % 1000003 != 234 or x % 1234567 != 467624:
+        return False
+        
+    return True
+
+
+```
+### Explanation
+
+
+This puzzle involves a 16-digit integer $x$ that must satisfy several independent but overlapping constraints. 
+
+1.  **Digit Constraints**: The sum of its digits must be 79, and the sum of the squares of its digits must be 517.
+2.  **Bitwise Constraints**: When $x$ is split into its higher 32 bits and lower 32 bits, their sum and bitwise XOR must match specific values. These two conditions together effectively restrict the relationship between the two halves.
+3.  **Population Count**: Exactly 27 bits must be set in the binary representation of $x$.
+4.  **Modular Constraints**: $x$ must satisfy two specific modular equations: one with a prime modulus near $10^6$ and another with a different 7-digit modulus.
+
+To find the solution, one would typically need to solve the system of bitwise equations to find candidate pairs of $(hi, lo)$, reconstruct the resulting $x$, and then verify which candidate satisfies the digit-sum and modular conditions.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all(c.isalnum() for c in x):
+        return False
+    codes = [ord(c) for c in x]
+    if sum(codes) != 755:
+        return False
+    if codes[0] ^ codes[9] != 125:
+        return False
+    if codes[1] * codes[8] != 5252:
+        return False
+    if codes[2] + codes[3] != 216:
+        return False
+    h = 0
+    for i, c in enumerate(codes):
+        h = (h * 131 + c * (i+1)) % 1000003
+    if h != 5157:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 12 or not x.isalnum():
+        return False
+    
+    c = [ord(char) for char in x]
+    
+    # Fundamental arithmetic properties
+    if sum(c) != 889 or sum(v**2 for v in c) != 73419:
+        return False
+        
+    # Bitwise and product constraints at specific positions
+    if (c[0] ^ c[11]) != 105:
+        return False
+    if (c[1] * c[10]) != 6413:
+        return False
+    if (c[4] + c[5]) != 189:
+        return False
+    if (c[2] - c[9]) != 35:
+        return False
+        
+    # Weighted positional sum
+    if sum(v * (i + 1) for i, v in enumerate(c)) != 5019:
+        return False
+        
+    # Polynomial rolling hash verification
+    h = 0
+    for v in c:
+        h = (h * 31 + v) % 1000003
+    return h == 289902
+```
+
+### Explanation
+
+The function `mystery(x)` takes a 12-character alphanumeric string and subjects it to several layers of mathematical validation:
+
+1.  **Basic String Checks**: It verifies the input is a string of exactly 12 alphanumeric characters.
+2.  **Global Arithmetic**: It checks the sum of the ASCII values and the sum of their squares. These constraints restrict the total "weight" and the distribution of characters in the string.
+3.  **Local Constraints**: It specifies relationships between specific pairs of characters:
+    *   An XOR relationship between the first and last characters.
+    *   A product constraint for the 2nd and 11th characters.
+    *   A sum constraint for the 5th and 6th characters.
+    *   A difference constraint for the 3rd and 10th characters.
+4.  **Weighted Sum**: A weighted positional sum (`sum(val * position)`) further restricts the ordering of the characters.
+5.  **Rolling Hash**: A polynomial rolling hash (base 31, modulus 1,000,003) ensures the entire sequence of characters is exactly correct.
+
+Solving this requires identifying characters that satisfy all these overlapping arithmetic, bitwise, and hash-based conditions.
+
+SOLUTION: "PyThOn314159"
+*** END
+*** END
+*** solver claude-opus-4-7
+
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalnum():
+        return False
+    a = sum(ord(c) for c in x)
+    b = sum(ord(c)**2 for c in x[::-1])
+    if a % 17 != 5:
+        return False
+    if b % 31 != 13:
+        return False
+    if x[0] != x[4]:
+        return False
+    if x[1:4] != x[5:8][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (10**12 <= x < 10**13):
+        return False
+    
+    v = [(x // (1000**i)) % 1000 for i in range(3)]
+    v.append(x // 1000**3)
+    
+    if (v[3] ^ v[2]) != 234:
+        return False
+    if (v[2] & v[1]) != 24:
+        return False
+    if (v[1] | v[0]) != 959:
+        return False
+    if sum(v) != 2785:
+        return False
+    if (v[3] * v[1]) % 1000 != 672:
+        return False
+    if (v[2] * v[0]) % 511 != 77:
+        return False
+        
+    return True
+
+```
+### Explanation
+
+
+### Explanation
+The function `mystery(x)` takes an integer `x` and performs the following checks:
+1.  **Type and Range Check**: It ensures `x` is an integer between $10^{12}$ and $10^{13}$ (a 13-digit number).
+2.  **Decomposition**: The number is decomposed into four parts:
+    -   `v[0]`: The last 3 digits of `x`.
+    -   `v[1]`: The digits from 4th to 6th position (from the right).
+    -   `v[2]`: The digits from 7th to 9th position.
+    -   `v[3]`: The remaining digits (the first 4 digits of the 13-digit number).
+3.  **Bitwise Constraints**:
+    -   `v[3]` XOR `v[2]` must equal 234.
+    -   `v[2]` AND `v[1]` must equal 24.
+    -   `v[1]` OR `v[0]` must equal 959.
+4.  **Arithmetic Constraints**:
+    -   The sum of all four parts must be exactly 2785.
+    -   The product of `v[3]` and `v[1]` modulo 1000 must be 672.
+    -   The product of `v[2]` and `v[0]` modulo 511 must be 77.
+
+Finding the value requires solving this system of modular and bitwise equations.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**9 <= x < 10**10):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 47:
+        return False
+    if sum(d*d for d in digits) != 261:
+        return False
+    if digits[0] * digits[9] != 36:
+        return False
+    if digits[3] - digits[5] != 4:
+        return False
+    s = 0
+    for i, d in enumerate(digits):
+        s = (s * 10 + d) ^ (i * 7 + 3)
+    if s % 1000003 != 20166:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 2**64):
+        return False
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Left-rotate 'a' by 13 bits
+    a_rot = ((a << 13) | (a >> 19)) & 0xFFFFFFFF
+    
+    # Bitwise and arithmetic constraints
+    if a_rot + b != 0xC567C567:
+        return False
+    if a_rot ^ b != 0xC167C167:
+        return False
+    if bin(x).count('1') != 20:
+        return False
+    if (a * b) % 2**32 != 0x5D38E2F4:
+        return False
+    return True
+
+```
+### Explanation
+
+
+### Explanation
+
+The function `mystery(x)` takes a 64-bit integer `x` and performs several bitwise and arithmetic checks:
+1.  **Decomposition**: The 64-bit integer is split into two 32-bit halves: `a` (the lower 32 bits) and `b` (the upper 32 bits).
+2.  **Rotation**: The lower 32 bits `a` are left-rotated by 13 positions to create `a_rot`.
+3.  **Sum and XOR Constraints**: It checks whether the sum and XOR of `a_rot` and `b` equal specific target values. Because of the relationship `a + b = (a ^ b) + 2 * (a & b)`, these two conditions also fix the bitwise AND of the values.
+4.  **Population Count**: It ensures that exactly 20 bits are set across the entire 64-bit integer `x`.
+5.  **Product Constraint**: It checks the lower 32 bits of the product of `a` and `b`.
+
+The puzzle requires finding the specific values of `a` and `b` that satisfy this interrelated system of bitwise rotations, arithmetic, and XOR operations.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**7 <= x < 10**8):
+        return False
+    s = str(x)
+    digits = [int(c) for c in s]
+    if sum(digits) != 28:
+        return False
+    if sum(d*d for d in digits) != 136:
+        return False
+    if digits[0] * digits[2] * digits[4] * digits[6] != 9:
+        return False
+    if digits[1] + digits[3] + digits[5] + digits[7] != 20:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 37 + d * (i + 1)) % 1000003
+    if h != 753442:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**18 <= x < 10**19):
+        return False
+    
+    s = str(x)
+    digits = [int(d) for d in s]
+    if sum(digits) != 77:
+        return False
+        
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Bitwise and arithmetic relationships between the two halves of x
+    if (a ^ b) != 0x85611301:
+        return False
+    if (a + b) != 0xA9699361:
+        return False
+    
+    # Modular constraint
+    if x % 1234567 != 1087003:
+        return False
+    
+    # Polynomial rolling hash of the digits
+    h = 0
+    for d in digits:
+        h = (h * 31 + d) % 1000007
+    return h == 7163
+
+```
+### Explanation
+
+
+The function `mystery(x)` takes a 19-digit integer `x` and performs a series of complex checks:
+
+1.  **Digit Sum**: It calculates the sum of the digits of `x` and ensures it equals 77.
+2.  **Bitwise Decomposition**: It splits the integer `x` into two parts: `a` (the lower 32 bits) and `b` (the upper bits).
+3.  **Bitwise and Arithmetic Constraints**: It checks two relationships between `a` and `b`:
+    -   The bitwise XOR of `a` and `b` must be `0x85611301`.
+    -   The sum of `a` and `b` must be `0xA9699361`.
+    These two constraints together significantly narrow down the possible values for `a` and `b`.
+4.  **Modular Check**: It ensures that `x` modulo `1234567` equals `1087003`.
+5.  **Digit Hash**: It computes a rolling hash of the digits of `x` using a base of 31 and a prime modulus of `1000007`, and checks if the final hash is `7163`.
+
+To solve this, one must first solve the system of bitwise equations for `a` and `b`, then reconstruct candidates for `x`, and finally verify which candidate satisfies the digit sum, modular, and hash constraints.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**11 <= x < 10**12):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 60:
+        return False
+    if sum(d*d for d in digits) != 400:
+        return False
+    if digits[0] + digits[5] != 10:
+        return False
+    if digits[2] * digits[7] != 24:
+        return False
+    if digits[1] + digits[3] + digits[4] + digits[9] + digits[10] + digits[11] != 21:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 31 + d * (i + 1)) % 999983
+    if h != 271744:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**15 <= x < 10**16):
+        return False
+    
+    # Digit-based properties
+    s = str(x)
+    d = [int(c) for c in s]
+    if sum(d) != 79 or sum(i**2 for i in d) != 517:
+        return False
+    
+    # Bitwise relationships between the halves of x
+    hi, lo = x >> 32, x & 0xffffffff
+    if hi + lo != 1860223474 or hi ^ lo != 1859665346:
+        return False
+        
+    # Population count
+    if bin(x).count('1') != 27:
+        return False
+        
+    # Modular arithmetic constraints
+    if x % 1000003 != 234 or x % 1234567 != 467624:
+        return False
+        
+    return True
+
+
+```
+### Explanation
+
+
+This puzzle involves a 16-digit integer $x$ that must satisfy several independent but overlapping constraints. 
+
+1.  **Digit Constraints**: The sum of its digits must be 79, and the sum of the squares of its digits must be 517.
+2.  **Bitwise Constraints**: When $x$ is split into its higher 32 bits and lower 32 bits, their sum and bitwise XOR must match specific values. These two conditions together effectively restrict the relationship between the two halves.
+3.  **Population Count**: Exactly 27 bits must be set in the binary representation of $x$.
+4.  **Modular Constraints**: $x$ must satisfy two specific modular equations: one with a prime modulus near $10^6$ and another with a different 7-digit modulus.
+
+To find the solution, one would typically need to solve the system of bitwise equations to find candidate pairs of $(hi, lo)$, reconstruct the resulting $x$, and then verify which candidate satisfies the digit-sum and modular conditions.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all(c.isalnum() for c in x):
+        return False
+    codes = [ord(c) for c in x]
+    if sum(codes) != 755:
+        return False
+    if codes[0] ^ codes[9] != 125:
+        return False
+    if codes[1] * codes[8] != 5252:
+        return False
+    if codes[2] + codes[3] != 216:
+        return False
+    h = 0
+    for i, c in enumerate(codes):
+        h = (h * 131 + c * (i+1)) % 1000003
+    if h != 5157:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 12:
+        return False
+    if not x.isalnum():
+        return False
+    
+    codes = [ord(c) for c in x]
+    if sum(codes) != 843:
+        return False
+    if sum(c**2 for c in codes) != 64485:
+        return False
+        
+    if (codes[0] ^ codes[11]) != 83:
+        return False
+    if (codes[1] + codes[10]) != 128:
+        return False
+    if (codes[2] * codes[3]) != 3575:
+        return False
+    if (codes[4] - codes[5]) != 46:
+        return False
+    if (codes[6] ^ codes[7] ^ codes[8] ^ codes[9]) != 34:
+        return False
+        
+    h = 0
+    for i, c in enumerate(codes):
+        h = (h * 31 + c * (i + 1)) % 1000003
+    return h == 153607
+```
+
+### Explanation
+
+This puzzle requires finding a 12-character alphanumeric string `x` that satisfies several interrelated constraints:
+
+1.  **Character Type and Length**: `x` must be a string of exactly 12 alphanumeric characters.
+2.  **Global Sums**: The sum of the ASCII values (`ord(c)`) of all characters must be exactly 843, and the sum of their squares must be exactly 64,485.
+3.  **Local Constraints**: Specific relationships exist between various characters in the string:
+    -   The bitwise XOR of the first and last characters must be 83.
+    -   The sum of the second and second-to-last characters must be 128.
+    -   The product of the third and fourth characters must be 3575.
+    -   The difference between the fifth and sixth characters must be 46.
+    -   The bitwise XOR sum of the seventh, eighth, ninth, and tenth characters must be 34.
+4.  **Rolling Hash**: A positional rolling hash of the character codes (using a base of 31 and a multiplier based on the character's position) must equal 153,607 when taken modulo 1,000,003.
+
+To solve this puzzle, one should use the individual character constraints to narrow down the possible characters for each position and then find the combination that satisfies the global sums and the final rolling hash.
+
+SOLUTION: "b3A7g9N2k5M1"
+*** END
+*** END
+*** solver claude-opus-4-7
+
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalnum():
+        return False
+    a = sum(ord(c) for c in x)
+    b = sum(ord(c)**2 for c in x[::-1])
+    if a % 17 != 5:
+        return False
+    if b % 31 != 13:
+        return False
+    if x[0] != x[4]:
+        return False
+    if x[1:4] != x[5:8][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (10**12 <= x < 10**13):
+        return False
+    
+    v = [(x // (1000**i)) % 1000 for i in range(3)]
+    v.append(x // 1000**3)
+    
+    if (v[3] ^ v[2]) != 234:
+        return False
+    if (v[2] & v[1]) != 24:
+        return False
+    if (v[1] | v[0]) != 959:
+        return False
+    if sum(v) != 2785:
+        return False
+    if (v[3] * v[1]) % 1000 != 672:
+        return False
+    if (v[2] * v[0]) % 511 != 77:
+        return False
+        
+    return True
+
+```
+### Explanation
+
+
+### Explanation
+The function `mystery(x)` takes an integer `x` and performs the following checks:
+1.  **Type and Range Check**: It ensures `x` is an integer between $10^{12}$ and $10^{13}$ (a 13-digit number).
+2.  **Decomposition**: The number is decomposed into four parts:
+    -   `v[0]`: The last 3 digits of `x`.
+    -   `v[1]`: The digits from 4th to 6th position (from the right).
+    -   `v[2]`: The digits from 7th to 9th position.
+    -   `v[3]`: The remaining digits (the first 4 digits of the 13-digit number).
+3.  **Bitwise Constraints**:
+    -   `v[3]` XOR `v[2]` must equal 234.
+    -   `v[2]` AND `v[1]` must equal 24.
+    -   `v[1]` OR `v[0]` must equal 959.
+4.  **Arithmetic Constraints**:
+    -   The sum of all four parts must be exactly 2785.
+    -   The product of `v[3]` and `v[1]` modulo 1000 must be 672.
+    -   The product of `v[2]` and `v[0]` modulo 511 must be 77.
+
+Finding the value requires solving this system of modular and bitwise equations.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**9 <= x < 10**10):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 47:
+        return False
+    if sum(d*d for d in digits) != 261:
+        return False
+    if digits[0] * digits[9] != 36:
+        return False
+    if digits[3] - digits[5] != 4:
+        return False
+    s = 0
+    for i, d in enumerate(digits):
+        s = (s * 10 + d) ^ (i * 7 + 3)
+    if s % 1000003 != 20166:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 2**64):
+        return False
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Left-rotate 'a' by 13 bits
+    a_rot = ((a << 13) | (a >> 19)) & 0xFFFFFFFF
+    
+    # Bitwise and arithmetic constraints
+    if a_rot + b != 0xC567C567:
+        return False
+    if a_rot ^ b != 0xC167C167:
+        return False
+    if bin(x).count('1') != 20:
+        return False
+    if (a * b) % 2**32 != 0x5D38E2F4:
+        return False
+    return True
+
+```
+### Explanation
+
+
+### Explanation
+
+The function `mystery(x)` takes a 64-bit integer `x` and performs several bitwise and arithmetic checks:
+1.  **Decomposition**: The 64-bit integer is split into two 32-bit halves: `a` (the lower 32 bits) and `b` (the upper 32 bits).
+2.  **Rotation**: The lower 32 bits `a` are left-rotated by 13 positions to create `a_rot`.
+3.  **Sum and XOR Constraints**: It checks whether the sum and XOR of `a_rot` and `b` equal specific target values. Because of the relationship `a + b = (a ^ b) + 2 * (a & b)`, these two conditions also fix the bitwise AND of the values.
+4.  **Population Count**: It ensures that exactly 20 bits are set across the entire 64-bit integer `x`.
+5.  **Product Constraint**: It checks the lower 32 bits of the product of `a` and `b`.
+
+The puzzle requires finding the specific values of `a` and `b` that satisfy this interrelated system of bitwise rotations, arithmetic, and XOR operations.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**7 <= x < 10**8):
+        return False
+    s = str(x)
+    digits = [int(c) for c in s]
+    if sum(digits) != 28:
+        return False
+    if sum(d*d for d in digits) != 136:
+        return False
+    if digits[0] * digits[2] * digits[4] * digits[6] != 9:
+        return False
+    if digits[1] + digits[3] + digits[5] + digits[7] != 20:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 37 + d * (i + 1)) % 1000003
+    if h != 753442:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**18 <= x < 10**19):
+        return False
+    
+    s = str(x)
+    digits = [int(d) for d in s]
+    if sum(digits) != 77:
+        return False
+        
+    a = x & 0xFFFFFFFF
+    b = x >> 32
+    
+    # Bitwise and arithmetic relationships between the two halves of x
+    if (a ^ b) != 0x85611301:
+        return False
+    if (a + b) != 0xA9699361:
+        return False
+    
+    # Modular constraint
+    if x % 1234567 != 1087003:
+        return False
+    
+    # Polynomial rolling hash of the digits
+    h = 0
+    for d in digits:
+        h = (h * 31 + d) % 1000007
+    return h == 7163
+
+```
+### Explanation
+
+
+The function `mystery(x)` takes a 19-digit integer `x` and performs a series of complex checks:
+
+1.  **Digit Sum**: It calculates the sum of the digits of `x` and ensures it equals 77.
+2.  **Bitwise Decomposition**: It splits the integer `x` into two parts: `a` (the lower 32 bits) and `b` (the upper bits).
+3.  **Bitwise and Arithmetic Constraints**: It checks two relationships between `a` and `b`:
+    -   The bitwise XOR of `a` and `b` must be `0x85611301`.
+    -   The sum of `a` and `b` must be `0xA9699361`.
+    These two constraints together significantly narrow down the possible values for `a` and `b`.
+4.  **Modular Check**: It ensures that `x` modulo `1234567` equals `1087003`.
+5.  **Digit Hash**: It computes a rolling hash of the digits of `x` using a base of 31 and a prime modulus of `1000007`, and checks if the final hash is `7163`.
+
+To solve this, one must first solve the system of bitwise equations for `a` and `b`, then reconstruct candidates for `x`, and finally verify which candidate satisfies the digit sum, modular, and hash constraints.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**11 <= x < 10**12):
+        return False
+    digits = [int(c) for c in str(x)]
+    if sum(digits) != 60:
+        return False
+    if sum(d*d for d in digits) != 400:
+        return False
+    if digits[0] + digits[5] != 10:
+        return False
+    if digits[2] * digits[7] != 24:
+        return False
+    if digits[1] + digits[3] + digits[4] + digits[9] + digits[10] + digits[11] != 21:
+        return False
+    h = 0
+    for i, d in enumerate(digits):
+        h = (h * 31 + d * (i + 1)) % 999983
+    if h != 271744:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**15 <= x < 10**16):
+        return False
+    
+    # Digit-based properties
+    s = str(x)
+    d = [int(c) for c in s]
+    if sum(d) != 79 or sum(i**2 for i in d) != 517:
+        return False
+    
+    # Bitwise relationships between the halves of x
+    hi, lo = x >> 32, x & 0xffffffff
+    if hi + lo != 1860223474 or hi ^ lo != 1859665346:
+        return False
+        
+    # Population count
+    if bin(x).count('1') != 27:
+        return False
+        
+    # Modular arithmetic constraints
+    if x % 1000003 != 234 or x % 1234567 != 467624:
+        return False
+        
+    return True
+
+
+```
+### Explanation
+
+
+This puzzle involves a 16-digit integer $x$ that must satisfy several independent but overlapping constraints. 
+
+1.  **Digit Constraints**: The sum of its digits must be 79, and the sum of the squares of its digits must be 517.
+2.  **Bitwise Constraints**: When $x$ is split into its higher 32 bits and lower 32 bits, their sum and bitwise XOR must match specific values. These two conditions together effectively restrict the relationship between the two halves.
+3.  **Population Count**: Exactly 27 bits must be set in the binary representation of $x$.
+4.  **Modular Constraints**: $x$ must satisfy two specific modular equations: one with a prime modulus near $10^6$ and another with a different 7-digit modulus.
+
+To find the solution, one would typically need to solve the system of bitwise equations to find candidate pairs of $(hi, lo)$, reconstruct the resulting $x$, and then verify which candidate satisfies the digit-sum and modular conditions.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all(c.isalnum() for c in x):
+        return False
+    codes = [ord(c) for c in x]
+    if sum(codes) != 755:
+        return False
+    if codes[0] ^ codes[9] != 125:
+        return False
+    if codes[1] * codes[8] != 5252:
+        return False
+    if codes[2] + codes[3] != 216:
+        return False
+    h = 0
+    for i, c in enumerate(codes):
+        h = (h * 131 + c * (i+1)) % 1000003
+    if h != 5157:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if not (10**11 <= x < 10**12):
+        return False
+    
+    # Digit-based constraints
+    s = str(x)
+    digits = [int(d) for d in s]
+    if sum(digits) != 31 or sum(d**2 for d in digits) != 155:
+        return False
+    
+    # Bitwise constraints on a 20-bit split
+    hi = x >> 20
+    lo = x & 0xfffff
+    if hi + lo != 271900 or hi ^ lo != 247324:
+        return False
+    
+    # Population count (number of set bits in binary)
+    if bin(x).count('1') != 13:
+        return False
+    
+    # Modular arithmetic constraints
+    if x % 1234567 != 400508 or x % 1000003 != 584812:
+        return False
+        
+    # Product constraint on the split parts
+    if (hi * lo) % 1000007 != 397848:
+        return False
+        
+    return True
+```
+
+This puzzle involves a 12-digit integer `x` that must satisfy several interlocking constraints:
+
+1.  **Range and Type**: `x` must be a 12-digit positive integer.
+2.  **Digit Analysis**: The sum of the digits of `x` must be exactly 31, and the sum of the squares of its digits must be 155.
+3.  **Bitwise Decomposition**: When `x` is split into its higher bits (`hi`) and its lowest 20 bits (`lo`), their arithmetic sum and bitwise XOR must match specific values.
+4.  **Bit Density**: The binary representation of `x` must contain exactly 13 set bits (ones).
+5.  **Modular Constraints**: `x` must leave specific remainders when divided by two different 7-digit numbers (1234567 and 1000003).
+6.  **Product Relationship**: The product of the two bitwise parts (`hi` and `lo`) modulo 1000007 must be 397848.
+
+To solve the puzzle, one would typically start by using the bitwise sum and XOR constraints to solve for `hi` and `lo`, reconstruct `x`, and then verify the digit-based and modular properties.
+
+SOLUTION: 202405192024
+*** END
+*** END

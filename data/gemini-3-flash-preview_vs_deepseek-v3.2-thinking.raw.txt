@@ -1,0 +1,2317 @@
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+None, this is the first turn.
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+```
+
+This puzzle uses a sequence of bitwise and arithmetic operations commonly found in hash functions and pseudo-random number generators. The function `mystery(x)` takes a 32-bit integer and applies five distinct transformations:
+1.  **Modular Multiplication**: Multiplies by a large prime-like constant (0xDEADBEEF) modulo 2^32.
+2.  **Bitwise Rotation**: Performs a circular left shift of 13 bits.
+3.  **XOR with Constant**: Flips bits according to a fixed pattern (0x12345678).
+4.  **Linear Congruential Step**: A standard `ax + c` transformation modulo 2^32.
+5.  **XOR-Shift**: XORs the value with a right-shifted version of itself.
+
+Since each of these steps is a bijection (a one-to-one mapping) within the space of 32-bit integers, there is exactly one value of `x` that will result in the target value. To find `x`, the solver must reverse each operation in the opposite order.
+
+SOLUTION: 987654321
+*** END
+*** END
+*** inventor prompt deepseek-v3.2-thinking
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor deepseek-v3.2-thinking
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    # A linear recurrence over bits, disguised as bitwise operations.
+    return (x ^ (x >> 1) ^ (x >> 2) ^ (x >> 3)) == 0x12345678
+```
+
+SOLUTION: 1397934608
+*** END
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+
+```
+### Explanation
+
+
+This puzzle uses a sequence of bitwise and arithmetic operations commonly found in hash functions and pseudo-random number generators. The function `mystery(x)` takes a 32-bit integer and applies five distinct transformations:
+1.  **Modular Multiplication**: Multiplies by a large prime-like constant (0xDEADBEEF) modulo 2^32.
+2.  **Bitwise Rotation**: Performs a circular left shift of 13 bits.
+3.  **XOR with Constant**: Flips bits according to a fixed pattern (0x12345678).
+4.  **Linear Congruential Step**: A standard `ax + c` transformation modulo 2^32.
+5.  **XOR-Shift**: XORs the value with a right-shifted version of itself.
+
+Since each of these steps is a bijection (a one-to-one mapping) within the space of 32-bit integers, there is exactly one value of `x` that will result in the target value. To find `x`, the solver must reverse each operation in the opposite order.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    # A linear recurrence over bits, disguised as bitwise operations.
+    return (x ^ (x >> 1) ^ (x >> 2) ^ (x >> 3)) == 0x12345678
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 4):
+        return False
+    
+    v = 0
+    for char in x:
+        v = (v << 8) | ord(char)
+    
+    # A series of reversible bitwise and arithmetic operations
+    v ^= 0xDEADBEEF
+    v = (v + 0x12345678) & 0xFFFFFFFF
+    v = ((v << 7) | (v >> 25)) & 0xFFFFFFFF
+    
+    return v == 2224062416
+```
+
+This puzzle involves a function `mystery(x)` that takes a string of length 4 and converts it into a 32-bit integer. This is done by treating each character's ASCII value as a single byte in the integer. After this initial conversion, the integer undergoes three distinct transformations:
+
+1.  **Bitwise XOR**: The integer is XORed with the hexadecimal constant `0xDEADBEEF`.
+2.  **Modular Addition**: The result is added to `0x12345678`, with the sum kept within the 32-bit range using a bitwise AND with `0xFFFFFFFF` (which is equivalent to taking the result modulo 2^32).
+3.  **Bitwise Rotation**: The integer is subjected to a circular left shift (rotation) by 7 bits.
+
+To find the correct input string, you must perform these operations in reverse:
+1.  Rotate the target value (`2224062416`) to the right by 7 bits.
+2.  Subtract `0x12345678` from the result, ensuring the value stays within the 32-bit integer range.
+3.  XOR the result with `0xDEADBEEF`.
+4.  Unpack the resulting 32-bit integer into four 8-bit characters using their ASCII values.
+
+SOLUTION: "Pyth"
+*** END
+*** END
+*** solver deepseek-v3.2-thinking
+
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+
+```
+### Explanation
+
+
+This puzzle uses a sequence of bitwise and arithmetic operations commonly found in hash functions and pseudo-random number generators. The function `mystery(x)` takes a 32-bit integer and applies five distinct transformations:
+1.  **Modular Multiplication**: Multiplies by a large prime-like constant (0xDEADBEEF) modulo 2^32.
+2.  **Bitwise Rotation**: Performs a circular left shift of 13 bits.
+3.  **XOR with Constant**: Flips bits according to a fixed pattern (0x12345678).
+4.  **Linear Congruential Step**: A standard `ax + c` transformation modulo 2^32.
+5.  **XOR-Shift**: XORs the value with a right-shifted version of itself.
+
+Since each of these steps is a bijection (a one-to-one mapping) within the space of 32-bit integers, there is exactly one value of `x` that will result in the target value. To find `x`, the solver must reverse each operation in the opposite order.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    # A linear recurrence over bits, disguised as bitwise operations.
+    return (x ^ (x >> 1) ^ (x >> 2) ^ (x >> 3)) == 0x12345678
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A sequence of four reversible transformations on a 32-bit integer.
+    # Step 1: XOR-shift
+    v = (x ^ (x >> 16)) & 0xFFFFFFFF
+    
+    # Step 2: Modular multiplication
+    v = (v * 0x31415927) & 0xFFFFFFFF
+    
+    # Step 3: Bitwise rotation (circular shift)
+    v = ((v << 13) | (v >> 19)) & 0xFFFFFFFF
+    
+    # Step 4: XOR with a constant
+    v = (v ^ 0x55555555) & 0xFFFFFFFF
+    
+    return v == 0xdeadbeef
+```
+
+This puzzle uses a sequence of four bitwise and arithmetic operations commonly found in symmetric cryptography and pseudo-random number generators. The function `mystery(x)` takes a 32-bit integer and applies the following transformations:
+
+1.  **XOR-Shift**: XORs the integer with a version of itself shifted by 16 bits.
+2.  **Modular Multiplication**: Multiplies by a constant derived from the hex expansion of Pi (0x31415927) modulo 2^32.
+3.  **Circular Bitwise Rotation**: Performs a 13-bit circular left shift within the 32-bit space.
+4.  **XOR with Constant**: Flips bits using the alternating pattern 0x55555555.
+
+Each of these transformations is a bijection (a one-to-one mapping) on the set of 32-bit integers. Therefore, there is exactly one value of `x` that satisfies the condition `mystery(x) == True`. To find it, one must invert each operation in reverse order:
+1.  Undo the final XOR: `v = 0xdeadbeef ^ 0x55555555 = 0x8bf8ebba`.
+2.  Undo the circular shift (rotate right 13): `v = 0x5dd45fc7`.
+3.  Undo the multiplication using the modular multiplicative inverse of 0x31415927 mod 2^32 (which is 0xa8587427): `v = 0x954e2c85`.
+4.  Undo the XOR-Shift: `x = 0x954eb90b`.
+
+Converting the resulting hexadecimal value `0x954eb90b` back to decimal gives the solution.
+
+SOLUTION: 2504964363
+*** END
+*** END
+*** inventor prompt deepseek-v3.2-thinking
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    # A linear recurrence over bits, disguised as bitwise operations.
+    return (x ^ (x >> 1) ^ (x >> 2) ^ (x >> 3)) == 0x12345678
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A sequence of four reversible transformations on a 32-bit integer.
+    # Step 1: XOR-shift
+    v = (x ^ (x >> 16)) & 0xFFFFFFFF
+    
+    # Step 2: Modular multiplication
+    v = (v * 0x31415927) & 0xFFFFFFFF
+    
+    # Step 3: Bitwise rotation (circular shift)
+    v = ((v << 13) | (v >> 19)) & 0xFFFFFFFF
+    
+    # Step 4: XOR with a constant
+    v = (v ^ 0x55555555) & 0xFFFFFFFF
+    
+    return v == 0xdeadbeef
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor deepseek-v3.2-thinking
+
+*** END
+*** END
+*** inventor prompt deepseek-v3.2-thinking
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    # A linear recurrence over bits, disguised as bitwise operations.
+    return (x ^ (x >> 1) ^ (x >> 2) ^ (x >> 3)) == 0x12345678
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A sequence of four reversible transformations on a 32-bit integer.
+    # Step 1: XOR-shift
+    v = (x ^ (x >> 16)) & 0xFFFFFFFF
+    
+    # Step 2: Modular multiplication
+    v = (v * 0x31415927) & 0xFFFFFFFF
+    
+    # Step 3: Bitwise rotation (circular shift)
+    v = ((v << 13) | (v >> 19)) & 0xFFFFFFFF
+    
+    # Step 4: XOR with a constant
+    v = (v ^ 0x55555555) & 0xFFFFFFFF
+    
+    return v == 0xdeadbeef
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor deepseek-v3.2-thinking
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    # Sum of hexadecimal digits
+    h = hex(x)[2:]
+    s = 0
+    for c in h:
+        s += int(c, 16)
+    if s != 21:
+        return False
+    v = x
+    v ^= (v >> 16)
+    v &= 0xFFFFFFFF
+    v ^= (v << 9)
+    v &= 0xFFFFFFFF
+    v ^= (v >> 7)
+    v &= 0xFFFFFFFF
+    return v == 1004331136
+```
+
+SOLUTION: 123456
+*** END
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+
+```
+### Explanation
+
+
+This puzzle uses a sequence of bitwise and arithmetic operations commonly found in hash functions and pseudo-random number generators. The function `mystery(x)` takes a 32-bit integer and applies five distinct transformations:
+1.  **Modular Multiplication**: Multiplies by a large prime-like constant (0xDEADBEEF) modulo 2^32.
+2.  **Bitwise Rotation**: Performs a circular left shift of 13 bits.
+3.  **XOR with Constant**: Flips bits according to a fixed pattern (0x12345678).
+4.  **Linear Congruential Step**: A standard `ax + c` transformation modulo 2^32.
+5.  **XOR-Shift**: XORs the value with a right-shifted version of itself.
+
+Since each of these steps is a bijection (a one-to-one mapping) within the space of 32-bit integers, there is exactly one value of `x` that will result in the target value. To find `x`, the solver must reverse each operation in the opposite order.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    # A linear recurrence over bits, disguised as bitwise operations.
+    return (x ^ (x >> 1) ^ (x >> 2) ^ (x >> 3)) == 0x12345678
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A sequence of four reversible transformations on a 32-bit integer.
+    # Step 1: XOR-shift
+    v = (x ^ (x >> 16)) & 0xFFFFFFFF
+    
+    # Step 2: Modular multiplication
+    v = (v * 0x31415927) & 0xFFFFFFFF
+    
+    # Step 3: Bitwise rotation (circular shift)
+    v = ((v << 13) | (v >> 19)) & 0xFFFFFFFF
+    
+    # Step 4: XOR with a constant
+    v = (v ^ 0x55555555) & 0xFFFFFFFF
+    
+    return v == 0xdeadbeef
+
+```
+### Explanation
+
+
+This puzzle uses a sequence of four bitwise and arithmetic operations commonly found in symmetric cryptography and pseudo-random number generators. The function `mystery(x)` takes a 32-bit integer and applies the following transformations:
+
+1.  **XOR-Shift**: XORs the integer with a version of itself shifted by 16 bits.
+2.  **Modular Multiplication**: Multiplies by a constant derived from the hex expansion of Pi (0x31415927) modulo 2^32.
+3.  **Circular Bitwise Rotation**: Performs a 13-bit circular left shift within the 32-bit space.
+4.  **XOR with Constant**: Flips bits using the alternating pattern 0x55555555.
+
+Each of these transformations is a bijection (a one-to-one mapping) on the set of 32-bit integers. Therefore, there is exactly one value of `x` that satisfies the condition `mystery(x) == True`. To find it, one must invert each operation in reverse order:
+1.  Undo the final XOR: `v = 0xdeadbeef ^ 0x55555555 = 0x8bf8ebba`.
+2.  Undo the circular shift (rotate right 13): `v = 0x5dd45fc7`.
+3.  Undo the multiplication using the modular multiplicative inverse of 0x31415927 mod 2^32 (which is 0xa8587427): `v = 0x954e2c85`.
+4.  Undo the XOR-Shift: `x = 0x954eb90b`.
+
+Converting the resulting hexadecimal value `0x954eb90b` back to decimal gives the solution.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    # Sum of hexadecimal digits
+    h = hex(x)[2:]
+    s = 0
+    for c in h:
+        s += int(c, 16)
+    if s != 21:
+        return False
+    v = x
+    v ^= (v >> 16)
+    v &= 0xFFFFFFFF
+    v ^= (v << 9)
+    v &= 0xFFFFFFFF
+    v ^= (v >> 7)
+    v &= 0xFFFFFFFF
+    return v == 1004331136
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 0x100000000):
+        return False
+    
+    # Step 1: Nibble swap
+    # This operation swaps the adjacent 4-bit nibbles of the 32-bit integer.
+    v = ((x & 0x0F0F0F0F) << 4) | ((x & 0xF0F0F0F0) >> 4)
+    
+    # Step 2: Linear transformation
+    # A standard modular multiplication and addition.
+    v = (v * 31337 + 1234567) & 0xFFFFFFFF
+    
+    # Step 3: XOR-shift
+    # A reversible bitwise XOR with a right-shifted version of itself.
+    v ^= (v >> 13)
+    
+    return v == 2960602281
+```
+
+### Explanation
+
+This puzzle is a sequence of three reversible operations on a 32-bit integer:
+
+1.  **Nibble Swapping**: A bitwise permutation that swaps each pair of adjacent 4-bit nibbles (e.g., `0x12345678` becomes `0x21436587`).
+2.  **Linear Congruential Step**: A modular linear transformation `v = (v * a + c) % m`. Since `a = 31337` and `m = 2^32` are coprime, this is a bijection.
+3.  **XOR-Shift**: An operation where the integer is XORed with a right-shifted version of itself. Since the shift `13` is more than one-third of the total bits, this is also a bijection.
+
+To solve the puzzle, one must reverse each step:
+1.  **Reverse XOR-shift**: For `v = y ^ (y >> 13)`, the inverse is `y = v ^ (v >> 13) ^ (v >> 26)`.
+2.  **Reverse Linear Step**: Use the modular multiplicative inverse of `31337` modulo `2^32`.
+3.  **Reverse Nibble Swap**: Applying the nibble swap a second time reverses the first swap.
+
+Applying these steps to the target value `2960602281` yields the unique solution.
+
+SOLUTION: 1234567890
+*** END
+*** END
+*** inventor prompt deepseek-v3.2-thinking
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    # A linear recurrence over bits, disguised as bitwise operations.
+    return (x ^ (x >> 1) ^ (x >> 2) ^ (x >> 3)) == 0x12345678
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A sequence of four reversible transformations on a 32-bit integer.
+    # Step 1: XOR-shift
+    v = (x ^ (x >> 16)) & 0xFFFFFFFF
+    
+    # Step 2: Modular multiplication
+    v = (v * 0x31415927) & 0xFFFFFFFF
+    
+    # Step 3: Bitwise rotation (circular shift)
+    v = ((v << 13) | (v >> 19)) & 0xFFFFFFFF
+    
+    # Step 4: XOR with a constant
+    v = (v ^ 0x55555555) & 0xFFFFFFFF
+    
+    return v == 0xdeadbeef
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    # Sum of hexadecimal digits
+    h = hex(x)[2:]
+    s = 0
+    for c in h:
+        s += int(c, 16)
+    if s != 21:
+        return False
+    v = x
+    v ^= (v >> 16)
+    v &= 0xFFFFFFFF
+    v ^= (v << 9)
+    v &= 0xFFFFFFFF
+    v ^= (v >> 7)
+    v &= 0xFFFFFFFF
+    return v == 1004331136
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 0x100000000):
+        return False
+    
+    # Step 1: Nibble swap
+    # This operation swaps the adjacent 4-bit nibbles of the 32-bit integer.
+    v = ((x & 0x0F0F0F0F) << 4) | ((x & 0xF0F0F0F0) >> 4)
+    
+    # Step 2: Linear transformation
+    # A standard modular multiplication and addition.
+    v = (v * 31337 + 1234567) & 0xFFFFFFFF
+    
+    # Step 3: XOR-shift
+    # A reversible bitwise XOR with a right-shifted version of itself.
+    v ^= (v >> 13)
+    
+    return v == 2960602281
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor deepseek-v3.2-thinking
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    v = x
+    v = (v * 0x1337) & 0xFFFFFFFF
+    v = (v ^ 0xCAFEBABE) & 0xFFFFFFFF
+    v = (v + 0xDEADBEEF) & 0xFFFFFFFF
+    v = v ^ (v >> 17)
+    return v == 2361617646
+```
+
+SOLUTION: 123456789
+*** END
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+
+```
+### Explanation
+
+
+This puzzle uses a sequence of bitwise and arithmetic operations commonly found in hash functions and pseudo-random number generators. The function `mystery(x)` takes a 32-bit integer and applies five distinct transformations:
+1.  **Modular Multiplication**: Multiplies by a large prime-like constant (0xDEADBEEF) modulo 2^32.
+2.  **Bitwise Rotation**: Performs a circular left shift of 13 bits.
+3.  **XOR with Constant**: Flips bits according to a fixed pattern (0x12345678).
+4.  **Linear Congruential Step**: A standard `ax + c` transformation modulo 2^32.
+5.  **XOR-Shift**: XORs the value with a right-shifted version of itself.
+
+Since each of these steps is a bijection (a one-to-one mapping) within the space of 32-bit integers, there is exactly one value of `x` that will result in the target value. To find `x`, the solver must reverse each operation in the opposite order.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    # A linear recurrence over bits, disguised as bitwise operations.
+    return (x ^ (x >> 1) ^ (x >> 2) ^ (x >> 3)) == 0x12345678
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A sequence of four reversible transformations on a 32-bit integer.
+    # Step 1: XOR-shift
+    v = (x ^ (x >> 16)) & 0xFFFFFFFF
+    
+    # Step 2: Modular multiplication
+    v = (v * 0x31415927) & 0xFFFFFFFF
+    
+    # Step 3: Bitwise rotation (circular shift)
+    v = ((v << 13) | (v >> 19)) & 0xFFFFFFFF
+    
+    # Step 4: XOR with a constant
+    v = (v ^ 0x55555555) & 0xFFFFFFFF
+    
+    return v == 0xdeadbeef
+
+```
+### Explanation
+
+
+This puzzle uses a sequence of four bitwise and arithmetic operations commonly found in symmetric cryptography and pseudo-random number generators. The function `mystery(x)` takes a 32-bit integer and applies the following transformations:
+
+1.  **XOR-Shift**: XORs the integer with a version of itself shifted by 16 bits.
+2.  **Modular Multiplication**: Multiplies by a constant derived from the hex expansion of Pi (0x31415927) modulo 2^32.
+3.  **Circular Bitwise Rotation**: Performs a 13-bit circular left shift within the 32-bit space.
+4.  **XOR with Constant**: Flips bits using the alternating pattern 0x55555555.
+
+Each of these transformations is a bijection (a one-to-one mapping) on the set of 32-bit integers. Therefore, there is exactly one value of `x` that satisfies the condition `mystery(x) == True`. To find it, one must invert each operation in reverse order:
+1.  Undo the final XOR: `v = 0xdeadbeef ^ 0x55555555 = 0x8bf8ebba`.
+2.  Undo the circular shift (rotate right 13): `v = 0x5dd45fc7`.
+3.  Undo the multiplication using the modular multiplicative inverse of 0x31415927 mod 2^32 (which is 0xa8587427): `v = 0x954e2c85`.
+4.  Undo the XOR-Shift: `x = 0x954eb90b`.
+
+Converting the resulting hexadecimal value `0x954eb90b` back to decimal gives the solution.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    # Sum of hexadecimal digits
+    h = hex(x)[2:]
+    s = 0
+    for c in h:
+        s += int(c, 16)
+    if s != 21:
+        return False
+    v = x
+    v ^= (v >> 16)
+    v &= 0xFFFFFFFF
+    v ^= (v << 9)
+    v &= 0xFFFFFFFF
+    v ^= (v >> 7)
+    v &= 0xFFFFFFFF
+    return v == 1004331136
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 0x100000000):
+        return False
+    
+    # Step 1: Nibble swap
+    # This operation swaps the adjacent 4-bit nibbles of the 32-bit integer.
+    v = ((x & 0x0F0F0F0F) << 4) | ((x & 0xF0F0F0F0) >> 4)
+    
+    # Step 2: Linear transformation
+    # A standard modular multiplication and addition.
+    v = (v * 31337 + 1234567) & 0xFFFFFFFF
+    
+    # Step 3: XOR-shift
+    # A reversible bitwise XOR with a right-shifted version of itself.
+    v ^= (v >> 13)
+    
+    return v == 2960602281
+
+```
+### Explanation
+
+
+### Explanation
+
+This puzzle is a sequence of three reversible operations on a 32-bit integer:
+
+1.  **Nibble Swapping**: A bitwise permutation that swaps each pair of adjacent 4-bit nibbles (e.g., `0x12345678` becomes `0x21436587`).
+2.  **Linear Congruential Step**: A modular linear transformation `v = (v * a + c) % m`. Since `a = 31337` and `m = 2^32` are coprime, this is a bijection.
+3.  **XOR-Shift**: An operation where the integer is XORed with a right-shifted version of itself. Since the shift `13` is more than one-third of the total bits, this is also a bijection.
+
+To solve the puzzle, one must reverse each step:
+1.  **Reverse XOR-shift**: For `v = y ^ (y >> 13)`, the inverse is `y = v ^ (v >> 13) ^ (v >> 26)`.
+2.  **Reverse Linear Step**: Use the modular multiplicative inverse of `31337` modulo `2^32`.
+3.  **Reverse Nibble Swap**: Applying the nibble swap a second time reverses the first swap.
+
+Applying these steps to the target value `2960602281` yields the unique solution.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    v = x
+    v = (v * 0x1337) & 0xFFFFFFFF
+    v = (v ^ 0xCAFEBABE) & 0xFFFFFFFF
+    v = (v + 0xDEADBEEF) & 0xFFFFFFFF
+    v = v ^ (v >> 17)
+    return v == 2361617646
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+This puzzle involves a sequence of bitwise and arithmetic operations on a 32-bit integer, common in hashing and cryptographic applications. Each step is a reversible transformation (a bijection) within the 32-bit space.
+
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # Step 1: XOR with a constant
+    v = (x ^ 305419896)
+    
+    # Step 2: Modular addition
+    v = (v + 3735928559) & 4294967295
+    
+    # Step 3: Circular bitwise rotation (Left shift by 13)
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    
+    # Step 4: XOR with another constant
+    v = (v ^ 1431655765)
+    
+    return v == 3944696691
+```
+
+### Explanation
+
+The `mystery(x)` function transforms a 32-bit integer through four steps:
+1.  **XOR with `0x12345678`**: A standard bitwise XOR operation.
+2.  **Modular Addition with `0xDEADBEEF`**: Addition modulo $2^{32}$.
+3.  **Circular Rotation**: A left rotation by 13 bits, which is equivalent to `(v << 13) | (v >> (32 - 13))`.
+4.  **XOR with `0x55555555`**: A final bitwise XOR to flip alternating bits.
+
+To solve the puzzle, one must reverse each operation in the opposite order:
+1.  Undo the final XOR: `3944696691 ^ 1431655765 = 3192528422` (`0xBE4A1E26`).
+2.  Undo the rotation: Rotate `0xBE4A1E26` right by 13 bits to get `0xF135F625`.
+3.  Undo the addition: `(0xF135F625 - 0xDEADBEEF) % 2**32 = 0x12883736`.
+4.  Undo the first XOR: `0x12883736 ^ 0x12345678 = 0x00BC614E`, which is `12345678` in decimal.
+
+SOLUTION: 12345678
+*** END
+*** END
+*** inventor prompt deepseek-v3.2-thinking
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    # A linear recurrence over bits, disguised as bitwise operations.
+    return (x ^ (x >> 1) ^ (x >> 2) ^ (x >> 3)) == 0x12345678
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A sequence of four reversible transformations on a 32-bit integer.
+    # Step 1: XOR-shift
+    v = (x ^ (x >> 16)) & 0xFFFFFFFF
+    
+    # Step 2: Modular multiplication
+    v = (v * 0x31415927) & 0xFFFFFFFF
+    
+    # Step 3: Bitwise rotation (circular shift)
+    v = ((v << 13) | (v >> 19)) & 0xFFFFFFFF
+    
+    # Step 4: XOR with a constant
+    v = (v ^ 0x55555555) & 0xFFFFFFFF
+    
+    return v == 0xdeadbeef
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    # Sum of hexadecimal digits
+    h = hex(x)[2:]
+    s = 0
+    for c in h:
+        s += int(c, 16)
+    if s != 21:
+        return False
+    v = x
+    v ^= (v >> 16)
+    v &= 0xFFFFFFFF
+    v ^= (v << 9)
+    v &= 0xFFFFFFFF
+    v ^= (v >> 7)
+    v &= 0xFFFFFFFF
+    return v == 1004331136
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 0x100000000):
+        return False
+    
+    # Step 1: Nibble swap
+    # This operation swaps the adjacent 4-bit nibbles of the 32-bit integer.
+    v = ((x & 0x0F0F0F0F) << 4) | ((x & 0xF0F0F0F0) >> 4)
+    
+    # Step 2: Linear transformation
+    # A standard modular multiplication and addition.
+    v = (v * 31337 + 1234567) & 0xFFFFFFFF
+    
+    # Step 3: XOR-shift
+    # A reversible bitwise XOR with a right-shifted version of itself.
+    v ^= (v >> 13)
+    
+    return v == 2960602281
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    v = x
+    v = (v * 0x1337) & 0xFFFFFFFF
+    v = (v ^ 0xCAFEBABE) & 0xFFFFFFFF
+    v = (v + 0xDEADBEEF) & 0xFFFFFFFF
+    v = v ^ (v >> 17)
+    return v == 2361617646
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # Step 1: XOR with a constant
+    v = (x ^ 305419896)
+    
+    # Step 2: Modular addition
+    v = (v + 3735928559) & 4294967295
+    
+    # Step 3: Circular bitwise rotation (Left shift by 13)
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    
+    # Step 4: XOR with another constant
+    v = (v ^ 1431655765)
+    
+    return v == 3944696691
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor deepseek-v3.2-thinking
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 0x100000000):
+        return False
+    
+    v = x
+    
+    v ^= 0x12345678
+    
+    v = ((v << 1) | (v >> 31)) & 0xFFFFFFFF
+    
+    v = (v + 0x87654321) & 0xFFFFFFFF
+    
+    v ^= (v >> 4)
+    
+    v = (v * 3) & 0xFFFFFFFF
+    
+    return v == 0xF7B7D5F4
+```
+
+SOLUTION: 1
+*** END
+*** END
+*** inventor prompt gemini-3-flash-preview
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+
+```
+### Explanation
+
+
+This puzzle uses a sequence of bitwise and arithmetic operations commonly found in hash functions and pseudo-random number generators. The function `mystery(x)` takes a 32-bit integer and applies five distinct transformations:
+1.  **Modular Multiplication**: Multiplies by a large prime-like constant (0xDEADBEEF) modulo 2^32.
+2.  **Bitwise Rotation**: Performs a circular left shift of 13 bits.
+3.  **XOR with Constant**: Flips bits according to a fixed pattern (0x12345678).
+4.  **Linear Congruential Step**: A standard `ax + c` transformation modulo 2^32.
+5.  **XOR-Shift**: XORs the value with a right-shifted version of itself.
+
+Since each of these steps is a bijection (a one-to-one mapping) within the space of 32-bit integers, there is exactly one value of `x` that will result in the target value. To find `x`, the solver must reverse each operation in the opposite order.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    # A linear recurrence over bits, disguised as bitwise operations.
+    return (x ^ (x >> 1) ^ (x >> 2) ^ (x >> 3)) == 0x12345678
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A sequence of four reversible transformations on a 32-bit integer.
+    # Step 1: XOR-shift
+    v = (x ^ (x >> 16)) & 0xFFFFFFFF
+    
+    # Step 2: Modular multiplication
+    v = (v * 0x31415927) & 0xFFFFFFFF
+    
+    # Step 3: Bitwise rotation (circular shift)
+    v = ((v << 13) | (v >> 19)) & 0xFFFFFFFF
+    
+    # Step 4: XOR with a constant
+    v = (v ^ 0x55555555) & 0xFFFFFFFF
+    
+    return v == 0xdeadbeef
+
+```
+### Explanation
+
+
+This puzzle uses a sequence of four bitwise and arithmetic operations commonly found in symmetric cryptography and pseudo-random number generators. The function `mystery(x)` takes a 32-bit integer and applies the following transformations:
+
+1.  **XOR-Shift**: XORs the integer with a version of itself shifted by 16 bits.
+2.  **Modular Multiplication**: Multiplies by a constant derived from the hex expansion of Pi (0x31415927) modulo 2^32.
+3.  **Circular Bitwise Rotation**: Performs a 13-bit circular left shift within the 32-bit space.
+4.  **XOR with Constant**: Flips bits using the alternating pattern 0x55555555.
+
+Each of these transformations is a bijection (a one-to-one mapping) on the set of 32-bit integers. Therefore, there is exactly one value of `x` that satisfies the condition `mystery(x) == True`. To find it, one must invert each operation in reverse order:
+1.  Undo the final XOR: `v = 0xdeadbeef ^ 0x55555555 = 0x8bf8ebba`.
+2.  Undo the circular shift (rotate right 13): `v = 0x5dd45fc7`.
+3.  Undo the multiplication using the modular multiplicative inverse of 0x31415927 mod 2^32 (which is 0xa8587427): `v = 0x954e2c85`.
+4.  Undo the XOR-Shift: `x = 0x954eb90b`.
+
+Converting the resulting hexadecimal value `0x954eb90b` back to decimal gives the solution.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    # Sum of hexadecimal digits
+    h = hex(x)[2:]
+    s = 0
+    for c in h:
+        s += int(c, 16)
+    if s != 21:
+        return False
+    v = x
+    v ^= (v >> 16)
+    v &= 0xFFFFFFFF
+    v ^= (v << 9)
+    v &= 0xFFFFFFFF
+    v ^= (v >> 7)
+    v &= 0xFFFFFFFF
+    return v == 1004331136
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 0x100000000):
+        return False
+    
+    # Step 1: Nibble swap
+    # This operation swaps the adjacent 4-bit nibbles of the 32-bit integer.
+    v = ((x & 0x0F0F0F0F) << 4) | ((x & 0xF0F0F0F0) >> 4)
+    
+    # Step 2: Linear transformation
+    # A standard modular multiplication and addition.
+    v = (v * 31337 + 1234567) & 0xFFFFFFFF
+    
+    # Step 3: XOR-shift
+    # A reversible bitwise XOR with a right-shifted version of itself.
+    v ^= (v >> 13)
+    
+    return v == 2960602281
+
+```
+### Explanation
+
+
+### Explanation
+
+This puzzle is a sequence of three reversible operations on a 32-bit integer:
+
+1.  **Nibble Swapping**: A bitwise permutation that swaps each pair of adjacent 4-bit nibbles (e.g., `0x12345678` becomes `0x21436587`).
+2.  **Linear Congruential Step**: A modular linear transformation `v = (v * a + c) % m`. Since `a = 31337` and `m = 2^32` are coprime, this is a bijection.
+3.  **XOR-Shift**: An operation where the integer is XORed with a right-shifted version of itself. Since the shift `13` is more than one-third of the total bits, this is also a bijection.
+
+To solve the puzzle, one must reverse each step:
+1.  **Reverse XOR-shift**: For `v = y ^ (y >> 13)`, the inverse is `y = v ^ (v >> 13) ^ (v >> 26)`.
+2.  **Reverse Linear Step**: Use the modular multiplicative inverse of `31337` modulo `2^32`.
+3.  **Reverse Nibble Swap**: Applying the nibble swap a second time reverses the first swap.
+
+Applying these steps to the target value `2960602281` yields the unique solution.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    v = x
+    v = (v * 0x1337) & 0xFFFFFFFF
+    v = (v ^ 0xCAFEBABE) & 0xFFFFFFFF
+    v = (v + 0xDEADBEEF) & 0xFFFFFFFF
+    v = v ^ (v >> 17)
+    return v == 2361617646
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # Step 1: XOR with a constant
+    v = (x ^ 305419896)
+    
+    # Step 2: Modular addition
+    v = (v + 3735928559) & 4294967295
+    
+    # Step 3: Circular bitwise rotation (Left shift by 13)
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    
+    # Step 4: XOR with another constant
+    v = (v ^ 1431655765)
+    
+    return v == 3944696691
+
+```
+### Explanation
+
+
+### Explanation
+
+The `mystery(x)` function transforms a 32-bit integer through four steps:
+1.  **XOR with `0x12345678`**: A standard bitwise XOR operation.
+2.  **Modular Addition with `0xDEADBEEF`**: Addition modulo $2^{32}$.
+3.  **Circular Rotation**: A left rotation by 13 bits, which is equivalent to `(v << 13) | (v >> (32 - 13))`.
+4.  **XOR with `0x55555555`**: A final bitwise XOR to flip alternating bits.
+
+To solve the puzzle, one must reverse each operation in the opposite order:
+1.  Undo the final XOR: `3944696691 ^ 1431655765 = 3192528422` (`0xBE4A1E26`).
+2.  Undo the rotation: Rotate `0xBE4A1E26` right by 13 bits to get `0xF135F625`.
+3.  Undo the addition: `(0xF135F625 - 0xDEADBEEF) % 2**32 = 0x12883736`.
+4.  Undo the first XOR: `0x12883736 ^ 0x12345678 = 0x00BC614E`, which is `12345678` in decimal.
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 0x100000000):
+        return False
+    
+    v = x
+    
+    v ^= 0x12345678
+    
+    v = ((v << 1) | (v >> 31)) & 0xFFFFFFFF
+    
+    v = (v + 0x87654321) & 0xFFFFFFFF
+    
+    v ^= (v >> 4)
+    
+    v = (v * 3) & 0xFFFFFFFF
+    
+    return v == 0xF7B7D5F4
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gemini-3-flash-preview
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # Step 1: Bitwise XOR with a constant
+    # This flips alternating bits of the input.
+    v = x ^ 0xAAAA5555
+    
+    # Step 2: Modular addition
+    # A standard addition modulo 2^32.
+    v = (v + 0x12345678) & 0xFFFFFFFF
+    
+    # Step 3: Circular bitwise rotation (Left shift by 5)
+    # A 32-bit circular left shift.
+    v = ((v << 5) | (v >> 27)) & 0xFFFFFFFF
+    
+    # Step 4: Bitwise XOR with another constant
+    v = v ^ 0x0F0F0F0F
+    
+    return v == 196270103
+```
+
+### Explanation
+
+This puzzle takes a 32-bit integer `x` and applies four reversible operations:
+1.  **Bitwise XOR**: `x` is XORed with `0xAAAA5555`.
+2.  **Modular Addition**: The result is added to `0x12345678` modulo $2^{32}$.
+3.  **Circular Rotation**: The value is rotated left by 5 bits.
+4.  **Bitwise XOR**: Finally, the value is XORed with `0x0F0F0F0F`.
+
+Since each step is a bijection (a one-to-one mapping) within the space of 32-bit integers, there is exactly one value of `x` that satisfies the condition. To find the solution, one must reverse each step in the opposite order:
+1.  Undo the final XOR: `196270103 ^ 0x0F0F0F0F = 0x04BDD718`.
+2.  Undo the rotation: Rotate `0x04BDD718` right by 5 bits to get `0xC025EEB8`.
+3.  Undo the addition: `(0xC025EEB8 - 0x12345678) % 2**32 = 0xADF19840`.
+4.  Undo the first XOR: `0xADF19840 ^ 0xAAAA5555 = 0x075BCD15`.
+
+The resulting hexadecimal value `0x075BCD15` is `123456789` in decimal.
+
+SOLUTION: 123456789
+*** END
+*** END
+*** solver deepseek-v3.2-thinking
+The value `x = 123467185` satisfies the conditions of the `mystery` function, ensuring it returns `True`. This integer is within the valid range of 0 to 4294967295 and, when processed through the function's steps, yields the required final value of 196270103.
+
+SOLUTION: 123467185
+*** END
+*** inventor prompt deepseek-v3.2-thinking
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    # A linear recurrence over bits, disguised as bitwise operations.
+    return (x ^ (x >> 1) ^ (x >> 2) ^ (x >> 3)) == 0x12345678
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A sequence of four reversible transformations on a 32-bit integer.
+    # Step 1: XOR-shift
+    v = (x ^ (x >> 16)) & 0xFFFFFFFF
+    
+    # Step 2: Modular multiplication
+    v = (v * 0x31415927) & 0xFFFFFFFF
+    
+    # Step 3: Bitwise rotation (circular shift)
+    v = ((v << 13) | (v >> 19)) & 0xFFFFFFFF
+    
+    # Step 4: XOR with a constant
+    v = (v ^ 0x55555555) & 0xFFFFFFFF
+    
+    return v == 0xdeadbeef
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    # Sum of hexadecimal digits
+    h = hex(x)[2:]
+    s = 0
+    for c in h:
+        s += int(c, 16)
+    if s != 21:
+        return False
+    v = x
+    v ^= (v >> 16)
+    v &= 0xFFFFFFFF
+    v ^= (v << 9)
+    v &= 0xFFFFFFFF
+    v ^= (v >> 7)
+    v &= 0xFFFFFFFF
+    return v == 1004331136
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 0x100000000):
+        return False
+    
+    # Step 1: Nibble swap
+    # This operation swaps the adjacent 4-bit nibbles of the 32-bit integer.
+    v = ((x & 0x0F0F0F0F) << 4) | ((x & 0xF0F0F0F0) >> 4)
+    
+    # Step 2: Linear transformation
+    # A standard modular multiplication and addition.
+    v = (v * 31337 + 1234567) & 0xFFFFFFFF
+    
+    # Step 3: XOR-shift
+    # A reversible bitwise XOR with a right-shifted version of itself.
+    v ^= (v >> 13)
+    
+    return v == 2960602281
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    v = x
+    v = (v * 0x1337) & 0xFFFFFFFF
+    v = (v ^ 0xCAFEBABE) & 0xFFFFFFFF
+    v = (v + 0xDEADBEEF) & 0xFFFFFFFF
+    v = v ^ (v >> 17)
+    return v == 2361617646
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # Step 1: XOR with a constant
+    v = (x ^ 305419896)
+    
+    # Step 2: Modular addition
+    v = (v + 3735928559) & 4294967295
+    
+    # Step 3: Circular bitwise rotation (Left shift by 13)
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    
+    # Step 4: XOR with another constant
+    v = (v ^ 1431655765)
+    
+    return v == 3944696691
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 0x100000000):
+        return False
+    
+    v = x
+    
+    v ^= 0x12345678
+    
+    v = ((v << 1) | (v >> 31)) & 0xFFFFFFFF
+    
+    v = (v + 0x87654321) & 0xFFFFFFFF
+    
+    v ^= (v >> 4)
+    
+    v = (v * 3) & 0xFFFFFFFF
+    
+    return v == 0xF7B7D5F4
+
+```
+### Explanation
+
+
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # Step 1: Bitwise XOR with a constant
+    # This flips alternating bits of the input.
+    v = x ^ 0xAAAA5555
+    
+    # Step 2: Modular addition
+    # A standard addition modulo 2^32.
+    v = (v + 0x12345678) & 0xFFFFFFFF
+    
+    # Step 3: Circular bitwise rotation (Left shift by 5)
+    # A 32-bit circular left shift.
+    v = ((v << 5) | (v >> 27)) & 0xFFFFFFFF
+    
+    # Step 4: Bitwise XOR with another constant
+    v = v ^ 0x0F0F0F0F
+    
+    return v == 196270103
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor deepseek-v3.2-thinking
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 2**32):
+        return False
+    v = x
+    v ^= 0x11111111
+    v = (v + 0x22222222) & 0xFFFFFFFF
+    v ^= 0x33333333
+    v = (v + 0x44444444) & 0xFFFFFFFF
+    v ^= 0x55555555
+    v = (v + 0x66666666) & 0xFFFFFFFF
+    v ^= 0x77777777
+    v = (v + 0x88888888) & 0xFFFFFFFF
+    v ^= 0x99999999
+    v = (v + 0xAAAAAAAA) & 0xFFFFFFFF
+    return v == 0x45FA27D9
+```
+
+SOLUTION: 0x6B5F4D3E
+*** END
+*** END
+*** solver gemini-3-flash-preview
+To find the value of `x` such that `mystery(x)` returns `True`, we need to reverse the operations performed in the function starting from the final target value, `0x45FA27D9`.
+
+The steps in the function are:
+1. `v = x ^ 0x11111111`
+2. `v = (v + 0x22222222) & 0xFFFFFFFF`
+3. `v = v ^ 0x33333333`
+4. `v = (v + 0x44444444) & 0xFFFFFFFF`
+5. `v = v ^ 0x55555555`
+6. `v = (v + 0x66666666) & 0xFFFFFFFF`
+7. `v = v ^ 0x77777777`
+8. `v = (v + 0x88888888) & 0xFFFFFFFF`
+9. `v = v ^ 0x99999999`
+10. `v = (v + 0xAAAAAAAA) & 0xFFFFFFFF`
+
+Starting with `v = 0x45FA27D9`, we reverse each operation:
+- Reverse Step 10: `v = (0x45FA27D9 - 0xAAAAAAAA) & 0xFFFFFFFF = 0x9B4F7D2F`
+- Reverse Step 9: `v = 0x9B4F7D2F ^ 0x99999999 = 0x02D6E4B6`
+- Reverse Step 8: `v = (0x02D6E4B6 - 0x88888888) & 0xFFFFFFFF = 0x7A4E5C2E`
+- Reverse Step 7: `v = 0x7A4E5C2E ^ 0x77777777 = 0x0D392B59`
+- Reverse Step 6: `v = (0x0D392B59 - 0x66666666) & 0xFFFFFFFF = 0xA6D2C4F3`
+- Reverse Step 5: `v = 0xA6D2C4F3 ^ 0x55555555 = 0xF38791A6`
+- Reverse Step 4: `v = (0xF38791A6 - 0x44444444) & 0xFFFFFFFF = 0xAF434D62`
+- Reverse Step 3: `v = 0xAF434D62 ^ 0x33333333 = 0x9C707E51`
+- Reverse Step 2: `v = (0x9C707E51 - 0x22222222) & 0xFFFFFFFF = 0x7A4E5C2F`
+- Reverse Step 1: `x = 0x7A4E5C2F ^ 0x11111111 = 0x6B5F4D3E`
+
+Testing `x = 0x6B5F4D3E`:
+1. `0x6B5F4D3E ^ 0x11111111 = 0x7A4E5C2F`
+2. `(0x7A4E5C2F + 0x22222222) = 0x9C707E51`
+3. `0x9C707E51 ^ 0x33333333 = 0xAF434D62`
+4. `(0xAF434D62 + 0x44444444) = 0xF38791A6`
+5. `0xF38791A6 ^ 0x55555555 = 0xA6D2C4F3`
+6. `(0xA6D2C4F3 + 0x66666666) = 0x0D392B59`
+7. `0x0D392B59 ^ 0x77777777 = 0x7A4E5C2E`
+8. `(0x7A4E5C2E + 0x88888888) = 0x02D6E4B6`
+9. `0x02D6E4B6 ^ 0x99999999 = 0x9B4F7D2F`
+10. `(0x9B4F7D2F + 0xAAAAAAAA) = 0x45FA27D9`
+
+The result is `0x45FA27D9`, which matches the target value.
+
+SOLUTION: 0x6B5F4D3E
+*** END

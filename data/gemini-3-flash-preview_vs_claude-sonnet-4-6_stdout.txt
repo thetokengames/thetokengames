@@ -1,0 +1,439 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    try:
+        # Convert the string to its big-endian 64-bit integer representation
+        b = x.encode('ascii')
+        n = int.from_bytes(b, byteorder='big')
+    except (UnicodeEncodeError, AttributeError):
+        return False
+    
+    # Applying the MurmurHash3 64-bit finalizer/mix function
+    # The constants and shift amounts are standard for this algorithm
+    h = ((n ^ (n >> 33)) * 0xff51afd7ed558ccd) & 0xffffffffffffffff
+    h = ((h ^ (h >> 33)) * 0xc4ceb9fe1a85ec53) & 0xffffffffffffffff
+    h = (h ^ (h >> 33)) & 0xffffffffffffffff
+    
+    # Check if the mixed hash matches our target value
+    return h == 8671343750030581133
+```
+
+The puzzle involves a function `mystery(x)` that takes an 8-character string and checks if its 64-bit hash (specifically, the result of the MurmurHash3 finalizer) matches a specific 64-bit integer. 
+
+1.  The function first ensures the input `x` is an 8-character ASCII string.
+2.  It converts these 8 characters into a single 64-bit integer `n` using big-endian byte ordering.
+3.  It then applies a sequence of bitwise XOR-shifts and multiplications by specific large 64-bit constants (`0xff51afd7ed558ccd` and `0xc4ceb9fe1a85ec53`).
+4.  Finally, it compares the resulting value against the decimal target `8671343750030581133`.
+
+To solve this, one would need to reverse the operations of the finalizer (using modular inverses for the multiplications and the property that `h ^ (h >> 33)` is its own inverse for 64-bit integers) or find a string that hashes to that value.
+
+SOLUTION: "Puzzling" 
+Checking sample solution  "Puzzling"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 346 in / 25,957 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 7:
+        return False
+    if not x.islower() or not x.isalpha():
+        return False
+    MOD = 10**9 + 7
+    BASE = 31
+    h = 0
+    for c in x:
+        h = (h * BASE + (ord(c) - ord('a') + 1)) % MOD
+    return h == 674154947
+```
+
+**Explanation:** The function checks whether a 7-character lowercase alphabetic string produces a specific value under a polynomial rolling hash with base 31 and a prime modulus. Each character is mapped to its 1-indexed position in the alphabet (a→1, b→2, …, z→26), and the hash is accumulated iteratively. The search space is 26^7 ≈ 8.03 billion strings, making brute force slow, while the structure is just transparent enough to reward cleverness.
+
+SOLUTION: "widgets" 
+Checking sample solution  "widgets"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "flfalto". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 689 in / 28,892 out
+  gemini-3-flash-preview (solver): 220 in / 16,511 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    try:
+        b = x.encode('ascii')
+        v0 = int.from_bytes(b[:4], 'big')
+        v1 = int.from_bytes(b[4:], 'big')
+    except (UnicodeEncodeError, AttributeError):
+        return False
+
+    # A custom block-mixing function based on a Feistel network
+    # This uses a reduced-round variant of a classic 32-bit block cipher
+    d = 0x9e3779b9
+    s = 0
+    for _ in range(4):
+        s = (s + d) & 0xFFFFFFFF
+        v0 = (v0 + (((v1 << 4) + 0x61626364) ^ (v1 + s) ^ ((v1 >> 5) + 0x65666768))) & 0xFFFFFFFF
+        v1 = (v1 + (((v0 << 4) + 0x696a6b6c) ^ (v0 + s) ^ ((v0 >> 5) + 0x6d6e6f70))) & 0xFFFFFFFF
+    
+    return v0 == 4139181045 and v1 == 1917950942
+```
+
+This puzzle uses a 4-round version of the Tiny Encryption Algorithm (TEA) to "mix" the bits of an 8-character string. 
+
+1.  The function takes an 8-character string `x` and splits it into two 32-bit integers, `v0` and `v1`, using their ASCII values.
+2.  It applies 4 rounds of bitwise XOR-shifts, additions, and modular arithmetic using specific constants (`0x9e3779b9` and the ASCII values for "abcd", "efgh", "ijkl", "mnop").
+3.  The final 32-bit values are compared against two specific target integers.
+
+To solve this, one would typically need to reverse the rounds of the block cipher, starting from the target values and working backward to find the original 32-bit integers, then convert those integers back into their 4-character ASCII counterparts.
+
+SOLUTION: "Pythonic" 
+Checking sample solution  "Pythonic"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -2 (0-2) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 1,050 in / 25,161 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 7:
+        return False
+    if not x.islower() or not x.isalpha():
+        return False
+    
+    # Forward polynomial rolling hash
+    MOD1 = 10**9 + 7
+    h1 = 0
+    for c in x:
+        h1 = (h1 * 31 + (ord(c) - 96)) % MOD1
+    
+    # Reverse polynomial rolling hash with different parameters
+    MOD2 = 10**9 + 9
+    h2 = 0
+    for c in reversed(x):
+        h2 = (h2 * 37 + (ord(c) - 96)) % MOD2
+    
+    return h1 == 233280566 and h2 == 44273911
+```
+
+**Explanation:** The function requires a 7-character lowercase alphabetic string that simultaneously satisfies two independent polynomial rolling hash constraints: one computed left-to-right with base 31 mod (10⁹+7), and one computed right-to-left with base 37 mod (10⁹+9). Each character is mapped to its 1-indexed alphabet position (a→1, …, z→26).
+
+The dual-hash constraint makes this significantly harder than the single-hash puzzle seen in the history. Even if you can analytically "solve" one hash (as was done before), you must satisfy both simultaneously—the search space is 26⁷ ≈ 8 billion strings, and the two independent modular equations over different primes provide essentially no algebraic shortcut. Dictionary attacks might succeed on common words, but the solution is uncommon enough to resist casual attempts.
+
+SOLUTION: "zephyrs" 
+Checking sample solution  "zephyrs"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "zephyrs". Checking.
+Success!
+New score after this turn: -2 (0-2) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,348 in / 26,755 out
+  gemini-3-flash-preview (solver): 308 in / 49,873 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    # MurmurHash2 constants and initial state
+    m = 0x5bd1e995
+    r = 24
+    h = 0xDEADBEEF ^ 8
+    
+    try:
+        # Convert the string to raw bytes (ASCII encoding)
+        b = x.encode('ascii')
+        # Split the 8-character string into two 32-bit little-endian chunks
+        k1 = int.from_bytes(b[0:4], 'little')
+        k2 = int.from_bytes(b[4:8], 'little')
+    except (UnicodeEncodeError, AttributeError):
+        return False
+        
+    for k in [k1, k2]:
+        # Mix the 32-bit chunk k
+        k = (k * m) & 0xFFFFFFFF
+        k = (k ^ (k >> r)) & 0xFFFFFFFF
+        k = (k * m) & 0xFFFFFFFF
+        
+        # Mix the chunk into the current hash state h
+        h = (h * m) & 0xFFFFFFFF
+        h = (h ^ k) & 0xFFFFFFFF
+        
+    # Apply the MurmurHash2 finalizer/mixing function
+    h = (h ^ (h >> 13)) & 0xFFFFFFFF
+    h = (h * m) & 0xFFFFFFFF
+    h = (h ^ (h >> 15)) & 0xFFFFFFFF
+    
+    # Check if the final mixed hash matches our target value
+    return h == 2390318532
+```
+
+### Explanation
+
+This puzzle implements a simplified version of the 32-bit **MurmurHash2** algorithm. 
+
+1.  **Input Constraints**: The function requires an 8-character string that consists only of ASCII characters.
+2.  **State Initialization**: It initializes a 32-bit hash value `h` using a seed (`0xDEADBEEF`) XORed with the string length (8).
+3.  **Chunk Processing**: It splits the 8-byte string into two 4-byte integers (`k1` and `k2`) using little-endian byte ordering. 
+4.  **Mixing**: Each 32-bit chunk undergoes a mixing process involving multiplication by a specific constant `m` (`0x5bd1e995`), a bitwise XOR-shift, and another multiplication. These mixed chunks are then integrated into the hash state `h` with more modular multiplication and XOR operations.
+5.  **Finalization**: A three-step finalizer (XOR-shift, multiplication, XOR-shift) is applied to ensure the bits are thoroughly distributed before comparing the result to the target integer `2390318532`.
+
+To find the solution, one can reverse the finalizer steps (the XOR-shifts are reversible for 32-bit integers, and the multiplication can be inverted using the modular multiplicative inverse of `m` modulo $2^{32}$) and then work backward through the mixing steps for `k1` and `k2`.
+
+SOLUTION: "protocol" 
+Checking sample solution  "protocol"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -3 (0-3) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 1,866 in / 18,075 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 7:
+        return False
+    if not x.islower() or not x.isalpha():
+        return False
+    
+    a = [ord(c) - 96 for c in x]  # 'a'->1, ..., 'z'->26
+    
+    # Polynomial rolling hash 1 (forward, base 131, NTT prime mod)
+    MOD1 = 998244353
+    h1 = 0
+    for c in a:
+        h1 = (h1 * 131 + c) % MOD1
+    
+    # Polynomial rolling hash 2 (backward, base 137, same mod)
+    h2 = 0
+    for c in reversed(a):
+        h2 = (h2 * 137 + c) % MOD1
+    
+    # Polynomial rolling hash 3 (forward, base 139, different mod)
+    MOD2 = 10**9 + 7
+    h3 = 0
+    for c in a:
+        h3 = (h3 * 139 + c) % MOD2
+    
+    return h1 == 122913005 and h2 == 427392861 and h3 == 82850560
+```
+
+**Explanation:** The function requires a 7-character lowercase alphabetic string satisfying **three independent polynomial rolling hash constraints** simultaneously. Each character is mapped to its 1-indexed alphabet position (a→1, …, z→26):
+
+- **h1**: forward traversal, base 131, mod 998244353 (NTT prime)
+- **h2**: backward traversal, base 137, mod 998244353
+- **h3**: forward traversal, base 139, mod 10⁹+7
+
+Using three independent hashes with different bases, directions, and moduli makes brute force infeasible (26⁷ ≈ 8 billion strings) and algebraic attacks extremely difficult — a meet-in-the-middle approach must satisfy all three constraints simultaneously, leaving essentially no false positives. Dictionary attacks might succeed only on sufficiently obscure vocabulary.
+
+SOLUTION: "wyverns" 
+Checking sample solution  "wyverns"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "physics". Checking.
+Failure!
+New score after this turn: -3 (0-3) vs 1 (1-0)
+  claude-sonnet-4-6 (inventer): 2,271 in / 29,081 out
+  gemini-3-flash-preview (solver): 424 in / 57,950 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    try:
+        b = x.encode('ascii')
+        # Split the 8-byte string into two 32-bit big-endian integers
+        v0 = int.from_bytes(b[0:4], 'big')
+        v1 = int.from_bytes(b[4:8], 'big')
+    except (UnicodeEncodeError, AttributeError):
+        return False
+
+    # Simplified 8-round ARX (Addition-Rotation-XOR) block mixing
+    for _ in range(8):
+        # Update v0 by adding v1
+        v0 = (v0 + v1) & 0xFFFFFFFF
+        # Update v1 by XORing with the new v0
+        v1 = (v1 ^ v0) & 0xFFFFFFFF
+        # Circular left shift v1 by 7 bits
+        v1 = ((v1 << 7) & 0xFFFFFFFF) | (v1 >> 25)
+
+    return v0 == 929448345 and v1 == 1152912423
+```
+
+### Explanation
+
+The puzzle implements a simplified 8-round block cipher based on the **Addition-Rotation-XOR (ARX)** paradigm. This structure is common in modern symmetric cryptography (found in designs like Speck, Salsa20, or Threefish) because it provides efficient bit-mixing and non-linearity without the need for large substitution tables.
+
+1.  **Input Constraints**: The function `mystery(x)` requires an 8-character string that must be representable in ASCII.
+2.  **State Initialization**: It takes the 8-character input and converts it into two 32-bit integers, `v0` and `v1`, using big-endian byte ordering.
+3.  **The Round Function**: In each of the 8 rounds, the following operations are performed:
+    *   `v1` is added to `v0` modulo $2^{32}$.
+    *   The new `v0` is XORed into `v1`.
+    *   `v1` is rotated left by 7 bits.
+4.  **Final Check**: After 8 iterations, the function compares the resulting state against two specific 32-bit target integers.
+
+To find the solution, one would need to reverse the round function: start from the target values and, for 8 rounds, perform a right circular shift by 7 bits, XOR `v1` with `v0`, and then subtract `v1` from `v0` modulo $2^{32}$.
+
+SOLUTION: "protocol" 
+Checking sample solution  "protocol"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -4 (0-4) vs 1 (1-0)
+  gemini-3-flash-preview (inventer): 2,986 in / 19,344 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    if not x.islower() or not x.isalpha():
+        return False
+    
+    a = [ord(c) - 96 for c in x]  # 'a'->1, ..., 'z'->26
+    
+    # Forward polynomial rolling hash: base 31, mod 10^9+7
+    MOD1 = 10**9 + 7
+    h1 = 0
+    for c in a:
+        h1 = (h1 * 31 + c) % MOD1
+    
+    # Backward polynomial rolling hash: base 37, mod 10^9+9
+    MOD2 = 10**9 + 9
+    h2 = 0
+    for c in reversed(a):
+        h2 = (h2 * 37 + c) % MOD2
+    
+    # Forward polynomial rolling hash: base 41, mod 998244353 (NTT prime)
+    MOD3 = 998244353
+    h3 = 0
+    for c in a:
+        h3 = (h3 * 41 + c) % MOD3
+    
+    return h1 == 873058417 and h2 == 337081838 and h3 == 863281241
+```
+
+This puzzle requires finding an 8-character lowercase alphabetic string that simultaneously satisfies **three independent polynomial rolling hash constraints**:
+
+- **h1**: forward traversal, base 31, mod 10⁹+7
+- **h2**: backward traversal, base 37, mod 10⁹+9
+- **h3**: forward traversal, base 41, mod 998244353 (NTT prime)
+
+Each character is mapped to its 1-indexed alphabet position (a→1, …, z→26). The three constraints use different bases, directions, and moduli, making them mathematically independent. The search space is 26⁸ ≈ 208 billion strings, and meet-in-the-middle approaches must satisfy all three constraints simultaneously. A dictionary-based approach over 8-letter lowercase English words remains the most tractable attack.
+
+SOLUTION: "aperture" 
+Checking sample solution  "aperture"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "learning". Checking.
+Failure!
+New score after this turn: -4 (0-4) vs 2 (2-0)
+  claude-sonnet-4-6 (inventer): 3,183 in / 23,796 out
+  gemini-3-flash-preview (solver): 445 in / 62,761 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    try:
+        # Convert the 8-character string to a 64-bit big-endian integer
+        b = x.encode('ascii')
+        n = int.from_bytes(b, byteorder='big')
+    except (UnicodeEncodeError, AttributeError):
+        return False
+    
+    mask = 0xFFFFFFFFFFFFFFFF
+    
+    # Phase 1: Bitwise XOR and Modular Addition
+    # Using constants for bit-mixing
+    n = (n ^ 0x5555555555555555)
+    n = (n + 0x7FFFFFFFFFFFFFFF) & mask
+    
+    # Phase 2: Circular Shift (Left Rotate by 19) and XOR-Shift
+    # Circular rotation ensures all bits are redistributed
+    n = ((n << 19) & mask) | (n >> 45)
+    n = n ^ (n >> 33)
+    
+    # Phase 3: Modular Multiplication and Final XOR
+    # The multiplier is an odd 64-bit constant derived from the golden ratio
+    n = (n * 0x61c8864680b583eb) & mask
+    n = n ^ 0xAAAAAAAAAAAAAAAA
+    
+    # Check if the transformed value matches the target
+    return n == 13899388147743538560
+```
+
+This puzzle involves a `mystery(x)` function that transforms an 8-character ASCII string into a 64-bit integer through a series of reversible bitwise and arithmetic operations. The goal is to find a string that results in a specific target value.
+
+### Step-by-Step Breakdown:
+1.  **Input Validation**: The function ensures the input `x` is exactly 8 characters long and can be encoded into ASCII.
+2.  **Initial Conversion**: The 8 bytes of the string are treated as a single 64-bit integer `n` in big-endian format.
+3.  **Mixing Phase 1**: A bitwise XOR with a repetitive pattern (`0x55...`) is followed by modular addition with $2^{63}-1$.
+4.  **Mixing Phase 2**: The bits are rotated left by 19 positions, and a 33-bit XOR-shift is applied (`n ^ (n >> 33)`).
+5.  **Mixing Phase 3**: The value is multiplied by a 64-bit odd constant (`0x61c8864680b583eb`) and XORed with another repetitive pattern (`0xAA...`).
+6.  **Comparison**: The final result is compared against the decimal target `13899388147743538560`.
+
+Since every step in the transformation (XOR, modular addition, rotation, XOR-shift, and modular multiplication by an odd number) is a bijection on the set of 64-bit integers, the function can be reversed to find the original string.
+
+SOLUTION: "solution" 
+Checking sample solution  "solution"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -5 (0-5) vs 2 (2-0)
+  gemini-3-flash-preview (inventer): 4,007 in / 26,090 out
+claude-sonnet-4-6's turn to invent a puzzle...
+Looking at the history, I see that triple-hash puzzles over 7-character strings have been hard to crack, while my own hash implementations kept having wrong sample solutions. This time I'll use the same triple-hash structure as your successful puzzles, computing everything carefully by hand and double-checking each step.
+
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 7:
+        return False
+    if not x.islower() or not x.isalpha():
+        return False
+    
+    a = [ord(c) - 96 for c in x]  # 'a'->1, ..., 'z'->26
+    
+    # Forward polynomial rolling hash: base 31, mod 10^9+7
+    MOD1 = 10**9 + 7
+    h1 = 0
+    for c in a:
+        h1 = (h1 * 31 + c) % MOD1
+    
+    # Backward polynomial rolling hash: base 37, mod 10^9+9
+    MOD2 = 10**9 + 9
+    h2 = 0
+    for c in reversed(a):
+        h2 = (h2 * 37 + c) % MOD2
+    
+    # Forward polynomial rolling hash: base 41, mod 998244353 (NTT prime)
+    MOD3 = 998244353
+    h3 = 0
+    for c in a:
+        h3 = (h3 * 41 + c) % MOD3
+    
+    return h1 == 119908501 and h2 == 682574234 and h3 == 911848735
+```
+
+**Explanation:** The puzzle requires a 7-character lowercase alphabetic string simultaneously satisfying three independent polynomial rolling hash constraints — one forward with base 31 mod (10⁹+7), one backward with base 37 mod (10⁹+9), and one forward with base 41 mod 998244353. Each character maps to its 1-indexed alphabet position (a→1, …, z→26). The three hashes use different bases, traversal directions, and moduli, making them mathematically independent. The search space is 26⁷ ≈ 8 billion strings; satisfying all three constraints simultaneously leaves essentially no algebraic shortcut.
+
+SOLUTION: "blanket" 
+Checking sample solution  "blanket"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "blanket". Checking.
+Success!
+New score after this turn: -5 (0-5) vs 2 (2-0)
+  claude-sonnet-4-6 (inventer): 4,159 in / 32,695 out
+  gemini-3-flash-preview (solver): 445 in / 21,849 out
+Logs written to runs/classic/gemini-3-flash-preview_vs_claude-sonnet-4-6.log and runs/classic/gemini-3-flash-preview_vs_claude-sonnet-4-6.jsonl
+
+=== Token Usage Summary ===
+Turn 0: gemini-3-flash-preview vs claude-sonnet-4-6 - 346 in / 25,957 out (?) [puzzle-wrong]
+Turn 1: claude-sonnet-4-6 vs gemini-3-flash-preview - 909 in / 45,403 out (?) [success]
+Turn 2: gemini-3-flash-preview vs claude-sonnet-4-6 - 1,050 in / 25,161 out (?) [puzzle-wrong]
+Turn 3: claude-sonnet-4-6 vs gemini-3-flash-preview - 1,656 in / 76,628 out (?) [success]
+Turn 4: gemini-3-flash-preview vs claude-sonnet-4-6 - 1,866 in / 18,075 out (?) [puzzle-wrong]
+Turn 5: claude-sonnet-4-6 vs gemini-3-flash-preview - 2,695 in / 87,031 out (?) [failure]
+Turn 6: gemini-3-flash-preview vs claude-sonnet-4-6 - 2,986 in / 19,344 out (?) [puzzle-wrong]
+Turn 7: claude-sonnet-4-6 vs gemini-3-flash-preview - 3,628 in / 86,557 out (?) [failure]
+Turn 8: gemini-3-flash-preview vs claude-sonnet-4-6 - 4,007 in / 26,090 out (?) [puzzle-wrong]
+Turn 9: claude-sonnet-4-6 vs gemini-3-flash-preview - 4,604 in / 54,544 out (?) [success]
+
+=== Totals by Model ===
+gemini-3-flash-preview: 12,097 in / 323,571 out
+claude-sonnet-4-6: 11,650 in / 141,219 out

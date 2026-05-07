@@ -1,0 +1,311 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    N = 114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+
+    return 1 < y and y * y < N and N % y == 0
+```
+
+This puzzle accepts exactly a smaller nontrivial divisor of the large integer hidden in the function.
+
+SOLUTION: 3490529510847650949147849619903898133417764638493387843990820577 
+Checking sample solution  3490529510847650949147849619903898133417764638493387843990820577
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 3490529510847650949147849619903898133417764638493387843990820577. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 346 in / 10,004 out
+  grok-4.20-0309-reasoning (solver): 329 in / 1,748 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1329227995784915870021503298763226137
+    return 1 < y and y * y < N and N % y == 0
+```
+This puzzle requires finding a nontrivial divisor of a 37-digit semiprime N (product of two primes near 2^59 and 2^61). Brute-force trial division is impractical due to the size; advanced factoring methods or clever insight are needed to locate a valid y without prior knowledge of the factors. The boolean returns True precisely for the smaller prime factor (and rejects bools and non-integers).
+SOLUTION: 576460752303423487 
+Checking sample solution  576460752303423487
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 599 in / 18,070 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 43:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    def flip(c):
+        return c if c == 32 else 33 + ((c - 33 + 47) % 94)
+
+    y = bytes(flip(b[(17 * i + 5) % 43]) for i in range(43))
+
+    return hashlib.sha256(y).hexdigest() == (
+        "d7a8fbb307d7809469ca9abcb0082e4f"
+        "8d5651e46d3cdb762d02d0bf37c9e592"
+    )
+```
+
+The function permutes the input characters, applies a printable-ASCII involution, and then checks a SHA-256 digest. The sample solution is a string that maps to the hidden digest preimage.
+
+SOLUTION: " ; 3F%J66AIH< @2E@F7C:9  CD ? B8K9G>@@465= " 
+Checking sample solution  " ; 3F%J66AIH< @2E@F7C:9  CD ? B8K9G>@@465= "
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says " ; 3F%J66AIH< @2E@F7C:9  CD ? B8K9G>@@465= ". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gpt-5.5 (inventer): 619 in / 14,237 out
+  grok-4.20-0309-reasoning (solver): 385 in / 9,238 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1522605027922533360535618378132637429718068114961380688657908494580122963258952897654000350692006139
+    return 1 < y and y * y < N and N % y == 0
+```
+This puzzle is a semiprime factoring challenge using RSA-100 (a well-known but non-trivial 100-digit modulus). The boolean is True exactly for the smaller prime factor (and rejects non-integers and bools). Locating the factor requires non-trivial computational effort or insight, as naive trial division is intractable and advanced methods (quadratic sieve, ECM, etc.) are needed.  
+SOLUTION: 37975227936943673922808872755445627854565536638199 
+Checking sample solution  37975227936943673922808872755445627854565536638199
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 37975227936943673922808872755445627854565536638199. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 999 in / 9,065 out
+  gpt-5.5 (solver): 203 in / 409 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 24:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    n = 24
+    out = bytearray()
+    k = 23
+    for i in range(n):
+        j = (7 * i + 11) % n
+        out.append(33 + ((b[j] - 33 + k) % 94))
+        k = (k + 37) % 94
+
+    salt = ((b"salt" + b"SALT") * 4) + b"salt"
+    target = (
+        "3d2eec4fe41c849b80c8d83662c0e44a"
+        "8b291a964cf2f07038"
+    )
+
+    return hashlib.pbkdf2_hmac("sha1", bytes(out), salt, 4096, 25).hex() == target
+```
+
+The input is first constrained to printable ASCII and then permuted/shifted modulo the printable ASCII range. The transformed bytes are checked against a PBKDF2-HMAC-SHA1 test-vector-derived digest.
+
+SOLUTION: "/pU=H9-lKBgYdi?*{T%+6{[Z" 
+Checking sample solution  "/pU=H9-lKBgYdi?*{T%+6{[Z"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "/pU=H9-lKBgYdi?*{T%+6{[Z". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gpt-5.5 (inventer): 995 in / 14,300 out
+  grok-4.20-0309-reasoning (solver): 458 in / 16,675 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = (2**107 - 1) * (2**127 - 1)
+    return 1 < y and y * y < N and N % y == 0
+```
+This puzzle requires factoring a 70-digit semiprime N formed as the product of the Mersenne primes (2^107-1) and (2^127-1). The function returns True exactly for the smaller prime factor (while rejecting bools and non-integers). Trial division is intractable; solving it demands non-trivial effort with algorithms such as ECM, quadratic sieve, or GNFS.  
+SOLUTION: 162259276829213363391578010288127 
+Checking sample solution  162259276829213363391578010288127
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 162259276829213363391578010288127. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 1,483 in / 9,658 out
+  gpt-5.5 (solver): 184 in / 1,084 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    if not (0 <= y < (1 << 32)):
+        return False
+
+    nonce = y ^ 0xA5A5A5A5
+
+    header = (
+        (1).to_bytes(4, "little")
+        + bytes(32)
+        + bytes.fromhex(
+            "4a5e1e4baab89f3a32518a88c31bc87f"
+            "618f76673e2cc77ab2127b7afdeda33b"
+        )[::-1]
+        + (1231006505).to_bytes(4, "little")
+        + (486604799).to_bytes(4, "little")
+        + nonce.to_bytes(4, "little")
+    )
+
+    h = hashlib.sha256(hashlib.sha256(header).digest()).digest()[::-1].hex()
+
+    return h == (
+        "000000000019d6689c085ae165831e93"
+        "4ff763ae46a2a6c172b3f1b60a8ce26f"
+    )
+```
+
+This checks a disguised double-SHA-256 proof-of-work style condition over a structured 80-byte header. The accepted input is transformed by XOR before being used as the nonce.
+
+SOLUTION: 0xD98E09B8 
+Checking sample solution  0xD98E09B8
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 3649964472. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gpt-5.5 (inventer): 1,426 in / 19,494 out
+  grok-4.20-0309-reasoning (solver): 493 in / 3,437 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = (2**89 - 1) * (2**107 - 1)
+    return 1 < y and y * y < N and N % y == 0
+```
+This puzzle requires factoring a 59-digit semiprime N formed as the product of two Mersenne primes. The function returns True exactly for the smaller prime factor (while rejecting bools and non-integers). Trial division is intractable; solving it demands non-trivial effort with algorithms such as ECM, quadratic sieve, or GNFS.
+SOLUTION: 618970019642690137449562111 
+Checking sample solution  618970019642690137449562111
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 618970019642690137449562111. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 1,986 in / 6,802 out
+  gpt-5.5 (solver): 184 in / 851 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+    import hmac
+
+    if not isinstance(x, str) or len(x) != 28:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    msg = bytes((b[(11 * i + 5) % 28] ^ 0x5A) for i in range(28))
+    key = bytes(c ^ 0x2A for c in b"`OLO")
+
+    target = (
+        "4338ec64b958ec9d8339279d083f005a"
+        "c77595082624046a4e7560bf46c1dc5b"
+    )
+
+    return hmac.new(key, msg, hashlib.sha256).digest()[::-1].hex() == target
+```
+
+The input is constrained to printable ASCII, then permuted and XOR-transformed into the message for a disguised HMAC-SHA256 check. The key and digest are lightly obfuscated, including byte reversal of the MAC before comparison.
+
+SOLUTION: "44zz>-2(4#.=5<-523z.;ze.5;z;" 
+Checking sample solution  "44zz>-2(4#.=5<-523z.;ze.5;z;"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "44zz>-2(4#.=5<-523z.;ze.5;z;". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gpt-5.5 (inventer): 1,884 in / 27,210 out
+  grok-4.20-0309-reasoning (solver): 414 in / 19,128 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = (2**61 - 1) * (2**89 - 1)
+    return 1 < y and y * y < N and N % y == 0
+```
+This puzzle requires finding a nontrivial factor of the 46-digit semiprime N (product of Mersenne primes 2^61-1 and 2^89-1). The function returns True exactly for the smaller prime factor (rejecting bools and non-integers). Brute-force or naive trial division up to sqrt(N) is impractical by hand; it demands insight, a computer algebra system, or nontrivial factoring algorithms like ECM or quadratic sieve.  
+SOLUTION: 2305843009213693951 
+Checking sample solution  2305843009213693951
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 2305843009213693951. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 2,395 in / 14,060 out
+  gpt-5.5 (solver): 184 in / 459 out
+Logs written to runs/classic/gpt-5.5_vs_grok-4.20-0309-reasoning.log and runs/classic/gpt-5.5_vs_grok-4.20-0309-reasoning.jsonl
+
+=== Token Usage Summary ===
+Turn 0: gpt-5.5 vs grok-4.20-0309-reasoning - 675 in / 11,752 out (?) [success]
+Turn 1: grok-4.20-0309-reasoning vs gpt-5.5 - 599 in / 18,070 out (?) [puzzle-wrong]
+Turn 2: gpt-5.5 vs grok-4.20-0309-reasoning - 1,004 in / 23,475 out (?) [success]
+Turn 3: grok-4.20-0309-reasoning vs gpt-5.5 - 1,202 in / 9,474 out (?) [success]
+Turn 4: gpt-5.5 vs grok-4.20-0309-reasoning - 1,453 in / 30,975 out (?) [success]
+Turn 5: grok-4.20-0309-reasoning vs gpt-5.5 - 1,667 in / 10,742 out (?) [success]
+Turn 6: gpt-5.5 vs grok-4.20-0309-reasoning - 1,919 in / 22,931 out (?) [success]
+Turn 7: grok-4.20-0309-reasoning vs gpt-5.5 - 2,170 in / 7,653 out (?) [success]
+Turn 8: gpt-5.5 vs grok-4.20-0309-reasoning - 2,298 in / 46,338 out (?) [success]
+Turn 9: grok-4.20-0309-reasoning vs gpt-5.5 - 2,579 in / 14,519 out (?) [success]
+
+=== Totals by Model ===
+gpt-5.5: 6,025 in / 88,048 out
+grok-4.20-0309-reasoning: 9,541 in / 107,881 out

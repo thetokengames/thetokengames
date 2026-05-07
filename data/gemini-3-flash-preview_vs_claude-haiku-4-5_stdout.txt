@@ -1,0 +1,360 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 16):
+        return False
+    try:
+        v = int(x, 16)
+    except ValueError:
+        return False
+    
+    m = 0xFFFFFFFFFFFFFFFF
+    s = [0x5A1F8D42, 0x3C07E1B9, 0x6D4B2A85, 0x9E3779B9]
+    for i in range(64):
+        v = (v ^ (v << 13)) & m
+        v = (v ^ (v >> 17)) & m
+        v = (v ^ (v << 5)) & m
+        v = (v * 0x517cc1b727220a95 + 0xdeadbeef) & m
+        v = (v ^ s[i % 4]) & m
+        
+    return v == 0xbe6975a5e3789073
+```
+
+This puzzle is based on a custom 64-bit Feistel-like structure using a sequence of reversible bitwise and arithmetic operations. The input `x` must be a 16-character hexadecimal string, which is converted into a 64-bit integer `v`. The function then subjects `v` to 64 iterations of a transformation involving:
+1.  Three XOR-shift operations (reversing these requires bit-by-bit reconstruction).
+2.  A linear congruential generator (LCG) step using a 64-bit multiplier and an offset (reversible via modular multiplicative inverse).
+3.  A round-dependent XOR with a predefined set of constants.
+
+To solve the puzzle, one must reverse each step of the loop in the opposite order for 64 iterations.
+
+SOLUTION: "0123456789abcdef" 
+Checking sample solution  "0123456789abcdef"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 346 in / 17,933 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 1 or x > 1000000:
+        return False
+    
+    s = str(x)
+    total = 0
+    for digit_char in s:
+        d = int(digit_char)
+        factorial = 1
+        for i in range(1, d + 1):
+            factorial *= i
+        total += factorial
+    
+    return x == total
+```
+
+The function checks if an integer satisfies a special property relating to its digits. The code computes something for each digit and compares the result to the original number. Your task is to find a value where this condition is satisfied.
+
+SOLUTION: 145 
+Checking sample solution  145
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 145. Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 676 in / 8,649 out
+  gemini-3-flash-preview (solver): 216 in / 7,078 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 0x10000000000000000):
+        return False
+    
+    # 64-bit mask and multiplier
+    m = 0xFFFFFFFFFFFFFFFF
+    a = 0x5851F42D4C957F2D
+    
+    # Round 1: Linear congruential step and half-width XOR-shift
+    v = (x * a + 0xDEADBEEF) & m
+    v ^= (v >> 32)
+    
+    # Round 2: Second linear congruential step and half-width XOR-shift
+    v = (v * a + 0x12345678) & m
+    v ^= (v >> 32)
+    
+    return v == 0xA745582FCE177FC7
+```
+
+### Explanation
+This puzzle is based on a reversible transformation of a 64-bit integer. The function `mystery(x)` applies two rounds of a specific hashing-like process. Each round consists of:
+1.  **A Linear Congruential Step**: The value is multiplied by a known 64-bit constant (Knuth's MMIX multiplier) and added to a constant, with the result taken modulo $2^{64}$.
+2.  **A XOR-Shift**: The result is XORed with its own right-shift by 32 bits.
+
+To solve the puzzle, one must reverse these operations in the opposite order:
+- The XOR-shift $v = v \oplus (v \gg 32)$ is its own inverse for 64-bit integers.
+- The linear congruential step $v_{new} = (v \cdot a + c) \pmod{2^{64}}$ is reversed by calculating $v = (v_{new} - c) \cdot a^{-1} \pmod{2^{64}}$, where $a^{-1}$ is the modular multiplicative inverse of $a$ modulo $2^{64}$.
+
+Starting with the target value `0xA745582FCE177FC7` and reversing the two rounds will yield the solution.
+
+SOLUTION: 1311768467294899489 
+Checking sample solution  1311768467294899489
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -2 (0-2) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 953 in / 27,449 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 0 or x > 10000:
+        return False
+    
+    # Check if x is a perfect square
+    sqrt_x = int(x ** 0.5)
+    if sqrt_x * sqrt_x != x:
+        return False
+    
+    # Check if the sum of digits is also a perfect square
+    digit_sum = sum(int(d) for d in str(x))
+    sqrt_sum = int(digit_sum ** 0.5)
+    return sqrt_sum * sqrt_sum == digit_sum
+```
+
+## Explanation
+
+The function checks whether an integer satisfies a specific mathematical property related to perfect squares. The condition involves examining both the number itself and a derived value from its digits. You need to find a positive integer that satisfies both nested conditions being verified.
+
+SOLUTION: 144 
+Checking sample solution  144
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 81. Checking.
+Success!
+New score after this turn: -2 (0-2) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,136 in / 9,317 out
+  gemini-3-flash-preview (solver): 245 in / 3,242 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 10 and x.isdigit()):
+        return False
+    
+    # Each digit from 0 to 9 must be present exactly once
+    if len(set(x)) != 10:
+        return False
+    
+    # For every n from 1 to 10, the number formed by the 
+    # first n digits must be divisible by n
+    for n in range(1, 11):
+        if int(x[:n]) % n != 0:
+            return False
+            
+    return True
+```
+
+This puzzle is based on the concept of a **pandigital polydivisible number**. 
+
+To return `True`, the input `x` must satisfy the following criteria:
+1.  It must be a string of exactly 10 decimal digits.
+2.  It must be **pandigital**, meaning it contains every digit from 0 to 9 exactly once.
+3.  It must be **polydivisible**, meaning that for every $n$ between 1 and 10, the number formed by its first $n$ digits is divisible by $n$.
+
+For example:
+- The first 1 digit must be divisible by 1 (always true for any digit).
+- The first 2 digits must form a number divisible by 2 (the second digit must be even).
+- The first 3 digits must form a number divisible by 3 (the sum of the first three digits must be a multiple of 3).
+- ...and so on, up to the full 10-digit number being divisible by 10.
+
+There is only one such number in base 10 that satisfies all these properties simultaneously.
+
+SOLUTION: "3816547290" 
+Checking sample solution  "3816547290"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "3816547290". Checking.
+Success!
+New score after this turn: -2 (0-2) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 1,681 in / 22,777 out
+  claude-haiku-4-5 (solver): 284 in / 1,861 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 0 or x > 10000:
+        return False
+    
+    # Check if sum of cubes of digits equals the number
+    s = str(x)
+    if sum(int(d)**3 for d in s) != x:
+        return False
+    
+    # Check if digit sum is a prime number
+    digit_sum = sum(int(d) for d in s)
+    if digit_sum < 2:
+        return False
+    for i in range(2, int(digit_sum**0.5) + 1):
+        if digit_sum % i == 0:
+            return False
+    return True
+```
+
+The function checks whether a number satisfies two distinct mathematical properties derived from its digits. First, it verifies that the number equals a specific transformation of its digits (a property that only a few numbers in the given range possess). Second, it checks whether the sum of the digits has a certain mathematical property related to divisibility. Your challenge is to find a number that satisfies both conditions simultaneously.
+
+SOLUTION: 371 
+Checking sample solution  371
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 371. Checking.
+Success!
+New score after this turn: -2 (0-2) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,565 in / 10,289 out
+  gemini-3-flash-preview (solver): 267 in / 3,410 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 0x10000000000000000):
+        return False
+    
+    # 64-bit mask and multiplier (Knuth's MMIX)
+    m = 0xFFFFFFFFFFFFFFFF
+    a = 0x5851F42D4C957F2D
+    v = x
+    
+    # Apply two rounds of reversible transformation
+    for _ in range(2):
+        v = (v ^ (v >> 32)) & m
+        v = (v * a) & m
+        
+    # Final XOR-shift step
+    v = (v ^ (v >> 32)) & m
+    
+    return v == 0xDEADBEEFCABDFBEF
+```
+
+### Explanation
+
+This puzzle is based on a reversible transformation of a 64-bit integer, similar to the construction of certain hash functions or pseudo-random number generators. The function `mystery(x)` subjects the input `x` to two rounds of a specific permutation followed by a finalization step. Each component is reversible:
+
+1.  **The XOR-Shift (`v = v ^ (v >> 32)`):** Because the shift amount (32 bits) is exactly half of the total bit-width (64 bits), this operation is its own inverse. XORing the high bits into the low bits and then repeating the operation restores the original low bits (since $l \oplus h \oplus h = l$).
+2.  **The Modular Multiplication (`v = (v * a) % 2^64`):** Since the multiplier `a` (0x5851F42D4C957F2D) is an odd number, it has a modular multiplicative inverse modulo $2^{64}$. Reversing this step involves multiplying by that inverse, which is `0xC2B127419E60652D`.
+
+To find the solution, one must start with the target constant `0xDEADBEEFCABDFBEF` and apply the inverse operations in the reverse order:
+1.  Apply the final XOR-shift inverse: `v = target ^ (target >> 32)`
+2.  Apply the Round 2 multiplication inverse: `v = (v * inverse) % 2^64`
+3.  Apply the Round 2 XOR-shift inverse: `v = v ^ (v >> 32)`
+4.  Apply the Round 1 multiplication inverse: `v = (v * inverse) % 2^64`
+5.  Apply the Round 1 XOR-shift inverse: `v = v ^ (v >> 32)`
+
+This sequence of operations leads directly to the original input value.
+
+SOLUTION: 8338780289351475029 
+Checking sample solution  8338780289351475029
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -3 (0-3) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 2,309 in / 26,324 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 0 or x > 1000000:
+        return False
+    
+    digit_sum = sum(int(d) for d in str(x))
+    return x == digit_sum ** 3
+```
+
+This puzzle checks whether an integer satisfies a special mathematical property. The function computes a derived value from the digits of the number and checks if it equals the original number through a specific arithmetic operation. The condition is subtle and not immediately obvious from casual inspection, but once understood through reading the code carefully, there are still multiple solutions to discover within the given range.
+
+SOLUTION: 512 
+Checking sample solution  512
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 512. Checking.
+Success!
+New score after this turn: -3 (0-3) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 2,098 in / 6,300 out
+  gemini-3-flash-preview (solver): 169 in / 6,797 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 0x100000000):
+        return False
+    
+    # 32-bit mask and constants
+    m = 0xFFFFFFFF
+    a = 0x41c64e6d
+    c = 0x3039
+    
+    v = x
+    # Three rounds of a reversible transformation
+    for i in range(3):
+        # Step 1: XOR-shift right (reversible)
+        v = (v ^ (v >> 16)) & m
+        
+        # Step 2: Linear congruential step (reversible via modular inverse)
+        v = (v * a + c) & m
+        
+        # Step 3: XOR-shift left (reversible)
+        v = (v ^ (v << 16)) & m
+        
+        # Step 4: Modular addition (reversible)
+        v = (v + 0x7b) & m
+        
+    return v == 0x20880087
+```
+
+### Explanation
+
+This puzzle is based on a reversible block transformation applied to a 32-bit integer. The function `mystery(x)` subjects the input `x` to three identical rounds of bitwise and arithmetic operations. Each step in the round is a permutation of the set of 32-bit integers, making the entire function reversible.
+
+#### The Round Transformation:
+1.  **XOR-Shift Right (`v ^ (v >> 16)`):** This operation XORs the high 16 bits of the value into the low 16 bits. Because the shift amount is exactly half the bit-width, this operation is its own inverse.
+2.  **Linear Congruential Step (`v * a + c`):** This is a standard LCG step. Since the multiplier `a` (0x41c64e6d) is odd, it has a modular multiplicative inverse modulo $2^{32}$. The addition of `c` (0x3039) is reversed by subtracting it.
+3.  **XOR-Shift Left (`v ^ (v << 16)`):** Similar to the right XOR-shift, this XORs the low 16 bits into the high 16 bits. It is also its own inverse.
+4.  **Modular Addition (`v + 0x7b`):** A simple addition of a constant, which is reversed by subtracting the same constant.
+
+To find the solution, one must start with the target value `0x20880087` and apply the inverse of each step in the reverse order for all three rounds.
+
+SOLUTION: 305419896 
+Checking sample solution  305419896
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -4 (0-4) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 3,085 in / 16,779 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 0 or x > 100000:
+        return False
+    
+    square = x * x
+    s = str(square)
+    
+    for i in range(1, len(s)):
+        left = int(s[:i])
+        right = int(s[i:])
+        if left + right == x:
+            return True
+    
+    return False
+```
+
+This puzzle checks whether an integer satisfies a special property involving its square. The function computes the square of the input number, then examines if the digits of that square can be split into two consecutive parts that, when added together, equal the original number. This property is rare and elegant, requiring careful analysis of the code to understand what condition is actually being checked. There are multiple valid solutions within the given range, but discovering them requires either systematic testing or recognizing the underlying mathematical concept.
+
+SOLUTION: 9 
+Checking sample solution  9
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 9. Checking.
+Success!
+New score after this turn: -4 (0-4) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 2,578 in / 10,050 out
+  gemini-3-flash-preview (solver): 207 in / 4,409 out
+Logs written to runs/classic/gemini-3-flash-preview_vs_claude-haiku-4-5.log and runs/classic/gemini-3-flash-preview_vs_claude-haiku-4-5.jsonl
+
+=== Token Usage Summary ===
+Turn 0: gemini-3-flash-preview vs claude-haiku-4-5 - 346 in / 17,933 out (?) [puzzle-wrong]
+Turn 1: claude-haiku-4-5 vs gemini-3-flash-preview - 892 in / 15,727 out (?) [success]
+Turn 2: gemini-3-flash-preview vs claude-haiku-4-5 - 953 in / 27,449 out (?) [puzzle-wrong]
+Turn 3: claude-haiku-4-5 vs gemini-3-flash-preview - 1,381 in / 12,559 out (?) [success]
+Turn 4: gemini-3-flash-preview vs claude-haiku-4-5 - 1,965 in / 24,638 out (?) [success]
+Turn 5: claude-haiku-4-5 vs gemini-3-flash-preview - 1,832 in / 13,699 out (?) [success]
+Turn 6: gemini-3-flash-preview vs claude-haiku-4-5 - 2,309 in / 26,324 out (?) [puzzle-wrong]
+Turn 7: claude-haiku-4-5 vs gemini-3-flash-preview - 2,267 in / 13,097 out (?) [success]
+Turn 8: gemini-3-flash-preview vs claude-haiku-4-5 - 3,085 in / 16,779 out (?) [puzzle-wrong]
+Turn 9: claude-haiku-4-5 vs gemini-3-flash-preview - 2,785 in / 14,459 out (?) [success]
+
+=== Totals by Model ===
+gemini-3-flash-preview: 9,478 in / 136,198 out
+claude-haiku-4-5: 8,337 in / 46,466 out

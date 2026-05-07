@@ -1,0 +1,336 @@
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) > 80:
+        return False
+    
+    banned = ["eval", "exec", "import", "chr", "getattr", "compile", "sys", "open", "read"]
+    if any(word in x for word in banned):
+        return False
+        
+    try:
+        return eval(x) == x[::-1] and x != x[::-1]
+    except Exception:
+        return False
+```
+
+**Explanation:**
+This puzzle requires the solver to find a string `x` such that when evaluated as Python code (`eval(x)`), it produces exactly the reverse of its own source code (`x[::-1]`). Furthermore, `x != x[::-1]` ensures that the solver cannot simply try to find a palindromic quine (which is incredibly difficult to write, if one even exists for this constraint).
+
+At first glance, a solver might try to submit a string literal (e.g., `x = "'some_string'"`). However, any standard string literal evaluating to itself will always be shorter than its source code due to the surrounding quotes (e.g. `eval("'a'")` yields `'a'`, length 1 vs 3). Therefore, `len(eval(x))` will never equal `len(x[::-1])` for plain string literals. 
+
+This mathematical property forces the solver to realize that `x` *must* be an expression that dynamically constructs a string larger than its literal components. In other words, `x` must be a specialized "Reverse Quine" — a snippet of code that evaluates to its own reversed source code!
+
+By banning common built-ins like `chr` and `getattr`, and placing an 80-character limit, the puzzle restricts the solver from using overly verbose or trivial encoding bypasses, forcing them to discover an elegant reverse quine.
+
+The provided sample solution uses a lambda function and `%` string formatting to achieve this in exactly 60 characters.
+
+SOLUTION: "(lambda s: (s % s)[::-1])('(lambda s: (s %% s)[::-1])(%r)')" 
+Checking sample solution  "(lambda s: (s % s)[::-1])('(lambda s: (s %% s)[::-1])(%r)')"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "(lambda x:(x%repr(x))[::-1])('(lambda x:(x%%repr(x))[::-1])(%s)')". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 346 in / 22,888 out
+  grok-4.20-0309-reasoning (solver): 325 in / 19,006 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not float:
+        return False
+    if str(x).lower() in ("nan", "inf", "-inf"):
+        return False
+    if abs(x) < 1e300:
+        return False
+    try:
+        return (1 / (x - x)) == 0 and x == x * 2 and x != x + 1
+    except Exception:
+        return False
+```
+The puzzle filters common special floats early then uses arithmetic edge cases and division-by-zero behavior that only holds in a very narrow IEEE-754 regime; most people will hit one of the early returns or never reach the final compound condition.  
+SOLUTION: 1e999 
+Checking sample solution  1e999
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 595 in / 9,534 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    
+    banned = "0123456789.eE+- "
+    if any(c in x for c in banned):
+        return False
+    
+    if len(x) != 4:
+        return False
+        
+    try:
+        val = float(x)
+        if val != 1337.0:
+            return False
+            
+        return sum(ord(c) for c in x) == 9638
+    except Exception:
+        return False
+
+```
+
+**Explanation:**
+This puzzle targets a relatively obscure but fascinating quirk in Python's internal string-to-float conversion (`PyOS_string_to_double`). 
+
+When Python attempts to parse a string into a float via `float()`, it doesn't just look for ASCII characters. It actually accepts any Unicode character categorized as a Decimal Digit (`Nd` in the Unicode database). During the parsing phase, Python normalizes these Unicode digits down to their ASCII equivalents (0-9) before converting them into a floating-point number!
+
+The constraints of the puzzle are:
+1. `x` must be a string of exactly 4 characters.
+2. `x` cannot contain any standard ASCII digits, nor can it contain `.` `e` `E` `+` `-` or space.
+3. `x` must evaluate to `1337.0` when parsed by `float()`.
+4. The sum of the Unicode ordinals of the characters in `x` must be exactly `9638`.
+
+Because ASCII digits and scientific notation characters are banned, the solver is forced to use other scripts to construct the number 1337. 
+
+To satisfy the specific ordinal sum of `9638`, we can use the Devanagari script digits:
+- `1` is '१' (U+0967, ordinal: 2407)
+- `3` is '३' (U+0969, ordinal: 2409)
+- `7` is '७' (U+096D, ordinal: 2413)
+
+When combined into the string `'१३३७'`, it has a length of 4, passes the ban list, successfully evaluates to `float('१३३७') == 1337.0`, and yields exactly `2407 + 2409 + 2409 + 2413 = 9638`.
+
+SOLUTION: '१३३७' 
+Checking sample solution  '१३३७'
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "१३३७". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gemini-3.1-pro-preview (inventer): 960 in / 29,436 out
+  grok-4.20-0309-reasoning (solver): 326 in / 4,329 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not float:
+        return False
+    if abs(x) < 1e300:
+        return False
+    try:
+        return (x == x + 1) and (1 / x == 0) and (x * x == x)
+    except Exception:
+        return False
+```
+This puzzle requires a float large enough to lose all precision on addition of 1, while also satisfying division and multiplication identities that only hold in the IEEE-754 positive infinity regime (finite values fail at least one of the compound conditions even when they pass the magnitude check). The narrow overlap of behaviors makes it non-obvious without deep floating-point knowledge.  
+SOLUTION: 1e309 
+Checking sample solution  1e309
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says float('inf'). Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 912 in / 16,134 out
+  gemini-3.1-pro-preview (solver): 181 in / 1,678 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    
+    if len(x) > 5:
+        return False
+        
+    import keyword
+    if keyword.iskeyword(x) or not x.isidentifier():
+        return False
+        
+    try:
+        eval(x)
+    except SyntaxError:
+        return True
+    except Exception:
+        return False
+        
+    return False
+```
+
+**Explanation:**
+This puzzle targets an obscure interaction between Python's Unicode identifier normalization (PEP 3131) and its `eval()` parser, creating a seeming paradox: `x` must be a valid Python identifier that is *not* a keyword, yet evaluating it as an expression must throw a `SyntaxError`.
+
+Usually, any valid identifier that is not a keyword is syntactically valid as an expression (e.g., `eval("my_var")` is perfectly valid syntax, it just throws a runtime `NameError` if undefined). The only identifiers that trigger a parse-time `SyntaxError` in `eval()` are statement keywords like `if`, `for`, or `class`. However, the puzzle explicitly bans keywords via `keyword.iskeyword(x)`.
+
+The loophole lies in how Python handles non-ASCII characters. When Python parses source code, it normalizes all identifiers using Unicode NFKC normalization. If a solver provides a keyword written using fullwidth Unicode characters (e.g., `"ｉｆ"` instead of `"if"`), several things happen:
+1. `isidentifier()` returns `True` because fullwidth Latin characters are classified as valid lowercase letters in Unicode.
+2. `keyword.iskeyword()` returns `False` because it performs a strict string equality check against ASCII keywords without applying normalization.
+3. `eval()` processes the string by feeding it through Python's parser. The parser normalizes `"ｉｆ"` to `"if"` *before* tokenization. Since `"if"` is a structural keyword, using it standalone in an `eval()` raises a `SyntaxError`.
+
+A sample solution is the fullwidth string `"ｉｆ"`, represented via Unicode escapes as `"\uff49\uff46"`.
+
+SOLUTION: "\uff49\uff46" 
+Checking sample solution  "\uff49\uff46"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs -1 (0-1)
+  gemini-3.1-pro-preview (inventer): 1,682 in / 22,782 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not float:
+        return False
+    if x != 0:
+        return False
+    return (1 / x) < 0
+```
+This puzzle requires a float that compares equal to zero (filtering out all other values immediately) but produces a negative reciprocal. Only negative zero satisfies the full compound condition due to IEEE-754 signed-zero semantics; positive zero yields a positive reciprocal and all other floats fail the equality check. The behavior is obscure to anyone not familiar with floating-point edge cases.  
+SOLUTION: -0.0 
+Checking sample solution  -0.0
+RuntimeError while checking sample -- penalizing!
+Error: Error running mystery():
+Traceback (most recent call last):
+  File "<stdin>", line 13, in <module>
+  File "<stdin>", line 10, in mystery
+ZeroDivisionError: float division by zero
+
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs -2 (0-2)
+  grok-4.20-0309-reasoning (inventer): 1,205 in / 8,236 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 2:
+        return False
+    
+    if len(x.lower()) != 3:
+        return False
+    if len(x.upper()) != 3:
+        return False
+    if len(x.casefold()) != 4:
+        return False
+    if len(x.title()) != 4:
+        return False
+        
+    return True
+```
+
+**Explanation:**
+This puzzle targets the fascinating asymmetries in Python's Unicode case mapping implementations. At first glance, the constraints seem mathematically impossible: how can a 2-character string expand to length 3 when both lower-cased AND upper-cased, but expand to length 4 when casefolded and title-cased?
+
+To achieve `len(x.lower()) == 3` from a 2-character string, exactly one character must expand to 2 characters during `.lower()`, while the other remains 1. In the entire Unicode standard, `\u0130` (Latin Capital Letter I With Dot Above) is uniquely the *only* character whose standard lowercase mapping expands to multiple characters (it becomes `'i'` + `'\u0307'`, length 2). Thus, any valid solution MUST contain exactly one `\u0130`.
+
+The second character must remain length 1 in `.lower()`, but expand to length 2 in `.upper()`, `.casefold()`, and `.title()`. The German Eszett `\u00df` (ß) is a perfect candidate:
+- `.lower()`: `ß` (len 1)
+- `.upper()`: `SS` (len 2)
+- `.casefold()`: `ss` (len 2)
+- `.title()`: `Ss` (len 2)
+
+Finally, the order of the characters matters due to how `.title()` evaluates word boundaries! 
+If `x = "\u0130\u00df"`, `.title()` processes `\u0130` first (titlecasing to `\u0130`, len 1), then lowercases the subsequent `\u00df` to `\u00df` (len 1) because it is considered inside a word. Total length = 2.
+
+If we flip the order to `x = "\u00df\u0130"`, `.title()` processes `\u00df` first (titlecasing to `Ss`, len 2). Because it's a letter, it marks the start of a word. The next character `\u0130` is processed as "inside a word" and is therefore lowercased (becoming `i\u0307`, len 2). Total length = 4!
+
+This precise combination perfectly navigates all five length constraints. A brute-force attempt over the $1.1 \times 10^6$ Unicode characters would require iterating over $1.2 \times 10^{11}$ combinations, taking hours unless the solver analytically reduces the search space based on case-expansion properties.
+
+SOLUTION: "\u00df\u0130" 
+Checking sample solution  "\u00df\u0130"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "ßİ". Checking.
+Success!
+New score after this turn: -1 (0-1) vs -2 (0-2)
+  gemini-3.1-pro-preview (inventer): 2,278 in / 19,318 out
+  grok-4.20-0309-reasoning (solver): 312 in / 2,803 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not float:
+        return False
+    if abs(x) < 1e300:
+        return False
+    try:
+        return (x == x + 1) and (x < 0) and (x * x == -x) and (x / x != x / x)
+    except Exception:
+        return False
+```
+This puzzle requires a float large enough to enter the infinity regime and then applies arithmetic invariants, a sign filter, a squaring identity, and a self-inequality check that together hold exclusively for negative infinity under IEEE-754 rules (finite large-magnitude values fail the NaN or multiplication check; positive infinity fails the sign check). The conditions are chosen to overlap in a narrow regime that is non-obvious even to those familiar with some floating-point edge cases.  
+SOLUTION: float('-inf') 
+Checking sample solution  float('-inf')
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says float('-inf'). Checking.
+Success!
+New score after this turn: -1 (0-1) vs -2 (0-2)
+  grok-4.20-0309-reasoning (inventer): 1,480 in / 8,075 out
+  gemini-3.1-pro-preview (solver): 190 in / 2,529 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not float:
+        return False
+    if x.is_integer():
+        return False
+        
+    return hash(x) == 623748548390934259
+
+```
+
+**Explanation:**
+This puzzle targets Python's hashing algorithm for floating-point numbers. In Python, the hash of a float is equal to the hash of its exact rational value. To prevent hash collisions between different numeric types (like `int`, `float`, and `Fraction`), Python uses a prime modulus $P = 2^{61} - 1$ for all numeric hashing on 64-bit systems.
+
+Specifically, the hash of a rational $m / d$ is mathematically evaluated as $m \times d^{-1} \pmod P$. 
+Since floating-point numbers are represented internally in base-2, any float `x` can be written as $m / 2^k$ for some integer $m$ and positive integer $k$.
+
+Because `x.is_integer()` is checked to be `False`, `x` must have a fractional part, meaning $k > 0$.
+The solver is presented with the target hash `H = 623748548390934259`.
+They need to find a float $x = m / 2^k$ such that:
+$m \times 2^{-k} \equiv H \pmod P$
+$m \equiv H \times 2^k \pmod P$
+
+Because floating-point numbers only have 53 bits of precision, the numerator $|m|$ must be strictly less than $2^{53}$. The massive spacing between multiples of $P \approx 2^{61}$ guarantees that there is exactly ONE float in the valid representable range that produces this specific hash.
+
+To find it, the solver can iterate through small values of $k$ (the number of fractional bits) and compute $m = (H \times 2^k) \pmod P$.
+For $k = 10$, we multiply the hash by $2^{10} = 1024$:
+$623748548390934259 \times 1024 = 638718513552316681216$
+
+Taking this modulo $P = 2305843009213693951$:
+$638718513552316681216 = 277 \times 2305843009213693951 + 123456789$
+Thus, $m \equiv 123456789 \pmod P$.
+
+This gives $m = 123456789$ and $k = 10$.
+This means the exact float value is $x = 123456789 / 1024 = 120563.2705078125$.
+Because it uses only 27 bits of precision, it fits perfectly within the 53-bit limit of Python floats without any rounding error. Evaluating `hash(120563.2705078125)` accurately reverses the modulo arithmetic and yields the magic number `623748548390934259`.
+
+SOLUTION: 120563.2705078125 
+Checking sample solution  120563.2705078125
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says (1 + 2251799813805811 / 2**52) * 2**-885. Checking.
+Failure!
+New score after this turn: 0 (1-1) vs -2 (0-2)
+  gemini-3.1-pro-preview (inventer): 3,138 in / 34,675 out
+  grok-4.20-0309-reasoning (solver): 262 in / 27,647 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not float:
+        return False
+    if x * 2 != 0:
+        return False
+    try:
+        return (1 / x < 0) and (x == -x) and (x / x != x / x) and (1 + (1 / x) == (1 / x))
+    except Exception:
+        return False
+```
+This puzzle uses a deceptively simple zero filter via multiplication (catching only actual zeros while appearing to be a generic magnitude check), then chains IEEE-754 signed-zero, NaN, and infinity behaviors that hold exclusively for negative zero; the overlapping arithmetic invariants are chosen so that positive zero, all finite values, infinities, and NaNs each fail at least one condition, making the precise target non-obvious even after seeing similar floating-point tricks.
+SOLUTION: -0.0 
+Checking sample solution  -0.0
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (1-1) vs -3 (0-3)
+  grok-4.20-0309-reasoning (inventer): 1,764 in / 9,562 out
+Turn 0: gemini-3.1-pro-preview vs grok-4.20-0309-reasoning - 671 in / 41,894 out (?) [success]
+Turn 1: grok-4.20-0309-reasoning vs gemini-3.1-pro-preview - 595 in / 9,534 out (?) [puzzle-wrong]
+Turn 2: gemini-3.1-pro-preview vs grok-4.20-0309-reasoning - 1,286 in / 33,765 out (?) [success]
+Turn 3: grok-4.20-0309-reasoning vs gemini-3.1-pro-preview - 1,093 in / 17,812 out (?) [success]
+Turn 4: gemini-3.1-pro-preview vs grok-4.20-0309-reasoning - 1,682 in / 22,782 out (?) [puzzle-wrong]
+Turn 5: grok-4.20-0309-reasoning vs gemini-3.1-pro-preview - 1,205 in / 8,236 out (?) [puzzle-wrong-ex]
+Turn 6: gemini-3.1-pro-preview vs grok-4.20-0309-reasoning - 2,590 in / 22,121 out (?) [success]
+Turn 7: grok-4.20-0309-reasoning vs gemini-3.1-pro-preview - 1,670 in / 10,604 out (?) [success]
+Turn 8: gemini-3.1-pro-preview vs grok-4.20-0309-reasoning - 3,400 in / 62,322 out (?) [failure]
+Turn 9: grok-4.20-0309-reasoning vs gemini-3.1-pro-preview - 1,764 in / 9,562 out (?) [puzzle-wrong]
+gemini-3.1-pro-preview: 8,775 in / 133,306 out
+grok-4.20-0309-reasoning: 7,181 in / 105,326 out
+gemini-3.1-pro-preview ./. grok-4.20-0309-reasoning     (1-1) vs (0-3)     [0 failed, see runs/classic/gemini-3.1-pro-preview_vs_grok-4.20-0309-reasoning.log]

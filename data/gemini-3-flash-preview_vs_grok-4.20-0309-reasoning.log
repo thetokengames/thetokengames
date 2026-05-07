@@ -1,0 +1,290 @@
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a, b = 0, 0
+    for i in range(4):
+        a = (a << 8) | ord(x[i])
+        b = (b << 8) | ord(x[i+4])
+        
+    for _ in range(32):
+        a = (a + b) & 0xFFFFFFFF
+        b = (((b << 5) & 0xFFFFFFFF) | (b >> 27)) ^ a
+        
+    return a == 0x6735505e and b == 0x75981504
+```
+
+The function `mystery(x)` takes an 8-character string and treats it as two 32-bit integers. It then subjects these integers to 32 rounds of a transformation involving addition, bitwise rotation, and XOR, which is a common structure in block ciphers. To solve the puzzle, you must find a string `x` that, when passed through this process, results in the specific pair of integers provided in the return condition.
+
+SOLUTION: "PuzzleMe" 
+Checking sample solution  "PuzzleMe"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 346 in / 15,479 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a, b = 0, 0
+    for i in range(4):
+        a = (a << 8) | ord(x[i])
+        b = (b << 8) | ord(x[i+4])
+        
+    for _ in range(5):
+        a = (a + b) & 0xFFFFFFFF
+        b = (((b << 5) & 0xFFFFFFFF) | (b >> 27)) ^ a
+        
+    return a == 0x121a20 and b == 0x223a820
+```
+This puzzle implements a lightweight Feistel-style cipher with 5 rounds of add-rotate-xor mixing on two 32-bit words derived from the input bytes. The target final state is a specific hard-to-reverse pair; the input space for 8-byte strings is large enough to make blind search impractical and algebraic inversion non-trivial without significant effort or SMT assistance. 
+SOLUTION: '\x00\x00\x00\x01\x00\x00\x00\x01' 
+Checking sample solution  '\x00\x00\x00\x01\x00\x00\x00\x01'
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "\x00\x00\x00\x01\x00\x00\x00\x01". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 637 in / 14,145 out
+  gemini-3-flash-preview (solver): 267 in / 17,901 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a, b = 0, 0
+    for i in range(4):
+        a = (a << 8) | ord(x[i])
+        b = (b << 8) | ord(x[i+4])
+        
+    for _ in range(8):
+        a = (a + 0x9E3779B9) & 0xFFFFFFFF
+        b = (b ^ a)
+        b = ((b << 13) & 0xFFFFFFFF) | (b >> 19)
+        a = (a ^ b)
+        
+    return a == 0x0dc74382 and b == 0xc7af4f97
+```
+
+The function `mystery(x)` takes an 8-character string and treats it as two 32-bit integers, `a` and `b`. It then subjects these integers to 8 rounds of a transformation involving a constant addition, XOR operations, and bitwise rotation. This structure is inspired by ARX (Addition-Rotation-XOR) network designs used in various block ciphers and hash functions. To solve the puzzle, you must find an 8-character string that, when transformed through these steps, matches the specific final values of `a` and `b` provided in the return statement.
+
+SOLUTION: "mystery!" 
+Checking sample solution  "mystery!"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -2 (0-2) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 848 in / 23,026 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a, b = 0, 0
+    for i in range(4):
+        a = (a << 8) | ord(x[i])
+        b = (b << 8) | ord(x[i+4])
+        
+    for _ in range(5):
+        a = (a + b) & 0xFFFFFFFF
+        b = (((b << 5) & 0xFFFFFFFF) | (b >> 27)) ^ a
+        
+    return a == 0xabd63769 and b == 0xff1aac22
+```
+This puzzle splits an 8-byte input into two 32-bit integers and applies 5 rounds of a non-invertible ARX mixer (addition, rotation, XOR) before comparing against a fixed 64-bit state. The round count and operation ordering make manual inversion or pattern detection difficult, and the 2^64 input space rules out brute-force.  
+SOLUTION: '\x11\x22\x33\x44\x55\x66\x77\x88' 
+Checking sample solution  '\x11\x22\x33\x44\x55\x66\x77\x88'
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "\x11\x22\x33\x44\x55\x66\x77\x88". Checking.
+Success!
+New score after this turn: -2 (0-2) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,089 in / 16,123 out
+  gemini-3-flash-preview (solver): 264 in / 23,867 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a, b = 0, 0
+    for i in range(4):
+        a = (a << 8) | ord(x[i])
+        b = (b << 8) | ord(x[i+4])
+        
+    for _ in range(12):
+        a ^= 0xDEADBEEF
+        a = ((a << 7) | (a >> 25)) & 0xFFFFFFFF
+        a = (a + b) & 0xFFFFFFFF
+        
+        b ^= 0xCAFEBABE
+        b = ((b << 11) | (b >> 21)) & 0xFFFFFFFF
+        b = (b + a) & 0xFFFFFFFF
+        
+    return a == 0xc7826622 and b == 0x386d34e9
+
+```
+
+The `mystery(x)` function takes an 8-character string and treats it as two 32-bit integers, `a` and `b`, by packing the first four characters and the last four characters into their respective 32-bit values. The function then subjects these integers to 12 rounds of a custom ARX (Addition-Rotation-XOR) network. Each round involves XORing with a constant, a left bitwise rotation, and an addition with the other integer. This structure is designed to be a miniature version of the encryption processes used in various block ciphers. To solve the puzzle, you must identify the 8-character string that, when transformed through these 12 rounds, matches the final pair of integers specified in the return statement.
+
+SOLUTION: "12345678" 
+Checking sample solution  "12345678"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -3 (0-3) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 1,412 in / 23,330 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a, b = 0, 0
+    for i in range(4):
+        a = (a << 8) | ord(x[i])
+        b = (b << 8) | ord(x[i+4])
+        
+    for _ in range(5):
+        a = (a + b) & 0xFFFFFFFF
+        b = (((b << 5) & 0xFFFFFFFF) | (b >> 27)) ^ a
+        
+    return a == 0x555551a9 and b == 0xf5f57ee9
+```
+This puzzle splits an 8-byte input into two 32-bit integers a and b, then applies 5 rounds of ARX mixing (addition modulo 2^32, left rotation by 5, XOR). The final state is compared to a fixed target pair. The large input space (2^64) precludes brute force, while the chained bitwise operations and round count make algebraic reversal or pattern spotting non-trivial without solvers or significant custom scripting.  
+SOLUTION: 'AAAAAAAA' 
+Checking sample solution  'AAAAAAAA'
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "AAAAAAAA". Checking.
+Success!
+New score after this turn: -3 (0-3) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,572 in / 25,185 out
+  gemini-3-flash-preview (solver): 268 in / 14,788 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a, b = 0, 0
+    for i in range(4):
+        a = (a << 8) | ord(x[i])
+        b = (b << 8) | ord(x[i+4])
+        
+    for i in range(32):
+        k = (a * 0x9E3779B1 + i) & 0xFFFFFFFF
+        k = ((k << 15) | (k >> 17)) & 0xFFFFFFFF
+        a, b = (b ^ k) & 0xFFFFFFFF, a
+        
+    return a == 0x933010f3 and b == 0x9376916e
+```
+
+### Explanation
+
+The `mystery(x)` function takes an 8-character string and treats it as two 32-bit integers, `a` and `b`. These integers are packed by shifting and ORing the ASCII values of the characters. The function then subjects these integers to 32 rounds of a Feistel-like network. 
+
+In each round, it calculates a value `k` based on `a` using a multiplication by a large constant, the addition of the current round index, and a 32-bit bitwise rotation. The result `k` is then XORed with `b` to form the new `a`, while the old `a` becomes the new `b`. This structure is common in various cryptographic block ciphers. To solve the puzzle, you must find the specific 8-character string that, when passed through this 32-round transformation, results in the target pair of integers specified in the return statement.
+
+SOLUTION: "TopCoder" 
+Checking sample solution  "TopCoder"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -4 (0-4) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 2,048 in / 18,209 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a, b = 0, 0
+    for i in range(4):
+        a = (a << 8) | ord(x[i])
+        b = (b << 8) | ord(x[i+4])
+        
+    for _ in range(6):
+        a = (a + b) & 0xFFFFFFFF
+        b = (((b << 5) & 0xFFFFFFFF) | (b >> 27)) ^ a
+        
+    return a == 0x235c240 and b == 0x4640c640
+```
+This puzzle splits an 8-byte input into two 32-bit integers a and b, then applies 6 rounds of an ARX mixer (addition modulo 2^32, left-rotate by 5 bits, XOR). The final state is checked against a specific target pair. The input space of 2^64 combined with the chained non-linear operations and round count makes brute-force impossible and algebraic/SMT inversion significantly more expensive than prior variants.  
+SOLUTION: '\x00\x00\x00\x01\x00\x00\x00\x01' 
+Checking sample solution  '\x00\x00\x00\x01\x00\x00\x00\x01'
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "\x28\xff\xff\xce\xc7\x00\x00\x00". Checking.
+Failure!
+New score after this turn: -4 (0-4) vs 1 (1-0)
+  grok-4.20-0309-reasoning (inventer): 2,048 in / 18,447 out
+  gemini-3-flash-preview (solver): 269 in / 19,492 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a, b = 0, 0
+    for i in range(4):
+        a = (a << 8) | ord(x[i])
+        b = (b << 8) | ord(x[i+4])
+        
+    delta = 0x9E3779B9
+    sum_val = 0
+    for _ in range(8):
+        sum_val = (sum_val + delta) & 0xFFFFFFFF
+        a = (a + (((b << 4) + 0x636F6465) ^ (b + sum_val) ^ ((b >> 5) + 0x7A6F6E65))) & 0xFFFFFFFF
+        b = (b + (((a << 4) + 0x62797465) ^ (a + sum_val) ^ ((a >> 5) + 0x736C6F74))) & 0xFFFFFFFF
+        
+    return a == 0xb46b9623 and b == 0x47e1136c
+```
+
+### Explanation
+
+The `mystery(x)` function takes an 8-character string and packs its characters into two 32-bit integers, `a` and `b`. The first four characters are packed into `a` and the last four characters are packed into `b` using a big-endian approach. 
+
+The function then subjects these two integers to 8 rounds of a transformation based on the Tiny Encryption Algorithm (TEA). In each round, a constant `delta` (based on the golden ratio) is added to a running `sum_val`. This `sum_val` and several hexadecimal constants (`0x636F6465`, `0x7A6F6E65`, `0x62797465`, `0x736C6F74`) are then used in an Addition-Rotation-XOR (ARX) process to update `a` and `b`. 
+
+To solve the puzzle, one must find the original 8-character string that, when transformed through these specific 8 rounds of operations, results in the final values of `a` and `b` specified in the return statement.
+
+SOLUTION: "Pyth0n3!" 
+Checking sample solution  "Pyth0n3!"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -5 (0-5) vs 1 (1-0)
+  gemini-3-flash-preview (inventer): 2,697 in / 22,324 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    a, b = 0, 0
+    for i in range(4):
+        a = (a << 8) | ord(x[i])
+        b = (b << 8) | ord(x[i+4])
+        
+    for _ in range(4):
+        a = (a + b) & 0xFFFFFFFF
+        b = (((b << 5) & 0xFFFFFFFF) | (b >> 27)) ^ a
+        
+    return a == 0x55555554 and b == 0x99999998
+```
+This puzzle interprets an 8-byte string as two 32-bit big-endian integers and mixes them with 4 rounds of modular addition, 5-bit left rotation, and XOR before matching a fixed target state. The 2^64 search space eliminates brute force; the iterative bitwise dependencies make manual guessing or pattern detection impractical and raise the cost of naive algebraic inversion or solver setup.  
+SOLUTION: '\x11\x11\x11\x11\x22\x22\x22\x22' 
+Checking sample solution  '\x11\x11\x11\x11\x22\x22\x22\x22'
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "\x40\x11\x11\x11\x20\x22\x22\x22". Checking.
+Failure!
+New score after this turn: -5 (0-5) vs 2 (2-0)
+  grok-4.20-0309-reasoning (inventer): 2,599 in / 11,518 out
+  gemini-3-flash-preview (solver): 270 in / 17,946 out
+Turn 0: gemini-3-flash-preview vs grok-4.20-0309-reasoning - 346 in / 15,479 out (?) [puzzle-wrong]
+Turn 1: grok-4.20-0309-reasoning vs gemini-3-flash-preview - 904 in / 32,046 out (?) [success]
+Turn 2: gemini-3-flash-preview vs grok-4.20-0309-reasoning - 848 in / 23,026 out (?) [puzzle-wrong]
+Turn 3: grok-4.20-0309-reasoning vs gemini-3-flash-preview - 1,353 in / 39,990 out (?) [success]
+Turn 4: gemini-3-flash-preview vs grok-4.20-0309-reasoning - 1,412 in / 23,330 out (?) [puzzle-wrong]
+Turn 5: grok-4.20-0309-reasoning vs gemini-3-flash-preview - 1,840 in / 39,973 out (?) [success]
+Turn 6: gemini-3-flash-preview vs grok-4.20-0309-reasoning - 2,048 in / 18,209 out (?) [puzzle-wrong]
+Turn 7: grok-4.20-0309-reasoning vs gemini-3-flash-preview - 2,317 in / 37,939 out (?) [failure]
+Turn 8: gemini-3-flash-preview vs grok-4.20-0309-reasoning - 2,697 in / 22,324 out (?) [puzzle-wrong]
+Turn 9: grok-4.20-0309-reasoning vs gemini-3-flash-preview - 2,869 in / 29,464 out (?) [failure]
+gemini-3-flash-preview: 8,689 in / 196,362 out
+grok-4.20-0309-reasoning: 7,945 in / 85,418 out
+gemini-3-flash-preview ./. grok-4.20-0309-reasoning     (0-5) vs (2-0)     [0 failed, see runs/classic/gemini-3-flash-preview_vs_grok-4.20-0309-reasoning.log]

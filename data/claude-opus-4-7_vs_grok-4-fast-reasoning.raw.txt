@@ -1,0 +1,2310 @@
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+None, this is the first turn.
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want a puzzle with multiple interacting constraints that don't obviously narrow down the search space.
+
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if s != s[::-1]:
+        return False
+    if x % 7 != 0:
+        return False
+    if x % 13 != 0:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 24:
+        return False
+    return True
+```
+
+A 6-digit palindrome divisible by both 7 and 13, where the product of the first three digits equals 24.
+
+SOLUTION: 262262
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+262262 is a 6-digit integer that is a palindrome (reads the same forwards and backwards), divisible by both 7 and 13 (hence by 91), and the product of its first three digits (2 × 6 × 2) equals 24. This satisfies all conditions in the `mystery` function, so `mystery(262262)` returns `True`.
+
+SOLUTION: 262262
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if s != s[::-1]:
+        return False
+    if x % 7 != 0:
+        return False
+    if x % 13 != 0:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 24:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if len(s) != 6 or s != s[::-1]:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 30:
+        return False
+    if digits[0] + digits[1] + digits[2] != 10:
+        return False
+    if digits[1] * digits[2] * digits[3] != 75:
+        return False
+    return True
+```
+### Explanation
+This puzzle requires finding a 6-digit palindromic integer where the product of the first three digits is 30, their sum is 10, and the product of the middle three digits is 75. These conditions narrow it down to exactly one solution, making it challenging without systematically checking the limited permutations that satisfy the initial product and sum constraints.
+
+SOLUTION: 235532
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at the constraints:
+- 6-digit palindrome: d0=d5, d1=d4, d2=d3
+- d0+d1+d2=10, d0·d1·d2=30
+- d1·d2·d3 = d1·d2² = 75
+
+From d1·d2²=75: try d2=5, then d1=3. Then d0=2. Check sum: 2+3+5=10 ✓, product: 30 ✓.
+
+Palindrome: 235532
+
+SOLUTION: 235532
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if s != s[::-1]:
+        return False
+    if x % 7 != 0:
+        return False
+    if x % 13 != 0:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 24:
+        return False
+    return True
+
+```
+### Explanation
+
+
+A 6-digit palindrome divisible by both 7 and 13, where the product of the first three digits equals 24.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if len(s) != 6 or s != s[::-1]:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 30:
+        return False
+    if digits[0] + digits[1] + digits[2] != 10:
+        return False
+    if digits[1] * digits[2] * digits[3] != 75:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I'll create a puzzle with multiple interlocking constraints on character values.
+
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalpha() or not x.islower():
+        return False
+    vals = [ord(c) - ord('a') for c in x]
+    if sum(vals) != 50:
+        return False
+    if (vals[0] * vals[1] + vals[2] * vals[3]) % 17 != 5:
+        return False
+    if (vals[4] - vals[5] + vals[6] - vals[7]) != 3:
+        return False
+    if vals[0] != vals[7]:
+        return False
+    if x[1:4] != x[4:7][::-1]:
+        return False
+    return True
+```
+
+An 8-character lowercase word with palindrome-ish structure and arithmetic constraints on the letter values.
+
+SOLUTION: "flgddglf"
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+```python
+x = "amlcclma"
+print(mystery(x))  # Should print True
+```
+
+SOLUTION: "amlcclma"
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if s != s[::-1]:
+        return False
+    if x % 7 != 0:
+        return False
+    if x % 13 != 0:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 24:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if len(s) != 6 or s != s[::-1]:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 30:
+        return False
+    if digits[0] + digits[1] + digits[2] != 10:
+        return False
+    if digits[1] * digits[2] * digits[3] != 75:
+        return False
+    return True
+
+```
+### Explanation
+
+### Explanation
+This puzzle requires finding a 6-digit palindromic integer where the product of the first three digits is 30, their sum is 10, and the product of the middle three digits is 75. These conditions narrow it down to exactly one solution, making it challenging without systematically checking the limited permutations that satisfy the initial product and sum constraints.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalpha() or not x.islower():
+        return False
+    vals = [ord(c) - ord('a') for c in x]
+    if sum(vals) != 50:
+        return False
+    if (vals[0] * vals[1] + vals[2] * vals[3]) % 17 != 5:
+        return False
+    if (vals[4] - vals[5] + vals[6] - vals[7]) != 3:
+        return False
+    if vals[0] != vals[7]:
+        return False
+    if x[1:4] != x[4:7][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 1000 or x > 9999:
+        return False
+    s = str(x)
+    if len(s) != 4:
+        return False
+    digits = [int(c) for c in s]
+    if sum(digits) != 15:
+        return False
+    if digits[0] * digits[1] * digits[2] * digits[3] != 120:
+        return False
+    if x % 17 != 0:
+        return False
+    return True
+```
+This puzzle requires finding a 4-digit integer where the sum of its digits is 15, the product of its digits is 120, and the number itself is divisible by 17. The limited factorizations for the product constrain the possible digits to permutations of 2, 2, 5, 6, and checking divisibility by 17 among those few candidates makes it solvable but requires systematic enumeration.
+
+SOLUTION: 2652
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at this, I need:
+- 4-digit number (1000-9999)
+- Digits sum to 15
+- Digits multiply to 120
+- Divisible by 17
+
+**Finding digits:** 120 = 2³·3·5. Testing combinations of 4 digits (1-9) with product 120 and sum 15:
+- {2,2,5,6}: sum=15, product=120 ✓
+
+**Finding permutation divisible by 17:**
+Testing: 2652 ÷ 17 = 156 ✓
+
+Verify: digits 2+6+5+2=15, 2·6·5·2=120, 2652/17=156.
+
+SOLUTION: 2652
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if s != s[::-1]:
+        return False
+    if x % 7 != 0:
+        return False
+    if x % 13 != 0:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 24:
+        return False
+    return True
+
+```
+### Explanation
+
+
+A 6-digit palindrome divisible by both 7 and 13, where the product of the first three digits equals 24.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if len(s) != 6 or s != s[::-1]:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 30:
+        return False
+    if digits[0] + digits[1] + digits[2] != 10:
+        return False
+    if digits[1] * digits[2] * digits[3] != 75:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalpha() or not x.islower():
+        return False
+    vals = [ord(c) - ord('a') for c in x]
+    if sum(vals) != 50:
+        return False
+    if (vals[0] * vals[1] + vals[2] * vals[3]) % 17 != 5:
+        return False
+    if (vals[4] - vals[5] + vals[6] - vals[7]) != 3:
+        return False
+    if vals[0] != vals[7]:
+        return False
+    if x[1:4] != x[4:7][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+
+
+An 8-character lowercase word with palindrome-ish structure and arithmetic constraints on the letter values.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 1000 or x > 9999:
+        return False
+    s = str(x)
+    if len(s) != 4:
+        return False
+    digits = [int(c) for c in s]
+    if sum(digits) != 15:
+        return False
+    if digits[0] * digits[1] * digits[2] * digits[3] != 120:
+        return False
+    if x % 17 != 0:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want to design something with multiple intersecting numerical constraints that requires careful case analysis.
+
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all(c in '0123456789' for c in x):
+        return False
+    d = [int(c) for c in x]
+    if d[0] != d[9]:
+        return False
+    if d[0] + d[1] + d[2] != 7:
+        return False
+    if d[3] * d[4] != 12:
+        return False
+    if d[5] - d[6] != 3:
+        return False
+    if (d[7] + d[8] + d[9]) % 5 != 2:
+        return False
+    if d[1]**2 + d[2]**2 + d[7]**2 != 50:
+        return False
+    if d[3] + d[5] + d[6] + d[8] != 14:
+        return False
+    return True
+```
+
+A 10-digit string with overlapping arithmetic constraints on different positions — products, differences, sums of squares, and modular conditions all have to align.
+
+SOLUTION: "2053474502"
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all(c in '0123456789' for c in x):
+        return False
+    d = [int(c) for c in x]
+    if d[0] != d[9]:
+        return False
+    if d[0] + d[1] + d[2] != 7:
+        return False
+    if d[3] * d[4] != 12:
+        return False
+    if d[5] - d[6] != 3:
+        return False
+    if (d[7] + d[8] + d[9]) % 5 != 2:
+        return False
+    if d[1]**2 + d[2]**2 + d[7]**2 != 50:
+        return False
+    if d[3] + d[5] + d[6] + d[8] != 14:
+        return False
+    return True
+
+print(mystery("6012630796"))  # Should print True
+```
+SOLUTION: "6012630796"
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if s != s[::-1]:
+        return False
+    if x % 7 != 0:
+        return False
+    if x % 13 != 0:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 24:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if len(s) != 6 or s != s[::-1]:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 30:
+        return False
+    if digits[0] + digits[1] + digits[2] != 10:
+        return False
+    if digits[1] * digits[2] * digits[3] != 75:
+        return False
+    return True
+
+```
+### Explanation
+
+### Explanation
+This puzzle requires finding a 6-digit palindromic integer where the product of the first three digits is 30, their sum is 10, and the product of the middle three digits is 75. These conditions narrow it down to exactly one solution, making it challenging without systematically checking the limited permutations that satisfy the initial product and sum constraints.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalpha() or not x.islower():
+        return False
+    vals = [ord(c) - ord('a') for c in x]
+    if sum(vals) != 50:
+        return False
+    if (vals[0] * vals[1] + vals[2] * vals[3]) % 17 != 5:
+        return False
+    if (vals[4] - vals[5] + vals[6] - vals[7]) != 3:
+        return False
+    if vals[0] != vals[7]:
+        return False
+    if x[1:4] != x[4:7][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 1000 or x > 9999:
+        return False
+    s = str(x)
+    if len(s) != 4:
+        return False
+    digits = [int(c) for c in s]
+    if sum(digits) != 15:
+        return False
+    if digits[0] * digits[1] * digits[2] * digits[3] != 120:
+        return False
+    if x % 17 != 0:
+        return False
+    return True
+
+```
+### Explanation
+
+This puzzle requires finding a 4-digit integer where the sum of its digits is 15, the product of its digits is 120, and the number itself is divisible by 17. The limited factorizations for the product constrain the possible digits to permutations of 2, 2, 5, 6, and checking divisibility by 17 among those few candidates makes it solvable but requires systematic enumeration.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all(c in '0123456789' for c in x):
+        return False
+    d = [int(c) for c in x]
+    if d[0] != d[9]:
+        return False
+    if d[0] + d[1] + d[2] != 7:
+        return False
+    if d[3] * d[4] != 12:
+        return False
+    if d[5] - d[6] != 3:
+        return False
+    if (d[7] + d[8] + d[9]) % 5 != 2:
+        return False
+    if d[1]**2 + d[2]**2 + d[7]**2 != 50:
+        return False
+    if d[3] + d[5] + d[6] + d[8] != 14:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 10000 or x > 99999:
+        return False
+    s = str(x)
+    if len(s) != 5:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] == 0:
+        return False
+    if sum(digits) != 20:
+        return False
+    prod = 1
+    for d in digits:
+        prod *= d
+    if prod != 720:
+        return False
+    if digits[1] * digits[3] != 20:
+        return False
+    if x % 23 != 0:
+        return False
+    return True
+```
+This puzzle involves finding a 5-digit integer that satisfies multiple constraints on its digits and the number itself, designed to limit possibilities through interconnected mathematical properties.
+
+SOLUTION: 25346
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at the constraints:
+- 5-digit number, sum of digits = 20, product = 720
+- digits[1] × digits[3] = 20 → pair is (4,5) or (5,4)
+- Remaining three digits: product 36, sum 11 → {2, 3, 6}
+- Must be divisible by 23
+
+Trying 25346: digits 2,5,3,4,6. Sum=20 ✓, Product=720 ✓, 5×4=20 ✓, 25346/23=1102 ✓
+
+SOLUTION: 25346
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if s != s[::-1]:
+        return False
+    if x % 7 != 0:
+        return False
+    if x % 13 != 0:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 24:
+        return False
+    return True
+
+```
+### Explanation
+
+
+A 6-digit palindrome divisible by both 7 and 13, where the product of the first three digits equals 24.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if len(s) != 6 or s != s[::-1]:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 30:
+        return False
+    if digits[0] + digits[1] + digits[2] != 10:
+        return False
+    if digits[1] * digits[2] * digits[3] != 75:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalpha() or not x.islower():
+        return False
+    vals = [ord(c) - ord('a') for c in x]
+    if sum(vals) != 50:
+        return False
+    if (vals[0] * vals[1] + vals[2] * vals[3]) % 17 != 5:
+        return False
+    if (vals[4] - vals[5] + vals[6] - vals[7]) != 3:
+        return False
+    if vals[0] != vals[7]:
+        return False
+    if x[1:4] != x[4:7][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+
+
+An 8-character lowercase word with palindrome-ish structure and arithmetic constraints on the letter values.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 1000 or x > 9999:
+        return False
+    s = str(x)
+    if len(s) != 4:
+        return False
+    digits = [int(c) for c in s]
+    if sum(digits) != 15:
+        return False
+    if digits[0] * digits[1] * digits[2] * digits[3] != 120:
+        return False
+    if x % 17 != 0:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all(c in '0123456789' for c in x):
+        return False
+    d = [int(c) for c in x]
+    if d[0] != d[9]:
+        return False
+    if d[0] + d[1] + d[2] != 7:
+        return False
+    if d[3] * d[4] != 12:
+        return False
+    if d[5] - d[6] != 3:
+        return False
+    if (d[7] + d[8] + d[9]) % 5 != 2:
+        return False
+    if d[1]**2 + d[2]**2 + d[7]**2 != 50:
+        return False
+    if d[3] + d[5] + d[6] + d[8] != 14:
+        return False
+    return True
+
+```
+### Explanation
+
+
+A 10-digit string with overlapping arithmetic constraints on different positions — products, differences, sums of squares, and modular conditions all have to align.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 10000 or x > 99999:
+        return False
+    s = str(x)
+    if len(s) != 5:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] == 0:
+        return False
+    if sum(digits) != 20:
+        return False
+    prod = 1
+    for d in digits:
+        prod *= d
+    if prod != 720:
+        return False
+    if digits[1] * digits[3] != 20:
+        return False
+    if x % 23 != 0:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I'll create a 6-digit puzzle with overlapping multiplicative constraints on digit pairs and a modular condition.
+
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    d = [int(c) for c in s]
+    if sum(d) != 25:
+        return False
+    if d[0]*d[5] != 18:
+        return False
+    if d[1]*d[4] != 12:
+        return False
+    if d[2]*d[3] != 20:
+        return False
+    if d[0] > d[1] > d[2]:
+        return False
+    if (d[0] + d[2] + d[4]) - (d[1] + d[3] + d[5]) != 1:
+        return False
+    if x % 17 != 12:
+        return False
+    return True
+```
+
+A 6-digit number with constraints: outer pair product is 18, second pair is 12, middle pair is 20, sum is 25, alternating sum difference is 1, not strictly decreasing first three digits, and a modular condition.
+
+SOLUTION: 644533
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+```python
+x = 644533
+print(mystery(x))  # Should print True
+```
+
+SOLUTION: 644533
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if s != s[::-1]:
+        return False
+    if x % 7 != 0:
+        return False
+    if x % 13 != 0:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 24:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if len(s) != 6 or s != s[::-1]:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 30:
+        return False
+    if digits[0] + digits[1] + digits[2] != 10:
+        return False
+    if digits[1] * digits[2] * digits[3] != 75:
+        return False
+    return True
+
+```
+### Explanation
+
+### Explanation
+This puzzle requires finding a 6-digit palindromic integer where the product of the first three digits is 30, their sum is 10, and the product of the middle three digits is 75. These conditions narrow it down to exactly one solution, making it challenging without systematically checking the limited permutations that satisfy the initial product and sum constraints.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalpha() or not x.islower():
+        return False
+    vals = [ord(c) - ord('a') for c in x]
+    if sum(vals) != 50:
+        return False
+    if (vals[0] * vals[1] + vals[2] * vals[3]) % 17 != 5:
+        return False
+    if (vals[4] - vals[5] + vals[6] - vals[7]) != 3:
+        return False
+    if vals[0] != vals[7]:
+        return False
+    if x[1:4] != x[4:7][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 1000 or x > 9999:
+        return False
+    s = str(x)
+    if len(s) != 4:
+        return False
+    digits = [int(c) for c in s]
+    if sum(digits) != 15:
+        return False
+    if digits[0] * digits[1] * digits[2] * digits[3] != 120:
+        return False
+    if x % 17 != 0:
+        return False
+    return True
+
+```
+### Explanation
+
+This puzzle requires finding a 4-digit integer where the sum of its digits is 15, the product of its digits is 120, and the number itself is divisible by 17. The limited factorizations for the product constrain the possible digits to permutations of 2, 2, 5, 6, and checking divisibility by 17 among those few candidates makes it solvable but requires systematic enumeration.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all(c in '0123456789' for c in x):
+        return False
+    d = [int(c) for c in x]
+    if d[0] != d[9]:
+        return False
+    if d[0] + d[1] + d[2] != 7:
+        return False
+    if d[3] * d[4] != 12:
+        return False
+    if d[5] - d[6] != 3:
+        return False
+    if (d[7] + d[8] + d[9]) % 5 != 2:
+        return False
+    if d[1]**2 + d[2]**2 + d[7]**2 != 50:
+        return False
+    if d[3] + d[5] + d[6] + d[8] != 14:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 10000 or x > 99999:
+        return False
+    s = str(x)
+    if len(s) != 5:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] == 0:
+        return False
+    if sum(digits) != 20:
+        return False
+    prod = 1
+    for d in digits:
+        prod *= d
+    if prod != 720:
+        return False
+    if digits[1] * digits[3] != 20:
+        return False
+    if x % 23 != 0:
+        return False
+    return True
+
+```
+### Explanation
+
+This puzzle involves finding a 5-digit integer that satisfies multiple constraints on its digits and the number itself, designed to limit possibilities through interconnected mathematical properties.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    d = [int(c) for c in s]
+    if sum(d) != 25:
+        return False
+    if d[0]*d[5] != 18:
+        return False
+    if d[1]*d[4] != 12:
+        return False
+    if d[2]*d[3] != 20:
+        return False
+    if d[0] > d[1] > d[2]:
+        return False
+    if (d[0] + d[2] + d[4]) - (d[1] + d[3] + d[5]) != 1:
+        return False
+    if x % 17 != 12:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if len(s) != 6:
+        return False
+    digits = [int(c) for c in s]
+    if sum(digits) != 21:
+        return False
+    if digits[0] * digits[1] * digits[2] != 6:
+        return False
+    if digits[3] * digits[4] * digits[5] != 120:
+        return False
+    if digits[1] * digits[4] != 10:
+        return False
+    if digits[0] + digits[5] != 7:
+        return False
+    if digits[2] + digits[3] != 7:
+        return False
+    if digits[0] + digits[3] != 5:
+        return False
+    return True
+```
+### Explanation
+This puzzle requires finding a 6-digit integer where the digits sum to 21, the product of the first three digits is 6, the product of the last three is 120, the second digit times the fifth is 10, the first plus the sixth is 7, the third plus the fourth is 7, and the first plus the fourth is 5. These constraints force the digits to be a specific permutation of 1 through 6, making it challenging to identify without considering the limited factorizations and systematically checking the interlocking sum and product conditions across positions.
+SOLUTION: 123456
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at the constraints:
+- d1*d4=10, try d1=2, d4=5
+- d0*d2=3, try d0=1, d2=3
+- d0+d3=5 → d3=4
+- d2+d3=7 ✓ (3+4=7)
+- d0+d5=7 → d5=6
+- d3*d4*d5=4*5*6=120 ✓
+- Sum: 1+2+3+4+5+6=21 ✓
+
+SOLUTION: 123456
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if s != s[::-1]:
+        return False
+    if x % 7 != 0:
+        return False
+    if x % 13 != 0:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 24:
+        return False
+    return True
+
+```
+### Explanation
+
+
+A 6-digit palindrome divisible by both 7 and 13, where the product of the first three digits equals 24.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if len(s) != 6 or s != s[::-1]:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 30:
+        return False
+    if digits[0] + digits[1] + digits[2] != 10:
+        return False
+    if digits[1] * digits[2] * digits[3] != 75:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalpha() or not x.islower():
+        return False
+    vals = [ord(c) - ord('a') for c in x]
+    if sum(vals) != 50:
+        return False
+    if (vals[0] * vals[1] + vals[2] * vals[3]) % 17 != 5:
+        return False
+    if (vals[4] - vals[5] + vals[6] - vals[7]) != 3:
+        return False
+    if vals[0] != vals[7]:
+        return False
+    if x[1:4] != x[4:7][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+
+
+An 8-character lowercase word with palindrome-ish structure and arithmetic constraints on the letter values.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 1000 or x > 9999:
+        return False
+    s = str(x)
+    if len(s) != 4:
+        return False
+    digits = [int(c) for c in s]
+    if sum(digits) != 15:
+        return False
+    if digits[0] * digits[1] * digits[2] * digits[3] != 120:
+        return False
+    if x % 17 != 0:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all(c in '0123456789' for c in x):
+        return False
+    d = [int(c) for c in x]
+    if d[0] != d[9]:
+        return False
+    if d[0] + d[1] + d[2] != 7:
+        return False
+    if d[3] * d[4] != 12:
+        return False
+    if d[5] - d[6] != 3:
+        return False
+    if (d[7] + d[8] + d[9]) % 5 != 2:
+        return False
+    if d[1]**2 + d[2]**2 + d[7]**2 != 50:
+        return False
+    if d[3] + d[5] + d[6] + d[8] != 14:
+        return False
+    return True
+
+```
+### Explanation
+
+
+A 10-digit string with overlapping arithmetic constraints on different positions — products, differences, sums of squares, and modular conditions all have to align.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 10000 or x > 99999:
+        return False
+    s = str(x)
+    if len(s) != 5:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] == 0:
+        return False
+    if sum(digits) != 20:
+        return False
+    prod = 1
+    for d in digits:
+        prod *= d
+    if prod != 720:
+        return False
+    if digits[1] * digits[3] != 20:
+        return False
+    if x % 23 != 0:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    d = [int(c) for c in s]
+    if sum(d) != 25:
+        return False
+    if d[0]*d[5] != 18:
+        return False
+    if d[1]*d[4] != 12:
+        return False
+    if d[2]*d[3] != 20:
+        return False
+    if d[0] > d[1] > d[2]:
+        return False
+    if (d[0] + d[2] + d[4]) - (d[1] + d[3] + d[5]) != 1:
+        return False
+    if x % 17 != 12:
+        return False
+    return True
+
+```
+### Explanation
+
+
+A 6-digit number with constraints: outer pair product is 18, second pair is 12, middle pair is 20, sum is 25, alternating sum difference is 1, not strictly decreasing first three digits, and a modular condition.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if len(s) != 6:
+        return False
+    digits = [int(c) for c in s]
+    if sum(digits) != 21:
+        return False
+    if digits[0] * digits[1] * digits[2] != 6:
+        return False
+    if digits[3] * digits[4] * digits[5] != 120:
+        return False
+    if digits[1] * digits[4] != 10:
+        return False
+    if digits[0] + digits[5] != 7:
+        return False
+    if digits[2] + digits[3] != 7:
+        return False
+    if digits[0] + digits[3] != 5:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 7:
+        return False
+    if not x.isalpha() or not x.islower():
+        return False
+    v = [ord(c) - ord('a') for c in x]
+    if sum(v) != 77:
+        return False
+    if v[0] + v[6] != 25:
+        return False
+    if v[1] * v[5] != 144:
+        return False
+    if v[2] - v[4] != 5:
+        return False
+    if v[3] != 13:
+        return False
+    if (v[0] * v[2] + v[4] * v[6]) % 23 != 7:
+        return False
+    if v[0] < v[1] < v[2]:
+        return False
+    return True
+```
+
+A 7-letter lowercase string with multiple interlocking constraints on letter values: a fixed middle letter, a product constraint, a difference constraint, a sum constraint, a modular constraint, and an ordering anti-pattern.
+
+SOLUTION: "emknfmv"
+*** END
+*** END
+*** solver grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 7:
+        return False
+    if not x.isalpha() or not x.islower():
+        return False
+    v = [ord(c) - ord('a') for c in x]
+    if sum(v) != 77:
+        return False
+    if v[0] + v[6] != 25:
+        return False
+    if v[1] * v[5] != 144:
+        return False
+    if v[2] - v[4] != 5:
+        return False
+    if v[3] != 13:
+        return False
+    if (v[0] * v[2] + v[4] * v[6]) % 23 != 7:
+        return False
+    if v[0] < v[1] < v[2]:
+        return False
+    return True
+
+print(mystery("tghncyg"))  # Should print True
+```
+
+SOLUTION: "tghncyg"
+*** END
+*** inventor prompt grok-4-fast-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if s != s[::-1]:
+        return False
+    if x % 7 != 0:
+        return False
+    if x % 13 != 0:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 24:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if len(s) != 6 or s != s[::-1]:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] * digits[1] * digits[2] != 30:
+        return False
+    if digits[0] + digits[1] + digits[2] != 10:
+        return False
+    if digits[1] * digits[2] * digits[3] != 75:
+        return False
+    return True
+
+```
+### Explanation
+
+### Explanation
+This puzzle requires finding a 6-digit palindromic integer where the product of the first three digits is 30, their sum is 10, and the product of the middle three digits is 75. These conditions narrow it down to exactly one solution, making it challenging without systematically checking the limited permutations that satisfy the initial product and sum constraints.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 8:
+        return False
+    if not x.isalpha() or not x.islower():
+        return False
+    vals = [ord(c) - ord('a') for c in x]
+    if sum(vals) != 50:
+        return False
+    if (vals[0] * vals[1] + vals[2] * vals[3]) % 17 != 5:
+        return False
+    if (vals[4] - vals[5] + vals[6] - vals[7]) != 3:
+        return False
+    if vals[0] != vals[7]:
+        return False
+    if x[1:4] != x[4:7][::-1]:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 1000 or x > 9999:
+        return False
+    s = str(x)
+    if len(s) != 4:
+        return False
+    digits = [int(c) for c in s]
+    if sum(digits) != 15:
+        return False
+    if digits[0] * digits[1] * digits[2] * digits[3] != 120:
+        return False
+    if x % 17 != 0:
+        return False
+    return True
+
+```
+### Explanation
+
+This puzzle requires finding a 4-digit integer where the sum of its digits is 15, the product of its digits is 120, and the number itself is divisible by 17. The limited factorizations for the product constrain the possible digits to permutations of 2, 2, 5, 6, and checking divisibility by 17 among those few candidates makes it solvable but requires systematic enumeration.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    if not all(c in '0123456789' for c in x):
+        return False
+    d = [int(c) for c in x]
+    if d[0] != d[9]:
+        return False
+    if d[0] + d[1] + d[2] != 7:
+        return False
+    if d[3] * d[4] != 12:
+        return False
+    if d[5] - d[6] != 3:
+        return False
+    if (d[7] + d[8] + d[9]) % 5 != 2:
+        return False
+    if d[1]**2 + d[2]**2 + d[7]**2 != 50:
+        return False
+    if d[3] + d[5] + d[6] + d[8] != 14:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 10000 or x > 99999:
+        return False
+    s = str(x)
+    if len(s) != 5:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] == 0:
+        return False
+    if sum(digits) != 20:
+        return False
+    prod = 1
+    for d in digits:
+        prod *= d
+    if prod != 720:
+        return False
+    if digits[1] * digits[3] != 20:
+        return False
+    if x % 23 != 0:
+        return False
+    return True
+
+```
+### Explanation
+
+This puzzle involves finding a 5-digit integer that satisfies multiple constraints on its digits and the number itself, designed to limit possibilities through interconnected mathematical properties.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    d = [int(c) for c in s]
+    if sum(d) != 25:
+        return False
+    if d[0]*d[5] != 18:
+        return False
+    if d[1]*d[4] != 12:
+        return False
+    if d[2]*d[3] != 20:
+        return False
+    if d[0] > d[1] > d[2]:
+        return False
+    if (d[0] + d[2] + d[4]) - (d[1] + d[3] + d[5]) != 1:
+        return False
+    if x % 17 != 12:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+    s = str(x)
+    if len(s) != 6:
+        return False
+    digits = [int(c) for c in s]
+    if sum(digits) != 21:
+        return False
+    if digits[0] * digits[1] * digits[2] != 6:
+        return False
+    if digits[3] * digits[4] * digits[5] != 120:
+        return False
+    if digits[1] * digits[4] != 10:
+        return False
+    if digits[0] + digits[5] != 7:
+        return False
+    if digits[2] + digits[3] != 7:
+        return False
+    if digits[0] + digits[3] != 5:
+        return False
+    return True
+
+```
+### Explanation
+
+### Explanation
+This puzzle requires finding a 6-digit integer where the digits sum to 21, the product of the first three digits is 6, the product of the last three is 120, the second digit times the fifth is 10, the first plus the sixth is 7, the third plus the fourth is 7, and the first plus the fourth is 5. These constraints force the digits to be a specific permutation of 1 through 6, making it challenging to identify without considering the limited factorizations and systematically checking the interlocking sum and product conditions across positions.
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 7:
+        return False
+    if not x.isalpha() or not x.islower():
+        return False
+    v = [ord(c) - ord('a') for c in x]
+    if sum(v) != 77:
+        return False
+    if v[0] + v[6] != 25:
+        return False
+    if v[1] * v[5] != 144:
+        return False
+    if v[2] - v[4] != 5:
+        return False
+    if v[3] != 13:
+        return False
+    if (v[0] * v[2] + v[4] * v[6]) % 23 != 7:
+        return False
+    if v[0] < v[1] < v[2]:
+        return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4-fast-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if x < 10000 or x > 99999:
+        return False
+    s = str(x)
+    if len(s) != 5:
+        return False
+    digits = [int(c) for c in s]
+    if digits[0] == 0:
+        return False
+    if sum(digits) != 23:
+        return False
+    if digits[0] * digits[4] != 36:
+        return False
+    if digits[1] * digits[3] != 20:
+        return False
+    if sum(digits[:3]) != 14:
+        return False
+    if sum(digits[2:]) != 10:
+        return False
+    return True
+```
+This puzzle requires finding a 5-digit integer where the digits sum to 23, the first and last digits multiply to 36, the second and fourth digits multiply to 20, the sum of the first three digits is 14, and the sum of the last three digits is 10. These constraints are designed to limit the possible digit pairs for the products and then filter the candidates through the positional sums, resulting in a unique solution after checking the few viable combinations.
+SOLUTION: 94154
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at the constraints:
+- d2 must be 1 (since sum[:3]+sum[2:]-d2 = total: 14+10-d2=23)
+- d0+d1=13, d3+d4=9
+- d0*d4=36, d1*d3=20
+
+Trying d0=9, d1=4: then d3=5, d4=4. Check: 9*4=36 ✓, 4*5=20 ✓
+
+SOLUTION: 94154
+*** END

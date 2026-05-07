@@ -1,0 +1,485 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    N = int(
+        "114381625757888867669235779976146612010218296721242362562561842935706935245733"
+        "897830597123563958705058989075147599290026879543541"
+    )
+
+    return type(x) is int and 1 < x < N and N % x == 0
+```
+
+This puzzle asks for a nontrivial integer divisor of the large integer `N`.
+
+SOLUTION: 3490529510847650949147849619903898133417764638493387843990820577 
+Checking sample solution  3490529510847650949147849619903898133417764638493387843990820577
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says 3490529510847650949147849619903898133417764638493387843990820577. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 346 in / 5,314 out
+  claude-opus-4-7 (solver): 235 in / 222 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this puzzle, I want something with a clean mathematical/combinatorial structure that's hard to brute force but elegant.
+
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if not (10**9 <= x < 10**10):
+        return False
+    s = str(x)
+    a = [int(c) for c in s]
+    b = [a.count(i) for i in range(10)]
+    return a == b
+```
+
+The puzzle: find a 10-digit integer where, treating its digits as a list `a` of length 10, `a[i]` equals the number of times the digit `i` appears in the number itself. The search space is ~9 billion numbers so naive brute force is slow, and the constraint is self-referential which makes it tricky to construct without insight.
+
+SOLUTION: 6210001000 
+Checking sample solution  6210001000
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 6210001000. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 646 in / 6,442 out
+  gpt-5.5 (solver): 179 in / 376 out
+gpt-5.5's turn to invent a puzzle...
+```python
+import hashlib
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    try:
+        a, b = x.split(":")
+    except ValueError:
+        return False
+
+    if len(a) != 3 or len(b) != 80:
+        return False
+
+    return (
+        sum(map(ord, x)) == 4552
+        and hashlib.sha256(a[::-1].encode("ascii")).hexdigest()
+            == "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+        and hashlib.md5(b[::-1].encode("ascii")).hexdigest()
+            == "57edf4a22be3c955ac49da2e2107b67a"
+    )
+```
+
+This puzzle is built around recognizing/reversing two well-known hash preimage test vectors, with the candidate string parts reversed before hashing.
+
+SOLUTION: "cba:09876543210987654321098765432109876543210987654321098765432109876543210987654321" 
+Checking sample solution  "cba:09876543210987654321098765432109876543210987654321098765432109876543210987654321"
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says "cba:" + "9876543210" * 8. Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 584 in / 10,600 out
+  claude-opus-4-7 (solver): 381 in / 997 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this problem, I want to design something that's hard to invert but where I can construct a sample solution.
+
+I'll use a Java-style `hashCode` algorithm but extended to 64 bits. Inverting it requires either:
+- Brute force over 26^16 ≈ 4×10^22 strings (infeasible)
+- Meet-in-the-middle on 8-char halves: 26^8 ≈ 2×10^11 entries (huge memory needed)
+- Lattice/CVP approach: requires implementing LLL with constraint bounds
+
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 16:
+        return False
+    if not (x.isalpha() and x.islower()):
+        return False
+    MASK = (1 << 64) - 1
+    state = 0
+    for c in x:
+        state = (state * 31 + ord(c)) & MASK
+    return state == 1255270259644035336
+```
+
+The puzzle: find a 16-character lowercase string whose 64-bit polynomial rolling hash (multiplier 31) equals the target. There are many valid strings, but finding one is non-trivial because of the bounded character range and the modular wraparound that breaks naive linear approaches.
+
+I computed the target by carefully tracing through the iterations for my chosen string, including the modular reductions at each step where the value exceeded 2^64.
+
+SOLUTION: "abcdefghijklmnop" 
+Checking sample solution  "abcdefghijklmnop"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "hrgvmufcevcfmgnj". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 1,211 in / 25,782 out
+  gpt-5.5 (solver): 204 in / 20,316 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    if len(x) != 53:
+        return False
+
+    allowed = set("()'%: -1[]abdlmrs")
+    if any(c not in allowed for c in x):
+        return False
+
+    if sum(map(ord, x)) != 3702:
+        return False
+
+    try:
+        y = eval(x, {"__builtins__": {}}, {})
+    except Exception:
+        return False
+
+    return type(y) is str and y == x[::-1]
+```
+
+This puzzle is about finding a very constrained Python expression which evaluates to the reverse of its own source text. The restrictions are meant to make ordinary tricks unavailable while still leaving a small self-referential formatting construction possible.
+
+SOLUTION: "(lambda s:(s%s)[::-1])('(lambda s:(s%%s)[::-1])(%r)')" 
+Checking sample solution  "(lambda s:(s%s)[::-1])('(lambda s:(s%%s)[::-1])(%r)')"
+Puzzle looks good; claude-opus-4-7's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 81 or any(c not in "123456789" for c in x):
+        return False
+
+    givens = (
+        "1....7.9."
+        ".3..2...8"
+        "..96..5.."
+        "..53..9.."
+        ".1..8...2"
+        "6....4..."
+        "3......1."
+        ".4......7"
+        "..7...3.."
+    )
+
+    for i, c in enumerate(givens):
+        if c != "." and x[i] != c:
+            return False
+
+    digits = set("123456789")
+
+    rows = [x[9*r:9*r+9] for r in range(9)]
+    cols = ["".join(x[9*r+c] for r in range(9)) for c in range(9)]
+    boxes = [
+        "".join(x[9*(br+i)+(bc+j)] for i in range(3) for j in range(3))
+        for br in (0, 3, 6)
+        for bc in (0, 3, 6)
+    ]
+
+    return all(set(group) == digits for group in rows + cols + boxes)
+```
+
+This puzzle asks for a completed 9×9 Sudoku grid, written row-by-row as an 81-character string, satisfying the given clues. The clue pattern is a well-known very difficult Sudoku.
+
+SOLUTION: "162857493534129678789643521475312986913586742628794135356478219241935867897261354" 
+Checking sample solution  "162857493534129678789643521475312986913586742628794135356478219241935867897261354"
+Puzzle looks good; claude-opus-4-7's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    try:
+        a = [int(t) for t in x.split(",")]
+    except ValueError:
+        return False
+
+    n = 60
+    if len(a) != n or set(a) != set(range(n)):
+        return False
+
+    if sum((i + 1) * v for i, v in enumerate(a)) != 47475:
+        return False
+
+    for d in range(1, n):
+        seen = set()
+        for i in range(n - d):
+            delta = a[i + d] - a[i]
+            if delta in seen:
+                return False
+            seen.add(delta)
+
+    return True
+```
+
+This asks for a size-60 Costas permutation with an extra weighted checksum. A sample is generated by a Welch construction over the finite field modulo 61, using primitive root 2 with an exponent offset.
+
+SOLUTION: "43,26,53,46,32,4,9,19,39,18,37,14,29,59,58,56,52,44,28,57,54,48,36,12,25,51,42,24,49,38,16,33,6,13,27,55,50,40,20,41,22,45,30,0,1,3,7,15,31,2,5,11,23,47,34,8,17,35,10,21" 
+Checking sample solution  "43,26,53,46,32,4,9,19,39,18,37,14,29,59,58,56,52,44,28,57,54,48,36,12,25,51,42,24,49,38,16,33,6,13,27,55,50,40,20,41,22,45,30,0,1,3,7,15,31,2,5,11,23,47,34,8,17,35,10,21"
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says "43,26,53,46,32,4,9,19,39,18,37,14,29,59,58,56,52,44,28,57,54,48,36,12,25,51,42,24,49,38,16,33,6,13,27,55,50,40,20,41,22,45,30,0,1,3,7,15,31,2,5,11,23,47,34,8,17,35,10,21". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 952 in / 15,867 out
+  claude-opus-4-7 (solver): 340 in / 19,205 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this, I'll create a puzzle based on a divisibility chain on a pandigital number—a constrained combinatorial search problem.
+
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 10:
+        return False
+    if sorted(x) != list("0123456789"):
+        return False
+    if x[0] != '4':
+        return False
+    primes = [2, 3, 5, 7, 11, 13, 17]
+    for i, p in enumerate(primes):
+        if int(x[i+1:i+4]) % p != 0:
+            return False
+    return True
+```
+
+The puzzle: find a 10-digit string that is a permutation of `0123456789`, starts with `4`, and where each consecutive 3-digit window starting at position 1 is divisible by the corresponding prime in `[2, 3, 5, 7, 11, 13, 17]`. The pandigital constraint plus the seven divisibility constraints together leave a small set of valid strings, and brute-forcing 10! = 3,628,800 permutations is feasible but the structure isn't obvious.
+
+Verification of my sample `"4160357289"`:
+- sorted → `0123456789` ✓
+- starts with `4` ✓
+- `160 % 2 = 0` ✓
+- `603 % 3 = 0` ✓
+- `035 % 5 = 0` ✓
+- `357 % 7 = 0` (7·51) ✓
+- `572 % 11 = 0` (11·52) ✓
+- `728 % 13 = 0` (13·56) ✓
+- `289 % 17 = 0` (17·17) ✓
+
+SOLUTION: "4160357289" 
+Checking sample solution  "4160357289"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "4106357289". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 1,799 in / 27,948 out
+  gpt-5.5 (solver): 224 in / 446 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    if len(x) != 32 or any(c not in "0123456789abcdef" for c in x):
+        return False
+
+    m = int(x, 16)
+    v = 127
+    mask = (1 << v) - 1
+
+    if m >= (1 << v):
+        return False
+
+    if bin(m).count("1") != 63:
+        return False
+
+    if sum(i * ((m >> i) & 1) for i in range(v)) != 3683:
+        return False
+
+    for d in range(1, v):
+        r = ((m << d) | (m >> (v - d))) & mask
+        if bin(m & r).count("1") != 31:
+            return False
+
+    return True
+```
+
+This encodes a 127-bit cyclic incidence structure as a 32-character lowercase hexadecimal string. The condition asks for a size-63 subset of the cyclic group of order 127 whose every nonzero cyclic shift intersects it in exactly 31 points, with an extra checksum to pin down one representative.
+
+A sample solution is the bitmask of the nonzero quadratic residues modulo 127.
+
+SOLUTION: "172a099c419697f17016967dc66fab16" 
+Checking sample solution  "172a099c419697f17016967dc66fab16"
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says "172a099c419697f17016967dc66fab16". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 1,337 in / 21,481 out
+  claude-opus-4-7 (solver): 366 in / 9,355 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at the recent puzzles, I want something with rich combinatorial structure that's hard to brute force but verifiable.
+
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    nums = x.split(",")
+    if len(nums) != 16:
+        return False
+    try:
+        a = [int(n) for n in nums]
+    except ValueError:
+        return False
+    if sorted(a) != list(range(1, 17)):
+        return False
+    M = 34
+    # Rows and columns must each sum to M
+    for i in range(4):
+        if sum(a[i*4:(i+1)*4]) != M:
+            return False
+        if sum(a[j*4 + i] for j in range(4)) != M:
+            return False
+    # Every 2x2 sub-block (with wrap-around) must sum to M
+    for r in range(4):
+        for c in range(4):
+            s = 0
+            for dr in range(2):
+                for dc in range(2):
+                    s += a[((r+dr) % 4)*4 + (c+dc) % 4]
+            if s != M:
+                return False
+    # All 8 pandiagonals (including broken/wrapping ones) must sum to M
+    for d in range(4):
+        s1 = sum(a[i*4 + (i + d) % 4] for i in range(4))
+        s2 = sum(a[i*4 + (d - i) % 4] for i in range(4))
+        if s1 != M or s2 != M:
+            return False
+    return True
+```
+
+The puzzle: find a permutation of 1..16 arranged as a 4x4 grid that is a **most-perfect pandiagonal magic square**. All rows, columns, all 4 main-direction wrapping diagonals, all 4 anti-direction wrapping diagonals, AND all 16 (with wrap-around) 2x2 sub-blocks must each sum to 34. Naive brute-forcing 16! ≈ 2×10^13 permutations is infeasible; you really need to know the structure of most-perfect magic squares to construct one.
+
+SOLUTION: "1,8,10,15,12,13,3,6,7,2,16,9,14,11,5,4" 
+Checking sample solution  "1,8,10,15,12,13,3,6,7,2,16,9,14,11,5,4"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "1,8,13,12,14,11,2,7,4,5,16,9,15,10,3,6". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 2,631 in / 13,830 out
+  gpt-5.5 (solver): 446 in / 1,349 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def _r(n, a):
+    a %= n
+    if a == 0:
+        return True
+
+    d = n - 1
+    s = 0
+    while d % 2 == 0:
+        s += 1
+        d //= 2
+
+    y = pow(a, d, n)
+    if y == 1 or y == n - 1:
+        return True
+
+    for _ in range(s - 1):
+        y = (y * y) % n
+        if y == n - 1:
+            return True
+
+    return False
+
+
+def _p(n):
+    if n < 2:
+        return False
+
+    small = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]
+    for q in small:
+        if n % q == 0:
+            return n == q
+
+    # Deterministic for n < 2**64.
+    return all(_r(n, a) for a in [2, 325, 9375, 28178, 450775, 9780504, 1795265022])
+
+
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    if not (10**18 < x < 10**19):
+        return False
+
+    if x >= 2**64:
+        return False
+
+    if _p(x):
+        return False
+
+    if sum(map(int, str(x))) != 64:
+        return False
+
+    return all(_r(x, a) for a in [2, 3, 5, 7, 11, 13, 17, 19, 23])
+```
+
+This asks for a 64-bit composite integer that nevertheless passes strong probable-prime tests to the first nine prime bases, with a digit-sum checksum added to narrow the target.
+
+SOLUTION: 3825123056546413051 
+Checking sample solution  3825123056546413051
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says 3825123056546413051. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 2,012 in / 14,931 out
+  claude-opus-4-7 (solver): 562 in / 1,113 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this, I want to design a puzzle that requires non-trivial mathematical reasoning to solve. I'll go with a Lights Out variant on a 7x7 grid - solving it requires Gaussian elimination over GF(2), which isn't trivial without insight.
+
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 49:
+        return False
+    if not all(c in "01" for c in x):
+        return False
+    n = 7
+    init = "1101000101111001001111101111011101101111010011110"
+    state = [int(c) for c in init]
+    for i, c in enumerate(x):
+        if c == '1':
+            r, col = divmod(i, n)
+            for dr, dc in [(0,0),(1,0),(-1,0),(0,1),(0,-1)]:
+                nr, nc = r+dr, col+dc
+                if 0 <= nr < n and 0 <= nc < n:
+                    state[nr*n + nc] ^= 1
+    return all(s == 0 for s in state)
+```
+
+The puzzle is a classic Lights Out: given a 7x7 grid with a specific "lit" initial state, find a 49-bit press pattern (each press toggles itself and its 4 orthogonal neighbors) that turns all lights off. Brute force is 2^49 ≈ 5.6×10^14 which is infeasible. The proper approach is to set up a 49×49 linear system over GF(2) and solve via Gaussian elimination — doable but requires effort and the right insight.
+
+I constructed my init by starting from all-zero and applying a chosen press pattern: positions (0,0), (1,3), (2,5), (3,1), (3,3), (4,6), (5,2), (6,4). Working backwards, applying these same presses to my init must zero everything out.
+
+SOLUTION: "1000000000100000000100101000000000100100000000100" 
+Checking sample solution  "1000000000100000000100101000000000100100000000100"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "100000000010000000010010100000000010010000000100". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 1 (1-0)
+  claude-opus-4-7 (inventer): 3,789 in / 40,658 out
+  gpt-5.5 (solver): 301 in / 8,796 out
+Logs written to runs/classic/gpt-5.5_vs_claude-opus-4-7.log and runs/classic/gpt-5.5_vs_claude-opus-4-7.jsonl
+
+=== Token Usage Summary ===
+Turn 0: gpt-5.5 vs claude-opus-4-7 - 581 in / 5,536 out (?) [success]
+Turn 1: claude-opus-4-7 vs gpt-5.5 - 825 in / 6,818 out (?) [success]
+Turn 2: gpt-5.5 vs claude-opus-4-7 - 965 in / 11,597 out (?) [failure]
+Turn 3: claude-opus-4-7 vs gpt-5.5 - 1,415 in / 46,098 out (?) [success]
+Turn 4: gpt-5.5 vs claude-opus-4-7 - 1,292 in / 35,072 out (?) [success]
+Turn 5: claude-opus-4-7 vs gpt-5.5 - 2,023 in / 28,394 out (?) [success]
+Turn 6: gpt-5.5 vs claude-opus-4-7 - 1,703 in / 30,836 out (?) [success]
+Turn 7: claude-opus-4-7 vs gpt-5.5 - 3,077 in / 15,179 out (?) [success]
+Turn 8: gpt-5.5 vs claude-opus-4-7 - 2,574 in / 16,044 out (?) [success]
+Turn 9: claude-opus-4-7 vs gpt-5.5 - 4,090 in / 49,454 out (?) [failure]
+
+=== Totals by Model ===
+gpt-5.5: 8,489 in / 130,072 out
+claude-opus-4-7: 12,755 in / 273,552 out

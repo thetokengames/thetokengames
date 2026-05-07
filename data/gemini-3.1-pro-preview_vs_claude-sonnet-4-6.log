@@ -1,0 +1,530 @@
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if x < 10**20 or x >= 10**21:
+        return False
+    return int(str(x)[::-1]) == (x << 3) + x
+```
+
+### Explanation
+
+This puzzle is a mathematical test disguised with a bit of string manipulation and bitwise operations. 
+
+First, we enforce that `x` must be a strictly 21-digit positive integer (`10**20 <= x < 10**21`).
+Next, we evaluate `(x << 3) + x`. A bitwise left shift by 3 (`x << 3`) is equivalent to multiplying `x` by 8 ($x \times 2^3$). Thus, `(x << 3) + x` is simply $8x + x = 9x$.
+The condition `int(str(x)[::-1])` reverses the digits of `x`.
+
+So the function is asking: **Find a 21-digit integer that, when multiplied by 9, exactly equals its own digit reversal.**
+
+Because the search space is purely $10^{20}$ to $10^{21}$, writing a simple brute-force loop in Python would take hundreds of millions of years to run. The solver has to deduce the mathematical property.
+
+A classic well-known integer satisfying $9x = \text{reverse}(x)$ is $1089$ ($1089 \times 9 = 9801$). 
+Another is $10989$ ($10989 \times 9 = 98901$).
+This pattern extends indefinitely by inserting $9$s in the middle. The mathematical closed form for a solution of length $n$ is $11 \times 10^{n-2} - 11$. 
+To produce a 21-digit number, we plug in $n=21$:
+$x = 11 \times 10^{19} - 11$
+$x = 110,000,000,000,000,000,000 - 11 = 109,999,999,999,999,999,989$.
+
+This yields the correct 21-digit number.
+
+SOLUTION: 109999999999999999989 
+Checking sample solution  109999999999999999989
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 109999999999999999989. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 346 in / 25,209 out
+  claude-sonnet-4-6 (solver): 203 in / 4,785 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool) or x <= 0:
+        return False
+    s = str(x)
+    n = len(s)
+    if n < 7:
+        return False
+    if [s.count(str(k)) for k in range(n)] != [int(c) for c in s]:
+        return False
+    d = sum(int(c) for c in s)
+    return d > 0 and int(d**0.5)**2 == d
+```
+
+This puzzle has two conditions that must both hold:
+
+1. **Condition 1** (`[s.count(str(k)) for k in range(n)] != [int(c) for c in s]`): For each digit position `k` (0-indexed), the digit at position `k` must equal the count of how many times `k` appears in the full number. The number must have at least 7 digits.
+
+2. **Condition 2** (`int(d**0.5)**2 == d`): The sum of all digits must itself be a perfect square.
+
+Finding a value satisfying both constraints simultaneously—especially within the ≥7 digit range—requires recognizing what each condition encodes and knowing (or searching) the relevant mathematical sequence.
+
+SOLUTION: 521001000 
+Checking sample solution  521001000
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says 521001000. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 500 in / 18,587 out
+  gemini-3.1-pro-preview (solver): 229 in / 4,740 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    
+    try:
+        nums = [int(n) for n in x.split(',')]
+    except ValueError:
+        return False
+    
+    if sorted(nums) != list(range(1, 16)):
+        return False
+        
+    return all(int((a + b)**0.5)**2 == a + b for a, b in zip(nums, nums[1:]))
+```
+
+### Explanation
+
+This puzzle is based on a famous mathematical problem known as the **Square-Sum Problem**. 
+
+The function parses the string into a list of integers and explicitly requires that the list contains exactly the numbers from 1 to 15 without repetitions (`sorted(nums) == list(range(1, 16))`). 
+Then, it verifies that the sum of every adjacent pair of numbers in the list evaluates to a perfect square. In graph-theoretic terms, the solver must find a Hamiltonian path in the Square-Sum graph of size $N=15$.
+
+Because finding Hamiltonian paths is NP-complete in general, brute-forcing all $15!$ (about 1.3 trillion) permutations would be too computationally intensive without an optimized search. The solver must deduce the sequence logically by checking the possible neighbors for each number:
+- For two numbers $\le 15$ to sum to a square, the square can only be 4, 9, 16, or 25.
+- By mapping out the possible connections, we discover that **8** only has one valid neighbor: 1 (since 8+1=9). Thus, 8 must be at one end of the sequence.
+- Similarly, **9** only has one valid neighbor: 7 (since 9+7=16). Thus, 9 must be at the other end.
+- Starting from 8, the path is almost entirely forced:
+  - 8 must go to 1.
+  - 1 can go to 3 or 15. However, going to 3 leads to a dead end before visiting all nodes.
+  - So 1 must go to 15.
+  - 15 must go to 10 (15+10=25).
+  - 10 must go to 6 (10+6=16).
+  - 6 must go to 3 (6+3=9).
+  - 3 must go to 13 (3+13=16).
+  - 13 must go to 12.
+  - 12 must go to 4.
+  - 4 must go to 5.
+  - 5 must go to 11.
+  - 11 must go to 14.
+  - 14 must go to 2.
+  - 2 must go to 7.
+  - 7 must go to 9.
+
+This logic constructs the exact unique solution (or its reverse) purely by deduction, requiring no brute force whatsoever if understood correctly.
+
+SOLUTION: "8,1,15,10,6,3,13,12,4,5,11,14,2,7,9" 
+Checking sample solution  "8,1,15,10,6,3,13,12,4,5,11,14,2,7,9"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "8,1,15,10,6,3,13,12,4,5,11,14,2,7,9". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 1,077 in / 24,642 out
+  claude-sonnet-4-6 (solver): 251 in / 1,264 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int or x <= 0:
+        return False
+
+    s = str(x)
+
+    # Must be exactly 7 digits
+    if len(s) != 7:
+        return False
+
+    # Must be a perfect square
+    r = int(x**0.5)
+    sq_root = None
+    for candidate in [r, r + 1]:
+        if candidate * candidate == x:
+            sq_root = candidate
+            break
+    if sq_root is None:
+        return False
+
+    # Square root must be prime
+    def is_prime(k):
+        if k < 2: return False
+        if k == 2: return True
+        if k % 2 == 0: return False
+        i = 3
+        while i * i <= k:
+            if k % i == 0: return False
+            i += 2
+        return True
+
+    if not is_prime(sq_root):
+        return False
+
+    # No zero digits allowed
+    if '0' in s:
+        return False
+
+    # Product of digits must be a perfect cube
+    product = 1
+    for d in s:
+        product *= int(d)
+
+    cube_root = round(product ** (1 / 3))
+    for c in range(max(1, cube_root - 2), cube_root + 3):
+        if c ** 3 == product:
+            return True
+
+    return False
+```
+
+This puzzle has four simultaneous constraints:
+1. `x` must be a 7-digit number
+2. `x` must be a perfect square
+3. The square root of `x` must itself be prime
+4. The product of `x`'s digits must be a perfect cube (and no digit can be zero)
+
+Finding a number that satisfies all four conditions simultaneously requires careful search: the prime square roots lie in [1000, 3162], making brute force feasible but non-trivial, especially combined with the digit-product cube condition.
+
+SOLUTION: 1423249 
+Checking sample solution  1423249
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says 1261129. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,003 in / 22,697 out
+  gemini-3.1-pro-preview (solver): 444 in / 5,192 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 14:
+        return False
+        
+    if set(x) != set("abcdefg"):
+        return False
+        
+    distances = set()
+    for char in "abcdefg":
+        if x.count(char) != 2:
+            return False
+        first = x.find(char)
+        last = x.rfind(char)
+        distances.add(last - first)
+        
+    return distances == set(range(2, 9))
+
+```
+
+### Explanation
+
+This puzzle is a cryptographic disguise of a famous combinatorial problem known as a **Langford pairing** (or Langford sequence).
+
+The function requires `x` to be a 14-character string composed of exactly two of each letter from `'a'` to `'g'`.
+For each character, it finds the index of its first and last appearance and calculates the distance (`last - first`) between them.
+The function then requires that the set of all these distances exactly matches `set(range(2, 9))`, meaning the distances must be uniquely 2, 3, 4, 5, 6, 7, and 8.
+
+Translating the distance into the number of characters *between* the pairs (`distance - 1`), the constraint means that one pair of letters must have exactly 1 letter between them, another pair must have 2, another 3, up to 7.
+
+This is the exact definition of a Langford sequence of order $N=7$.
+A standard numeric Langford sequence for $N=7$ is:
+`5 7 2 3 6 2 5 3 4 7 1 6 1 4`
+
+We can check the spaces:
+- The `1`s are separated by 1 digit (`6`)
+- The `2`s are separated by 2 digits (`3 6`)
+- The `3`s are separated by 3 digits (`6 2 5`)
+- The `4`s are separated by 4 digits (`7 1 6 1`)
+- The `5`s are separated by 5 digits (`7 2 3 6 2`)
+- The `6`s are separated by 6 digits (`2 5 3 4 7 1`)
+- The `7`s are separated by 7 digits (`2 3 6 2 5 3 4`)
+
+Because the function only checks that the set of distances matches 2 through 8, it doesn't matter which letter is assigned to which distance. We can simply map the numbers $1 \dots 7$ to the letters $a \dots g$ like so:
+$1 \to a$, $2 \to b$, $3 \to c$, $4 \to d$, $5 \to e$, $6 \to f$, $7 \to g$.
+
+Applying this mapping to the numeric sequence `5 7 2 3 6 2 5 3 4 7 1 6 1 4` yields the string `"egbcfbecdgafad"`. 
+Since $14! / 2^7 \approx 681$ million permutations, a blind brute-force would be highly inefficient, requiring the solver to either write a smart backtracking algorithm or deduce the underlying math!
+
+SOLUTION: "egbcfbecdgafad" 
+Checking sample solution  "egbcfbecdgafad"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "gcfbecbdgfeada". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 2,172 in / 22,334 out
+  claude-sonnet-4-6 (solver): 271 in / 5,817 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+
+    s = str(x)
+
+    # Must use each digit 1 through 9 exactly once
+    if len(s) != 9 or sorted(s) != list('123456789'):
+        return False
+
+    # The number formed by the first k digits must be divisible by k
+    for k in range(1, 10):
+        if int(s[:k]) % k != 0:
+            return False
+
+    return True
+```
+
+This puzzle requires finding a 9-digit integer that:
+1. Uses each of the digits 1–9 **exactly once** (no zeros, no repeats)
+2. Satisfies a cascading divisibility property: for every prefix of length k (k = 1 through 9), that prefix viewed as a number must be divisible by k
+
+For example, if the number were `ABCDEFGHI`, then `A` must be divisible by 1, `AB` by 2, `ABC` by 3, ..., `ABCDEFGHI` by 9.
+
+These constraints together are highly restrictive — the solution space is tiny, and finding the answer requires careful reasoning about which digits can appear in which positions given the divisibility rules.
+
+SOLUTION: 381654729 
+Checking sample solution  381654729
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says 381654729. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,694 in / 21,044 out
+  gemini-3.1-pro-preview (solver): 232 in / 6,178 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    
+    try:
+        nodes = [int(n) for n in x.split()]
+    except ValueError:
+        return False
+        
+    if len(nodes) != 24 or len(set(nodes)) != 24:
+        return False
+        
+    if not all(0 <= n <= 144 for n in nodes):
+        return False
+        
+    diffs = {abs(nodes[i] - nodes[j]) 
+             for i in range(12) for j in range(12, 24)}
+             
+    return len(diffs) == 144 and max(diffs) == 144
+```
+
+### Explanation
+
+This puzzle disguises a mathematical problem known in graph theory as the **Graceful Labeling of a Complete Bipartite Graph**, specifically $K_{12, 12}$.
+
+The function requires `x` to be a space-separated string of 24 strictly distinct integers, all bounded between 0 and 144. 
+The code parses these integers and splits them implicitly by index into two sets of 12 (the first half and the second half). It then computes the absolute difference between every number in the first set and every number in the second set. 
+Since $12 \times 12 = 144$ pairs are checked, the conditions `len(diffs) == 144` and `max(diffs) == 144` strictly enforce that these differences must produce every integer from 1 to 144 exactly once, without any duplicates or missing numbers (a difference of 0 is impossible because all 24 numbers must be distinct).
+
+Because the search space is $\binom{145}{24} \approx 10^{26}$, an unoptimized brute-force or random search is completely out of the question. The solver must deduce the structural property: How can two sets of 12 numbers subtract from each other to seamlessly span 1 to 144?
+
+This is equivalent to forming numbers in a mixed-radix or **base-12 representation**! 
+Every number $N \in [1, 144]$ can be uniquely expressed as:
+$N = 12k - j$
+where $k \in \{1, 2, \dots, 12\}$ and $j \in \{0, 1, \dots, 11\}$.
+
+Using this insight, we can construct our two sets:
+1. The "units" set representing $j$: `{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}`
+2. The "twelves" set representing $12k$: `{12, 24, 36, 48, 60, 72, 84, 96, 108, 120, 132, 144}`
+
+Notice that if we attempted to use $N = 12k + j$ (meaning $j \in \{1 \dots 12\}$ and $k \in \{0 \dots 11\}$), the number 12 would appear in both sets, which would violate the distinctness constraint `len(set(nodes)) == 24`. Furthermore, shifting the numbers by any constant to avoid intersections is impossible because the sets exactly span the maximum allowed bounds `[0, 144]`. Thus, this base-12 construction is functionally the unique solution (up to symmetric swapping or reordering).
+
+By concatenating these two sets into a space-separated string, we satisfy all criteria perfectly.
+
+SOLUTION: "0 1 2 3 4 5 6 7 8 9 10 11 12 24 36 48 60 72 84 96 108 120 132 144" 
+Checking sample solution  "0 1 2 3 4 5 6 7 8 9 10 11 12 24 36 48 60 72 84 96 108 120 132 144"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "12 24 36 48 60 72 84 96 108 120 132 144 0 1 2 3 4 5 6 7 8 9 10 11". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 3,124 in / 18,733 out
+  claude-sonnet-4-6 (solver): 305 in / 3,671 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+
+    # Convert x to base 3
+    def to_base3(n):
+        digits = []
+        while n > 0:
+            digits.append(n % 3)
+            n //= 3
+        return digits[::-1] if digits else [0]
+
+    base3 = to_base3(x)
+
+    # Must have exactly 9 base-3 digits (i.e., 6561 <= x < 19683)
+    if len(base3) != 9:
+        return False
+
+    # In base 3, the digits must use each of {0, 1, 2} exactly 3 times
+    if base3.count(0) != 3 or base3.count(1) != 3 or base3.count(2) != 3:
+        return False
+
+    # x must be prime (in base 10)
+    def is_prime(n):
+        if n < 2: return False
+        if n == 2: return True
+        if n % 2 == 0: return False
+        for i in range(3, int(n**0.5) + 1, 2):
+            if n % i == 0: return False
+        return True
+
+    if not is_prime(x):
+        return False
+
+    # The product of x's base-10 digits must also be prime
+    product = 1
+    for d in str(x):
+        product *= int(d)
+
+    if not is_prime(product):
+        return False
+
+    # x must be congruent to 1 modulo 4
+    if x % 4 != 1:
+        return False
+
+    return True
+```
+
+This puzzle requires finding a positive integer `x` satisfying **four simultaneous constraints**:
+1. Written in base 3, `x` has exactly **9 digits**, using each of `{0, 1, 2}` exactly **3 times**.
+2. `x` is **prime** (in base 10).
+3. The **product of its base-10 digits** is also **prime**.
+4. `x ≡ 1 (mod 4)`.
+
+The search space is inherently bounded (9 base-3 digits → x ∈ [6561, 19683)), but the intersection of all four constraints is highly restrictive and non-obvious.
+
+SOLUTION: 11113 
+Checking sample solution  11113
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says 11113. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 2,247 in / 31,424 out
+  gemini-3.1-pro-preview (solver): 513 in / 27,191 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if x < 10**14 or x >= 10**15:
+        return False
+    return (x * x) % (10**15) == x
+```
+
+### Explanation
+
+This puzzle requires the solver to find a 15-digit **Automorphic number**. 
+An automorphic number is a number whose square ends in the same digits as the number itself. The puzzle explicitly checks this property with the condition `(x * x) % (10**15) == x`.
+
+Because the bounds strict `x` to be exactly a 15-digit integer, a naive brute-force search would require iterating through $9 \times 10^{14}$ numbers. Even in highly optimized C++, this would take days, and in Python, it would take years. 
+
+To solve it, the solver must use number theory. The congruence equation is:
+$x^2 \equiv x \pmod{10^{15}}$
+$x(x - 1) \equiv 0 \pmod{10^{15}}$
+
+Since $x$ and $x-1$ are consecutive integers, they are coprime (they share no common factors). Thus, for their product to be a multiple of $10^{15}$ ($2^{15} \times 5^{15}$), one of the terms must be a multiple of $2^{15}$ and the other a multiple of $5^{15}$. This gives two non-trivial cases (ignoring $0$ and $1$):
+1. $x \equiv 0 \pmod{5^{15}}$ and $x \equiv 1 \pmod{2^{15}}$
+2. $x \equiv 1 \pmod{5^{15}}$ and $x \equiv 0 \pmod{2^{15}}$
+
+We can solve the first case using the Chinese Remainder Theorem or the Extended Euclidean Algorithm.
+We know $x$ is a multiple of $5^{15}$ ($30,517,578,125$). Let $x = k \cdot 5^{15}$.
+We need $k \cdot 5^{15} \equiv 1 \pmod{2^{15}}$.
+Since $5^{15} \equiv 21901 \pmod{32768}$, we want $21901k \equiv 1 \pmod{32768}$.
+Finding the modular inverse yields $k \equiv 30021 \pmod{32768}$.
+
+Substituting $k$ back into our equation for $x$:
+$x = 30021 \times 30,517,578,125 = 916,168,212,890,625$
+
+This number is exactly 15 digits long, satisfying our size constraint `x >= 10**14`. 
+(If we had solved the second case, we would get $10^{15} + 1 - 916168212890625 = 83831787109376$, which is only 14 digits and therefore correctly filtered out by the puzzle constraints).
+
+SOLUTION: 916168212890625 
+Checking sample solution  916168212890625
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 4,445 in / 36,273 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+
+    s = str(x)
+
+    # Must be a 5-digit number
+    if len(s) != 5:
+        return False
+
+    # No repeated digits
+    if len(set(s)) != 5:
+        return False
+
+    # Must be a perfect square
+    r = int(x**0.5)
+    if r * r != x:
+        r += 1
+        if r * r != x:
+            return False
+
+    # Must be a multiple of 11
+    if x % 11 != 0:
+        return False
+
+    # Digit sum must be prime
+    digit_sum = sum(int(c) for c in s)
+
+    def is_prime(n):
+        if n < 2:
+            return False
+        if n == 2:
+            return True
+        if n % 2 == 0:
+            return False
+        i = 3
+        while i * i <= n:
+            if n % i == 0:
+                return False
+            i += 2
+        return True
+
+    return is_prime(digit_sum)
+```
+
+**Explanation:**
+
+This puzzle requires a 5-digit integer satisfying **four simultaneous constraints**:
+
+1. **No repeated digits** — all 5 digits must be distinct.
+2. **Perfect square** — `x` must equal `r²` for some integer `r`.
+3. **Divisible by 11** — combined with constraint 2, this means `x` must be divisible by `121 = 11²` (since a perfect square divisible by a prime must be divisible by that prime squared).
+4. **Prime digit sum** — the sum of `x`'s digits must be prime.
+
+The intersection of these constraints is quite small. The solver must navigate: among 5-digit perfect squares, find those divisible by 121 (only ~21 candidates), then filter for no-repeated-digits, then check for a prime digit sum. Reasoning about these conditions together is non-trivial.
+
+SOLUTION: 23716 
+Checking sample solution  23716
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says 23716. Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 2,974 in / 25,408 out
+  gemini-3.1-pro-preview (solver): 381 in / 2,593 out
+Turn 0: gemini-3.1-pro-preview vs claude-sonnet-4-6 - 549 in / 29,994 out (?) [success]
+Turn 1: claude-sonnet-4-6 vs gemini-3.1-pro-preview - 729 in / 23,327 out (?) [success]
+Turn 2: gemini-3.1-pro-preview vs claude-sonnet-4-6 - 1,328 in / 25,906 out (?) [success]
+Turn 3: claude-sonnet-4-6 vs gemini-3.1-pro-preview - 1,447 in / 27,889 out (?) [success]
+Turn 4: gemini-3.1-pro-preview vs claude-sonnet-4-6 - 2,443 in / 28,151 out (?) [success]
+Turn 5: claude-sonnet-4-6 vs gemini-3.1-pro-preview - 1,926 in / 27,222 out (?) [success]
+Turn 6: gemini-3.1-pro-preview vs claude-sonnet-4-6 - 3,429 in / 22,404 out (?) [success]
+Turn 7: claude-sonnet-4-6 vs gemini-3.1-pro-preview - 2,760 in / 58,615 out (?) [success]
+Turn 8: gemini-3.1-pro-preview vs claude-sonnet-4-6 - 4,445 in / 36,273 out (?) [puzzle-wrong]
+Turn 9: claude-sonnet-4-6 vs gemini-3.1-pro-preview - 3,355 in / 28,001 out (?) [success]
+gemini-3.1-pro-preview: 12,963 in / 173,085 out
+claude-sonnet-4-6: 9,448 in / 134,697 out
+gemini-3.1-pro-preview ./. claude-sonnet-4-6     (0-1) vs (0-0)     [0 failed, see runs/classic/gemini-3.1-pro-preview_vs_claude-sonnet-4-6.log]

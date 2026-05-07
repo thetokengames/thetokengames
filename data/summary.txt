@@ -1,0 +1,201 @@
+claude-sonnet-4-6 ./. claude-haiku-4-5     (0-0) vs (0-0)     [0 failed, see runs/classic/claude-sonnet-4-6_vs_claude-haiku-4-5.log]
+gpt-5.5 ./. gemini-3-flash-preview     (2-0) vs (0-4)     [0 failed, see runs/classic/gpt-5.5_vs_gemini-3-flash-preview.log]
+gemini-3-flash-preview ./. gemini-3.1-pro-preview     (0-2) vs (2-0)     [0 failed, see runs/classic/gemini-3-flash-preview_vs_gemini-3.1-pro-preview.log]
+gpt-5.5 ./. gpt-5.4-mini     (1-1) vs (0-1)     [0 failed, see runs/classic/gpt-5.5_vs_gpt-5.4-mini.log]
+claude-sonnet-4-6 ./. claude-opus-4-7     (0-0) vs (0-0)     [1 failed, see runs/classic/claude-sonnet-4-6_vs_claude-opus-4-7.log]
+claude-sonnet-4-6 ./. gpt-5.4-mini     (0-0) vs (0-1)     [1 failed, see runs/classic/claude-sonnet-4-6_vs_gpt-5.4-mini.log]
+gpt-5.5 ./. grok-4.20-0309-reasoning     (0-0) vs (0-1)     [0 failed, see runs/classic/gpt-5.5_vs_grok-4.20-0309-reasoning.log]
+grok-4.20-0309-reasoning ./. deepseek-v3.2-thinking     (0-0) vs (0-0)     [5 failed, see runs/classic/grok-4.20-0309-reasoning_vs_deepseek-v3.2-thinking.log]
+claude-sonnet-4-6 ./. gpt-5.5     (0-0) vs (1-0)     [0 failed, see runs/classic/claude-sonnet-4-6_vs_gpt-5.5.log]
+claude-opus-4-7 ./. claude-haiku-4-5     (1-0) vs (0-0)     [0 failed, see runs/classic/claude-opus-4-7_vs_claude-haiku-4-5.log]
+gemini-3.1-pro-preview ./. gemini-3-flash-preview     (0-0) vs (1-0)     [0 failed, see runs/classic/gemini-3.1-pro-preview_vs_gemini-3-flash-preview.log]
+gpt-5.4-mini ./. grok-4.20-0309-reasoning     (1-0) vs (0-0)     [1 failed, see runs/classic/gpt-5.4-mini_vs_grok-4.20-0309-reasoning.log]
+claude-sonnet-4-6 ./. gemini-3.1-pro-preview     (0-0) vs (1-0)     [1 failed, see runs/classic/claude-sonnet-4-6_vs_gemini-3.1-pro-preview.log]
+claude-sonnet-4-6 ./. gemini-3-flash-preview     (0-0) vs (4-0)     [1 failed, see runs/classic/claude-sonnet-4-6_vs_gemini-3-flash-preview.log]
+claude-haiku-4-5 ./. gpt-5.5     (0-0) vs (5-0)     [0 failed, see runs/classic/claude-haiku-4-5_vs_gpt-5.5.log]
+claude-haiku-4-5 ./. grok-4.20-0309-reasoning     (0-0) vs (0-1)     [0 failed, see runs/classic/claude-haiku-4-5_vs_grok-4.20-0309-reasoning.log]
+grok-4.20-0309-reasoning ./. gpt-5.5     (0-0) vs (2-1)     [1 failed, see runs/classic/grok-4.20-0309-reasoning_vs_gpt-5.5.log]
+gpt-5.5 ./. deepseek-v3.2-thinking     (0-1) vs (0-1)     [0 failed, see runs/classic/gpt-5.5_vs_deepseek-v3.2-thinking.log]
+claude-sonnet-4-6 ./. kimi-k2.6 Giving up [see log at runs/classic/claude-sonnet-4-6_vs_kimi-k2.6.log]
+
+gpt-5.4-mini ./. gemini-3.1-pro-preview     (0-1) vs (1-1)     [2 failed, see runs/classic/gpt-5.4-mini_vs_gemini-3.1-pro-preview.log]
+claude-haiku-4-5 ./. gemini-3-flash-preview     (0-0) vs (1-1)     [0 failed, see runs/classic/claude-haiku-4-5_vs_gemini-3-flash-preview.log]
+gemini-3.1-pro-preview ./. claude-opus-4-7     (1-2) vs (0-0)     [0 failed, see runs/classic/gemini-3.1-pro-preview_vs_claude-opus-4-7.log]
+gpt-5.4-mini ./. gpt-5.5     (0-1) vs (1-0)     [0 failed, see runs/classic/gpt-5.4-mini_vs_gpt-5.5.log]
+gpt-5.5 ./. claude-sonnet-4-6     (2-1) vs (0-0)     [0 failed, see runs/classic/gpt-5.5_vs_claude-sonnet-4-6.log]
+grok-4.20-0309-reasoning ./. gpt-5.4-mini     (1-0) vs (0-2)     [0 failed, see runs/classic/grok-4.20-0309-reasoning_vs_gpt-5.4-mini.log]
+grok-4.20-0309-reasoning ./. claude-opus-4-7     (0-3) vs (1-0)     [0 failed, see runs/classic/grok-4.20-0309-reasoning_vs_claude-opus-4-7.log]
+deepseek-v3.2-thinking ./. grok-4.20-0309-reasoning     (4-0) vs (5-0)     [3 failed, see runs/classic/deepseek-v3.2-thinking_vs_grok-4.20-0309-reasoning.log]
+gemini-3-flash-preview ./. gpt-5.4-mini     (0-0) vs (0-1)     [0 failed, see runs/classic/gemini-3-flash-preview_vs_gpt-5.4-mini.log]
+claude-opus-4-7 ./. gpt-5.4-mini     (1-0) vs (0-4)     [0 failed, see runs/classic/claude-opus-4-7_vs_gpt-5.4-mini.log]
+claude-haiku-4-5 ./. claude-opus-4-7     (0-0) vs (0-0)     [0 failed, see runs/classic/claude-haiku-4-5_vs_claude-opus-4-7.log]
+claude-opus-4-7 ./. deepseek-v3.2-thinking     (1-1) vs (0-2)     [2 failed, see runs/classic/claude-opus-4-7_vs_deepseek-v3.2-thinking.log]
+gpt-5.4-mini ./. claude-haiku-4-5     (0-0) vs (0-2)     [0 failed, see runs/classic/gpt-5.4-mini_vs_claude-haiku-4-5.log]
+claude-opus-4-7 ./. gpt-5.5     (0-0) vs (0-0)     [0 failed, see runs/classic/claude-opus-4-7_vs_gpt-5.5.log]
+claude-haiku-4-5 ./. gemini-3.1-pro-preview     (0-0) vs (1-1)     [1 failed, see runs/classic/claude-haiku-4-5_vs_gemini-3.1-pro-preview.log]
+claude-haiku-4-5 ./. claude-sonnet-4-6     (0-0) vs (0-0)     [0 failed, see runs/classic/claude-haiku-4-5_vs_claude-sonnet-4-6.log]
+deepseek-v3.2-thinking ./. kimi-k2.6 Giving up [see log at runs/classic/deepseek-v3.2-thinking_vs_kimi-k2.6.log]
+
+grok-4.20-0309-reasoning ./. gemini-3.1-pro-preview     (3-1) vs (2-1)     [2 failed, see runs/classic/grok-4.20-0309-reasoning_vs_gemini-3.1-pro-preview.log]
+claude-haiku-4-5 ./. gpt-5.4-mini     (0-0) vs (1-2)     [0 failed, see runs/classic/claude-haiku-4-5_vs_gpt-5.4-mini.log]
+gemini-3-flash-preview ./. gpt-5.5     (0-4) vs (2-0)     [0 failed, see runs/classic/gemini-3-flash-preview_vs_gpt-5.5.log]
+grok-4.20-0309-reasoning ./. claude-haiku-4-5     (0-1) vs (0-0)     [0 failed, see runs/classic/grok-4.20-0309-reasoning_vs_claude-haiku-4-5.log]
+deepseek-v3.2-thinking ./. claude-haiku-4-5     (0-2) vs (0-1)     [0 failed, see runs/classic/deepseek-v3.2-thinking_vs_claude-haiku-4-5.log]
+gemini-3.1-pro-preview ./. gpt-5.4-mini     (0-0) vs (0-1)     [0 failed, see runs/classic/gemini-3.1-pro-preview_vs_gpt-5.4-mini.log]
+gpt-5.4-mini ./. gemini-3-flash-preview     (2-1) vs (0-3)     [0 failed, see runs/classic/gpt-5.4-mini_vs_gemini-3-flash-preview.log]
+deepseek-v3.2-thinking ./. gpt-5.5     (0-2) vs (3-0)     [0 failed, see runs/classic/deepseek-v3.2-thinking_vs_gpt-5.5.log]
+claude-sonnet-4-6 ./. grok-4.20-0309-reasoning     (1-0) vs (0-0)     [0 failed, see runs/classic/claude-sonnet-4-6_vs_grok-4.20-0309-reasoning.log]
+grok-4.20-0309-reasoning ./. gemini-3-flash-preview     (3-0) vs (0-2)     [1 failed, see runs/classic/grok-4.20-0309-reasoning_vs_gemini-3-flash-preview.log]
+claude-opus-4-7 ./. grok-4.20-0309-reasoning     (0-0) vs (0-0)     [1 failed, see runs/classic/claude-opus-4-7_vs_grok-4.20-0309-reasoning.log]
+gemini-3.1-pro-preview ./. claude-haiku-4-5 Giving up [see log at runs/classic/gemini-3.1-pro-preview_vs_claude-haiku-4-5.log]
+
+gemini-3-flash-preview ./. claude-sonnet-4-6 Giving up [see log at runs/classic/gemini-3-flash-preview_vs_claude-sonnet-4-6.log]
+
+gemini-3.1-pro-preview ./. grok-4.20-0309-reasoning Giving up [see log at runs/classic/gemini-3.1-pro-preview_vs_grok-4.20-0309-reasoning.log]
+
+gemini-3-flash-preview ./. claude-haiku-4-5 Giving up [see log at runs/classic/gemini-3-flash-preview_vs_claude-haiku-4-5.log]
+
+gemini-3-flash-preview ./. claude-opus-4-7 Giving up [see log at runs/classic/gemini-3-flash-preview_vs_claude-opus-4-7.log]
+
+claude-opus-4-7 ./. gemini-3.1-pro-preview Giving up [see log at runs/classic/claude-opus-4-7_vs_gemini-3.1-pro-preview.log]
+
+claude-opus-4-7 ./. gemini-3-flash-preview Giving up [see log at runs/classic/claude-opus-4-7_vs_gemini-3-flash-preview.log]
+
+gemini-3-flash-preview ./. grok-4.20-0309-reasoning Giving up [see log at runs/classic/gemini-3-flash-preview_vs_grok-4.20-0309-reasoning.log]
+
+gemini-3.1-pro-preview ./. claude-sonnet-4-6 Giving up [see log at runs/classic/gemini-3.1-pro-preview_vs_claude-sonnet-4-6.log]
+
+gpt-5.5 ./. gemini-3.1-pro-preview Giving up [see log at runs/classic/gpt-5.5_vs_gemini-3.1-pro-preview.log]
+
+gemini-3.1-pro-preview ./. gpt-5.5 Giving up [see log at runs/classic/gemini-3.1-pro-preview_vs_gpt-5.5.log]
+
+grok-4.20-0309-reasoning ./. kimi-k2.6 Giving up [see log at runs/classic/grok-4.20-0309-reasoning_vs_kimi-k2.6.log]
+
+gemini-3-flash-preview ./. kimi-k2.6 Giving up [see log at runs/classic/gemini-3-flash-preview_vs_kimi-k2.6.log]
+
+claude-haiku-4-5 ./. deepseek-v3.2-thinking     (0-1) vs (0-1)     [0 failed, see runs/classic/claude-haiku-4-5_vs_deepseek-v3.2-thinking.log]
+grok-4.20-0309-reasoning ./. claude-sonnet-4-6     (2-0) vs (4-0)     [1 failed, see runs/classic/grok-4.20-0309-reasoning_vs_claude-sonnet-4-6.log]
+claude-opus-4-7 ./. claude-sonnet-4-6 Giving up [see log at runs/classic/claude-opus-4-7_vs_claude-sonnet-4-6.log]
+
+gpt-5.4-mini ./. claude-opus-4-7     (0-1) vs (1-0)     [0 failed, see runs/classic/gpt-5.4-mini_vs_claude-opus-4-7.log]
+gpt-5.4-mini ./. deepseek-v3.2-thinking     (2-3) vs (1-4)     [2 failed, see runs/classic/gpt-5.4-mini_vs_deepseek-v3.2-thinking.log]
+kimi-k2.6 ./. deepseek-v3.2-thinking     (0-1) vs (0-0)     [5 failed, see runs/classic/kimi-k2.6_vs_deepseek-v3.2-thinking.log]
+deepseek-v3.2-thinking ./. claude-sonnet-4-6     (0-1) vs (0-0)     [0 failed, see runs/classic/deepseek-v3.2-thinking_vs_claude-sonnet-4-6.log]
+gpt-5.5 ./. claude-haiku-4-5     (3-1) vs (0-0)     [0 failed, see runs/classic/gpt-5.5_vs_claude-haiku-4-5.log]
+kimi-k2.6 ./. grok-4.20-0309-reasoning Giving up [see log at runs/classic/kimi-k2.6_vs_grok-4.20-0309-reasoning.log]
+
+kimi-k2.6 ./. gemini-3.1-pro-preview Giving up [see log at runs/classic/kimi-k2.6_vs_gemini-3.1-pro-preview.log]
+
+gpt-5.4-mini ./. claude-sonnet-4-6     (2-0) vs (0-0)     [7 failed, see runs/classic/gpt-5.4-mini_vs_claude-sonnet-4-6.log]
+gpt-5.5 ./. claude-opus-4-7     (1-0) vs (1-0)     [2 failed, see runs/classic/gpt-5.5_vs_claude-opus-4-7.log]
+kimi-k2.6 ./. gemini-3-flash-preview Giving up [see log at runs/classic/kimi-k2.6_vs_gemini-3-flash-preview.log]
+
+gpt-5.4-mini ./. kimi-k2.6 Giving up [see log at runs/classic/gpt-5.4-mini_vs_kimi-k2.6.log]
+
+gemini-3.1-pro-preview ./. kimi-k2.6 Giving up [see log at runs/classic/gemini-3.1-pro-preview_vs_kimi-k2.6.log]
+
+kimi-k2.6 ./. claude-haiku-4-5 Giving up [see log at runs/classic/kimi-k2.6_vs_claude-haiku-4-5.log]
+
+deepseek-v3.2-thinking ./. claude-opus-4-7     (2-1) vs (1-0)     [3 failed, see runs/classic/deepseek-v3.2-thinking_vs_claude-opus-4-7.log]
+kimi-k2.6 ./. claude-opus-4-7 Giving up [see log at runs/classic/kimi-k2.6_vs_claude-opus-4-7.log]
+
+gemini-3.1-pro-preview ./. deepseek-v3.2-thinking     (5-0) vs (0-4)     [3 failed, see runs/classic/gemini-3.1-pro-preview_vs_deepseek-v3.2-thinking.log]
+kimi-k2.6 ./. claude-sonnet-4-6 Giving up [see log at runs/classic/kimi-k2.6_vs_claude-sonnet-4-6.log]
+
+kimi-k2.6 ./. gpt-5.5 Giving up [see log at runs/classic/kimi-k2.6_vs_gpt-5.5.log]
+
+gemini-3-flash-preview ./. deepseek-v3.2-thinking     (1-4) vs (0-4)     [2 failed, see runs/classic/gemini-3-flash-preview_vs_deepseek-v3.2-thinking.log]
+deepseek-v3.2-thinking ./. gpt-5.4-mini     (0-1) vs (0-1)     [0 failed, see runs/classic/deepseek-v3.2-thinking_vs_gpt-5.4-mini.log]
+deepseek-v3.2-thinking ./. gemini-3-flash-preview     (0-1) vs (0-0)     [2 failed, see runs/classic/deepseek-v3.2-thinking_vs_gemini-3-flash-preview.log]
+claude-sonnet-4-6 ./. deepseek-v3.2-thinking     (1-0) vs (0-0)     [0 failed, see runs/classic/claude-sonnet-4-6_vs_deepseek-v3.2-thinking.log]
+gpt-5.5 ./. kimi-k2.6 Giving up [see log at runs/classic/gpt-5.5_vs_kimi-k2.6.log]
+
+kimi-k2.6 ./. gpt-5.4-mini Giving up [see log at runs/classic/kimi-k2.6_vs_gpt-5.4-mini.log]
+
+deepseek-v3.2-thinking ./. gemini-3.1-pro-preview     (1-2) vs (4-0)     [1 failed, see runs/classic/deepseek-v3.2-thinking_vs_gemini-3.1-pro-preview.log]
+claude-haiku-4-5 ./. kimi-k2.6 Giving up [see log at runs/classic/claude-haiku-4-5_vs_kimi-k2.6.log]
+
+claude-opus-4-7 ./. kimi-k2.6 Giving up [see log at runs/classic/claude-opus-4-7_vs_kimi-k2.6.log]
+
+deepseek-v3.2-thinking ./. kimi-k2.6 Giving up [see log at runs/classic/deepseek-v3.2-thinking_vs_kimi-k2.6.log]
+
+kimi-k2.6 ./. gpt-5.5 Giving up [see log at runs/classic/kimi-k2.6_vs_gpt-5.5.log]
+
+kimi-k2.6 ./. gpt-5.4-mini Giving up [see log at runs/classic/kimi-k2.6_vs_gpt-5.4-mini.log]
+
+kimi-k2.6 ./. grok-4.20-0309-reasoning Giving up [see log at runs/classic/kimi-k2.6_vs_grok-4.20-0309-reasoning.log]
+
+gemini-3-flash-preview ./. kimi-k2.6 Giving up [see log at runs/classic/gemini-3-flash-preview_vs_kimi-k2.6.log]
+
+kimi-k2.6 ./. gemini-3-flash-preview Giving up [see log at runs/classic/kimi-k2.6_vs_gemini-3-flash-preview.log]
+
+kimi-k2.6 ./. gemini-3.1-pro-preview Giving up [see log at runs/classic/kimi-k2.6_vs_gemini-3.1-pro-preview.log]
+
+claude-opus-4-7 ./. kimi-k2.6 Giving up [see log at runs/classic/claude-opus-4-7_vs_kimi-k2.6.log]
+
+kimi-k2.6 ./. claude-haiku-4-5 Giving up [see log at runs/classic/kimi-k2.6_vs_claude-haiku-4-5.log]
+
+kimi-k2.6 ./. claude-sonnet-4-6 Giving up [see log at runs/classic/kimi-k2.6_vs_claude-sonnet-4-6.log]
+
+kimi-k2.6 ./. claude-opus-4-7 Giving up [see log at runs/classic/kimi-k2.6_vs_claude-opus-4-7.log]
+
+claude-haiku-4-5 ./. kimi-k2.6 Giving up [see log at runs/classic/claude-haiku-4-5_vs_kimi-k2.6.log]
+
+gpt-5.4-mini ./. kimi-k2.6 Giving up [see log at runs/classic/gpt-5.4-mini_vs_kimi-k2.6.log]
+
+grok-4.20-0309-reasoning ./. kimi-k2.6 Giving up [see log at runs/classic/grok-4.20-0309-reasoning_vs_kimi-k2.6.log]
+
+gemini-3.1-pro-preview ./. kimi-k2.6 Giving up [see log at runs/classic/gemini-3.1-pro-preview_vs_kimi-k2.6.log]
+
+gpt-5.5 ./. kimi-k2.6 Giving up [see log at runs/classic/gpt-5.5_vs_kimi-k2.6.log]
+
+claude-sonnet-4-6 ./. kimi-k2.6 Giving up [see log at runs/classic/claude-sonnet-4-6_vs_kimi-k2.6.log]
+
+claude-opus-4-7 ./. gemini-3-flash-preview     (2-1) vs (0-4)     [2 failed, see runs/classic/claude-opus-4-7_vs_gemini-3-flash-preview.log]
+gemini-3.1-pro-preview ./. claude-haiku-4-5     (3-2) vs (0-0)     [0 failed, see runs/classic/gemini-3.1-pro-preview_vs_claude-haiku-4-5.log]
+claude-opus-4-7 ./. claude-sonnet-4-6     (1-1) vs (0-1)     [1 failed, see runs/classic/claude-opus-4-7_vs_claude-sonnet-4-6.log]
+gpt-5.5 ./. gemini-3.1-pro-preview     (0-0) vs (0-0)     [0 failed, see runs/classic/gpt-5.5_vs_gemini-3.1-pro-preview.log]
+claude-opus-4-7 ./. gemini-3.1-pro-preview     (2-1) vs (0-1)     [0 failed, see runs/classic/claude-opus-4-7_vs_gemini-3.1-pro-preview.log]
+gemini-3-flash-preview ./. claude-haiku-4-5     (0-4) vs (0-0)     [0 failed, see runs/classic/gemini-3-flash-preview_vs_claude-haiku-4-5.log]
+gemini-3-flash-preview ./. claude-opus-4-7     (0-2) vs (4-0)     [0 failed, see runs/classic/gemini-3-flash-preview_vs_claude-opus-4-7.log]
+gemini-3-flash-preview ./. claude-sonnet-4-6     (0-5) vs (2-0)     [0 failed, see runs/classic/gemini-3-flash-preview_vs_claude-sonnet-4-6.log]
+gemini-3.1-pro-preview ./. grok-4.20-0309-reasoning     (1-1) vs (0-3)     [0 failed, see runs/classic/gemini-3.1-pro-preview_vs_grok-4.20-0309-reasoning.log]
+gemini-3.1-pro-preview ./. claude-sonnet-4-6     (0-1) vs (0-0)     [0 failed, see runs/classic/gemini-3.1-pro-preview_vs_claude-sonnet-4-6.log]
+gemini-3-flash-preview ./. grok-4.20-0309-reasoning     (0-5) vs (2-0)     [0 failed, see runs/classic/gemini-3-flash-preview_vs_grok-4.20-0309-reasoning.log]
+gemini-3.1-pro-preview ./. gpt-5.5     (1-0) vs (1-0)     [0 failed, see runs/classic/gemini-3.1-pro-preview_vs_gpt-5.5.log]
+gemini-3.1-pro-preview ./. kimi-k2.6 Giving up [see log at runs/classic/gemini-3.1-pro-preview_vs_kimi-k2.6.log]
+
+gemini-3-flash-preview ./. kimi-k2.6 Giving up [see log at runs/classic/gemini-3-flash-preview_vs_kimi-k2.6.log]
+
+claude-haiku-4-5 ./. kimi-k2.6 Giving up [see log at runs/classic/claude-haiku-4-5_vs_kimi-k2.6.log]
+
+deepseek-v3.2-thinking ./. kimi-k2.6 Giving up [see log at runs/classic/deepseek-v3.2-thinking_vs_kimi-k2.6.log]
+
+kimi-k2.6 ./. gpt-5.5 Giving up [see log at runs/classic/kimi-k2.6_vs_gpt-5.5.log]
+
+gemini-3.1-pro-preview ./. kimi-k2.6 Giving up [see log at runs/classic/gemini-3.1-pro-preview_vs_kimi-k2.6.log]
+
+kimi-k2.6 ./. claude-haiku-4-5 Giving up [see log at runs/classic/kimi-k2.6_vs_claude-haiku-4-5.log]
+
+grok-4.20-0309-reasoning ./. grok-4-fast-reasoning     (0-0) vs (0-3)     [0 failed, see runs/classic/grok-4.20-0309-reasoning_vs_grok-4-fast-reasoning.log]
+deepseek-v3.2-thinking ./. grok-4-fast-reasoning Giving up [see log at runs/classic/deepseek-v3.2-thinking_vs_grok-4-fast-reasoning.log]
+
+claude-opus-4-7 ./. grok-4-fast-reasoning     (0-0) vs (0-0)     [0 failed, see runs/classic/claude-opus-4-7_vs_grok-4-fast-reasoning.log]
+gemini-3-flash-preview ./. grok-4-fast-reasoning     (0-0) vs (0-3)     [0 failed, see runs/classic/gemini-3-flash-preview_vs_grok-4-fast-reasoning.log]
+grok-4-fast-reasoning ./. claude-haiku-4-5     (0-0) vs (0-0)     [0 failed, see runs/classic/grok-4-fast-reasoning_vs_claude-haiku-4-5.log]
+claude-haiku-4-5 ./. grok-4-fast-reasoning     (0-0) vs (1-1)     [0 failed, see runs/classic/claude-haiku-4-5_vs_grok-4-fast-reasoning.log]
+gpt-5.4-mini ./. grok-4-fast-reasoning     (1-0) vs (1-0)     [1 failed, see runs/classic/gpt-5.4-mini_vs_grok-4-fast-reasoning.log]
+grok-4-fast-reasoning ./. deepseek-v3.2-thinking Giving up [see log at runs/classic/grok-4-fast-reasoning_vs_deepseek-v3.2-thinking.log]
+
+claude-sonnet-4-6 ./. grok-4-fast-reasoning     (0-0) vs (0-1)     [0 failed, see runs/classic/claude-sonnet-4-6_vs_grok-4-fast-reasoning.log]
+grok-4-fast-reasoning ./. gpt-5.4-mini     (0-3) vs (2-0)     [0 failed, see runs/classic/grok-4-fast-reasoning_vs_gpt-5.4-mini.log]
+grok-4-fast-reasoning ./. grok-4.20-0309-reasoning     (0-0) vs (0-0)     [0 failed, see runs/classic/grok-4-fast-reasoning_vs_grok-4.20-0309-reasoning.log]
+gemini-3.1-pro-preview ./. grok-4-fast-reasoning     (2-0) vs (0-0)     [0 failed, see runs/classic/gemini-3.1-pro-preview_vs_grok-4-fast-reasoning.log]
+grok-4-fast-reasoning ./. claude-sonnet-4-6     (0-0) vs (1-0)     [0 failed, see runs/classic/grok-4-fast-reasoning_vs_claude-sonnet-4-6.log]
+gpt-5.5 ./. grok-4-fast-reasoning     (4-0) vs (0-3)     [0 failed, see runs/classic/gpt-5.5_vs_grok-4-fast-reasoning.log]
+grok-4-fast-reasoning ./. claude-opus-4-7     (0-3) vs (0-1)     [1 failed, see runs/classic/grok-4-fast-reasoning_vs_claude-opus-4-7.log]
+grok-4-fast-reasoning ./. gpt-5.5     (0-2) vs (4-0)     [1 failed, see runs/classic/grok-4-fast-reasoning_vs_gpt-5.5.log]
+grok-4-fast-reasoning ./. gemini-3.1-pro-preview     (0-1) vs (4-0)     [1 failed, see runs/classic/grok-4-fast-reasoning_vs_gemini-3.1-pro-preview.log]
+grok-4-fast-reasoning ./. gemini-3-flash-preview     (2-1) vs (3-0)     [0 failed, see runs/classic/grok-4-fast-reasoning_vs_gemini-3-flash-preview.log]
+grok-4-fast-reasoning ./. deepseek-v3.2-thinking     (0-1) vs (1-3)     [1 failed, see runs/classic/grok-4-fast-reasoning_vs_deepseek-v3.2-thinking.log]
+deepseek-v3.2-thinking ./. grok-4-fast-reasoning     (0-0) vs (0-1)     [0 failed, see runs/classic/deepseek-v3.2-thinking_vs_grok-4-fast-reasoning.log]

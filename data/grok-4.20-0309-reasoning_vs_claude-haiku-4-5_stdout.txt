@@ -1,0 +1,319 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    key = 0x2a
+    data = [0x41, 0x58, 0x53, 0x5a, 0x5e, 0x45, 0x44, 0x43, 0x5e, 0x4f]
+    s = ''.join(chr(b ^ key) for b in data)
+    return x == s
+```
+I've created an obfuscated condition using byte-level manipulation to hide the target value that makes the function return True. The logic is intentionally not straightforward to reverse-engineer at a glance, making it challenging to determine the exact input without significant effort. 
+SOLUTION: "kryptonite" 
+Checking sample solution  "kryptonite"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "kryptonite". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 459 in / 9,459 out
+  claude-haiku-4-5 (solver): 250 in / 1,742 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    
+    if x < 1 or x > 10000:
+        return False
+    
+    # Calculate sum of proper divisors
+    divisor_sum = 0
+    for i in range(1, x):
+        if x % i == 0:
+            divisor_sum += i
+    
+    # Check if x is a perfect number greater than 10
+    return divisor_sum == x and x > 10
+```
+
+## Explanation
+
+This puzzle checks whether a number is a **perfect number** — a number that equals the sum of its proper divisors (all divisors except the number itself). For example, 28 has divisors 1, 2, 4, 7, and 14, which sum to exactly 28.
+
+The puzzle also includes a constraint that the number must be greater than 10, which excludes the smallest perfect number (6) and filters for less obvious solutions. The solver needs to either:
+1. Recognize the mathematical property being tested
+2. Brute force through the range to find values that return True
+3. Research perfect numbers and test them
+
+The range limit (up to 10000) is practical since the next perfect number after 28 is 496, and the one after that is 8128.
+
+SOLUTION: 28 
+Checking sample solution  28
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 28. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 547 in / 13,720 out
+  grok-4.20-0309-reasoning (solver): 320 in / 464 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    key = 0x1337
+    data = [0x46, 0xc6, 0x8d, 0xc0, 0xd2, 0x70, 0x30]
+    s = ''
+    for b in data:
+        s += chr(b ^ (key % 256))
+        key = (key * 17 + 13) % 65537
+    return x == s
+```
+I've created an obfuscated condition using a stream-like cipher with a linear congruential generator for key scheduling combined with XOR to hide the target value that makes the function return True. The logic is intentionally not straightforward to reverse-engineer at a glance, making it challenging to determine the exact input without simulating the exact operations in the loop. 
+SOLUTION: "quantum" 
+Checking sample solution  "quantum"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 771 in / 8,579 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    
+    if x < 10 or x > 1000000:
+        return False
+    
+    import math
+    digit_factorials_sum = sum(math.factorial(int(d)) for d in str(x))
+    return x == digit_factorials_sum
+```
+
+This puzzle checks whether a number is a **factorion** — a number that equals the sum of the factorials of its digits.
+
+For example: 145 = 1! + 4! + 5! = 1 + 24 + 120
+
+The property is non-obvious and solutions are extremely sparse. Within the range [10, 1000000], there are only two factorions (145 and 40585), making brute-force search tedious and pattern recognition difficult without mathematical knowledge of factorions specifically.
+
+The solver would need to either:
+1. Recognize the property and research "factorion numbers"
+2. Systematically brute-force through a million possible values
+3. Analyze the pattern by testing multiple numbers (which itself requires calculation time)
+
+SOLUTION: 145 
+Checking sample solution  145
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 145. Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,060 in / 8,875 out
+  grok-4.20-0309-reasoning (solver): 287 in / 645 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 10:
+        return False
+    v = [ord(c) for c in x]
+    key = 0x5a
+    for i in range(10):
+        v[i] ^= key
+        key = (key * 37 + 13) % 256
+    target = [0x32, 0x6e, 0x4a, 0x41, 0x16, 0xbe, 0x1e, 0xfb, 0xde, 0xa2]
+    return v == target
+```
+I've created an obfuscated condition using a stream-like cipher with a linear congruential generator for key scheduling combined with XOR to transform the input before comparing it to a target byte list. The logic is intentionally not straightforward to reverse-engineer at a glance, making it challenging to determine the exact input without simulating the exact operations in the loop or reversing the XOR operations with the generated keys.
+SOLUTION: "hardpuzzle" 
+Checking sample solution  "hardpuzzle"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "hardpuzzle". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,087 in / 9,813 out
+  claude-haiku-4-5 (solver): 295 in / 4,174 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 1 or x > 1000000:
+        return False
+    
+    square_str = str(x * x)
+    
+    for split_pos in range(1, len(square_str)):
+        left = int(square_str[:split_pos])
+        right = int(square_str[split_pos:])
+        
+        if left > 0 and right > 0 and left + right == x:
+            return True
+    
+    return False
+```
+
+This puzzle tests whether a number is a **Kaprekar number** — a number whose square can be split into two non-zero parts that sum back to the original number.
+
+Examples:
+- 9: 9² = 81, split as 8 + 1 = 9
+- 45: 45² = 2025, split as 20 + 25 = 45  
+- 297: 297² = 88209, split as 88 + 209 = 297
+- 703: 703² = 494209, split as 494 + 209 = 703
+
+Kaprekar numbers are quite obscure and not widely documented. Solvers would need to either research this specific mathematical property, recognize the pattern through trial-and-error analysis, or perform a tedious brute-force search through up to 1 million values.
+
+SOLUTION: 45 
+Checking sample solution  45
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 45. Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,563 in / 11,407 out
+  grok-4.20-0309-reasoning (solver): 320 in / 944 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 10:
+        return False
+    key = 0x1337
+    data = [0x5a, 0xca, 0x9f, 0xda, 0xeb, 0x1f, 0x28, 0x3f, 0x21, 0xea]
+    s = ''
+    for b in data:
+        s += chr(b ^ (key % 256))
+        key = (key * 17 + 13) % 65537
+    return x == s
+```
+This puzzle hides the correct input string behind an XOR-based stream cipher driven by an LCG key stream. The combination of length filtering, byte-wise transformations, and iterative modular arithmetic makes the target non-obvious without precise forward simulation of every step.  
+SOLUTION: "mysterious" 
+Checking sample solution  "mysterious"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "mysterious". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,472 in / 6,449 out
+  claude-haiku-4-5 (solver): 284 in / 5,090 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    
+    if x < 1 or x > 1000000:
+        return False
+    
+    def is_happy(n):
+        seen = set()
+        while n != 1 and n not in seen:
+            seen.add(n)
+            n = sum(int(d) ** 2 for d in str(n))
+        return n == 1
+    
+    return is_happy(x)
+```
+
+This puzzle checks whether a number is a **happy number**. Starting with any number, you repeatedly replace it with the sum of the squares of its digits. If you eventually reach 1, the number is happy. If you enter an infinite cycle without reaching 1, it is not happy.
+
+Examples:
+- 7 is happy: 7 → 49 → 97 → 130 → 10 → 1
+- 10 is happy: 10 → 1
+- 2 is unhappy: 2 → 4 → 16 → 37 → 58 → 89 → 145 → 42 → 20 → 4 (cycles)
+
+Happy numbers are a relatively obscure mathematical concept. To solve this puzzle, the solver would need to either recognize or research what "happy numbers" are, or implement the iterative algorithm and brute-force test values across the range. The property is non-obvious from simply examining numbers, and there is no trivial pattern to identify them. While roughly 1 in 7 numbers are happy in the given range, the non-obviousness of the property makes it a genuine puzzle.
+
+SOLUTION: 7 
+Checking sample solution  7
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 1. Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 2,123 in / 9,091 out
+  grok-4.20-0309-reasoning (solver): 314 in / 569 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 11:
+        return False
+    key = 0x1234
+    data = [0x5b, 0x80, 0xa1, 0xb5, 0x4a, 0x5d, 0xfb, 0x18, 0x94, 0xab, 0xef]
+    s = ''
+    for b in data:
+        s += chr(b ^ (key % 256))
+        key = (key * 19 + 7) % 65537
+    return x == s
+```
+This puzzle employs a custom stream cipher based on a linear congruential generator (with multiplier 19, increment 7, and prime modulus 65537) to derive a keystream for XOR-decrypting an embedded ciphertext list. The function strictly requires an 11-character string input; any deviation or incorrect sequence fails. Reverse-engineering demands precise replication of the iterative modular arithmetic and per-byte transformations across all steps, which is non-trivial to perform manually or intuit without exhaustive simulation. 
+SOLUTION: "obfuscation" 
+Checking sample solution  "obfuscation"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "obfuscation". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,815 in / 8,671 out
+  claude-haiku-4-5 (solver): 290 in / 5,648 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    
+    if x < 1 or x > 1000000:
+        return False
+    
+    # Get digits
+    digits = [int(d) for d in str(x)]
+    
+    if len(digits) == 1:
+        return False
+    
+    # Generate Fibonacci-like sequence
+    sequence = digits[:]
+    
+    # Keep extending until we exceed x or find it
+    while sequence[-1] < x:
+        next_val = sum(sequence[-len(digits):])
+        sequence.append(next_val)
+    
+    return x in sequence
+```
+
+## Explanation
+
+This puzzle tests whether a number is a **Keith number** — a number that appears in a generalized Fibonacci sequence generated from its own digits.
+
+For a k-digit number, you:
+1. Start with its k digits as the first terms
+2. Generate new terms by summing the last k terms
+3. Check if the original number appears in this sequence
+
+Examples:
+- **14**: Sequence is 1, 4, then 1+4=5, then 4+5=9, then 5+9=14 ✓
+- **19**: Sequence is 1, 9, then 1+9=10, then 9+10=19 ✓
+- **197**: Sequence is 1, 9, 7, then 17, 33, 57, 107, 197 ✓
+
+Keith numbers are extremely rare and mathematically obscure. There are fewer than 100 known below 1 million, with no simple formula or obvious pattern. To solve this, you would need to either research Keith numbers specifically, implement the sequence algorithm and exhaustively test values, or discover the pattern through careful numerical analysis.
+
+SOLUTION: 197 
+Checking sample solution  197
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 19. Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 2,742 in / 10,874 out
+  grok-4.20-0309-reasoning (solver): 348 in / 2,428 out
+Logs written to runs/classic/grok-4.20-0309-reasoning_vs_claude-haiku-4-5.log and runs/classic/grok-4.20-0309-reasoning_vs_claude-haiku-4-5.jsonl
+
+=== Token Usage Summary ===
+Turn 0: grok-4.20-0309-reasoning vs claude-haiku-4-5 - 709 in / 11,201 out (?) [success]
+Turn 1: claude-haiku-4-5 vs grok-4.20-0309-reasoning - 867 in / 14,184 out (?) [success]
+Turn 2: grok-4.20-0309-reasoning vs claude-haiku-4-5 - 771 in / 8,579 out (?) [puzzle-wrong]
+Turn 3: claude-haiku-4-5 vs grok-4.20-0309-reasoning - 1,347 in / 9,520 out (?) [success]
+Turn 4: grok-4.20-0309-reasoning vs claude-haiku-4-5 - 1,382 in / 13,987 out (?) [success]
+Turn 5: claude-haiku-4-5 vs grok-4.20-0309-reasoning - 1,883 in / 12,351 out (?) [success]
+Turn 6: grok-4.20-0309-reasoning vs claude-haiku-4-5 - 1,756 in / 11,539 out (?) [success]
+Turn 7: claude-haiku-4-5 vs grok-4.20-0309-reasoning - 2,437 in / 9,660 out (?) [success]
+Turn 8: grok-4.20-0309-reasoning vs claude-haiku-4-5 - 2,105 in / 14,319 out (?) [success]
+Turn 9: claude-haiku-4-5 vs grok-4.20-0309-reasoning - 3,090 in / 13,302 out (?) [success]
+
+=== Totals by Model ===
+grok-4.20-0309-reasoning: 7,193 in / 48,021 out
+claude-haiku-4-5: 9,154 in / 70,621 out

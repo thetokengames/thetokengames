@@ -1,0 +1,508 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if x <= 0:
+        return False
+
+    n = int(
+        "1"
+        + "0" * 126
+        + "3039"
+        + "0" * 17
+        + "10933"
+        + "0" * 122
+        + "31f49c5b",
+        16,
+    )
+
+    return (
+        x.bit_length() == 521
+        and x.bit_count() == 7
+        and n % x == 0
+    )
+```
+
+This puzzle asks for a positive integer with a very specific bit-length and population count that also divides the large hexadecimal integer constructed inside the function.
+
+SOLUTION: (1 << 520) + 0x3039 
+Checking sample solution  (1 << 520) + 0x3039
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says 2**520 + 12345. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 346 in / 13,127 out
+  gemini-3.1-pro-preview (solver): 257 in / 8,553 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) > 54:
+        return False
+    
+    # No digits, no quotes, no spaces, no dots, no underscores.
+    bad_chars = set('0123456789"\'. _\n\t')
+    if any(c in x for c in bad_chars):
+        return False
+    
+    try:
+        # Evaluate in an empty environment (no built-ins like `len`, `int`, `str`, `abs`, etc.)
+        res = eval(x, {"__builtins__": None}, {})
+        return res == 1337
+    except Exception:
+        return False
+```
+
+### Explanation
+This is a code-golf sandbox escape puzzle. The goal is to generate the integer `1337` by evaluating a Python string. 
+
+Because `__builtins__` is `None`, standard functions (like `len()`, `ord()`, `chr()`, etc.) are completely unavailable. Furthermore, the puzzle explicitly bans any numeric digits, string quotes, dots, underscores, and spaces.
+
+The only way to build numbers is by leveraging Python's boolean keywords (`True` and `False`), which act as `1` and `0` in an arithmetic context. 
+
+To generate numbers efficiently within the extremely strict 54-character limit, you have to use the bitwise NOT operator `~`. In Python, `~x == -x - 1`. Therefore, `-~x == x + 1`. This allows you to incrementally build integers compactly:
+- `True` = 1 (4 chars)
+- `-~True` = 2 (7 chars)
+- `-~-~True` = 3 (9 chars)
+- and so on... (every `+1` costs 2 characters)
+
+To reach `1337` in 54 characters or fewer, simple addition or bitwise shifts (`<<`) take far too many characters. Instead, you need to find an optimal algebraic decomposition of `1337` that minimizes the number of `-~` increments. 
+
+The most character-efficient decomposition for this puzzle is $11^3 + 6 = 1337$.
+- Base `11`: `(-~-~-~-~-~-~-~-~-~-~True)` (26 chars)
+- Exponent `3`: `-~-~True` (8 chars)
+- Addend `6`: `-~-~-~-~-~True` (14 chars)
+
+Combining them with the exponentiation `**` and addition `+` operators (which follow standard BEDMAS precedence and thus require no additional parentheses):
+`(-~-~-~-~-~-~-~-~-~-~True)**-~-~True+-~-~-~-~-~True`
+
+This string is exactly 51 characters long, comfortably fitting underneath the `<= 54` requirement, using exclusively allowed operator symbols and the `True` keyword.
+
+SOLUTION: "(-~-~-~-~-~-~-~-~-~-~True)**-~-~True+-~-~-~-~-~True" 
+Checking sample solution  "(-~-~-~-~-~-~-~-~-~-~True)**-~-~True+-~-~-~-~-~True"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "((a:=True+True)**(a+a//a)+a+a//a)**(a+a//a)+a**a+a". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 537 in / 32,862 out
+  gpt-5.5 (solver): 244 in / 4,708 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 56:
+        return False
+    if not all(97 <= ord(c) <= 122 for c in x):
+        return False
+
+    import hashlib
+
+    y = bytes(219 - ord(c) for c in reversed(x))
+    target = bytes.fromhex(
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1"
+    )
+    return hashlib.sha256(y).digest() == target
+```
+
+This puzzle requires a 56-character lowercase string. The function reverses the string, applies an Atbash-style letter transformation, and then checks the SHA-256 digest of the resulting bytes against a fixed target.
+
+SOLUTION: "jklmklmnlmnomnopnopqopqrpqrsqrstrstustuvtuvwuvwxvwxywxyz" 
+Checking sample solution  "jklmklmnlmnomnopnopqopqrpqrsqrstrstustuvtuvwuvwxvwxywxyz"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "jklmklmnlmnomnopnopqopqrpqrsqrstrstustuvtuvwuvwxvwxywxyz". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 13,291 in / 2,572 out
+  gemini-3.1-pro-preview (solver): 279 in / 4,964 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    
+    parts = x.split(',')
+    if len(parts) != 3:
+        return False
+        
+    try:
+        u, v, w = [int(p) for p in parts]
+    except Exception:
+        return False
+        
+    val = (10 * u**3 + 36 * v**3 + 3 * w**3 
+           + 45 * u**2 * v + 69 * u * v**2 
+           + 18 * u**2 * w + 12 * u * w**2 
+           + 42 * v**2 * w + 18 * v * w**2 
+           + 54 * u * v * w)
+           
+    return val == 33
+```
+
+### Explanation
+This puzzle is a disguised version of the famously difficult Diophantine equation $a^3 + b^3 + c^3 = 33$. 
+
+For decades, it was an unsolved problem whether 33 could be expressed as the sum of three cubes. It wasn't until 2019 that mathematician Andrew Booker found the first (and only known) integer solution using a massive computer search:
+`a = 8866128975287528`
+`b = -8778405442862239`
+`c = -2736111468807040`
+
+To obscure this equation and render the puzzle immune to simple Google searches or direct LLM recall, I applied a linear transformation to the variables. I chose a unimodular matrix $M$ (determinant 1) so that integer solutions in $(a,b,c)$ perfectly biject to integer solutions in $(u,v,w)$:
+`a = 2u + 3v + w`
+`b = u + 2v + w`
+`c = u + v + w`
+
+Substituting these into $a^3 + b^3 + c^3$ expands exactly to the dense 10-term cubic polynomial seen in the `mystery` function. Because the values involved are 16 digits long, Z3 theorem provers, numerical optimizers, and any brute-force approaches will completely hang or fail. 
+
+To solve the puzzle logically without knowing the secret, a solver would have to compute the Hessian matrix of the cubic form. The determinant of this Hessian factors cleanly into three linear polynomials, revealing the original $a, b,$ and $c$ bases! Once diagonalized, the solver would realize it is the sum of three cubes equal to 33, look up Booker's solution, and apply the inverse matrix:
+`u = a - 2b + c`
+`v = b - c`
+`w = -a + b + c`
+yielding the target variables.
+
+SOLUTION: "23686828392204966,-6042293974055199,-20380645886956807" 
+Checking sample solution  "23686828392204966,-6042293974055199,-20380645886956807"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "-29246774862244335,17644534418149767,2823835001232329". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 1,472 in / 20,384 out
+  gpt-5.5 (solver): 41,128 in / 12,015 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = x
+    if n <= 0 or n.bit_length() != 62:
+        return False
+    if n & 1 == 0:
+        return False
+    if n % 10**6 != 413051:
+        return False
+    if sum(map(int, str(n))) != 64:
+        return False
+
+    def passes(a):
+        d = n - 1
+        s = 0
+        while d % 2 == 0:
+            s += 1
+            d //= 2
+
+        y = pow(a, d, n)
+        if y == 1 or y == n - 1:
+            return True
+
+        for _ in range(s - 1):
+            y = (y * y) % n
+            if y == n - 1:
+                return True
+
+        return False
+
+    small = (2, 3, 5, 7, 11, 13, 17, 19, 23)
+    wider = small + (29, 31, 37)
+
+    return all(passes(a) for a in small) and not all(passes(a) for a in wider)
+```
+
+This puzzle asks for a very particular 62-bit odd integer with decimal checksum constraints. It must behave like a prime under several Miller–Rabin strong probable-prime bases, but fail under a slightly wider set.
+
+SOLUTION: 3825123056546413051 
+Checking sample solution  3825123056546413051
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says 3825123056546413051. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 1,114 in / 11,724 out
+  gemini-3.1-pro-preview (solver): 407 in / 4,664 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not tuple or len(x) != 3:
+        return False
+        
+    u, v, w = x
+    if type(u) is not int or type(v) is not int or type(w) is not int:
+        return False
+        
+    # Prevent trivial brute-force of small integers
+    if max(abs(u), abs(v), abs(w)) < 200:
+        return False
+        
+    M = [
+        [u + v + w, 3*u + 9*v + 18*w, 3*u + 6*v + 9*w],
+        [u + 2*v + 3*w, u + v + w, 3*u + 9*v + 18*w],
+        [u + 3*v + 6*w, u + 2*v + 3*w, u + v + w]
+    ]
+    
+    # Calculate the determinant of the 3x3 matrix M
+    det = (M[0][0] * (M[1][1] * M[2][2] - M[1][2] * M[2][1]) -
+           M[0][1] * (M[1][0] * M[2][2] - M[1][2] * M[2][0]) +
+           M[0][2] * (M[1][0] * M[2][1] - M[1][1] * M[2][0]))
+           
+    return det == 1
+```
+
+### Explanation
+This puzzle relies on algebraic number theory, specifically finding a fundamental unit in the totally real cubic field $\mathbb{Q}(\sqrt[3]{3})$.
+
+To obscure the structure, I represented the problem as a 3x3 matrix determinant constraint. The matrix $M$ is structured exactly like the multiplication matrix of an element in the ring of integers $\mathbb{Z}[\sqrt[3]{3}]$.
+
+If we define:
+$a = u + v + w$
+$b = u + 2v + 3w$
+$c = u + 3v + 6w$
+
+We can rewrite $M$ as:
+$$M = \begin{pmatrix} a & 3c & 3b \\ b & a & 3c \\ c & b & a \end{pmatrix}$$
+
+The determinant of this matrix algebraically evaluates to the field norm equation:
+$N(a + b\sqrt[3]{3} + c\sqrt[3]{9}) = a^3 + 3b^3 + 9c^3 - 9abc$
+
+Setting this determinant to $1$ implies we are looking for a unit in $\mathbb{Z}[\sqrt[3]{3}]$. A known fundamental unit in this field is $-2 + \sqrt[3]{9}$, corresponding to $a=-2, b=0, c=1$. 
+
+By continually squaring or multiplying units ($u^2, u^3, u^4, \dots$), we generate larger solutions. For instance, computing the unit to the 4th power gives:
+$(-2 + \sqrt[3]{9})^4 = -56 + 72\sqrt[3]{3} - 23\sqrt[3]{9}$
+Which means $a = -56, b = 72, c = -23$.
+
+The target variables $u, v, w$ are a disguised linear transformation of $a, b, c$. The matrix linking them is a unimodular matrix (determinant 1):
+$$ \begin{pmatrix} a \\ b \\ c \end{pmatrix} = \begin{pmatrix} 1 & 1 & 1 \\ 1 & 2 & 3 \\ 1 & 3 & 6 \end{pmatrix} \begin{pmatrix} u \\ v \\ w \end{pmatrix} $$
+
+By computing the inverse of this matrix and multiplying it by our large $a, b, c$ values, we obtain the required $u, v, w$. The size threshold condition `max(...) < 200` ensures that basic Z3 implementations and naive local brute-force scripts will time out, mandating that the solver correctly identifies the underlying number field and algebraically derives a high-power field unit.
+
+SOLUTION: (-407, 574, -223) 
+Checking sample solution  (-407, 574, -223)
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says (-407, 574, -223). Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 2,508 in / 28,738 out
+  gpt-5.5 (solver): 426 in / 2,343 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 9:
+        return False
+    if any(ord(c) > 127 for c in x):
+        return False
+
+    import codecs
+    import hashlib
+
+    y = codecs.decode(x[::-1], "rot_13").encode("latin1")
+
+    return hashlib.pbkdf2_hmac(
+        "sha1",
+        y,
+        b"sa\x00lt",
+        4096,
+        16,
+    ) == bytes.fromhex("56fa6aa75548099dcc37d7f03425e0c3")
+```
+
+This puzzle asks for a 9-character ASCII string. It reverses the string, applies ROT13, then uses the result as a PBKDF2-HMAC-SHA1 password with a salt containing a null byte.
+
+SOLUTION: "qebj\x00ffnc" 
+Checking sample solution  "qebj\x00ffnc"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "qebj\x00ffnc". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 17,722 in / 1,907 out
+  gemini-3.1-pro-preview (solver): 275 in / 3,681 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not tuple or len(x) != 4:
+        return False
+        
+    u, v, w, t = x
+    if type(u) is not int or type(v) is not int or type(w) is not int or type(t) is not int:
+        return False
+        
+    # Prevent Z3 and brute-force tools from guessing small integers
+    if max(abs(u), abs(v), abs(w), abs(t)) < 100000:
+        return False
+        
+    # Linear transformation using a Pascal matrix
+    a = u + v + w + t
+    b = u + 2*v + 3*w + 4*t
+    c = u + 3*v + 6*w + 10*t
+    d = u + 4*v + 10*w + 20*t
+    
+    # All variables must be strictly positive and distinct
+    if len({a, b, c, d}) != 4:
+        return False
+    if min(a, b, c, d) <= 0:
+        return False
+        
+    # An interesting algebraic identity
+    left = (a**2 + b**2 + c**2)**2
+    right = 2 * (a**2 * b**2 + b**2 * c**2 + c**2 * a**2) + d**4
+    
+    return left == right
+```
+
+### Explanation
+
+This puzzle is a cryptographic disguise of the first known counterexample to Euler's Sum of Powers Conjecture for $n=4$. 
+
+For over 200 years, mathematician Leonhard Euler's conjecture—that you need at least $n$ $n$th powers to sum to an $n$th power—remained unproven and un-disproven. In 1987, Noam Elkies finally found an infinite family of counterexamples for $n=4$, and shortly after, Roger Frye found the absolute smallest valid solution using a computer search: 
+$95800^4 + 217519^4 + 414560^4 = 422481^4$
+
+To construct the puzzle, I obfuscated this famous Diophantine equation through two layers:
+1. **Geometric Polynomial Identity**: Instead of simply writing `a**4 + b**4 + c**4 == d**4`, I used the algebraic expansion `(a^2+b^2+c^2)^2 = a^4+b^4+c^4 + 2(a^2b^2+b^2c^2+c^2a^2)`. By moving the cross-terms to the right side of the equation, the condition `left == right` collapses gracefully back down to the target $a^4 + b^4 + c^4 = d^4$.
+2. **Unimodular Matrix Transformation**: To prevent solvers from just reading the polynomial and instantly recognizing the four variables, I wrapped $a, b, c, d$ in a linear transformation. The transformation matrix is a segment of Pascal's Triangle, which has a determinant of 1 (a unimodular matrix).
+
+Because the absolute smallest valid $d$ is $422481$, standard heuristic solvers like Z3 or basic Python brute-force scripts will completely hang when trying to optimize a degree-4 equation in this enormous numerical domain. 
+
+To solve it analytically, the solver must:
+1. Algebraically simplify the `left == right` polynomial to $a^4 + b^4 + c^4 = d^4$.
+2. Identify the Diophantine equation and look up Roger Frye's minimal solution: $a=95800, b=217519, c=414560, d=422481$.
+3. Compute the inverse of the Pascal transformation matrix.
+4. Multiply the inverse matrix by Frye's solution to extract the base parameters $u, v, w, t$.
+
+Applying the inverse matrix yields the exact vector required to satisfy all threshold and uniqueness checks.
+
+SOLUTION: (313845, -822251, 868648, -264442) 
+Checking sample solution  (313845, -822251, 868648, -264442)
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says (313845, -822251, 868648, -264442). Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 3,720 in / 37,643 out
+  gpt-5.5 (solver): 400 in / 1,612 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = (
+        (1 << 1952)
+        + (2 << 1856)
+        + (3 << 1760)
+        + (4 << 1664)
+        + (5 << 1568)
+        + (6 << 1472)
+        + (7 << 1376)
+        + (6 << 1280)
+        + (5 << 1184)
+        + (4 << 1088)
+        + (3 << 992)
+        + (2 << 896)
+        + (1 << 800)
+        + (1 << 576)
+        + (1 << 480)
+        + (1 << 384)
+        + (1 << 288)
+        + (1 << 192)
+        + (1 << 96)
+        + 1
+    )
+
+    if not (1 < x < n):
+        return False
+    if x.bit_length() != 1472:
+        return False
+    if x.bit_count() != 673:
+        return False
+    if x & ((1 << 96) - 1):
+        return False
+    if ((x >> 96) & 1) != 1:
+        return False
+
+    return pow(x, 7, n) == 1
+```
+
+This puzzle asks for a carefully constrained nontrivial seventh root of unity modulo a large structured composite integer. The apparent sparse binary form hides a cyclotomic construction.
+
+SOLUTION: (1 << 1472) - (1 << 800) + (1 << 96) 
+Checking sample solution  (1 << 1472) - (1 << 800) + (1 << 96)
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says (1 << 1472) - (1 << 800) + (1 << 96). Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 2,363 in / 11,228 out
+  gemini-3.1-pro-preview (solver): 462 in / 34,777 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(state):
+    if type(state) is not tuple or len(state) != 3:
+        return False
+    
+    x, y, z = state
+    if type(x) is not int or type(y) is not int or type(z) is not int:
+        return False
+        
+    if max(abs(x), abs(y), abs(z)) < 10**7:
+        return False
+        
+    left = 6*x**2 + 2*y**2 + 3*z**2 + 6*x*y - 4*x*z
+    
+    right = (6*x**3 + 3*z**3 + 9*x**2*y - 3*x**2*z 
+             + 3*x*y**2 - 6*x*z**2 - 3*y**2*z - 9*x*y*z)
+             
+    return left == right
+```
+
+### Explanation
+This puzzle is based on the famous **Markov Diophantine equation**: 
+$u^2 + v^2 + w^2 = 3uvw$
+
+The solutions to this equation are known as Markov numbers. They can be generated from the fundamental solution $(1, 1, 1)$ by iteratively applying Vieta jumping: if $(u, v, w)$ is a solution, then $(u, v, 3uv - w)$ is also a solution. This forms a tree of solutions growing exponentially in size.
+
+To completely obscure this elegant equation and prevent automated solvers (like Z3 or simple brute-force scripts) from finding the solution trivially, I applied a linear transformation using a unimodular matrix. We define:
+$u = x - z$
+$v = 2x + y - z$
+$w = x + y + z$
+
+If you substitute these expressions into $u^2 + v^2 + w^2$, it perfectly expands to the quadratic form on the `left` side:
+$6x^2 + 2y^2 + 3z^2 + 6xy - 4xz$
+
+Similarly, expanding $3uvw$ yields the 8-term cubic polynomial on the `right` side.
+
+Because the variables are constrained by `max(abs(x), abs(y), abs(z)) >= 10**7`, a naive search would have to explore an effectively infinite bounds space. Furthermore, standard SMT solvers struggle heavily with mixed non-linear constraints of degree 3 scaling into massive numeric ranges. 
+
+To solve it analytically, a solver would have to use a computer algebra system (like SageMath) to factor the cubic `right` polynomial into three linear planes. This immediately exposes the original $u, v,$ and $w$ combinations. From there, they recognize the Markov equation, generate a sufficiently large valid triple (like $433, 37666, 48928105$), and apply the inverse of the matrix to recover the disguised coordinates $x, y, z$:
+$x = 2u - v + w$
+$y = -3u + 2v - w$
+$z = u - v + w$
+
+Applying this inverse transformation guarantees passing the magnitude checks and satisfying the polynomial identity.
+
+SOLUTION: (48891305, -48854072, 48890872) 
+Checking sample solution  (48891305, -48854072, 48890872)
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says (-14930350, 39088166, -14930351). Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 5,083 in / 31,830 out
+  gpt-5.5 (solver): 282 in / 5,288 out
+Logs written to runs/classic/gpt-5.5_vs_gemini-3.1-pro-preview.log and runs/classic/gpt-5.5_vs_gemini-3.1-pro-preview.jsonl
+
+=== Token Usage Summary ===
+Turn 0: gpt-5.5 vs gemini-3.1-pro-preview - 603 in / 21,680 out (?) [success]
+Turn 1: gemini-3.1-pro-preview vs gpt-5.5 - 781 in / 37,570 out (?) [success]
+Turn 2: gpt-5.5 vs gemini-3.1-pro-preview - 13,570 in / 7,536 out (?) [success]
+Turn 3: gemini-3.1-pro-preview vs gpt-5.5 - 42,600 in / 32,399 out (?) [success]
+Turn 4: gpt-5.5 vs gemini-3.1-pro-preview - 1,521 in / 16,388 out (?) [success]
+Turn 5: gemini-3.1-pro-preview vs gpt-5.5 - 2,934 in / 31,081 out (?) [success]
+Turn 6: gpt-5.5 vs gemini-3.1-pro-preview - 17,997 in / 5,588 out (?) [success]
+Turn 7: gemini-3.1-pro-preview vs gpt-5.5 - 4,120 in / 39,255 out (?) [success]
+Turn 8: gpt-5.5 vs gemini-3.1-pro-preview - 2,825 in / 46,005 out (?) [success]
+Turn 9: gemini-3.1-pro-preview vs gpt-5.5 - 5,365 in / 37,118 out (?) [success]
+
+=== Totals by Model ===
+gpt-5.5: 77,316 in / 66,524 out
+gemini-3.1-pro-preview: 15,000 in / 208,096 out

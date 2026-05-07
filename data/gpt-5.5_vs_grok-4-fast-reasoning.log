@@ -1,0 +1,382 @@
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+
+    if type(x) is not str or len(x) != 1000000:
+        return False
+
+    try:
+        y = bytes(
+            ord(ch) ^ ((73 * i + 19) & 255)
+            for i, ch in enumerate(x)
+        )
+    except ValueError:
+        return False
+
+    return hashlib.sha256(y).digest()[::-1].hex() == (
+        "d02c11c7cc396d040e2097a4489a80f1673ed784e2c7a18192fb14995c6ec7cd"
+    )
+```
+
+This applies a position-dependent XOR mask to a million-character string, then checks a reversed SHA-256 digest. Directly finding a preimage should be impractical unless the hidden transformed byte string is identified.
+
+SOLUTION: ''.join(chr(97 ^ ((73*i + 19) & 255)) for i in range(1000000)) 
+Checking sample solution  ''.join(chr(97 ^ ((73*i + 19) & 255)) for i in range(1000000))
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says None (computationally infeasible). Checking.
+RuntimeError while checking sample -- marking as wrong!
+Error: Error running mystery():
+  File "<stdin>", line 24
+    result = mystery(None (computationally infeasible))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+Failure!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 346 in / 17,097 out
+  grok-4-fast-reasoning (solver): 387 in / 6,224 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+
+    if type(x) is not str or len(x) != 8:
+        return False
+
+    return hashlib.sha256(x.encode()).hexdigest() == "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+```
+This puzzle requires finding an 8-character string whose SHA-256 hash matches the hardcoded value. Since SHA-256 is a one-way function and the input space is large (95^8 possibilities for printable characters), it's computationally infeasible to brute-force without specialized hardware or luck, making it very difficult to discover the input that satisfies the condition.
+
+SOLUTION: "password" 
+Checking sample solution  "password"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "password". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  grok-4-fast-reasoning (inventer): 658 in / 6,625 out
+  gpt-5.5 (solver): 182 in / 126 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = 10941738641570527421809707322040357612003732945449205990913842131476349984288934784717997257891267332497625752899781833797076537244027146743531593354333897
+
+    return 1 < x and x * x < n and n % x == 0
+```
+
+This asks for a nontrivial divisor of a large semiprime, specifically the smaller factor. The square bound prevents giving the larger factor or the modulus itself.
+
+SOLUTION: 102639592829741105772054196573991675900716567808038066803341933521790711307779 
+Checking sample solution  102639592829741105772054196573991675900716567808038066803341933521790711307779
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says 101. Checking.
+Failure!
+New score after this turn: 2 (2-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 663 in / 5,346 out
+  grok-4-fast-reasoning (solver): 347 in / 40,763 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = 9999999999999999993800000000000000000861
+
+    return 1 < x and x * x < n and n % x == 0
+```
+This puzzle requires finding a proper divisor x (1 < x < sqrt(n)) of the given 40-digit semiprime number n. Factoring such a large semiprime is computationally intensive and difficult without implementing advanced factorization algorithms like Pollard's Rho or the Elliptic Curve Method, making it challenging to discover the value of x that satisfies the condition.
+
+SOLUTION: 99999999999999999959 
+Checking sample solution  99999999999999999959
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 99999999999999999959. Checking.
+Success!
+New score after this turn: 2 (2-0) vs 0 (0-0)
+  grok-4-fast-reasoning (inventer): 969 in / 14,161 out
+  gpt-5.5 (solver): 160 in / 3,171 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str or len(x) != 20:
+        return False
+
+    import hashlib
+    import hmac
+
+    key = bytes(((197 * ord(ch) + 123) & 255) for ch in x)
+    tag = hmac.new(key, b"Hi There", hashlib.sha256).digest()
+
+    return hmac.compare_digest(
+        tag[::-1].hex(),
+        "f7cf322e6c37e926a73d83c900c21d882bf10bafceafa85c5338dbd8614c34b0",
+    )
+```
+
+This maps the input string through an affine byte transformation to form an HMAC-SHA256 key, then checks a reversed hexadecimal MAC of a fixed message. Without identifying the intended key, this is essentially a keyed-MAC preimage problem.
+
+SOLUTION: "PPPPPPPPPPPPPPPPPPPP" 
+Checking sample solution  "PPPPPPPPPPPPPPPPPPPP"
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says "PPPPPPPPPPPPPPPPPPPP". Checking.
+Success!
+New score after this turn: 2 (2-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 918 in / 12,636 out
+  grok-4-fast-reasoning (solver): 380 in / 22,052 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = 2000000000000000000000000000000000000000000000000013000000000000000000000000000000000021
+
+    return 1 < x and x * x < n and n % x == 0
+```
+This puzzle requires finding a proper divisor x (1 < x < sqrt(n)) of the given 101-digit semiprime number n. Factoring such a large semiprime is computationally intensive and difficult without access to significant computational resources or advanced factorization techniques beyond standard Python implementations, making it challenging to discover the value of x that satisfies the condition.
+
+SOLUTION: 10000000000000000000000000000000000000000000000003 
+Checking sample solution  10000000000000000000000000000000000000000000000003
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 2 (2-0) vs -1 (0-1)
+  grok-4-fast-reasoning (inventer): 1,292 in / 20,518 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str or len(x) != 32:
+        return False
+
+    try:
+        key = bytes(
+            ord(ch) ^ ((139 * i + 17) & 255)
+            for i, ch in enumerate(x)
+        )
+    except ValueError:
+        return False
+
+    import struct
+
+    def rot(v, n):
+        return ((v << n) & 0xffffffff) | (v >> (32 - n))
+
+    def qr(a, b, c, d):
+        a = (a + b) & 0xffffffff
+        d ^= a
+        d = rot(d, 16)
+
+        c = (c + d) & 0xffffffff
+        b ^= c
+        b = rot(b, 12)
+
+        a = (a + b) & 0xffffffff
+        d ^= a
+        d = rot(d, 8)
+
+        c = (c + d) & 0xffffffff
+        b ^= c
+        b = rot(b, 7)
+
+        return a, b, c, d
+
+    state = list(struct.unpack(
+        "<16I",
+        b"expand 32-byte k"
+        + key
+        + b"\x01\x00\x00\x00\x00\x00\x00\x09\x00\x00\x00\x4a\x00\x00\x00\x00",
+    ))
+
+    work = state[:]
+
+    for _ in range(10):
+        work[0], work[4], work[8], work[12] = qr(work[0], work[4], work[8], work[12])
+        work[1], work[5], work[9], work[13] = qr(work[1], work[5], work[9], work[13])
+        work[2], work[6], work[10], work[14] = qr(work[2], work[6], work[10], work[14])
+        work[3], work[7], work[11], work[15] = qr(work[3], work[7], work[11], work[15])
+
+        work[0], work[5], work[10], work[15] = qr(work[0], work[5], work[10], work[15])
+        work[1], work[6], work[11], work[12] = qr(work[1], work[6], work[11], work[12])
+        work[2], work[7], work[8], work[13] = qr(work[2], work[7], work[8], work[13])
+        work[3], work[4], work[9], work[14] = qr(work[3], work[4], work[9], work[14])
+
+    block = struct.pack(
+        "<16I",
+        *[(work[i] + state[i]) & 0xffffffff for i in range(16)]
+    )
+
+    target = int(
+        "4e3c50a2e883d0cbb94e16ded19c12b5"
+        "a2028bd905d7c21409aa9f07466482d2"
+        "4e6cd4c39aaa22040368c033c7f4d1c7"
+        "c47120a31fdd0f5015593bd1e4e7f110",
+        16,
+    )
+
+    return int.from_bytes(block, "little") == target
+```
+
+This masks the input into a 32-byte candidate key, then runs a 20-round ChaCha-style ARX block function with fixed public constants. The output is compared as a little-endian integer. Without identifying the hidden key, solving this is essentially a key-recovery/preimage problem for the block function.
+
+SOLUTION: "\x11\x9d%\xb19\xcdU\xd9a\xfdu\x01\x99-\xa59\xd1]\xc5q\xf9m\x15\x99\x01\xbd5\xa1Y\xcdE\xf9" 
+Checking sample solution  "\x11\x9d%\xb19\xcdU\xd9a\xfdu\x01\x99-\xa59\xd1]\xc5q\xf9m\x15\x99\x01\xbd5\xa1Y\xcdE\xf9"
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says "\x11\x9c\x27\xb2\x3d\xc8\x53\xde\x69\xf4\x7f\x0a\x95\x20\xab\x36\xc1\x4c\xd7\x62\xed\x78\x03\x8e\x19\xa4\x2f\xba\x45\xd0\x5b\xe6". Checking.
+Failure!
+New score after this turn: 3 (3-0) vs -1 (0-1)
+  gpt-5.5 (inventer): 1,246 in / 24,694 out
+  grok-4-fast-reasoning (solver): 991 in / 30,709 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = 10000000000000000002800000000000000000147
+
+    return 1 < x and x * x < n and n % x == 0
+```
+This puzzle requires finding a proper divisor x (1 < x < sqrt(n)) of the given 38-digit number n, which is a product of two large primes around 10^19. Factoring a 38-digit semiprime without small factors is computationally difficult, requiring implementation of advanced algorithms like Pollard's Rho, and is not feasible via naive trial division due to the size of the factors.
+
+SOLUTION: 10000000000000000007 
+Checking sample solution  10000000000000000007
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 3 (3-0) vs -2 (0-2)
+  grok-4-fast-reasoning (inventer): 2,246 in / 13,429 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str or len(x) != 128:
+        return False
+
+    try:
+        sig = bytes.fromhex(x)[::-1]
+    except ValueError:
+        return False
+
+    import hashlib
+
+    p = 2**255 - 19
+    q = 2**252 + 27742317777372353535851937790883648493
+
+    def inv(z):
+        return pow(z, p - 2, p)
+
+    d = (-121665 * inv(121666)) % p
+    I = pow(2, (p - 1) // 4, p)
+
+    def xrecover(y):
+        xx = ((y * y - 1) * inv(d * y * y + 1)) % p
+        r = pow(xx, (p + 3) // 8, p)
+        if (r * r - xx) % p != 0:
+            r = (r * I) % p
+        if (r * r - xx) % p != 0:
+            return None
+        if r & 1:
+            r = p - r
+        return r
+
+    By = (4 * inv(5)) % p
+    B = (xrecover(By), By)
+
+    def oncurve(P):
+        x0, y0 = P
+        return (-x0 * x0 + y0 * y0 - 1 - d * x0 * x0 * y0 * y0) % p == 0
+
+    def decode(s):
+        if len(s) != 32:
+            return None
+        y = int.from_bytes(s, "little") & ((1 << 255) - 1)
+        if y >= p:
+            return None
+        x0 = xrecover(y)
+        if x0 is None:
+            return None
+        if (x0 & 1) != (s[31] >> 7):
+            x0 = p - x0
+        P = (x0, y)
+        return P if oncurve(P) else None
+
+    def add(P, Q):
+        x1, y1 = P
+        x2, y2 = Q
+        z = (d * x1 * x2 * y1 * y2) % p
+        return (
+            ((x1 * y2 + x2 * y1) * inv(1 + z)) % p,
+            ((y1 * y2 + x1 * x2) * inv(1 - z)) % p,
+        )
+
+    def mul(P, n):
+        R = (0, 1)
+        while n:
+            if n & 1:
+                R = add(R, P)
+            P = add(P, P)
+            n >>= 1
+        return R
+
+    pk = bytes.fromhex(
+        "258090481591eb5dac0333ba13ed160858f03002d07ea48da3a118628ecd51fc"
+    )[::-1]
+    msg = bytes.fromhex("af82")
+
+    A = decode(pk)
+    R = decode(sig[:32])
+    S = int.from_bytes(sig[32:], "little")
+
+    if A is None or R is None or S >= q:
+        return False
+
+    h = int.from_bytes(hashlib.sha512(sig[:32] + pk + msg).digest(), "little") % q
+
+    return mul(B, S) == add(R, mul(A, h))
+```
+
+
+This puzzle verifies whether the reversed hexadecimal input is a valid Ed25519 signature for a fixed public key and fixed message. Finding a satisfying input without the corresponding signing key should be equivalent to forging an Ed25519 signature.
+
+SOLUTION: "0ac41eeacebe27c08dd26e71e9157c4a59c64d9860f767ae90f2168d539bff18acc35adbd780365e443a7484a248e50ca301be3a9ce627480224ecde57d69162" 
+Checking sample solution  "0ac41eeacebe27c08dd26e71e9157c4a59c64d9860f767ae90f2168d539bff18acc35adbd780365e443a7484a248e50ca301be3a9ce627480224ecde57d69162"
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says "4ba3e9d5c2f178a0b9e8d7c6f5a4b3e2c1d0f9e8d7c6b5a4938271e0f5d4c3b2a1f0e9d8c7b6a5f4e3d2c1b0a9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c3b2a1f0e9d8c7b6a5f4e3d2c1b0a9f8e7d6c5b4a3f2". Checking.
+Failure!
+New score after this turn: 4 (4-0) vs -2 (0-2)
+  gpt-5.5 (inventer): 2,182 in / 9,667 out
+  grok-4-fast-reasoning (solver): 988 in / 20,886 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str or len(x) != 43:
+        return False
+
+    import hashlib
+
+    return hashlib.sha256(x.encode()).hexdigest() == "f2ca1bb6c7e907d06dafe4687e579fce76b37e4e93b7605022da52e6ccc26fd2"
+```
+This puzzle requires finding a specific 43-character string whose SHA-256 hash matches the hardcoded value. SHA-256 is designed to be a one-way function, making preimage attacks computationally infeasible. The input space for 43-character strings (even restricted to printable ASCII) is astronomically large (over 95^43 possibilities), rendering brute-force searches impossible on standard hardware. Specialized cryptanalytic attacks are not known to be effective against SHA-256 for preimage recovery.
+
+SOLUTION: The quick brown fox jumps over the lazy dog 
+Checking sample solution  The quick brown fox jumps over the lazy dog
+RuntimeError while checking sample -- penalizing!
+Error: Error running mystery():
+  File "<stdin>", line 14
+    result = mystery(The quick brown fox jumps over the lazy dog)
+                     ^^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 4 (4-0) vs -3 (0-3)
+  grok-4-fast-reasoning (inventer): 3,192 in / 11,253 out
+Turn 0: gpt-5.5 vs grok-4-fast-reasoning - 733 in / 23,321 out (?) [failure-ex]
+Turn 1: grok-4-fast-reasoning vs gpt-5.5 - 840 in / 6,751 out (?) [success]
+Turn 2: gpt-5.5 vs grok-4-fast-reasoning - 1,010 in / 46,109 out (?) [failure]
+Turn 3: grok-4-fast-reasoning vs gpt-5.5 - 1,129 in / 17,332 out (?) [success]
+Turn 4: gpt-5.5 vs grok-4-fast-reasoning - 1,298 in / 34,688 out (?) [success]
+Turn 5: grok-4-fast-reasoning vs gpt-5.5 - 1,292 in / 20,518 out (?) [puzzle-wrong]
+Turn 6: gpt-5.5 vs grok-4-fast-reasoning - 2,237 in / 55,403 out (?) [failure]
+Turn 7: grok-4-fast-reasoning vs gpt-5.5 - 2,246 in / 13,429 out (?) [puzzle-wrong]
+Turn 8: gpt-5.5 vs grok-4-fast-reasoning - 3,170 in / 30,553 out (?) [failure]
+Turn 9: grok-4-fast-reasoning vs gpt-5.5 - 3,192 in / 11,253 out (?) [puzzle-wrong-ex]
+gpt-5.5: 5,697 in / 72,737 out
+grok-4-fast-reasoning: 11,450 in / 186,620 out
+gpt-5.5 ./. grok-4-fast-reasoning     (4-0) vs (0-3)     [0 failed, see runs/classic/gpt-5.5_vs_grok-4-fast-reasoning.log]

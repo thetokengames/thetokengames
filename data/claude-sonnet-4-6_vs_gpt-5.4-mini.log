@@ -1,0 +1,427 @@
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+        s = str(n)
+        if len(s) < 3:
+            return False
+        t = sum(int(s[i]) ** (i + 1) for i in range(len(s)))
+        if t != n:
+            return False
+        q = sum(int(c) for c in s)
+        return q > 1 and all(q % j != 0 for j in range(2, q))
+    except:
+        return False
+```
+
+---
+
+**Private explanation (solver cannot see this):**
+
+The function checks two conditions on an integer `n`:
+
+1. **PDDI (Perfect Digit-to-Digit Invariant):** Each digit of `n`, raised to the power of its 1-indexed position, must sum to `n` itself. For example, for a 3-digit number `ABC`: `A^1 + B^2 + C^3 = n`. This is computed by `t`.
+
+2. **Prime digit sum:** The sum of digits of `n` must be prime. This is checked by `q > 1 and all(q % j != 0 for j in range(2, q))`.
+
+The only PDDI number with 3+ digits that also has a prime digit sum is **175**:
+- `1^1 + 7^2 + 5^3 = 1 + 49 + 125 = 175` ✓
+- digit sum = `1 + 7 + 5 = 13`, which is prime ✓
+
+Other PDDI numbers (135, 518, 598, 1306, 1676, 2427, ...) all have non-prime digit sums (9, 14, 22, 10, 20, 15, ...).
+
+SOLUTION: 175 
+Checking sample solution  175
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 175. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 395 in / 11,943 out
+  gpt-5.4-mini (solver): 210 in / 1,327 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        s = str(x)
+        if len(s) != 6 or any(not ('a' <= c <= 'z') for c in s):
+            return False
+
+        n = [ord(c) - 97 for c in s]
+        p = [n[(11 * i + 1) % 6] for i in range(6)]
+        q = [((p[i] * 7 + 13) % 26) for i in range(6)]
+        r = [q[5 - i] ^ ((i << 1) + i + 9) for i in range(6)]
+
+        return bytes(r) == b"\x04\x0e\x1f\x14\x00\x0f"
+    except:
+        return False
+```
+
+The function only accepts a 6-letter lowercase string. It permutes the letters, applies an affine map mod 26, reverses them, xors with a small position-dependent mask, and checks against a byte signature.
+
+SOLUTION: "quartz" 
+Checking sample solution  "quartz"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "quartz". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 485 in / 13,794 out
+  claude-sonnet-4-6 (solver): 334 in / 3,538 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+        s = str(n)
+
+        if len(s) != 6 or s[0] == '0':
+            return False
+
+        d = [int(c) for c in s]
+
+        # Check 1
+        if s != s[::-1]:
+            return False
+
+        # Check 2
+        if sum(d) != 36:
+            return False
+
+        # Check 3
+        rots = [int(s[i:] + s[:i]) for i in range(6)]
+        if len({v % 37 for v in rots}) != 1:
+            return False
+
+        # Check 4
+        if len(set(d)) < 3:
+            return False
+
+        return True
+    except:
+        return False
+```
+
+This puzzle involves a 6-digit number that must satisfy four conditions simultaneously. The conditions interact in a mathematically non-obvious way — in particular, Check 3 involves rotating the digits of the number through all cyclic shifts and examining remainders under division by 37. There's a deep reason why certain numbers satisfy this property, related to the factorization of a specific repunit. Check 4 ensures the trivial "all same digit" solution is excluded. Good luck!
+
+SOLUTION: 369963 
+Checking sample solution  369963
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 369963. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,103 in / 35,204 out
+  gpt-5.4-mini (solver): 273 in / 2,963 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        s = str(x)
+        if len(s) != 7 or any(not ('0' <= ch <= '9') for ch in s) or s[0] == '0':
+            return False
+
+        d = [ord(ch) - 48 for ch in s]
+
+        if sum(d) * 3 + d[0] != 95:
+            return False
+        if d[1] - d[6] != 7:
+            return False
+
+        a = [(d[(3 * i + 2) % 7] + i * i + 4) % 10 for i in range(7)]
+        b = [(a[(i + 3) % 7] * 7 + 1) % 10 for i in range(7)]
+        c = [b[6 - i] ^ (i % 3 + 1) for i in range(7)]
+
+        return bytes(c) == b"\x02\x05\x00\t\x01\x05\x01"
+    except:
+        return False
+```
+
+This puzzle accepts only a 7-digit decimal input, then hides the real condition behind a few checksum filters, a modular index permutation, an affine digit map, and a final XOR-based byte signature check.
+
+SOLUTION: 5827431 
+Checking sample solution  5827431
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 5827431. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 938 in / 12,056 out
+  claude-sonnet-4-6 (solver): 401 in / 4,256 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        s = str(x)
+        if len(s) != 9 or any(c not in 'abcdefghijklmnopqrstuvwxyz' for c in s):
+            return False
+
+        n = [ord(c) - 97 for c in s]
+
+        # Non-linear substitution table (a permutation of 0-25)
+        S = [6, 11, 20, 3, 17, 8, 25, 1, 14, 22, 5, 18, 0, 9, 24, 13, 7, 21, 16, 2, 15, 10, 19, 23, 4, 12]
+
+        # Simultaneous non-linear mixing: each output depends on 4 inputs
+        m = [(S[(n[i] + n[(i+1)%9]) % 26] + n[(i+2)%9] * n[(i+4)%9]) % 26 for i in range(9)]
+
+        # Permutation
+        perm = [7, 2, 5, 0, 8, 3, 6, 1, 4]
+        p = [m[perm[i]] for i in range(9)]
+
+        # XOR with key
+        key = [19, 4, 11, 8, 22, 1, 15, 7, 3]
+        r = [p[i] ^ key[i] for i in range(9)]
+
+        return bytes(r) == b'\x1b\x02\x08\x00\x14\x0c\x0b\x12\x0d'
+    except:
+        return False
+```
+
+The puzzle requires finding a 9-character lowercase string. The core difficulty lies in inverting the **simultaneous non-linear mixing step**: each of the 9 output values `m[i]` depends on *four* input values — `n[i]`, `n[(i+1)%9]`, `n[(i+2)%9]`, and `n[(i+4)%9]` — combined via a non-linear S-box lookup and a modular product. This circular, simultaneous dependency makes propagation-based inversion very hard. With 26⁹ ≈ 5.4×10¹² possible inputs, brute force is also infeasible.
+
+SOLUTION: "beautiful" 
+Checking sample solution  "beautiful"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        s = str(x)
+        if len(s) != 8 or any(not ('a' <= c <= 'z') for c in s):
+            return False
+
+        n = [ord(c) - 97 for c in s]
+        p = [n[i // 2 + (i % 2) * 4] for i in range(8)]
+        q = [(p[i] * 5 + i * 7 + 4) % 26 for i in range(8)]
+        r = [q[i] ^ q[(i * 3 + 1) % 8] for i in range(8)]
+
+        return bytes(r) == b"\x02\x1b\x12\x02\x0d\x14\x0f\x1f"
+    except:
+        return False
+```
+
+This puzzle takes an 8-character lowercase string and runs it through three layers of transformation:
+
+1. **Interleave**: The characters are reindexed by interleaving the first and second halves of the string (even indices map to the first half, odd indices to the second half).
+2. **Affine mix**: Each reindexed value is multiplied by 5, then offset by a position-dependent term, taken mod 26.
+3. **XOR scatter**: Each value is XORed with a non-adjacent value selected by the index formula `(i * 3 + 1) % 8`, which creates a non-obvious mixing pattern.
+
+The result must match a specific byte string. The interleaving in step 1 makes the positional structure non-trivial to invert, and the XOR in step 3 further obscures the relationship between input characters and output bytes.
+
+SOLUTION: "township" 
+Checking sample solution  "township"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "umjjtlrt". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,749 in / 29,971 out
+  gpt-5.4-mini (solver): 282 in / 3,131 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        s = str(x)
+        if len(s) != 10 or any(not ('a' <= c <= 'z') for c in s):
+            return False
+
+        a = [ord(c) - 97 for c in s]
+
+        # A few easy-to-miss consistency checks
+        if sum(a) != 135:
+            return False
+        if sum((i + 1) * a[i] for i in range(10)) != 569:
+            return False
+        if (a[0] ^ a[3] ^ a[5] ^ a[9]) != 23:
+            return False
+
+        # Obfuscated transform chain
+        p = [a[(3 * i + 1) % 10] for i in range(10)]
+        q = [(p[i] * 11 + i * i + 5) % 26 for i in range(10)]
+        r = [q[i] ^ ((q[(i - 1) % 10] + 7 * i) & 31) for i in range(10)]
+
+        return bytes(r) == b"\x1b\x1f\x1c\x16\x04\x16\x07\x0b\x1c\x0f"
+    except:
+        return False
+```
+
+This one is a 10-letter lowercase puzzle with a couple of checksum gates, followed by a permutation, an affine scramble, and a neighbor-dependent XOR stage before the final byte comparison.
+
+SOLUTION: "quartzlamp" 
+Checking sample solution  "quartzlamp"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gpt-5.4-mini (inventer): 1,457 in / 10,691 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        s = str(x)
+        if len(s) != 6 or any(not ('a' <= c <= 'z') for c in s):
+            return False
+
+        a = [ord(c) - 97 for c in s]
+
+        if sum(a) != 64:
+            return False
+        if sum((i + 1) * a[i] for i in range(6)) != 246:
+            return False
+
+        perm = [3, 0, 5, 2, 1, 4]
+        p = [a[perm[i]] for i in range(6)]
+
+        q = [(p[i] * 9 + i * 5 + 3) % 26 for i in range(6)]
+
+        r = [q[i] ^ q[(i + 2) % 6] for i in range(6)]
+
+        return bytes(r) == b"\x07\x1c\x0b\x0a\x0c\x16"
+    except:
+        return False
+```
+
+This puzzle requires a 6-character lowercase string passing through multiple layers:
+
+1. **Two linear filters** — the plain digit-sum and a weighted digit-sum must both hit specific targets, filtering the vast majority of inputs early.
+2. **Positional permutation** — characters are reindexed by a fixed non-sequential permutation `[3, 0, 5, 2, 1, 4]`, scrambling position-to-character correspondence.
+3. **Affine transform mod 26** — each permuted value is multiplied by 9 and mixed with a position-dependent offset, taken mod 26.
+4. **XOR scatter** — each transformed value is XORed with the value two positions ahead (mod 6), creating two interleaved dependency cycles.
+
+The final result must match a specific 6-byte target. The XOR step in particular creates non-local dependencies that are tricky to invert without understanding the cycle structure.
+
+SOLUTION: "shadow" 
+Checking sample solution  "shadow"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "shadow". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  claude-sonnet-4-6 (inventer): 2,574 in / 9,212 out
+  gpt-5.4-mini (solver): 326 in / 8,674 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        s = str(x)
+        if len(s) != 9 or any(not ('a' <= c <= 'z') for c in s):
+            return False
+
+        a = [ord(c) - 97 for c in s]
+
+        if sum(a) != 108:
+            return False
+        if sum((i + 1) * a[i] for i in range(9)) != 607:
+            return False
+        if (a[0] ^ a[4] ^ a[8]) != 29:
+            return False
+
+        p = [a[(4 * i + 2) % 9] for i in range(9)]
+        q = [((p[i] * 7 + i * i + 11) % 26) for i in range(9)]
+        r = [q[(i + 3) % 9] ^ ((q[i - 1] + 5 * i + 9) & 31) for i in range(9)]
+
+        return bytes(r) == b"\x1a\x0b\x08\x1e\x0c\x00\x07\x14\x15"
+    except:
+        return False
+```
+
+A 9-letter lowercase puzzle with a couple of checksum gates, then a permutation, a modular scramble, and a final XOR/byte-signature comparison.
+
+SOLUTION: "blueprint" 
+Checking sample solution  "blueprint"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "blueprint". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gpt-5.4-mini (inventer): 2,069 in / 9,283 out
+  claude-sonnet-4-6 (solver): 433 in / 10,414 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        s = str(x)
+        if len(s) != 8 or any(not ('a' <= c <= 'z') for c in s):
+            return False
+
+        a = [ord(c) - 97 for c in s]
+
+        if sum(a) != 94:
+            return False
+
+        if sum((i + 1) * a[i] for i in range(8)) != 330:
+            return False
+
+        perm = [2, 5, 0, 7, 3, 1, 6, 4]
+        p = [a[perm[i]] for i in range(8)]
+
+        q = [(p[i] * 13 + i * 7 + 5) % 26 for i in range(8)]
+
+        r = [q[i] ^ q[(i * 5 + 3) % 8] for i in range(8)]
+
+        return bytes(r) == b"\x08\x09\x1d\x1e\x16\x1a\x19\x17"
+    except:
+        return False
+```
+
+This puzzle requires an 8-character lowercase string passing through several layers:
+
+1. **Two linear filters** — a plain sum and a position-weighted sum must hit exact targets, filtering nearly all candidates upfront.
+2. **Positional permutation** — characters are reindexed by a non-trivial permutation `[2, 5, 0, 7, 3, 1, 6, 4]`.
+3. **Non-invertible affine transform** — each permuted value is scaled by 13 (note: gcd(13, 26) = 13, so this transform is *not* invertible mod 26) with a position-dependent offset, taken mod 26.
+4. **XOR scatter** — each value is XORed against another value selected by `(i * 5 + 3) % 8`, which forms a single 8-cycle — meaning a clever solver needs to work around the full cycle to recover intermediate values.
+
+The non-invertibility of the ×13 step is the key subtlety: you cannot simply reverse the affine layer algebraically, making brute-force-by-inversion significantly harder.
+
+SOLUTION: "mystical" 
+Checking sample solution  "mystical"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "yyghiimf". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  claude-sonnet-4-6 (inventer): 3,429 in / 12,816 out
+  gpt-5.4-mini (solver): 338 in / 7,457 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        s = str(x)
+        if len(s) != 11 or any(not ('a' <= c <= 'z') for c in s):
+            return False
+
+        a = [ord(c) - 97 for c in s]
+
+        if sum(a) != 172:
+            return False
+        if sum((i + 1) * a[i] for i in range(11)) != 1016:
+            return False
+        if sum(a[::2]) != 98:
+            return False
+        if (a[1] ^ a[4] ^ a[9]) != 7:
+            return False
+
+        p = [a[(4 * i + 1) % 11] for i in range(11)]
+        q = [((7 * p[i] + 3 * p[i - 1] + i * i + 4) % 26) for i in range(11)]
+        r = bytes((q[10 - i] ^ (11 * i + 5)) & 31 for i in range(11))
+
+        return r == b"\x12\x19\x14\x1f\x05\x19\x13\x18\x0e\x11\x11"
+    except:
+        return False
+```
+
+This one is an 11-letter lowercase puzzle. It starts with a few checksum-style gates, then permutes the letters through a modular shuffle, mixes each position with its predecessor using an affine rule mod 26, and finally xors the result against a position-dependent mask before comparing to a byte signature.
+
+SOLUTION: "qjvpmzrxnct" 
+Checking sample solution  "qjvpmzrxnct"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "qjvpmzrxnct". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gpt-5.4-mini (inventer): 2,663 in / 11,692 out
+  claude-sonnet-4-6 (solver): 452 in / 32,296 out
+Turn 0: claude-sonnet-4-6 vs gpt-5.4-mini - 605 in / 13,270 out (?) [success]
+Turn 1: gpt-5.4-mini vs claude-sonnet-4-6 - 819 in / 17,332 out (?) [success]
+Turn 2: claude-sonnet-4-6 vs gpt-5.4-mini - 1,376 in / 38,167 out (?) [success]
+Turn 3: gpt-5.4-mini vs claude-sonnet-4-6 - 1,339 in / 16,312 out (?) [success]
+Turn 4: claude-sonnet-4-6 vs gpt-5.4-mini - 2,031 in / 33,102 out (?) [success]
+Turn 5: gpt-5.4-mini vs claude-sonnet-4-6 - 1,457 in / 10,691 out (?) [puzzle-wrong]
+Turn 6: claude-sonnet-4-6 vs gpt-5.4-mini - 2,900 in / 17,886 out (?) [success]
+Turn 7: gpt-5.4-mini vs claude-sonnet-4-6 - 2,502 in / 19,697 out (?) [success]
+Turn 8: claude-sonnet-4-6 vs gpt-5.4-mini - 3,767 in / 20,273 out (?) [success]
+Turn 9: gpt-5.4-mini vs claude-sonnet-4-6 - 3,115 in / 43,988 out (?) [success]
+claude-sonnet-4-6: 12,619 in / 177,054 out
+gpt-5.4-mini: 104,662 in / 81,910 out
+claude-sonnet-4-6 ./. gpt-5.4-mini     (0-0) vs (0-1)     [1 failed, see runs/classic/claude-sonnet-4-6_vs_gpt-5.4-mini.log]

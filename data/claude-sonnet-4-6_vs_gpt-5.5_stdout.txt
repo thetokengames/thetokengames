@@ -1,0 +1,599 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+        if n <= 1: return False
+        import math
+        v = 5 * n * n
+        a, b = math.isqrt(v + 4), math.isqrt(v - 4)
+        if not (a * a == v + 4 or b * b == v - 4): return False
+        if not (999 < n < 10000): return False
+        s = sum(int(c) for c in str(n))
+        return s > 1 and not any(s % k == 0 for k in range(2, s))
+    except:
+        return False
+```
+
+**Puzzle explanation (private):**
+
+The function checks three layered conditions:
+1. **Fibonacci identity test**: The well-known number-theory result that `n` is a Fibonacci number if and only if `5n²+4` or `5n²-4` is a perfect square.
+2. **4-digit constraint**: `n` must be strictly between 999 and 10000.
+3. **Prime digit sum**: The sum of `n`'s digits must itself be prime.
+
+The four 4-digit Fibonacci numbers are: 1597, 2584, 4181, 6765.
+- 1597 → digit sum = 22 = 2×11 (not prime) ✗  
+- 2584 → digit sum = 19 (prime!) ✓  
+- 4181 → digit sum = 14 = 2×7 (not prime) ✗  
+- 6765 → digit sum = 24 = 2³×3 (not prime) ✗  
+
+Only **2584** passes all three conditions, making it the unique solution.
+
+Verification: `5×2584²+4 = 33,385,284 = 5778²` ✓, `2+5+8+4 = 19` (prime) ✓
+
+SOLUTION: 2584 
+Checking sample solution  2584
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 2584. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 395 in / 18,212 out
+  gpt-5.5 (solver): 246 in / 429 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        import hashlib
+
+        if type(x) not in (str, int, float):
+            return False
+
+        s = str(x)
+
+        if len(s) != 44:
+            return False
+        if any(not (32 <= ord(c) <= 126) for c in s):
+            return False
+        if s.count(" ") != 8 or s.count(".") != 1:
+            return False
+        if sorted(map(len, s.split(" "))) != [3, 3, 3, 4, 4, 4, 5, 5, 5]:
+            return False
+
+        a = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+        b = "NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm"
+        y = s[::-1].translate(str.maketrans(b, a))
+
+        pieces = (
+            "aa631564d5d789c2",
+            "b765448c8635fb6c",
+            "82526529a9b63d97",
+            "ef537f25c895bfa7",
+        )
+        target = "".join(pieces[i] for i in (3, 2, 0, 1))
+
+        return hashlib.sha256(y.encode("utf-8")).hexdigest() == target
+    except Exception:
+        return False
+```
+
+The input is constrained to a specific printable shape, then reversed and passed through a ROT13-like substitution. The resulting string is checked only by a rearranged SHA-256 digest.
+
+SOLUTION: ".tbq lmny rug erib fczhw kbs ajbeo xpvhd ruG" 
+Checking sample solution  ".tbq lmny rug erib fczhw kbs ajbeo xpvhd ruG"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says ".tbq lmny rug erib fczhw kbs ajbeo xpvhd ruG". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 521 in / 13,299 out
+  claude-sonnet-4-6 (solver): 526 in / 10,687 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        import math
+
+        n = int(x)
+
+        if len(str(n)) != 5:
+            return False
+
+        def _p(k):
+            if k < 2: return False
+            return not any(k % j == 0 for j in range(2, math.isqrt(k) + 1))
+
+        root = math.isqrt(n)
+        if root * root != n or not _p(root):
+            return False
+
+        digits = str(n)
+        if len(set(digits)) < 5:
+            return False
+
+        sigma = lambda s: sum(int(c) for c in s)
+        if not _p(sigma(digits)):
+            return False
+        if not _p(sigma(str(root))):
+            return False
+
+        return any(c == '0' for c in digits)
+
+    except:
+        return False
+```
+
+**Private explanation:**
+
+The function stacks five conditions, each whittling down the search space:
+
+1. **5-digit number** — eliminates everything outside [10000, 99999].
+2. **Perfect square whose root is prime** — `n = p²` where `p` is prime. 5-digit squares of primes: p ∈ [101..316] (primes), yielding ~40 candidates.
+3. **All 5 digits distinct** — reduces to ~11 candidates.
+4. **Digit sum of n is prime** — reduces to ~5.
+5. **Digit sum of root is prime** — reduces to 4.
+6. **Contains digit '0'** — uniquely identifies **39601 = 199²**.
+
+Verification:
+- 199² = 39601 ✓ (5-digit perfect square)
+- 199 is prime ✓
+- Digits {3,9,6,0,1} all distinct ✓
+- Digit sum of 39601: 3+9+6+0+1 = 19 (prime) ✓
+- Digit sum of 199: 1+9+9 = 19 (prime) ✓
+- Contains '0' ✓
+
+SOLUTION: 39601 
+Checking sample solution  39601
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 39601. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,337 in / 12,195 out
+  gpt-5.5 (solver): 287 in / 1,040 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if isinstance(x, bool):
+            return False
+
+        if isinstance(x, int):
+            z = int(x)
+        elif isinstance(x, str):
+            if not x or len(x) > 7000:
+                return False
+            if any(c < "0" or c > "9" for c in x):
+                return False
+            z = int(x)
+        else:
+            return False
+
+        a = ((1 << 10) | (1 << 8)) - 1
+        b = a * ((a & 31) ^ 15)
+
+        mask = (1 << (b - (a >> 1))) | (1 << ((a << 1) + 11)) | 0x5F3759DF
+        y = z ^ mask
+
+        N = (
+            (1 << (a + b)) - (1 << b)
+            + (1 << (12 * a)) - (1 << (11 * a))
+            + (1 << (8 * a)) - (1 << (7 * a)) - (1 << (6 * a))
+            + (1 << (5 * a)) + (1 << (4 * a)) - (1 << (3 * a))
+            - (1 << ((a << 1) + 1)) + (3 << a) - 1
+        )
+
+        if not (1 < y < N - 1):
+            return False
+        if not (b < y.bit_length() < a + b):
+            return False
+        if y & 1:
+            return False
+
+        return pow(y, 2, N) == 1
+    except Exception:
+        return False
+```
+
+The input is first XOR-masked. Internally, with `t = 2**1279`, the modulus is an expanded product:
+
+`N = (t - 1) * (t**16 + t**11 + t**7 - t**5 + t**3 - 2*t + 1)`.
+
+The unmasked sample is one less than the second factor, so it is `-1` modulo that factor and `1` modulo `t - 1`.
+
+SOLUTION: ((1 << 20464) + (1 << 14069) + (1 << 8953) - (1 << 6395) + (1 << 3837) - (1 << 1280)) ^ ((1 << 19825) | (1 << 2569) | 0x5F3759DF) 
+Checking sample solution  ((1 << 20464) + (1 << 14069) + (1 << 8953) - (1 << 6395) + (1 << 3837) - (1 << 1280)) ^ ((1 << 19825) | (1 << 2569) | 0x5F3759DF)
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says ((1 << 20464) + (1 << 14069) + (1 << 8953) - (1 << 6395) + (1 << 3837) - (1 << 1280)) ^ ((1 << 19825) | (1 << 2569) | 0x5F3759DF). Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 32,352 in / 6,052 out
+  claude-sonnet-4-6 (solver): 558 in / 23,362 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        import math
+
+        n = int(x)
+        s = str(n)
+        k = len(s)
+
+        if k != 5:
+            return False
+
+        d = [int(c) for c in s]
+
+        # Check 1
+        if sum(1 for i in range(k) for j in range(i + 1, k) if d[i] != d[j]) != k * (k - 1) // 2:
+            return False
+
+        # Check 2
+        sm = sum(d)
+        if sm < 2 or any(sm % q == 0 for q in range(2, sm)):
+            return False
+
+        # Check 3
+        seq = d[:]
+        while seq[-1] < n:
+            seq.append(sum(seq[-k:]))
+            if len(seq) > 10 ** 4:
+                return False
+
+        return seq[-1] == n
+
+    except Exception:
+        return False
+```
+
+**Puzzle explanation (private):**
+
+Three layered conditions:
+
+1. **Check 1** — All 5 digits of `n` must be distinct. The condition counts pairs `(i, j)` with `i < j` where `d[i] ≠ d[j]`; if all digits are distinct, this equals `k*(k-1)/2 = 10`.
+
+2. **Check 2** — The digit sum `sm` must be prime (checked by trial division).
+
+3. **Check 3** — `n` must be a **Keith number** (a.k.a. *repfigit*): build a linear recurrence starting from the digits of `n`, each new term = sum of the previous 5 terms; `n` must eventually appear in this sequence.
+
+The 5-digit Keith numbers are: 31331, 34285, 34348, 55604, 62662, **86935**, 93993.
+- 31331: repeated digits → fails Check 1
+- 34285: digit sum 22 → fails Check 2
+- 34348: repeated digits, digit sum 22 → fails both
+- 55604: repeated 5, digit sum 20 → fails both
+- 62662: repeated digits, digit sum 22 → fails both
+- **86935**: digits {8,6,9,3,5} all distinct ✓; digit sum 31 (prime) ✓; Keith sequence: 8,6,9,3,5,31,54,102,195,387,769,1507,2960,5818,11441,22495,44221,**86935** ✓
+- 93993: repeated digits, digit sum 33 → fails both
+
+SOLUTION: 86935 
+Checking sample solution  86935
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 86935. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 2,360 in / 17,815 out
+  gpt-5.5 (solver): 311 in / 1,033 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        import hashlib
+
+        if not isinstance(x, str):
+            return False
+        if len(x) != 24:
+            return False
+        if not all(("A" <= c <= "Z") or ("a" <= c <= "z") for c in x):
+            return False
+
+        lo = "abcdefghijklmnopqrstuvwxyz"
+        hi = lo.upper()
+        y = x.translate(str.maketrans(lo + hi, lo[::-1] + hi[::-1]))
+
+        if y[:8].lower() != y[:8]:
+            return False
+        if y[8:16].upper() != y[8:16]:
+            return False
+        if y[16:].lower() != y[16:]:
+            return False
+
+        salt = ("saltSALT" * 4 + "salt").encode("ascii")
+        dk = hashlib.pbkdf2_hmac("sha1", y.encode("ascii"), salt, 4096, 25).hex()
+
+        pieces = (
+            "62c0e44a8b291a96",
+            "4cf2f07038",
+            "e41c849b80c8d836",
+            "3d2eec4f",
+        )
+        target = pieces[3] + pieces[2] + pieces[0] + pieces[1]
+
+        return dk == target
+    except Exception:
+        return False
+```
+
+This puzzle hides the accepted value behind an Atbash-style substitution and a PBKDF2-HMAC-SHA1 check with a rearranged derived-key target.
+
+SOLUTION: "kzhhdliwKZHHDLIWkzhhdliw" 
+Checking sample solution  "kzhhdliwKZHHDLIWkzhhdliw"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "kzhhdliwKZHHDLIWkzhhdliw". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 1,831 in / 10,717 out
+  claude-sonnet-4-6 (solver): 487 in / 4,571 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        import math
+
+        n = int(x)
+        s = str(n)
+
+        # Must be exactly 6 digits
+        if len(s) != 6:
+            return False
+
+        # n must be a triangular number T_k = k*(k+1)//2
+        disc = 1 + 8 * n
+        sq = math.isqrt(disc)
+        if sq * sq != disc or (sq - 1) % 2 != 0:
+            return False
+        k = (sq - 1) // 2
+        if k * (k + 1) // 2 != n:
+            return False
+
+        def is_prime(m):
+            if m < 2: return False
+            if m == 2: return True
+            if m % 2 == 0: return False
+            for i in range(3, math.isqrt(m) + 1, 2):
+                if m % i == 0: return False
+            return True
+
+        # The triangular index k must be prime
+        if not is_prime(k):
+            return False
+
+        # All 6 digits of n must be distinct
+        if len(set(s)) != 6:
+            return False
+
+        # Digit sum of n must be prime
+        ds_n = sum(int(c) for c in s)
+        if not is_prime(ds_n):
+            return False
+
+        # Digit sum of k must also be prime
+        ds_k = sum(int(c) for c in str(k))
+        if not is_prime(ds_k):
+            return False
+
+        return True
+
+    except:
+        return False
+```
+
+This puzzle layers five conditions that together pinpoint a unique 6-digit number:
+
+1. **Triangular number**: `n = k*(k+1)/2` for some integer `k` (verified via perfect-square discriminant test).
+2. **Prime index**: `k` (the triangular index) must itself be prime.
+3. **All digits distinct**: all 6 digits of `n` must be different.
+4. **Prime digit sum of n**: the sum of `n`'s digits must be prime.
+5. **Prime digit sum of k**: the sum of `k`'s digits must also be prime.
+
+Each condition dramatically narrows the search space, and together they leave essentially one solution in the 6-digit range.
+
+SOLUTION: 534061 
+Checking sample solution  534061
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 534061. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 3,443 in / 32,083 out
+  gpt-5.5 (solver): 451 in / 6,237 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if type(x) is int:
+            n = x
+        elif type(x) is str:
+            if not (0 < len(x) <= 220):
+                return False
+            if x[0] == "0" or any(c < "0" or c > "9" for c in x):
+                return False
+            n = int(x)
+        else:
+            return False
+
+        if n <= 0:
+            return False
+
+        y = n + 1
+
+        if y.bit_length() != 521 or not (y & 1):
+            return False
+
+        def pack(*terms):
+            return sum(s * (1 << e) for e, s in terms)
+
+        a = pack(
+            (1254, 1), (910, 1), (618, 1), (521, 1),
+            (733, -1), (389, -1), (97, -1),
+        ) - 1
+
+        b = pack(
+            (1987, 1), (1644, 1), (1352, 1), (1299, 1), (1255, 1),
+            (1008, 1), (911, 1), (715, 1), (619, 1), (522, 1),
+            (1466, -1), (1123, -1), (831, -1), (778, -1), (734, -1),
+            (487, -1), (390, -1), (194, -1), (98, -1),
+        ) - 2
+
+        if a % y != 0 or b % y != 0:
+            return False
+
+        u = a // y
+        v = b // y
+
+        return u * u + 1 == v
+    except Exception:
+        return False
+```
+
+The puzzle hides a shifted factor. Let P = 2^521 - 1 and R = 2^733 + 2^389 + 2^97 + 1. The first large packed value is P·R, and the second is P·(R² + 1). Since the input is incremented before testing, choosing x = P - 1 makes y = P, so the quotients become R and R² + 1.
+
+SOLUTION: 6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057150 
+Checking sample solution  6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057150
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 2**521 - 2. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 2,577 in / 23,870 out
+  claude-sonnet-4-6 (solver): 573 in / 5,778 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+        s = str(n)
+
+        if len(s) != 8:
+            return False
+
+        def check(m):
+            if m < 2:
+                return False
+            b = bin(m)[2:]
+            i = 0
+            while i < len(b) and b[i] == '1':
+                i += 1
+            if i == 0 or i >= len(b):
+                return False
+            if any(c != '0' for c in b[i:]):
+                return False
+            return len(b) - i == i - 1
+
+        if not check(n):
+            return False
+
+        ds = sum(int(c) for c in s)
+        return check(ds)
+
+    except:
+        return False
+```
+
+**Explanation of the puzzle:**
+
+The `check(m)` function verifies that `m` has a binary representation of the form `1ᵏ 0^(k−1)` — that is, exactly *k* leading ones followed by exactly *k−1* trailing zeros, with nothing else. This means `m = 2^(k−1) · (2^k − 1)`.
+
+Both the 8-digit number `n` itself, and the sum of its decimal digits, must satisfy this binary pattern.
+
+For an 8-digit number to satisfy `check`, we need `k = 13`: this gives `2^12 · (2^13 − 1) = 4096 · 8191 = 33550336` (the only 8-digit value with this form). Its digit sum is `3+3+5+5+0+3+3+6 = 28 = 11100₂`, which is `1³ 0²` — satisfying `check(28)` as well (k=3, 2 trailing zeros = 3−1 ✓).
+
+The binary structure `1ᵏ 0^(k−1)` is precisely the form of even perfect numbers (Euler's theorem), making this an oblique double perfect-number check: `n` itself must be an even perfect number, and so must its digit sum.
+
+SOLUTION: 33550336 
+Checking sample solution  33550336
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 33550336. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 4,537 in / 12,417 out
+  gpt-5.5 (solver): 269 in / 1,074 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if type(x) is not str:
+            return False
+        if len(x) != 64 or any(c not in "0123456789abcdef" for c in x):
+            return False
+
+        p = (1 << 255) - 19
+
+        k = bytearray.fromhex(x)
+        k[0] &= 248
+        k[31] &= 127
+        k[31] |= 64
+        n = int.from_bytes(k, "little")
+
+        x1 = 9
+        x2, z2 = 1, 0
+        x3, z3 = x1, 1
+        swap = 0
+
+        for t in range(254, -1, -1):
+            kt = (n >> t) & 1
+            swap ^= kt
+            if swap:
+                x2, x3 = x3, x2
+                z2, z3 = z3, z2
+            swap = kt
+
+            a = (x2 + z2) % p
+            aa = (a * a) % p
+            b = (x2 - z2) % p
+            bb = (b * b) % p
+            e = (aa - bb) % p
+            c = (x3 + z3) % p
+            d = (x3 - z3) % p
+            da = (d * a) % p
+            cb = (c * b) % p
+
+            x3 = ((da + cb) * (da + cb)) % p
+            z3 = (x1 * (da - cb) * (da - cb)) % p
+            x2 = (aa * bb) % p
+            z2 = (e * (aa + 121665 * e)) % p
+
+        if swap:
+            x2, x3 = x3, x2
+            z2, z3 = z3, z2
+
+        y = (x2 * pow(z2, p - 2, p)) % p
+        h = y.to_bytes(32, "little").hex()
+
+        pieces = (
+            "eba4a98eaa9b4e6a",
+            "0dbf3a0d26381af4",
+            "748b7ddcb43ef75a",
+            "8520f0098930a754",
+        )
+        return h == pieces[3] + pieces[2] + pieces[1] + pieces[0]
+
+    except Exception:
+        return False
+```
+
+This puzzle decodes a 32-byte hexadecimal string as a Curve25519 scalar, clamps it, performs an X25519 Montgomery-ladder scalar multiplication against the standard base point, and checks the resulting public key against a rearranged constant. Finding a solution from the code alone is essentially a Curve25519 discrete-log problem unless the hidden test vector is recognized.
+
+SOLUTION: "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a" 
+Checking sample solution  "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "77076d0a7318a57d3c16c17251b26645dfcd6f6508f3ce4fd7d18cdfe7f8d23b". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  gpt-5.5 (inventer): 3,307 in / 13,103 out
+  claude-sonnet-4-6 (solver): 744 in / 2,062 out
+Logs written to runs/classic/claude-sonnet-4-6_vs_gpt-5.5.log and runs/classic/claude-sonnet-4-6_vs_gpt-5.5.jsonl
+
+=== Token Usage Summary ===
+Turn 0: claude-sonnet-4-6 vs gpt-5.5 - 641 in / 18,641 out (?) [success]
+Turn 1: gpt-5.5 vs claude-sonnet-4-6 - 1,047 in / 23,986 out (?) [success]
+Turn 2: claude-sonnet-4-6 vs gpt-5.5 - 1,624 in / 13,235 out (?) [success]
+Turn 3: gpt-5.5 vs claude-sonnet-4-6 - 32,910 in / 29,414 out (?) [success]
+Turn 4: claude-sonnet-4-6 vs gpt-5.5 - 2,671 in / 18,848 out (?) [success]
+Turn 5: gpt-5.5 vs claude-sonnet-4-6 - 2,318 in / 15,288 out (?) [success]
+Turn 6: claude-sonnet-4-6 vs gpt-5.5 - 3,894 in / 38,320 out (?) [success]
+Turn 7: gpt-5.5 vs claude-sonnet-4-6 - 3,150 in / 29,648 out (?) [success]
+Turn 8: claude-sonnet-4-6 vs gpt-5.5 - 4,806 in / 13,491 out (?) [success]
+Turn 9: gpt-5.5 vs claude-sonnet-4-6 - 4,051 in / 15,165 out (?) [failure]
+
+=== Totals by Model ===
+claude-sonnet-4-6: 14,960 in / 139,182 out
+gpt-5.5: 42,152 in / 76,854 out

@@ -1,0 +1,486 @@
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+        if n <= 1:
+            return False
+        p, q = 1, 1
+        while q < n:
+            p, q = q, p + q
+        if q != n:
+            return False
+        t = 0
+        for i, c in enumerate(str(n)):
+            t += int(c) ** (i + 1)
+        return t % 7 == 0 and t != 0
+    except:
+        return False
+```
+
+**Puzzle explanation:**
+
+This function takes a number `x` and runs it through two sequential checks. First, `n` must pass a certain structural loop test involving variables `p` and `q`. Second, the digits of `n` are processed with positional exponentiation: each digit `d` at index `i` contributes `d^(i+1)` to a running total `t`, and that total must be divisible by 7 (and nonzero).
+
+Both conditions must hold simultaneously. Good luck!
+
+SOLUTION: 610 
+Checking sample solution  610
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 610. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 395 in / 14,581 out
+  grok-4.20-0309-reasoning (solver): 334 in / 1,348 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if not isinstance(x, str):
+            return False
+        if len(x) != 6:
+            return False
+        o = [ord(c) for c in x]
+        if any(not ((65 <= oi <= 90) or (97 <= oi <= 122)) for oi in o):
+            return False
+        if sum(o) % 7 != 3:
+            return False
+        s = 0
+        for i in range(6):
+            s += o[i] * (i + 1)
+        if s != 1885:
+            return False
+        p = 1
+        for oi in o:
+            p = (p * oi) % 10007
+        if p != 5577:
+            return False
+        if x[2].lower() != 'c' or x[0].lower() != x[5].lower():
+            return False
+        return True
+    except:
+        return False
+```
+The function implements multiple interdependent checksums (weighted sum, modular product, modular sum of ordinals) plus positional and character class constraints on a 6-letter string, making it hard to guess or derive the input that satisfies all predicates simultaneously.  
+SOLUTION: "aBcDea" 
+Checking sample solution  "aBcDea"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "aBcDea". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 604 in / 10,583 out
+  claude-sonnet-4-6 (solver): 375 in / 26,324 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+        if n <= 0:
+            return False
+
+        def to_base_k(num, k):
+            if num == 0: return [0]
+            d = []
+            while num > 0:
+                d.append(num % k)
+                num //= k
+            return d
+
+        d3 = to_base_k(n, 3)
+        if len(d3) < 5 or d3 != d3[::-1]:
+            return False
+
+        d7 = to_base_k(n, 7)
+        if len(set(d7)) != len(d7):
+            return False
+
+        dsum = sum(int(c) for c in str(n))
+        if not all(dsum % i != 0 for i in range(2, dsum)):
+            return False
+
+        if not all(n % i != 0 for i in range(2, int(n**0.5) + 1)):
+            return False
+
+        return True
+    except:
+        return False
+```
+
+This puzzle applies four independent checks to a positive integer `n`. Each check examines a different structural or numerical property of `n` — some involving representations in non-standard bases. All four conditions must hold simultaneously for the function to return `True`. Good luck!
+
+SOLUTION: 151 
+Checking sample solution  151
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 151. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 954 in / 23,213 out
+  grok-4.20-0309-reasoning (solver): 437 in / 2,938 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+        if n <= 1:
+            return False
+        if not all(n % i != 0 for i in range(2, int(n**0.5) + 1)):
+            return False
+        def is_happy(num):
+            seen = set()
+            while num != 1 and num not in seen:
+                seen.add(num)
+                num = sum(int(d)**2 for d in str(num))
+            return num == 1
+        if not is_happy(n):
+            return False
+        def to_base(num, k):
+            if num == 0: return [0]
+            d = []
+            while num > 0:
+                d.append(num % k)
+                num //= k
+            return d
+        d2 = to_base(n, 2)
+        if d2 != d2[::-1]:
+            return False
+        d5 = to_base(n, 5)
+        if len(d5) != 3 or sum(d5) != 3:
+            return False
+        dsum = sum(int(c) for c in str(n))
+        if dsum % 3 != 1:
+            return False
+        if len(str(n)) % 2 != 0:
+            return False
+        return True
+    except:
+        return False
+```
+The function requires an integer input satisfying a chain of unrelated number-theoretic properties: primality, being a happy number, binary digit list being palindromic (LSB-first), base-5 representation exactly three digits summing to three, decimal digit sum congruent to 1 mod 3, and even count of decimal digits. The disparate bases, iterative processes, and primality checks make the satisfying values non-obvious and resistant to simple guessing or partial analysis.
+SOLUTION: 31 
+Checking sample solution  31
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 31. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,145 in / 9,413 out
+  claude-sonnet-4-6 (solver): 478 in / 1,006 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        import math
+        n = int(x)
+        if n <= 0:
+            return False
+
+        # Condition 1: n must be a perfect square
+        sq = int(math.isqrt(n))
+        if sq * sq != n:
+            return False
+
+        # Condition 2: the square root of n must be prime
+        p = sq
+        if p < 2:
+            return False
+        if not all(p % i != 0 for i in range(2, int(p**0.5) + 1)):
+            return False
+
+        # Condition 3: n represented in base 8 must be a palindrome
+        d8 = []
+        tmp = n
+        while tmp > 0:
+            d8.append(tmp % 8)
+            tmp //= 8
+        if d8 != d8[::-1]:
+            return False
+
+        # Condition 4: the sum of decimal digits of n must itself be prime
+        ds = sum(int(c) for c in str(n))
+        if ds < 2:
+            return False
+        if not all(ds % i != 0 for i in range(2, int(ds**0.5) + 1)):
+            return False
+
+        return True
+    except:
+        return False
+```
+
+**Puzzle explanation:**
+
+This function applies four independent conditions to a positive integer `n`:
+1. `n` must be a perfect square.
+2. Its square root must be a prime number.
+3. When `n` is written in base 8, the sequence of digits must be a palindrome.
+4. The sum of the base-10 digits of `n` must also be prime.
+
+All four constraints must hold simultaneously. The base-8 palindrome condition is particularly sneaky when combined with the others. Good luck!
+
+SOLUTION: 5329 
+Checking sample solution  5329
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 5329. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,698 in / 14,112 out
+  grok-4.20-0309-reasoning (solver): 495 in / 2,050 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if not isinstance(x, str):
+            return False
+        if len(x) != 5:
+            return False
+        o = [ord(c) for c in x]
+        if any(not (97 <= oi <= 122) for oi in o):
+            return False
+        if sum(o) % 17 != 15:
+            return False
+        s = 0
+        for i in range(5):
+            s += o[i] * (i + 1)
+        if s != 1595:
+            return False
+        p = 1
+        for oi in o:
+            p = (p * oi) % 10007
+        if p != 3884:
+            return False
+        if o[4] - o[0] != 15:
+            return False
+        if o[2] % 4 != 0:
+            return False
+        if sum(oi**2 for oi in o) % 100 != 19:
+            return False
+        if o[4] != o[3] + 13:
+            return False
+        return True
+    except:
+        return False
+```
+The function requires a 5-letter lowercase ASCII string satisfying a system of tightly coupled linear and modular constraints (exact weighted sum, modular factorial-like product, quadratic sum modulo, fixed ordinal differences at endpoints, and additional modular filters on individual positions and the total sum). These interdependent predicates cannot be easily inverted or satisfied by guesswork or local search.  
+SOLUTION: "coder" 
+Checking sample solution  "coder"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "coder". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,859 in / 10,581 out
+  claude-sonnet-4-6 (solver): 419 in / 3,950 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        import math
+        n = int(x)
+        if n <= 3:
+            return False
+
+        r, t = [], n
+        while t:
+            r.append(t % 6)
+            t //= 6
+        if len(r) < 3 or r != r[::-1]:
+            return False
+
+        f, d, m = [], 2, n
+        while d * d <= m:
+            while m % d == 0:
+                f.append(d)
+                m //= d
+            d += 1
+        if m > 1:
+            f.append(m)
+        if len(f) != 2 or f[0] == f[1]:
+            return False
+
+        s = sum(int(c) for c in str(n))
+        q = int(math.isqrt(s))
+        if q * q != s or s <= 1:
+            return False
+
+        if (f[0] + f[1]) % 7 != 0:
+            return False
+
+        if n % 11 != 2:
+            return False
+
+        return True
+    except:
+        return False
+```
+
+This puzzle applies five independent conditions to a positive integer. Each check examines a different structural or arithmetic property of `n` — one involves a non-decimal base representation, one involves prime factorization structure, one involves digit sums, one involves the relationship between the prime factors, and one is a modular constraint. All five must hold simultaneously. Good luck!
+
+SOLUTION: 178 
+Checking sample solution  178
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 178. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 2,499 in / 9,589 out
+  grok-4.20-0309-reasoning (solver): 463 in / 2,087 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if not isinstance(x, str):
+            return False
+        if len(x) != 6:
+            return False
+        o = [ord(c) for c in x]
+        if any(not (97 <= oi <= 122) for oi in o):
+            return False
+        if len(set(o)) != 6:
+            return False
+        if sum(o) % 19 != 9:
+            return False
+        s = 0
+        for i in range(6):
+            s += o[i] * (i + 1)
+        if s != 2333:
+            return False
+        p = 1
+        for oi in o:
+            p = (p * oi) % 10007
+        if p != 1969:
+            return False
+        if (o[0] * o[5]) % 17 != 12:
+            return False
+        if o[4] - o[3] != 7:
+            return False
+        if sum(oi**2 for oi in o) % 100 != 78:
+            return False
+        if o[1] % 11 != 0:
+            return False
+        return True
+    except:
+        return False
+```
+The function requires a 6-letter all-lowercase string with distinct characters that satisfies an interlocking set of linear, modular, and relational predicates on the character ordinals (exact weighted sum, multiple independent modular filters on sum/product/squared-sum/first-last product, plus fixed inter-position differences and a divisibility check). The exact integer target on the weighted sum combined with the 10007-modular product and quadratic residue filter makes the satisfying input non-obvious and resistant to guessing or local perturbation.  
+SOLUTION: "python" 
+Checking sample solution  "python"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "python". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 2,485 in / 4,737 out
+  claude-sonnet-4-6 (solver): 441 in / 24,979 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if not isinstance(x, str):
+            return False
+        if len(x) != 6:
+            return False
+        o = [ord(c) for c in x]
+        if any(not (97 <= oi <= 122) for oi in o):
+            return False
+        if len(set(o)) != 6:
+            return False
+        if sum(o) % 7 != 1:
+            return False
+        s = 0
+        for i in range(6):
+            s += o[i] * (i + 1)
+        if s != 2384:
+            return False
+        p = 1
+        for oi in o:
+            p = (p * oi) % 10007
+        if p != 4425:
+            return False
+        if o[2] - o[1] != 7:
+            return False
+        if o[3] % 7 != 0:
+            return False
+        if sum(oi**2 for oi in o) % 100 != 59:
+            return False
+        xv = 0
+        for oi in o:
+            xv ^= oi
+        if xv != 3:
+            return False
+        return True
+    except:
+        return False
+```
+
+**Puzzle explanation:**
+
+This puzzle asks for a 6-character lowercase string with all distinct characters. The ASCII ordinal values of those characters must simultaneously satisfy eight conditions: a modular sum condition, an exact position-weighted sum, a multiplicative rolling hash mod 10007, a specific difference between the ASCII values at positions 1 and 2 (0-indexed), a divisibility condition on the character at position 3, a squared-sum residue check, and a bitwise XOR condition on all six ordinals. Every single one of these must hold at the same time. Good luck!
+
+SOLUTION: "crypto" 
+Checking sample solution  "crypto"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "njqwgz". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 3,247 in / 25,346 out
+  grok-4.20-0309-reasoning (solver): 490 in / 57,354 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if not isinstance(x, str):
+            return False
+        if len(x) != 6:
+            return False
+        o = [ord(c) for c in x]
+        if any(not (97 <= oi <= 122) for oi in o):
+            return False
+        if len(set(o)) != 6:
+            return False
+        if sum(o) % 19 != 2:
+            return False
+        s = 0
+        for i in range(6):
+            s += o[i] * (i + 1)
+        if s != 2322:
+            return False
+        p = 1
+        for oi in o:
+            p = (p * oi) % 10007
+        if p != 2027:
+            return False
+        if o[0] - o[5] != 1:
+            return False
+        if o[2] % 9 != 0:
+            return False
+        if sum(oi**2 for oi in o) % 100 != 31:
+            return False
+        xv = 0
+        for oi in o:
+            xv ^= oi
+        if xv != 17:
+            return False
+        if (o[1] * o[3]) % 23 != 11:
+            return False
+        return True
+    except:
+        return False
+```
+The function requires finding a 6-letter lowercase string with all distinct characters that satisfies a tightly coupled system of checksums on its character ordinals: an exact weighted positional sum, multiple independent modular arithmetic predicates (including a large-modulus running product, a quadratic sum filter, and a pairwise product), a bitwise XOR across all ordinals, fixed arithmetic differences, and per-position modular filters. The exact integer targets combined with the non-linear modular and bitwise operations create a highly sparse solution space that resists guessing, local search, or partial constraint solving.  
+SOLUTION: "solver" 
+Checking sample solution  "solver"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "solver". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 3,187 in / 5,111 out
+  claude-sonnet-4-6 (solver): 477 in / 21,721 out
+Turn 0: claude-sonnet-4-6 vs grok-4.20-0309-reasoning - 729 in / 15,929 out (?) [success]
+Turn 1: grok-4.20-0309-reasoning vs claude-sonnet-4-6 - 979 in / 36,907 out (?) [success]
+Turn 2: claude-sonnet-4-6 vs grok-4.20-0309-reasoning - 1,391 in / 26,151 out (?) [success]
+Turn 3: grok-4.20-0309-reasoning vs claude-sonnet-4-6 - 1,623 in / 10,419 out (?) [success]
+Turn 4: claude-sonnet-4-6 vs grok-4.20-0309-reasoning - 2,193 in / 16,162 out (?) [success]
+Turn 5: grok-4.20-0309-reasoning vs claude-sonnet-4-6 - 2,278 in / 14,531 out (?) [success]
+Turn 6: claude-sonnet-4-6 vs grok-4.20-0309-reasoning - 2,962 in / 11,676 out (?) [success]
+Turn 7: grok-4.20-0309-reasoning vs claude-sonnet-4-6 - 2,926 in / 29,716 out (?) [success]
+Turn 8: claude-sonnet-4-6 vs grok-4.20-0309-reasoning - 3,737 in / 82,700 out (?) [failure]
+Turn 9: grok-4.20-0309-reasoning vs claude-sonnet-4-6 - 3,664 in / 26,832 out (?) [success]
+claude-sonnet-4-6: 10,983 in / 164,821 out
+grok-4.20-0309-reasoning: 11,499 in / 106,202 out
+claude-sonnet-4-6 ./. grok-4.20-0309-reasoning     (1-0) vs (0-0)     [0 failed, see runs/classic/claude-sonnet-4-6_vs_grok-4.20-0309-reasoning.log]

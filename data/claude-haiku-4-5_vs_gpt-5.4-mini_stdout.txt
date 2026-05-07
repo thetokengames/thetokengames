@@ -1,0 +1,482 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    
+    if x < 0:
+        return False
+    
+    # Check if x is a perfect square
+    sqrt_x = int(x ** 0.5)
+    if sqrt_x * sqrt_x != x:
+        return False
+    
+    # Check if digit sum is a perfect square
+    digit_sum = sum(int(d) for d in str(x))
+    sqrt_ds = int(digit_sum ** 0.5)
+    if sqrt_ds * sqrt_ds != digit_sum:
+        return False
+    
+    return True
+```
+
+The function returns True if the input is a non-negative integer that satisfies two conditions simultaneously:
+1. The integer itself is a perfect square (e.g., 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, ...)
+2. The sum of its digits is also a perfect square
+
+This puzzle requires discovering both conditions by testing values. For example:
+- 81 works because 81 = 9² (perfect square) and 8 + 1 = 9 = 3² (digit sum is also a perfect square)
+- 16 fails because while 16 = 4² (perfect square), 1 + 6 = 7 is not a perfect square
+- 36 works because 36 = 6² (perfect square) and 3 + 6 = 9 = 3² (digit sum is also a perfect square)
+
+The second condition is the key that makes this puzzle non-trivial, as not all perfect squares satisfy it.
+
+SOLUTION: 81 
+Checking sample solution  81
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 0. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 395 in / 10,972 out
+  gpt-5.4-mini (solver): 231 in / 202 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+import hashlib
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+
+    m = hashlib.md5(x.encode()).hexdigest()
+    s = hashlib.sha1(x.encode()).hexdigest()
+    z = hashlib.sha256(x.encode()).hexdigest()
+
+    a = "".join(chr(c) for c in (0x32, 0x37, 0x66, 0x37, 0x31, 0x65, 0x38, 0x32))
+    b = "".join(chr(c) for c in (0x33, 0x65, 0x33, 0x36, 0x34, 0x37, 0x30, 0x36))
+    c = "".join(chr(c) for c in (0x66, 0x32, 0x30, 0x30, 0x31, 0x35, 0x61, 0x64))
+
+    return m[::-1][:8] == a and s[4:12] == b and z[-8:] == c
+```
+
+This puzzle hides a standard test-vector string behind three hash fragments, with the relevant slices chosen so they are not immediately obvious at a glance.
+
+SOLUTION: "abc" 
+Checking sample solution  "abc"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "password". Checking.
+Failure!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  gpt-5.4-mini (inventer): 506 in / 14,721 out
+  claude-haiku-4-5 (solver): 411 in / 11,064 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    
+    if x <= 1:
+        return False
+    
+    # Check if x is a perfect square
+    sqrt_x = int(x ** 0.5)
+    if sqrt_x * sqrt_x != x:
+        return False
+    
+    # Check if x is a triangular number
+    # For a triangular number T_n = n(n+1)/2
+    # We need 2x = n(n+1)
+    # Which gives n^2 + n - 2x = 0
+    # So n = (-1 + sqrt(1 + 8x)) / 2
+    
+    discriminant = 1 + 8 * x
+    sqrt_disc = int(discriminant ** 0.5)
+    if sqrt_disc * sqrt_disc != discriminant:
+        return False
+    
+    # Check if (-1 + sqrt_disc) is even
+    if (-1 + sqrt_disc) % 2 != 0:
+        return False
+    
+    n = (-1 + sqrt_disc) // 2
+    if n <= 0:
+        return False
+    
+    return True
+```
+
+## Explanation
+
+This puzzle requires finding a number that satisfies two simultaneous mathematical conditions:
+
+1. **Perfect Square**: The number must be a perfect square (x = k² for some integer k)
+2. **Triangular Number**: The number must be a triangular number, which is the sum of the first n positive integers (x = 1 + 2 + 3 + ... + n = n(n+1)/2)
+
+Numbers satisfying both conditions are extremely rare and are related to Pell's equation. The first few examples are:
+- 1 (excluded by x > 1)
+- **36** (since 36 = 6² and also 36 = 1+2+3+4+5+6+7+8)
+- 1225 (since 1225 = 35² and also 1225 = sum of first 49 integers)
+
+To check if a number is triangular, I use the quadratic formula on the equation n(n+1)/2 = x, which rearranges to n = (-1 + √(1+8x)) / 2. This must yield a positive integer.
+
+SOLUTION: 36 
+Checking sample solution  36
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 36. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 1 (1-0)
+  claude-haiku-4-5 (inventer): 1,144 in / 8,426 out
+  gpt-5.4-mini (solver): 350 in / 214 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    if isinstance(x, (int, float)):
+        if isinstance(x, float) and not x.is_integer():
+            return False
+        x = str(int(x))
+    elif not isinstance(x, str):
+        return False
+
+    if len(x) != 10:
+        return False
+
+    if sum(map(ord, x)) != 780:
+        return False
+
+    if sum((i + 1) * ord(c) for i, c in enumerate(x)) != 4163:
+        return False
+
+    if sum((ord(c) & 7) for c in x) != 20:
+        return False
+
+    parts = (
+        (1 << 6) ^ 11,
+        (5 << 4) ^ 1,
+        (7 << 3) ^ 2,
+        (3 << 3) ^ 17,
+        (5 << 2) ^ 2,
+        (2 << 4) ^ 15,
+        (9 << 2) ^ 4,
+        (10 << 3) ^ 7,
+        (7 << 3) ^ 30,
+        (1 << 3) ^ 5,
+    )
+
+    target = "".join(chr(((n * 7 + 19) % 94) + 33) for n in parts)
+    return x == target
+```
+
+This one is a disguised exact-match puzzle: the visible arithmetic checks are decoys, and the real target is reconstructed from the opaque `parts` tuple.
+
+SOLUTION: "k7R9pQ2aZ1" 
+Checking sample solution  "k7R9pQ2aZ1"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs 0 (1-1)
+  gpt-5.4-mini (inventer): 1,087 in / 17,379 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    
+    if x <= 0:
+        return False
+    
+    # Check if x is a happy number
+    seen = set()
+    n = x
+    while n != 1 and n not in seen:
+        seen.add(n)
+        n = sum(int(d)**2 for d in str(n))
+    
+    return n == 1
+```
+
+## Explanation
+
+The function returns True if the input is a positive integer that is a **happy number**. 
+
+A happy number is determined through this iterative process:
+1. Take any positive integer
+2. Replace the number with the sum of the squares of its digits
+3. Repeat step 2 until you either reach 1 (happy number) or enter a cycle that doesn't contain 1 (unhappy number)
+
+**Examples:**
+- **7 is happy**: 7 → 4²+9²=97 → 9²+7²=130 → 1²+3²+0²=10 → 1²+0²=1 ✓
+- **10 is happy**: 1²+0²=1 ✓
+- **13 is happy**: 1²+3²=10 → 1²+0²=1 ✓
+- **2 is unhappy**: 2²=4 → 4²=16 → 1²+6²=37 → 3²+7²=58 → 5²+8²=89 → 8²+9²=145 → 1²+4²+5²=42 → 4²+2²=20 → 2²+0²=4 (cycle detected, never reaches 1)
+
+The pattern is not immediately obvious and requires testing multiple values to discover the underlying connection to sums of squared digits.
+
+SOLUTION: 7 
+Checking sample solution  7
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 1. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (1-1)
+  claude-haiku-4-5 (inventer): 2,142 in / 8,152 out
+  gpt-5.4-mini (solver): 196 in / 162 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    if isinstance(x, (int, float)):
+        if isinstance(x, float) and not x.is_integer():
+            return False
+        x = str(int(x))
+    elif not isinstance(x, str):
+        return False
+
+    if len(x) != 8:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in x):
+        return False
+
+    v = [ord(c) - 32 for c in x]
+
+    if sum(v) != 306:
+        return False
+    if sum((i + 3) * v[i] for i in range(8)) % 97 != 42:
+        return False
+
+    mul = [3, 5, 7, 9, 11, 13, 17, 19]
+    add = [1, 2, 3, 4, 5, 6, 7, 8]
+
+    probe = [((v[i] * mul[i] + add[i]) % 95) for i in range(8)]
+    probe = [((p * 7 + 19) % 95) for p in probe]
+    probe = [probe[i] for i in (3, 0, 7, 4, 1, 6, 5, 2)]
+
+    goal = (
+        (2 << 3) - 1,
+        (6 << 3) + 5,
+        (4 << 3) + 5,
+        (3 << 3) + 3,
+        (8 << 3) + 4,
+        (8 << 3) + 4,
+        (6 << 3) + 5,
+        (4 << 3) - 2,
+    )
+    return tuple(probe) == goal
+```
+
+This one accepts either a string or an integer-like float, normalizes to an 8-character printable string, and then applies a couple of checksum decoys before running the real test: an index-dependent affine scramble, a second affine layer, and a final permutation. The accepted value is a single 8-character printable string.
+
+SOLUTION: "Jx9!Qm4$" 
+Checking sample solution  "Jx9!Qm4$"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -1 (1-2)
+  gpt-5.4-mini (inventer): 1,580 in / 21,266 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    
+    if x < 1:
+        return False
+    
+    # Calculate sum of factorials of digits
+    factorial = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880]
+    digit_factorial_sum = sum(factorial[int(d)] for d in str(x))
+    
+    return digit_factorial_sum == x
+```
+
+## Explanation
+
+This puzzle requires finding a number that equals the sum of the factorials of its digits. These special numbers are called **factorions**.
+
+The pattern works as follows:
+1. Take each digit of the number
+2. Calculate the factorial of that digit (0!=1, 1!=1, 2!=2, 3!=6, 4!=24, 5!=120, 6!=720, 7!=5040, 8!=40320, 9!=362880)
+3. Sum all these factorials
+4. If the sum equals the original number, you've found a factorion
+
+**Examples that work:**
+- **1**: 1! = 1 ✓
+- **2**: 2! = 2 ✓
+- **145**: 1! + 4! + 5! = 1 + 24 + 120 = 145 ✓
+- **40585**: 4! + 0! + 5! + 8! + 5! = 24 + 1 + 120 + 40320 + 120 = 40585 ✓
+
+**Examples that don't work:**
+- 100: 1! + 0! + 0! = 1 + 1 + 1 = 3 ≠ 100 ✗
+- 50: 5! + 0! = 120 + 1 = 121 ≠ 50 ✗
+
+These numbers are extraordinarily rare — only 5 exist in the entire decimal number system!
+
+SOLUTION: 145 
+Checking sample solution  145
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 145. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (1-2)
+  claude-haiku-4-5 (inventer): 3,133 in / 6,659 out
+  gpt-5.4-mini (solver): 212 in / 191 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    if isinstance(x, (int, float)):
+        if isinstance(x, float) and not x.is_integer():
+            return False
+        x = str(int(x))
+    elif not isinstance(x, str):
+        return False
+
+    if len(x) != 12:
+        return False
+    if any(ord(c) < 33 or ord(c) > 126 for c in x):
+        return False
+
+    # decoys
+    if sum(map(ord, x)) != 902:
+        return False
+    if sum((i + 1) * ord(c) for i, c in enumerate(x)) % 97 != 26:
+        return False
+    if sum(ord(c) & 15 for c in x) != 70:
+        return False
+
+    target = "".join(chr(n) for n in (
+        (7 << 4) - 2,
+        (9 * 7) - 6,
+        (6 << 3) - 13,
+        (11 << 3) - 4,
+        (8 << 4) - 6,
+        (3 << 5) - 44,
+        (5 << 4) - 47,
+        (9 << 3) + 3,
+        (2 << 5) + 17,
+        (8 << 3),
+        (7 << 4),
+        (10 << 3) - 3,
+    ))
+    return x == target
+```
+
+This puzzle is a disguised exact-match problem: the visible numeric tests are just decoys, and the real target string is assembled from a chain of arithmetic expressions rather than written literally.
+
+SOLUTION: "n9#Tz4!KQ@pM" 
+Checking sample solution  "n9#Tz4!KQ@pM"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "n9#Tz4!KQ@pM". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (1-2)
+  gpt-5.4-mini (inventer): 2,225 in / 17,474 out
+  claude-haiku-4-5 (solver): 519 in / 3,680 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    
+    if x < 0:
+        return False
+    
+    # Check if x is a narcissistic number (Armstrong number)
+    digits_str = str(x)
+    num_digits = len(digits_str)
+    digit_power_sum = sum(int(d) ** num_digits for d in digits_str)
+    
+    return digit_power_sum == x
+```
+
+This puzzle requires finding **narcissistic numbers** (also called Armstrong numbers) — numbers that equal the sum of their own digits each raised to the power of the number of digits.
+
+**How it works:**
+- For a number with n digits, raise each digit to the power n and sum them
+- If the sum equals the original number, it's narcissistic
+
+**Examples:**
+- **9**: 9^1 = 9 ✓
+- **153**: 1^3 + 5^3 + 3^3 = 1 + 125 + 27 = 153 ✓
+- **370**: 3^3 + 7^3 + 0^3 = 27 + 343 + 0 = 370 ✓
+- **371**: 3^3 + 7^3 + 1^3 = 27 + 343 + 1 = 371 ✓
+- **1634**: 1^4 + 6^4 + 3^4 + 4^4 = 1 + 1296 + 81 + 256 = 1634 ✓
+- **8208**: 8^4 + 2^4 + 0^4 + 8^4 = 4096 + 16 + 0 + 4096 = 8208 ✓
+
+**Counterexamples:**
+- **10**: 1^2 + 0^2 = 1 ≠ 10 ✗
+- **100**: 1^3 + 0^3 + 0^3 = 1 ≠ 100 ✗
+
+The pattern is discoverable through systematic testing: single-digit numbers all work (trivially, as n^1 = n), but most two-digit numbers fail, and three-digit narcissistic numbers like 153 are special and rare.
+
+SOLUTION: 153 
+Checking sample solution  153
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 153. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (1-2)
+  claude-haiku-4-5 (inventer): 4,091 in / 5,942 out
+  gpt-5.4-mini (solver): 195 in / 187 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    if isinstance(x, (int, float)):
+        if isinstance(x, float) and not x.is_integer():
+            return False
+        x = str(int(x))
+    elif not isinstance(x, str):
+        return False
+
+    if len(x) != 12 or any(ord(c) < 33 or ord(c) > 126 for c in x):
+        return False
+
+    v = [ord(c) for c in x]
+
+    # Decoys
+    if sum(v) != 1102:
+        return False
+    if sum((i + 1) * v[i] for i in range(12)) % 97 != 37:
+        return False
+
+    key = [0x2B, 0x11, 0x37, 0x05, 0x1F, 0x23, 0x09, 0x31, 0x17, 0x2D, 0x0B, 0x3D]
+    state = 0xA7
+    out = []
+    for i, b in enumerate(v):
+        state = (state + key[i] + (state >> 2) + i) & 0xFF
+        out.append(((b ^ state) + (i * 13)) & 0xFF)
+
+    out = tuple(out[i] for i in (5, 2, 9, 0, 7, 4, 11, 1, 8, 3, 10, 6))
+    goal = tuple(bytes.fromhex("af1493bf48abfa3b23de58a9"))
+    return out == goal
+```
+
+This one normalizes integer-like numeric inputs to strings, but the real challenge is the hidden 12-character printable string. The visible checksum lines are just decoys; the actual test is a rolling state update, XOR/affine mixing, and a final permutation.
+
+SOLUTION: "Delta-9_Flux" 
+Checking sample solution  "Delta-9_Flux"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "Delta-9_Flux". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (1-2)
+  gpt-5.4-mini (inventer): 2,741 in / 11,685 out
+  claude-haiku-4-5 (solver): 548 in / 10,776 out
+Logs written to runs/classic/claude-haiku-4-5_vs_gpt-5.4-mini.log and runs/classic/claude-haiku-4-5_vs_gpt-5.4-mini.jsonl
+
+=== Token Usage Summary ===
+Turn 0: claude-haiku-4-5 vs gpt-5.4-mini - 626 in / 11,174 out (?) [success]
+Turn 1: gpt-5.4-mini vs claude-haiku-4-5 - 917 in / 25,785 out (?) [failure]
+Turn 2: claude-haiku-4-5 vs gpt-5.4-mini - 1,494 in / 8,640 out (?) [success]
+Turn 3: gpt-5.4-mini vs claude-haiku-4-5 - 1,087 in / 17,379 out (?) [puzzle-wrong]
+Turn 4: claude-haiku-4-5 vs gpt-5.4-mini - 2,338 in / 8,314 out (?) [success]
+Turn 5: gpt-5.4-mini vs claude-haiku-4-5 - 1,580 in / 21,266 out (?) [puzzle-wrong]
+Turn 6: claude-haiku-4-5 vs gpt-5.4-mini - 3,345 in / 6,850 out (?) [success]
+Turn 7: gpt-5.4-mini vs claude-haiku-4-5 - 2,744 in / 21,154 out (?) [success]
+Turn 8: claude-haiku-4-5 vs gpt-5.4-mini - 4,286 in / 6,129 out (?) [success]
+Turn 9: gpt-5.4-mini vs claude-haiku-4-5 - 3,289 in / 22,461 out (?) [success]
+
+=== Totals by Model ===
+claude-haiku-4-5: 12,383 in / 65,671 out
+gpt-5.4-mini: 9,323 in / 83,481 out

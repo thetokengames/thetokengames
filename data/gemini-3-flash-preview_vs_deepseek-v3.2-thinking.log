@@ -1,0 +1,370 @@
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A series of reversible transformations on a 32-bit integer
+    v = (x * 3735928559) & 4294967295
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    v = (v ^ 305419896)
+    v = (v * 4919 + 1) & 4294967295
+    v = v ^ (v >> 16)
+    
+    return v == 3770335882
+```
+
+This puzzle uses a sequence of bitwise and arithmetic operations commonly found in hash functions and pseudo-random number generators. The function `mystery(x)` takes a 32-bit integer and applies five distinct transformations:
+1.  **Modular Multiplication**: Multiplies by a large prime-like constant (0xDEADBEEF) modulo 2^32.
+2.  **Bitwise Rotation**: Performs a circular left shift of 13 bits.
+3.  **XOR with Constant**: Flips bits according to a fixed pattern (0x12345678).
+4.  **Linear Congruential Step**: A standard `ax + c` transformation modulo 2^32.
+5.  **XOR-Shift**: XORs the value with a right-shifted version of itself.
+
+Since each of these steps is a bijection (a one-to-one mapping) within the space of 32-bit integers, there is exactly one value of `x` that will result in the target value. To find `x`, the solver must reverse each operation in the opposite order.
+
+SOLUTION: 987654321 
+Checking sample solution  987654321
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 346 in / 23,328 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    # A linear recurrence over bits, disguised as bitwise operations.
+    return (x ^ (x >> 1) ^ (x >> 2) ^ (x >> 3)) == 0x12345678
+```
+
+SOLUTION: 1397934608 
+Checking sample solution  1397934608
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs -1 (0-1)
+  deepseek-v3.2-thinking (inventer): 527 in / 30,535 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 4):
+        return False
+    
+    v = 0
+    for char in x:
+        v = (v << 8) | ord(char)
+    
+    # A series of reversible bitwise and arithmetic operations
+    v ^= 0xDEADBEEF
+    v = (v + 0x12345678) & 0xFFFFFFFF
+    v = ((v << 7) | (v >> 25)) & 0xFFFFFFFF
+    
+    return v == 2224062416
+```
+
+This puzzle involves a function `mystery(x)` that takes a string of length 4 and converts it into a 32-bit integer. This is done by treating each character's ASCII value as a single byte in the integer. After this initial conversion, the integer undergoes three distinct transformations:
+
+1.  **Bitwise XOR**: The integer is XORed with the hexadecimal constant `0xDEADBEEF`.
+2.  **Modular Addition**: The result is added to `0x12345678`, with the sum kept within the 32-bit range using a bitwise AND with `0xFFFFFFFF` (which is equivalent to taking the result modulo 2^32).
+3.  **Bitwise Rotation**: The integer is subjected to a circular left shift (rotation) by 7 bits.
+
+To find the correct input string, you must perform these operations in reverse:
+1.  Rotate the target value (`2224062416`) to the right by 7 bits.
+2.  Subtract `0x12345678` from the result, ensuring the value stays within the 32-bit integer range.
+3.  XOR the result with `0xDEADBEEF`.
+4.  Unpack the resulting 32-bit integer into four 8-bit characters using their ASCII values.
+
+SOLUTION: "Pyth" 
+Checking sample solution  "Pyth"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # A sequence of four reversible transformations on a 32-bit integer.
+    # Step 1: XOR-shift
+    v = (x ^ (x >> 16)) & 0xFFFFFFFF
+    
+    # Step 2: Modular multiplication
+    v = (v * 0x31415927) & 0xFFFFFFFF
+    
+    # Step 3: Bitwise rotation (circular shift)
+    v = ((v << 13) | (v >> 19)) & 0xFFFFFFFF
+    
+    # Step 4: XOR with a constant
+    v = (v ^ 0x55555555) & 0xFFFFFFFF
+    
+    return v == 0xdeadbeef
+```
+
+This puzzle uses a sequence of four bitwise and arithmetic operations commonly found in symmetric cryptography and pseudo-random number generators. The function `mystery(x)` takes a 32-bit integer and applies the following transformations:
+
+1.  **XOR-Shift**: XORs the integer with a version of itself shifted by 16 bits.
+2.  **Modular Multiplication**: Multiplies by a constant derived from the hex expansion of Pi (0x31415927) modulo 2^32.
+3.  **Circular Bitwise Rotation**: Performs a 13-bit circular left shift within the 32-bit space.
+4.  **XOR with Constant**: Flips bits using the alternating pattern 0x55555555.
+
+Each of these transformations is a bijection (a one-to-one mapping) on the set of 32-bit integers. Therefore, there is exactly one value of `x` that satisfies the condition `mystery(x) == True`. To find it, one must invert each operation in reverse order:
+1.  Undo the final XOR: `v = 0xdeadbeef ^ 0x55555555 = 0x8bf8ebba`.
+2.  Undo the circular shift (rotate right 13): `v = 0x5dd45fc7`.
+3.  Undo the multiplication using the modular multiplicative inverse of 0x31415927 mod 2^32 (which is 0xa8587427): `v = 0x954e2c85`.
+4.  Undo the XOR-Shift: `x = 0x954eb90b`.
+
+Converting the resulting hexadecimal value `0x954eb90b` back to decimal gives the solution.
+
+SOLUTION: 2504964363 
+Checking sample solution  2504964363
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -2 (0-2) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 928 in / 28,218 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+UNHANDLED EXCEPTION, error: Inventer message format wrong.
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    # Sum of hexadecimal digits
+    h = hex(x)[2:]
+    s = 0
+    for c in h:
+        s += int(c, 16)
+    if s != 21:
+        return False
+    v = x
+    v ^= (v >> 16)
+    v &= 0xFFFFFFFF
+    v ^= (v << 9)
+    v &= 0xFFFFFFFF
+    v ^= (v >> 7)
+    v &= 0xFFFFFFFF
+    return v == 1004331136
+```
+
+SOLUTION: 123456 
+Checking sample solution  123456
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -2 (0-2) vs -2 (0-2)
+  deepseek-v3.2-thinking (inventer): 847 in / 21,377 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 0x100000000):
+        return False
+    
+    # Step 1: Nibble swap
+    # This operation swaps the adjacent 4-bit nibbles of the 32-bit integer.
+    v = ((x & 0x0F0F0F0F) << 4) | ((x & 0xF0F0F0F0) >> 4)
+    
+    # Step 2: Linear transformation
+    # A standard modular multiplication and addition.
+    v = (v * 31337 + 1234567) & 0xFFFFFFFF
+    
+    # Step 3: XOR-shift
+    # A reversible bitwise XOR with a right-shifted version of itself.
+    v ^= (v >> 13)
+    
+    return v == 2960602281
+```
+
+### Explanation
+
+This puzzle is a sequence of three reversible operations on a 32-bit integer:
+
+1.  **Nibble Swapping**: A bitwise permutation that swaps each pair of adjacent 4-bit nibbles (e.g., `0x12345678` becomes `0x21436587`).
+2.  **Linear Congruential Step**: A modular linear transformation `v = (v * a + c) % m`. Since `a = 31337` and `m = 2^32` are coprime, this is a bijection.
+3.  **XOR-Shift**: An operation where the integer is XORed with a right-shifted version of itself. Since the shift `13` is more than one-third of the total bits, this is also a bijection.
+
+To solve the puzzle, one must reverse each step:
+1.  **Reverse XOR-shift**: For `v = y ^ (y >> 13)`, the inverse is `y = v ^ (v >> 13) ^ (v >> 26)`.
+2.  **Reverse Linear Step**: Use the modular multiplicative inverse of `31337` modulo `2^32`.
+3.  **Reverse Nibble Swap**: Applying the nibble swap a second time reverses the first swap.
+
+Applying these steps to the target value `2960602281` yields the unique solution.
+
+SOLUTION: 1234567890 
+Checking sample solution  1234567890
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -3 (0-3) vs -2 (0-2)
+  gemini-3-flash-preview (inventer): 1,808 in / 34,469 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 0x100000000):
+        return False
+    v = x
+    v = (v * 0x1337) & 0xFFFFFFFF
+    v = (v ^ 0xCAFEBABE) & 0xFFFFFFFF
+    v = (v + 0xDEADBEEF) & 0xFFFFFFFF
+    v = v ^ (v >> 17)
+    return v == 2361617646
+```
+
+SOLUTION: 123456789 
+Checking sample solution  123456789
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -3 (0-3) vs -3 (0-3)
+  deepseek-v3.2-thinking (inventer): 1,266 in / 38,612 out
+gemini-3-flash-preview's turn to invent a puzzle...
+This puzzle involves a sequence of bitwise and arithmetic operations on a 32-bit integer, common in hashing and cryptographic applications. Each step is a reversible transformation (a bijection) within the 32-bit space.
+
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # Step 1: XOR with a constant
+    v = (x ^ 305419896)
+    
+    # Step 2: Modular addition
+    v = (v + 3735928559) & 4294967295
+    
+    # Step 3: Circular bitwise rotation (Left shift by 13)
+    v = ((v << 13) | (v >> 19)) & 4294967295
+    
+    # Step 4: XOR with another constant
+    v = (v ^ 1431655765)
+    
+    return v == 3944696691
+```
+
+### Explanation
+
+The `mystery(x)` function transforms a 32-bit integer through four steps:
+1.  **XOR with `0x12345678`**: A standard bitwise XOR operation.
+2.  **Modular Addition with `0xDEADBEEF`**: Addition modulo $2^{32}$.
+3.  **Circular Rotation**: A left rotation by 13 bits, which is equivalent to `(v << 13) | (v >> (32 - 13))`.
+4.  **XOR with `0x55555555`**: A final bitwise XOR to flip alternating bits.
+
+To solve the puzzle, one must reverse each operation in the opposite order:
+1.  Undo the final XOR: `3944696691 ^ 1431655765 = 3192528422` (`0xBE4A1E26`).
+2.  Undo the rotation: Rotate `0xBE4A1E26` right by 13 bits to get `0xF135F625`.
+3.  Undo the addition: `(0xF135F625 - 0xDEADBEEF) % 2**32 = 0x12883736`.
+4.  Undo the first XOR: `0x12883736 ^ 0x12345678 = 0x00BC614E`, which is `12345678` in decimal.
+
+SOLUTION: 12345678 
+Checking sample solution  12345678
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -4 (0-4) vs -3 (0-3)
+  gemini-3-flash-preview (inventer): 2,576 in / 30,528 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 0x100000000):
+        return False
+    
+    v = x
+    
+    v ^= 0x12345678
+    
+    v = ((v << 1) | (v >> 31)) & 0xFFFFFFFF
+    
+    v = (v + 0x87654321) & 0xFFFFFFFF
+    
+    v ^= (v >> 4)
+    
+    v = (v * 3) & 0xFFFFFFFF
+    
+    return v == 0xF7B7D5F4
+```
+
+SOLUTION: 1 
+Checking sample solution  1
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -4 (0-4) vs -4 (0-4)
+  deepseek-v3.2-thinking (inventer): 1,627 in / 19,185 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, int) and 0 <= x < 4294967296):
+        return False
+    
+    # Step 1: Bitwise XOR with a constant
+    # This flips alternating bits of the input.
+    v = x ^ 0xAAAA5555
+    
+    # Step 2: Modular addition
+    # A standard addition modulo 2^32.
+    v = (v + 0x12345678) & 0xFFFFFFFF
+    
+    # Step 3: Circular bitwise rotation (Left shift by 5)
+    # A 32-bit circular left shift.
+    v = ((v << 5) | (v >> 27)) & 0xFFFFFFFF
+    
+    # Step 4: Bitwise XOR with another constant
+    v = v ^ 0x0F0F0F0F
+    
+    return v == 196270103
+```
+
+### Explanation
+
+This puzzle takes a 32-bit integer `x` and applies four reversible operations:
+1.  **Bitwise XOR**: `x` is XORed with `0xAAAA5555`.
+2.  **Modular Addition**: The result is added to `0x12345678` modulo $2^{32}$.
+3.  **Circular Rotation**: The value is rotated left by 5 bits.
+4.  **Bitwise XOR**: Finally, the value is XORed with `0x0F0F0F0F`.
+
+Since each step is a bijection (a one-to-one mapping) within the space of 32-bit integers, there is exactly one value of `x` that satisfies the condition. To find the solution, one must reverse each step in the opposite order:
+1.  Undo the final XOR: `196270103 ^ 0x0F0F0F0F = 0x04BDD718`.
+2.  Undo the rotation: Rotate `0x04BDD718` right by 5 bits to get `0xC025EEB8`.
+3.  Undo the addition: `(0xC025EEB8 - 0x12345678) % 2**32 = 0xADF19840`.
+4.  Undo the first XOR: `0xADF19840 ^ 0xAAAA5555 = 0x075BCD15`.
+
+The resulting hexadecimal value `0x075BCD15` is `123456789` in decimal.
+
+SOLUTION: 123456789 
+Checking sample solution  123456789
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says 123467185. Checking.
+Failure!
+New score after this turn: -3 (1-4) vs -4 (0-4)
+  gemini-3-flash-preview (inventer): 3,401 in / 14,864 out
+  deepseek-v3.2-thinking (solver): 302 in / 13,599 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (0 <= x < 2**32):
+        return False
+    v = x
+    v ^= 0x11111111
+    v = (v + 0x22222222) & 0xFFFFFFFF
+    v ^= 0x33333333
+    v = (v + 0x44444444) & 0xFFFFFFFF
+    v ^= 0x55555555
+    v = (v + 0x66666666) & 0xFFFFFFFF
+    v ^= 0x77777777
+    v = (v + 0x88888888) & 0xFFFFFFFF
+    v ^= 0x99999999
+    v = (v + 0xAAAAAAAA) & 0xFFFFFFFF
+    return v == 0x45FA27D9
+```
+
+SOLUTION: 0x6B5F4D3E 
+Checking sample solution  0x6B5F4D3E
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 0x6B5F4D3E. Checking.
+Success!
+New score after this turn: -3 (1-4) vs -4 (0-4)
+  deepseek-v3.2-thinking (inventer): 2,024 in / 23,041 out
+  gemini-3-flash-preview (solver): 347 in / 18,488 out
+Turn 0: gemini-3-flash-preview vs deepseek-v3.2-thinking - 346 in / 23,328 out (?) [puzzle-wrong]
+Turn 1: deepseek-v3.2-thinking vs gemini-3-flash-preview - 527 in / 30,535 out (?) [puzzle-wrong]
+Turn 2: gemini-3-flash-preview vs deepseek-v3.2-thinking - 928 in / 28,218 out (?) [puzzle-wrong]
+Turn 3: deepseek-v3.2-thinking vs gemini-3-flash-preview - 847 in / 21,377 out (?) [puzzle-wrong]
+Turn 4: gemini-3-flash-preview vs deepseek-v3.2-thinking - 1,808 in / 34,469 out (?) [puzzle-wrong]
+Turn 5: deepseek-v3.2-thinking vs gemini-3-flash-preview - 1,266 in / 38,612 out (?) [puzzle-wrong]
+Turn 6: gemini-3-flash-preview vs deepseek-v3.2-thinking - 2,576 in / 30,528 out (?) [puzzle-wrong]
+Turn 7: deepseek-v3.2-thinking vs gemini-3-flash-preview - 1,627 in / 19,185 out (?) [puzzle-wrong]
+Turn 8: gemini-3-flash-preview vs deepseek-v3.2-thinking - 3,703 in / 28,463 out (?) [failure]
+Turn 9: deepseek-v3.2-thinking vs gemini-3-flash-preview - 2,371 in / 41,529 out (?) [success]
+gemini-3-flash-preview: 10,334 in / 176,359 out
+deepseek-v3.2-thinking: 7,644 in / 166,795 out
+gemini-3-flash-preview ./. deepseek-v3.2-thinking     (1-4) vs (0-4)     [2 failed, see runs/classic/gemini-3-flash-preview_vs_deepseek-v3.2-thinking.log]

@@ -1,0 +1,529 @@
+{
+  "claude-sonnet-4-6_vs_claude-opus-4-7": {
+    "state": "completed",
+    "end_time": 1778000242.3123481,
+    "returncode": 0
+  },
+  "claude-sonnet-4-6_vs_claude-haiku-4-5": {
+    "state": "completed",
+    "end_time": 1777999323.5811484,
+    "returncode": 0
+  },
+  "claude-sonnet-4-6_vs_gpt-5.5": {
+    "state": "completed",
+    "end_time": 1778001530.7135746,
+    "returncode": 0
+  },
+  "claude-sonnet-4-6_vs_gpt-5.4-mini": {
+    "state": "completed",
+    "end_time": 1778000885.1728551,
+    "returncode": 0
+  },
+  "claude-sonnet-4-6_vs_gemini-3.1-pro-preview": {
+    "state": "completed",
+    "end_time": 1778002791.6211958,
+    "returncode": 0
+  },
+  "claude-sonnet-4-6_vs_gemini-3-flash-preview": {
+    "state": "completed",
+    "end_time": 1778002820.4719355,
+    "returncode": 0
+  },
+  "gpt-5.5_vs_gpt-5.4-mini": {
+    "state": "completed",
+    "end_time": 1777999912.2802904,
+    "returncode": 0
+  },
+  "gpt-5.5_vs_gemini-3-flash-preview": {
+    "state": "completed",
+    "end_time": 1777999514.5233693,
+    "returncode": 0
+  },
+  "gpt-5.5_vs_deepseek-v3.2-thinking": {
+    "state": "completed",
+    "end_time": 1778003852.8345757,
+    "returncode": 0
+  },
+  "gpt-5.5_vs_grok-4.20-0309-reasoning": {
+    "state": "completed",
+    "end_time": 1778001089.9423258,
+    "returncode": 0
+  },
+  "gemini-3-flash-preview_vs_gemini-3.1-pro-preview": {
+    "state": "completed",
+    "end_time": 1777999786.9664726,
+    "returncode": 0
+  },
+  "grok-4.20-0309-reasoning_vs_deepseek-v3.2-thinking": {
+    "state": "completed",
+    "end_time": 1778001445.46939,
+    "returncode": 0
+  },
+  "grok-4.20-0309-reasoning_vs_kimi-k2.6": {
+    "state": "running",
+    "start_time": 1778082937.6845915
+  },
+  "deepseek-v3.2-thinking_vs_grok-4.20-0309-reasoning": {
+    "state": "completed",
+    "end_time": 1778005940.2261136,
+    "returncode": 0
+  },
+  "deepseek-v3.2-thinking_vs_kimi-k2.6": {
+    "state": "failed",
+    "end_time": 1778082955.9629223,
+    "returncode": 1
+  },
+  "kimi-k2.6_vs_grok-4.20-0309-reasoning": {
+    "state": "running",
+    "start_time": 1778082955.963858
+  },
+  "kimi-k2.6_vs_deepseek-v3.2-thinking": {
+    "state": "completed",
+    "end_time": 1778017143.5885289,
+    "returncode": 0
+  },
+  "claude-sonnet-4-6_vs_kimi-k2.6": {
+    "state": "running",
+    "start_time": 1778082937.2983665
+  },
+  "gpt-5.4-mini_vs_gemini-3.1-pro-preview": {
+    "state": "completed",
+    "end_time": 1778004484.8084095,
+    "returncode": 0
+  },
+  "gemini-3.1-pro-preview_vs_gemini-3-flash-preview": {
+    "state": "completed",
+    "end_time": 1778002417.1284595,
+    "returncode": 0
+  },
+  "gpt-5.4-mini_vs_grok-4.20-0309-reasoning": {
+    "state": "completed",
+    "end_time": 1778002600.6291294,
+    "returncode": 0
+  },
+  "claude-opus-4-7_vs_claude-haiku-4-5": {
+    "state": "completed",
+    "end_time": 1778001551.2659404,
+    "returncode": 0
+  },
+  "claude-haiku-4-5_vs_gpt-5.5": {
+    "state": "completed",
+    "end_time": 1778003276.275806,
+    "returncode": 0
+  },
+  "grok-4.20-0309-reasoning_vs_gpt-5.5": {
+    "state": "completed",
+    "end_time": 1778003784.236921,
+    "returncode": 0
+  },
+  "gpt-5.5_vs_claude-sonnet-4-6": {
+    "state": "completed",
+    "end_time": 1778005543.3039932,
+    "returncode": 0
+  },
+  "claude-opus-4-7_vs_deepseek-v3.2-thinking": {
+    "state": "completed",
+    "end_time": 1778006940.762245,
+    "returncode": 0
+  },
+  "grok-4.20-0309-reasoning_vs_gemini-3.1-pro-preview": {
+    "state": "completed",
+    "end_time": 1778008365.4144058,
+    "returncode": 0
+  },
+  "gpt-5.4-mini_vs_gpt-5.5": {
+    "state": "completed",
+    "end_time": 1778005347.8030832,
+    "returncode": 0
+  },
+  "claude-haiku-4-5_vs_grok-4.20-0309-reasoning": {
+    "state": "completed",
+    "end_time": 1778003728.942231,
+    "returncode": 0
+  },
+  "gemini-3.1-pro-preview_vs_claude-opus-4-7": {
+    "state": "completed",
+    "end_time": 1778005301.8610754,
+    "returncode": 0
+  },
+  "claude-haiku-4-5_vs_gemini-3-flash-preview": {
+    "state": "completed",
+    "end_time": 1778004587.9350517,
+    "returncode": 0
+  },
+  "grok-4.20-0309-reasoning_vs_claude-opus-4-7": {
+    "state": "completed",
+    "end_time": 1778005694.725371,
+    "returncode": 0
+  },
+  "grok-4.20-0309-reasoning_vs_gpt-5.4-mini": {
+    "state": "completed",
+    "end_time": 1778005565.207056,
+    "returncode": 0
+  },
+  "deepseek-v3.2-thinking_vs_gpt-5.5": {
+    "state": "completed",
+    "end_time": 1778010579.1025445,
+    "returncode": 0
+  },
+  "claude-opus-4-7_vs_gpt-5.5": {
+    "state": "completed",
+    "end_time": 1778007687.5981166,
+    "returncode": 0
+  },
+  "gemini-3-flash-preview_vs_gpt-5.4-mini": {
+    "state": "completed",
+    "end_time": 1778006310.6695101,
+    "returncode": 0
+  },
+  "gemini-3-flash-preview_vs_kimi-k2.6": {
+    "state": "running",
+    "start_time": 1778082937.612617
+  },
+  "claude-opus-4-7_vs_claude-sonnet-4-6": {
+    "state": "completed",
+    "end_time": 1778043240.283894,
+    "returncode": 0
+  },
+  "claude-haiku-4-5_vs_gemini-3.1-pro-preview": {
+    "state": "completed",
+    "end_time": 1778007821.184754,
+    "returncode": 0
+  },
+  "claude-opus-4-7_vs_gpt-5.4-mini": {
+    "state": "completed",
+    "end_time": 1778006321.0720675,
+    "returncode": 0
+  },
+  "claude-haiku-4-5_vs_claude-opus-4-7": {
+    "state": "completed",
+    "end_time": 1778006467.4716752,
+    "returncode": 0
+  },
+  "kimi-k2.6_vs_gpt-5.5": {
+    "state": "failed",
+    "end_time": 1778085873.869015,
+    "returncode": 1
+  },
+  "gemini-3-flash-preview_vs_gpt-5.5": {
+    "state": "completed",
+    "end_time": 1778008844.1548228,
+    "returncode": 0
+  },
+  "claude-haiku-4-5_vs_claude-sonnet-4-6": {
+    "state": "completed",
+    "end_time": 1778007958.8169208,
+    "returncode": 0
+  },
+  "gpt-5.4-mini_vs_claude-haiku-4-5": {
+    "state": "completed",
+    "end_time": 1778007604.9967048,
+    "returncode": 0
+  },
+  "deepseek-v3.2-thinking_vs_claude-haiku-4-5": {
+    "state": "completed",
+    "end_time": 1778009729.7856958,
+    "returncode": 0
+  },
+  "claude-sonnet-4-6_vs_grok-4.20-0309-reasoning": {
+    "state": "completed",
+    "end_time": 1778010611.7202919,
+    "returncode": 0
+  },
+  "gpt-5.4-mini_vs_claude-sonnet-4-6": {
+    "state": "completed",
+    "end_time": 1778017807.5283754,
+    "returncode": 0
+  },
+  "gemini-3.1-pro-preview_vs_gpt-5.4-mini": {
+    "state": "completed",
+    "end_time": 1778010266.741942,
+    "returncode": 0
+  },
+  "claude-haiku-4-5_vs_gpt-5.4-mini": {
+    "state": "completed",
+    "end_time": 1778008819.9464426,
+    "returncode": 0
+  },
+  "grok-4.20-0309-reasoning_vs_claude-haiku-4-5": {
+    "state": "completed",
+    "end_time": 1778008944.9211645,
+    "returncode": 0
+  },
+  "grok-4.20-0309-reasoning_vs_gemini-3-flash-preview": {
+    "state": "completed",
+    "end_time": 1778010789.151117,
+    "returncode": 0
+  },
+  "grok-4.20-0309-reasoning_vs_claude-sonnet-4-6": {
+    "state": "completed",
+    "end_time": 1778014109.721855,
+    "returncode": 0
+  },
+  "gpt-5.4-mini_vs_kimi-k2.6": {
+    "state": "running",
+    "start_time": 1778082937.5468428
+  },
+  "gpt-5.4-mini_vs_gemini-3-flash-preview": {
+    "state": "completed",
+    "end_time": 1778010543.190896,
+    "returncode": 0
+  },
+  "claude-opus-4-7_vs_grok-4.20-0309-reasoning": {
+    "state": "completed",
+    "end_time": 1778011057.821663,
+    "returncode": 0
+  },
+  "claude-haiku-4-5_vs_deepseek-v3.2-thinking": {
+    "state": "completed",
+    "end_time": 1778013327.0922418,
+    "returncode": 0
+  },
+  "gemini-3.1-pro-preview_vs_gpt-5.5": {
+    "state": "completed",
+    "end_time": 1778048401.2030604,
+    "returncode": 0
+  },
+  "gpt-5.5_vs_gemini-3.1-pro-preview": {
+    "state": "completed",
+    "end_time": 1778043658.401432,
+    "returncode": 0
+  },
+  "gpt-5.4-mini_vs_deepseek-v3.2-thinking": {
+    "state": "completed",
+    "end_time": 1778016326.9477375,
+    "returncode": 0
+  },
+  "gemini-3.1-pro-preview_vs_claude-haiku-4-5": {
+    "state": "completed",
+    "end_time": 1778042867.7973192,
+    "returncode": 0
+  },
+  "gemini-3-flash-preview_vs_claude-sonnet-4-6": {
+    "state": "completed",
+    "end_time": 1778045748.4945693,
+    "returncode": 0
+  },
+  "gemini-3.1-pro-preview_vs_grok-4.20-0309-reasoning": {
+    "state": "completed",
+    "end_time": 1778046611.7478979,
+    "returncode": 0
+  },
+  "gemini-3-flash-preview_vs_claude-haiku-4-5": {
+    "state": "completed",
+    "end_time": 1778044585.575872,
+    "returncode": 0
+  },
+  "gemini-3-flash-preview_vs_claude-opus-4-7": {
+    "state": "completed",
+    "end_time": 1778044625.0855715,
+    "returncode": 0
+  },
+  "claude-opus-4-7_vs_gemini-3.1-pro-preview": {
+    "state": "completed",
+    "end_time": 1778043685.3168945,
+    "returncode": 0
+  },
+  "claude-opus-4-7_vs_gemini-3-flash-preview": {
+    "state": "completed",
+    "end_time": 1778042452.6529996,
+    "returncode": 0
+  },
+  "gemini-3-flash-preview_vs_grok-4.20-0309-reasoning": {
+    "state": "completed",
+    "end_time": 1778047137.591025,
+    "returncode": 0
+  },
+  "gemini-3.1-pro-preview_vs_claude-sonnet-4-6": {
+    "state": "completed",
+    "end_time": 1778046809.8728569,
+    "returncode": 0
+  },
+  "gpt-5.5_vs_claude-opus-4-7": {
+    "state": "completed",
+    "end_time": 1778018272.7536392,
+    "returncode": 0
+  },
+  "gpt-5.4-mini_vs_claude-opus-4-7": {
+    "state": "completed",
+    "end_time": 1778014666.6813745,
+    "returncode": 0
+  },
+  "kimi-k2.6_vs_gemini-3-flash-preview": {
+    "state": "running",
+    "start_time": 1778082937.7505307
+  },
+  "kimi-k2.6_vs_gemini-3.1-pro-preview": {
+    "state": "running",
+    "start_time": 1778085873.8700423
+  },
+  "deepseek-v3.2-thinking_vs_claude-sonnet-4-6": {
+    "state": "completed",
+    "end_time": 1778017205.8448858,
+    "returncode": 0
+  },
+  "gpt-5.5_vs_claude-haiku-4-5": {
+    "state": "completed",
+    "end_time": 1778017373.149104,
+    "returncode": 0
+  },
+  "gemini-3.1-pro-preview_vs_deepseek-v3.2-thinking": {
+    "state": "completed",
+    "end_time": 1778023375.6728206,
+    "returncode": 0
+  },
+  "deepseek-v3.2-thinking_vs_claude-opus-4-7": {
+    "state": "completed",
+    "end_time": 1778022955.150646,
+    "returncode": 0
+  },
+  "kimi-k2.6_vs_claude-opus-4-7": {
+    "state": "running",
+    "start_time": 1778082937.7248807
+  },
+  "gemini-3.1-pro-preview_vs_kimi-k2.6": {
+    "state": "failed",
+    "end_time": 1778086765.1408942,
+    "returncode": 1
+  },
+  "kimi-k2.6_vs_claude-sonnet-4-6": {
+    "state": "running",
+    "start_time": 1778082937.7179012
+  },
+  "gemini-3-flash-preview_vs_deepseek-v3.2-thinking": {
+    "state": "completed",
+    "end_time": 1778025143.3232348,
+    "returncode": 0
+  },
+  "kimi-k2.6_vs_claude-haiku-4-5": {
+    "state": "failed",
+    "end_time": 1778086765.5767562,
+    "returncode": 1
+  },
+  "deepseek-v3.2-thinking_vs_gemini-3-flash-preview": {
+    "state": "completed",
+    "end_time": 1778027133.6375694,
+    "returncode": 0
+  },
+  "deepseek-v3.2-thinking_vs_gpt-5.4-mini": {
+    "state": "completed",
+    "end_time": 1778025676.2773197,
+    "returncode": 0
+  },
+  "claude-sonnet-4-6_vs_deepseek-v3.2-thinking": {
+    "state": "completed",
+    "end_time": 1778027380.6660478,
+    "returncode": 0
+  },
+  "kimi-k2.6_vs_gpt-5.4-mini": {
+    "state": "running",
+    "start_time": 1778082937.732329
+  },
+  "gpt-5.5_vs_kimi-k2.6": {
+    "state": "running",
+    "start_time": 1778082937.5621924
+  },
+  "deepseek-v3.2-thinking_vs_gemini-3.1-pro-preview": {
+    "state": "completed",
+    "end_time": 1778029234.9276526,
+    "returncode": 0
+  },
+  "claude-opus-4-7_vs_kimi-k2.6": {
+    "state": "running",
+    "start_time": 1778082937.3652594
+  },
+  "claude-haiku-4-5_vs_kimi-k2.6": {
+    "state": "running",
+    "start_time": 1778082937.4454312
+  },
+  "claude-sonnet-4-6_vs_grok-4-fast-reasoning": {
+    "state": "completed",
+    "end_time": 1778089685.6939049,
+    "returncode": 0
+  },
+  "claude-opus-4-7_vs_grok-4-fast-reasoning": {
+    "state": "completed",
+    "end_time": 1778088111.0785348,
+    "returncode": 0
+  },
+  "claude-haiku-4-5_vs_grok-4-fast-reasoning": {
+    "state": "completed",
+    "end_time": 1778088911.9867146,
+    "returncode": 0
+  },
+  "gpt-5.5_vs_grok-4-fast-reasoning": {
+    "state": "completed",
+    "end_time": 1778092598.2717514,
+    "returncode": 0
+  },
+  "gemini-3-flash-preview_vs_grok-4-fast-reasoning": {
+    "state": "completed",
+    "end_time": 1778088716.6488585,
+    "returncode": 0
+  },
+  "gpt-5.4-mini_vs_grok-4-fast-reasoning": {
+    "state": "completed",
+    "end_time": 1778089312.451591,
+    "returncode": 0
+  },
+  "gemini-3.1-pro-preview_vs_grok-4-fast-reasoning": {
+    "state": "completed",
+    "end_time": 1778091643.936438,
+    "returncode": 0
+  },
+  "grok-4.20-0309-reasoning_vs_grok-4-fast-reasoning": {
+    "state": "completed",
+    "end_time": 1778087636.8964484,
+    "returncode": 0
+  },
+  "grok-4-fast-reasoning_vs_claude-sonnet-4-6": {
+    "state": "completed",
+    "end_time": 1778092092.5707147,
+    "returncode": 0
+  },
+  "grok-4-fast-reasoning_vs_claude-opus-4-7": {
+    "state": "completed",
+    "end_time": 1778092763.5577283,
+    "returncode": 0
+  },
+  "deepseek-v3.2-thinking_vs_grok-4-fast-reasoning": {
+    "state": "completed",
+    "end_time": 1778103625.4204283,
+    "returncode": 0
+  },
+  "grok-4-fast-reasoning_vs_claude-haiku-4-5": {
+    "state": "completed",
+    "end_time": 1778088895.2286737,
+    "returncode": 0
+  },
+  "grok-4-fast-reasoning_vs_gpt-5.5": {
+    "state": "completed",
+    "end_time": 1778094003.2052753,
+    "returncode": 0
+  },
+  "grok-4-fast-reasoning_vs_deepseek-v3.2-thinking": {
+    "state": "completed",
+    "end_time": 1778100799.7480044,
+    "returncode": 0
+  },
+  "grok-4-fast-reasoning_vs_grok-4.20-0309-reasoning": {
+    "state": "completed",
+    "end_time": 1778090563.2452247,
+    "returncode": 0
+  },
+  "grok-4-fast-reasoning_vs_gpt-5.4-mini": {
+    "state": "completed",
+    "end_time": 1778090139.568103,
+    "returncode": 0
+  },
+  "grok-4-fast-reasoning_vs_gemini-3-flash-preview": {
+    "state": "completed",
+    "end_time": 1778096532.2488225,
+    "returncode": 0
+  },
+  "grok-4-fast-reasoning_vs_gemini-3.1-pro-preview": {
+    "state": "completed",
+    "end_time": 1778094911.6527557,
+    "returncode": 0
+  }
+}

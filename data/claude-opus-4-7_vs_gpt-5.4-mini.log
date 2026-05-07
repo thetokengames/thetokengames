@@ -1,0 +1,336 @@
+claude-opus-4-7's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8 or set(x) - {'0', '1'}:
+        return False
+    n = int(x, 2)
+    return pow(n, 2, 257) == (n + 198) % 257 and bin(n).count('1') == 5
+```
+
+The puzzle requires an 8-character binary string whose integer value `n` satisfies a quadratic congruence mod 257 and has exactly 5 set bits.
+
+SOLUTION: "10110101" 
+Checking sample solution  "10110101"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "10110101". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-opus-4-7 (inventer): 492 in / 2,992 out
+  gpt-5.4-mini (solver): 181 in / 2,176 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 10 or set(x) != set("0123456789"):
+        return False
+    d = list(map(int, x))
+    n = int(x)
+    return (
+        sum((i + 1) * d[i] for i in range(10)) == 226
+        and sum(d[i] * d[i + 1] for i in range(9)) == 153
+        and sum(abs(d[i] - d[i + 1]) for i in range(9)) == 42
+        and sum(d[::2]) - sum(d[1::2]) == -5
+        and n % 97 == 68
+        and int(x[::-1]) % 89 == 28
+    )
+```
+
+This is a checksum-style puzzle: `x` must be a 10-digit string using each decimal digit exactly once, and it has to satisfy several arithmetic fingerprints. The constraints are designed to be annoying to reverse-engineer just from inspection, but they do admit a solution.
+
+SOLUTION: "5829037461" 
+Checking sample solution  "5829037461"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gpt-5.4-mini (inventer): 456 in / 17,745 out
+claude-opus-4-7's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 10**7 or x >= 10**8:
+        return False
+    s = str(x)
+    digits = [int(c) for c in s]
+    return (sum(digits) == 31
+            and x % 7 == 3
+            and x % 11 == 3
+            and x % 13 == 9
+            and digits[0] == 3
+            and digits[7] == 6
+            and digits[1] < digits[2]
+            and digits[3] < digits[4]
+            and digits[2] - digits[3] == 3
+            and digits[5] - digits[6] == 7
+            and digits[4] + digits[5] == 14)
+```
+
+An 8-digit integer satisfying multiple modular and digit-relation constraints. The combinatorial constraints alone leave a few candidates, but combined with three modular conditions narrow it down significantly.
+
+SOLUTION: 31415926 
+Checking sample solution  31415926
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 31415926. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  claude-opus-4-7 (inventer): 989 in / 5,720 out
+  gpt-5.4-mini (solver): 281 in / 3,390 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 16 or any(c not in "0123456789abcdef" for c in x):
+        return False
+    v = [int(c, 16) for c in x]
+    return (
+        sum(v[::2]) == 31
+        and sum(v[1::2]) == 95
+        and sum((i + 1) * v[i] for i in range(16)) == 1039
+        and sum(v[i] ^ v[15 - i] for i in range(8)) == 72
+        and sum(v[i] * v[15 - i] for i in range(8)) == 361
+        and int(x, 16) % 101 == 72
+        and int(x[::-1], 16) % 103 == 33
+    )
+```
+
+This is a checksum-style puzzle over a 16-character lowercase hex string. The mirrored pair arithmetic, position-weighted sum, and two modular residues are intended to make the target value hard to infer directly.
+
+SOLUTION: "9d4c1a7b3f0e2c58" 
+Checking sample solution  "9d4c1a7b3f0e2c58"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -2 (0-2)
+  gpt-5.4-mini (inventer): 935 in / 15,874 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this, I want to create a puzzle that's challenging but where I can carefully verify my own solution (given my track record of wrong solutions). I'll use digit constraints with modular arithmetic.
+
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 10**7 or x >= 10**8:
+        return False
+    s = str(x)
+    d = [int(c) for c in s]
+    return (
+        sum(d) == 36
+        and len(set(d)) == 8
+        and d[0] * d[1] == 21
+        and d[2] - d[3] == 4
+        and d[4] + d[5] == 6
+        and d[6] * d[7] == 32
+        and d[0] + d[2] + d[4] + d[6] == 22
+        and x % 11 == 3
+        and x % 13 == 12
+    )
+```
+
+The puzzle requires an 8-digit integer with all unique digits, summing to 36, satisfying various pairwise digit relationships, an even-position digit sum, and two modular constraints.
+
+Verification of my solution 73625148:
+- digits [7,3,6,2,5,1,4,8], sum = 36 ✓, all unique ✓
+- 7*3 = 21 ✓
+- 6-2 = 4 ✓
+- 5+1 = 6 ✓
+- 4*8 = 32 ✓
+- 7+6+5+4 = 22 ✓
+- 73625148 = 11·6693195 + 3, so mod 11 = 3 ✓
+- 73625148 = 13·5663472 + 12, so mod 13 = 12 ✓
+
+SOLUTION: 73625148 
+Checking sample solution  73625148
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 37625184. Checking.
+Success!
+New score after this turn: 0 (0-0) vs -2 (0-2)
+  claude-opus-4-7 (inventer): 1,640 in / 3,342 out
+  gpt-5.4-mini (solver): 281 in / 2,171 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if (
+        not isinstance(x, str)
+        or len(x) != 6
+        or any(c not in "abcdefghijklmnopqrstuvwxyz" for c in x)
+        or len(set(x)) != 6
+    ):
+        return False
+
+    v = [ord(c) - 96 for c in x]  # a=1, b=2, ..., z=26
+    n = int(x, 36)
+
+    return (
+        sum(v) == 115
+        and sum((i + 1) * v[i] for i in range(6)) == 408
+        and sum(abs(v[i] - v[i + 1]) for i in range(5)) == 31
+        and sum(v[i] * v[5 - i] for i in range(3)) == 1129
+        and (v[0] ^ v[5]) == 31
+        and n % 97 == 92
+        and int(x[::-1], 36) % 103 == 47
+    )
+```
+
+This one is a fingerprint-style puzzle over a 6-letter lowercase string. It mixes alphabet-position arithmetic, mirrored pair products, a bitwise endpoint check, and two base-36 modular residues. The constraints are chosen to be non-obvious while still admitting at least one valid input.
+
+SOLUTION: 'mzsqvr' 
+Checking sample solution  'mzsqvr'
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -3 (0-3)
+  gpt-5.4-mini (inventer): 1,418 in / 10,832 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at the history, I want to make a solid puzzle with verified constraints. Let me build from a known solution.
+
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 10**7 or x >= 10**8:
+        return False
+    s = str(x)
+    d = [int(c) for c in s]
+    return (
+        sum(d) == 38
+        and len(set(d)) == 8
+        and d[0] * d[1] == 5
+        and d[2] - d[3] == 5
+        and d[4] - d[5] == 7
+        and d[6] - d[7] == 2
+        and sum((i + 1) * d[i] for i in range(8)) == 174
+        and x % 7 == 1
+        and x % 11 == 4
+        and x % 13 == 9
+    )
+```
+
+An 8-digit integer with all unique digits, summing to 38, satisfying various pairwise digit relationships, a weighted-position sum, and three modular constraints.
+
+Verification for 51839264:
+- digits [5,1,8,3,9,2,6,4], sum=38 ✓, all unique ✓
+- 5*1=5 ✓, 8-3=5 ✓, 9-2=7 ✓, 6-4=2 ✓
+- weighted sum: 5+2+24+12+45+12+42+32 = 174 ✓
+- 51839264 = 7·7405609+1 ✓
+- 51839264 mod 11 = 4 ✓
+- 51839264 = 13·3987635+9 ✓
+
+SOLUTION: 51839264 
+Checking sample solution  51839264
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says None. Checking.
+Failure!
+New score after this turn: 1 (1-0) vs -3 (0-3)
+  claude-opus-4-7 (inventer): 2,520 in / 1,962 out
+  gpt-5.4-mini (solver): 290 in / 5,198 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if (
+        not isinstance(x, str)
+        or len(x) != 9
+        or any(c not in "0123456789abcdefghijklmnopqrstuvwxyz" for c in x)
+        or len(set(x)) != 9
+    ):
+        return False
+
+    v = [ord(c) for c in x]
+    n = int(x, 36)
+
+    return (
+        sum(v) == 757
+        and sum((i + 1) * v[i] for i in range(9)) == 3726
+        and sum(abs(v[i] - v[i + 1]) for i in range(8)) == 450
+        and sum(v[i] * v[8 - i] for i in range(5)) == 42609
+        and n % 97 == 7
+        and int(x[::-1], 36) % 101 == 66
+    )
+```
+
+This is a fingerprint puzzle over a 9-character lowercase alphanumeric string. It mixes character-code sums, weighted sums, mirrored pair products, adjacent differences, and two base-36 modular checks.
+
+SOLUTION: "q7m2x9a1k" 
+Checking sample solution  "q7m2x9a1k"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 1 (1-0) vs -4 (0-4)
+  gpt-5.4-mini (inventer): 1,960 in / 6,532 out
+claude-opus-4-7's turn to invent a puzzle...
+Looking at this, I'll create a puzzle similar to the one that wasn't solved before, but verify everything carefully.
+
+```python
+def mystery(x):
+    if not isinstance(x, int) or x < 10**7 or x >= 10**8:
+        return False
+    s = str(x)
+    d = [int(c) for c in s]
+    return (
+        sum(d) == 40
+        and len(set(d)) == 8
+        and d[0] * d[1] == 28
+        and d[2] + d[3] == 11
+        and d[4] * d[5] == 18
+        and d[6] + d[7] == 7
+        and sum((i + 1) * d[i] for i in range(8)) == 178
+        and x % 7 == 0
+        and x % 11 == 9
+        and x % 13 == 9
+    )
+```
+
+An 8-digit integer with all unique digits, sum 40, satisfying pairwise digit relationships, weighted sum 178, and three modular constraints.
+
+Verification for 47382916:
+- digits [4,7,3,8,2,9,1,6], sum=40 ✓, all unique ✓
+- 4*7=28 ✓, 3+8=11 ✓, 2*9=18 ✓, 1+6=7 ✓
+- weighted: 4+14+9+32+10+54+7+48 = 178 ✓
+- 47382916 = 7·6768988 ✓
+- 47382916 mod 11 = 9 ✓
+- 47382916 = 13·3644839+9 ✓
+
+SOLUTION: 47382916 
+Checking sample solution  47382916
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 47382916. Checking.
+Success!
+New score after this turn: 1 (1-0) vs -4 (0-4)
+  claude-opus-4-7 (inventer): 3,367 in / 1,936 out
+  gpt-5.4-mini (solver): 290 in / 2,565 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if (
+        not isinstance(x, str)
+        or len(x) != 6
+        or any(c < "a" or c > "z" for c in x)
+        or len(set(x)) != 6
+    ):
+        return False
+
+    v = [ord(c) - 96 for c in x]
+
+    h = 0
+    for a in v:
+        h = h * 37 + a
+
+    return (
+        v[0] + v[5] == 43
+        and v[1] + v[4] == 41
+        and v[2] + v[3] == 19
+        and v[0] ^ v[5] == 11
+        and sum(v[i] ^ v[i + 1] for i in range(5)) == 63
+        and sum(v[i] * v[5 - i] for i in range(3)) == 880
+        and h % 101 == 26
+        and h % 103 == 7
+    )
+```
+
+This one is a 6-letter lowercase string puzzle. It combines pairwise letter sums, an endpoint XOR check, an adjacent-XOR fingerprint, mirrored products, and two residues of a rolling base-37 hash. The combination is meant to be opaque without being impossible, and it has at least one valid answer.
+
+SOLUTION: "quartz" 
+Checking sample solution  "quartz"
+Puzzle looks good; claude-opus-4-7's turn to solve...
+claude-opus-4-7 says "quartz". Checking.
+Success!
+New score after this turn: 1 (1-0) vs -4 (0-4)
+  gpt-5.4-mini (inventer): 2,454 in / 14,634 out
+  claude-opus-4-7 (solver): 412 in / 2,996 out
+Turn 0: claude-opus-4-7 vs gpt-5.4-mini - 673 in / 5,168 out (?) [success]
+Turn 1: gpt-5.4-mini vs claude-opus-4-7 - 456 in / 17,745 out (?) [puzzle-wrong]
+Turn 2: claude-opus-4-7 vs gpt-5.4-mini - 1,270 in / 9,110 out (?) [success]
+Turn 3: gpt-5.4-mini vs claude-opus-4-7 - 935 in / 15,874 out (?) [puzzle-wrong]
+Turn 4: claude-opus-4-7 vs gpt-5.4-mini - 1,921 in / 5,513 out (?) [success]
+Turn 5: gpt-5.4-mini vs claude-opus-4-7 - 1,418 in / 10,832 out (?) [puzzle-wrong]
+Turn 6: claude-opus-4-7 vs gpt-5.4-mini - 2,810 in / 7,160 out (?) [failure]
+Turn 7: gpt-5.4-mini vs claude-opus-4-7 - 1,960 in / 6,532 out (?) [puzzle-wrong]
+Turn 8: claude-opus-4-7 vs gpt-5.4-mini - 3,657 in / 4,501 out (?) [success]
+Turn 9: gpt-5.4-mini vs claude-opus-4-7 - 2,866 in / 17,630 out (?) [success]
+claude-opus-4-7: 9,420 in / 18,948 out
+gpt-5.4-mini: 8,546 in / 81,117 out
+claude-opus-4-7 ./. gpt-5.4-mini     (1-0) vs (0-4)     [0 failed, see runs/classic/claude-opus-4-7_vs_gpt-5.4-mini.log]

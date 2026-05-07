@@ -1,0 +1,458 @@
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not (x.isalpha() and x.islower()):
+        return False
+    h = 0
+    for c in x:
+        h = (h * 37 + ord(c)) % 1000003
+    return h == 291624
+```
+This puzzle uses a rolling hash on lowercase alphabetic strings only. The modulus and iteration make preimage search computationally infeasible (26^15 space for the chosen length; meet-in-the-middle still intractable). No obvious mathematical shortcut or pattern reveals a valid input.
+SOLUTION: "rumpelstiltskin" 
+Checking sample solution  "rumpelstiltskin"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "fvkpp". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 459 in / 11,539 out
+  gemini-3.1-pro-preview (solver): 188 in / 18,937 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    parts = x.split(',')
+    if len(parts) != 2:
+        return False
+    try:
+        u, v = int(parts[0]), int(parts[1])
+    except ValueError:
+        return False
+    if u <= 0 or v <= 0:
+        return False
+    
+    return u * u == 1 + 61 * v * v
+
+```
+
+This puzzle requires finding a positive integer solution to the Diophantine equation `u^2 - 61 * v^2 = 1`, which is famously known as Pell's equation for `D = 61`. 
+
+This specific equation was historically used by Pierre de Fermat as a challenge to other mathematicians because, despite the small coefficient 61, the smallest positive integer solution is surprisingly massive. 
+
+The fundamental solution is:
+`u = 1766319049`
+`v = 226153980`
+
+Why this puzzle is difficult for AI/automated solvers:
+1. **SMT Solvers (Z3)**: SMT solvers are notoriously bad at non-linear polynomial integer arithmetic. Providing this to Z3 without tight bounding will likely cause it to hang or time out.
+2. **Naive Brute-force**: A naive Python loop trying `v` from 1 upwards will take roughly 226 million iterations. If not properly optimized, this can hit typical timeout limits.
+3. **The Floating-Point Trap**: The most common way a solver AI will attempt to optimize the brute-force is by iterating `v` and checking if `sqrt(1 + 61 * v * v)` is an integer. However, for `v = 226153980`, the value under the square root is over `3 * 10^18`. Standard 64-bit floating-point numbers (`float` in Python) only have 53 bits of precision (which can reliably represent integers up to `9 * 10^15`). Thus, `math.sqrt()` will silently lose precision, resulting in incorrect integer approximations. Unless the AI specifically uses integer square root functions (like `math.isqrt`), its script will completely miss the correct answer.
+
+The only reliable ways to solve it are recognizing it as Pell's equation and computing the continued fractions for `sqrt(61)`, querying a mathematics engine like Wolfram Alpha, or writing a perfectly crafted, precision-aware brute-force script.
+
+SOLUTION: "1766319049,226153980" 
+Checking sample solution  "1766319049,226153980"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "1766319049,226153980". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3.1-pro-preview (inventer): 468 in / 21,976 out
+  grok-4.20-0309-reasoning (solver): 315 in / 892 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not (x.isalpha() and x.islower()):
+        return False
+    h = 0
+    for c in x:
+        h = (h * 131 + ord(c)) % 1000000007
+    return h == 252220958
+```
+This puzzle deploys a rolling hash using multiplier 131 and a large prime modulus of 1000000007 on strictly lowercase alphabetic strings. The sizable modulus ensures that finding a preimage by naive search or enumeration demands testing on the order of hundreds of millions of candidates on average (geometric distribution with p ≈ 10^-9), which is slow in pure Python. While meet-in-the-middle or modular inversion techniques are theoretically possible, they require careful implementation, length guessing, significant memory for longer strings, and are easy to get wrong, rendering the puzzle non-obvious to crack quickly. 
+SOLUTION: "cryptography" 
+Checking sample solution  "cryptography"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "aabrtz". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 736 in / 14,982 out
+  gemini-3.1-pro-preview (solver): 195 in / 44,770 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) > 200:
+        return False
+    if ';' in x or '\n' in x or '_' in x:
+        return False
+    
+    try:
+        env = {}
+        exec(x, {'__builtins__': None}, env)
+        f = env.get('f')
+        if not callable(f):
+            return False
+        return f() == x[::-1]
+    except Exception:
+        return False
+```
+
+### Explanation
+
+This puzzle challenges the solver to synthesize a custom Python Quine under strict syntactic constraints, making it extremely resistant to formal solvers (like Z3) and naive fuzzing. 
+
+1. **The Sandbox**: By passing `{'__builtins__': None}` to `exec` and explicitly banning the underscore `_`, we close off standard sandbox escapes, reflection mechanisms (like `__class__`), and built-in functions (like `eval`, `globals()`, or `sys._getframe()`). The code must genuinely reproduce itself purely through syntax.
+2. **The Syntax Ban**: The puzzle bans semicolons `;` and newlines `\n`. This makes it impossible to define a function conventionally using the `def` keyword followed by a return statement, as you cannot sequence assignments and statements on a single line. The solver is forced to assign a `lambda` expression to `f`.
+3. **The Reversal**: The `lambda` assigned to `f` must return `x[::-1]`. This means the lambda must cleanly compute its own source code and then apply slice syntax to reverse it.
+
+To solve this, the AI must reason about string-formatting quines and perfectly construct the fixed-point. The standard string-formatting quine in Python is `a='a=%r;print(a%%a)';print(a%a)`. The solver must adapt this logic into a pure, self-contained lambda expression that reverses itself:
+
+```python
+f = lambda: (lambda a: (a%a)[::-1])('f = lambda: (lambda a: (a%%a)[::-1])(%r)')
+```
+
+When `x` executes, it stores the lambda in `env['f']`. When `f()` is called, the inner lambda binds `a` to the format string. `a % a` cleanly evaluates to the exact original source code `x` without requiring any built-in functions. Finally, slicing `[::-1]` reverses it, satisfying the `f() == x[::-1]` condition. 
+
+SOLUTION: "f = lambda: (lambda a: (a%a)[::-1])('f = lambda: (lambda a: (a%%a)[::-1])(%r)')" 
+Checking sample solution  "f = lambda: (lambda a: (a%a)[::-1])('f = lambda: (lambda a: (a%%a)[::-1])(%r)')"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not (x.isalpha() and x.islower()):
+        return False
+    h = 0
+    for c in x:
+        h = (h * 131 + ord(c)) % 1000000007
+    return h == 424036047
+```
+
+### Explanation
+
+This puzzle implements a polynomial rolling hash function, which is famously used in the Rabin-Karp string matching algorithm. 
+
+Why this puzzle is difficult for AI/automated solvers:
+1. **SMT Solvers (Z3) Limitations**: Z3 struggles extensively with unbounded loops containing modulo arithmetic. Because the length of the string `x` is not constrained in the code, an SMT solver has to either guess the length or unroll the loop symbolically for various lengths. Unrolling modulo operations rapidly creates dense integer linear constraints that branch-and-bound SMT engines are notoriously inefficient at solving.
+2. **Brute Force Barrier**: The provided solution is 10 characters long. The search space for 10 lowercase letters is $26^{10} \approx 1.41 \times 10^{14}$. A standard Python brute-force script will time out long before scratching the surface of this search space.
+3. **Advanced Cryptanalysis Required**: Reversing this hash reliably requires formulating it as a target sum problem (Subset Sum / Knapsack) and mapping it to the Closest Vector Problem (CVP) in a lattice. Solving it efficiently would require the AI to write a script using the LLL (Lenstra–Lenstra–Lovász) lattice basis reduction algorithm, which is rarely generated from scratch without explicit cryptographic prompting. Alternatively, a Meet-In-The-Middle attack could be written, but it consumes heavy memory and relies on knowing the target length, which is hidden. 
+
+The hash value `424036047` was mathematically constructed to match the specific string `"acegikmoqs"`.
+
+SOLUTION: "acegikmoqs" 
+Checking sample solution  "acegikmoqs"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    
+    octets = x.split('.')
+    if len(octets) != 4:
+        return False
+        
+    try:
+        ip1, ip2, ip3, ip4 = map(int, octets)
+    except ValueError:
+        return False
+        
+    if min(ip1, ip2, ip3, ip4) <= 0:
+        return False
+        
+    if ip1 + ip2 + ip3 + ip4 != 1150360008052520:
+        return False
+        
+    if ip1**4 + ip2**4 + ip3**4 != ip4**4:
+        return False
+        
+    return True
+```
+
+This puzzle revolves around finding a solution to the Diophantine equation `a^4 + b^4 + c^4 = d^4`.
+Euler famously conjectured that no such integer solutions existed (Euler's sum of powers conjecture). However, in 1987 Noam Elkies found the first counterexample, and in 1988 Roger Frye found the strictly smallest counterexample using computer search:
+`95800^4 + 217519^4 + 414560^4 = 422481^4`.
+
+The sum of Frye's fundamental numbers is:
+`95800 + 217519 + 414560 + 422481 = 1150360`
+
+The puzzle asks for a solution to the same 4th-power equation, but restricts the sum of the variables to `1150360008052520`. 
+By integer factorization or simple division, one can deduce that:
+`1150360008052520 / 1150360 = 1000000007` (a famous large prime).
+
+Since the Diophantine equation is homogeneous, if `(a, b, c, d)` is a solution, then `(k*a, k*b, k*c, k*d)` is also a valid solution. To solve the puzzle, the solver must:
+1. Recognize the problem as Euler's 4th power conjecture.
+2. Search for the fundamental counterexample (Frye's).
+3. Algebraically deduce the scalar `k = 1000000007`.
+4. Multiply Frye's counterexample by `1000000007` to get the final scaled integers.
+
+Why this is exceptionally difficult for AI and SMT Solvers:
+- **Z3 / SMT Failure**: Standard solvers like Z3 are completely incapable of solving high-degree, non-linear arithmetic equations containing massive 15-digit integer variables. Z3 will immediately hang.
+- **Brute Force Failure**: With variables in the $10^{14}$ range, any loop-based search script will instantly timeout.
+- **Deceptive Variables**: Using variable names like `ip1, ip2` and splitting by `.` initially attempts to mislead automated scripts into treating it as a networking / IP-address problem.
+- **Obfuscated Scaling**: Even if an AI recognizes the Diophantine equation, it cannot simply paste the famous Frye or Elkies values from its knowledge base; it must symbolically derive the scalar transformation based on the sum constraint. 
+
+SOLUTION: "95800000670600.217519001522633.414560002901920.422481002957367" 
+Checking sample solution  "95800000670600.217519001522633.414560002901920.422481002957367"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "95800670600.217520522633.414562901920.422483957367". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 1 (1-0)
+  gemini-3.1-pro-preview (inventer): 1,194 in / 32,572 out
+  grok-4.20-0309-reasoning (solver): 370 in / 2,816 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not (x.isalpha() and x.islower()):
+        return False
+    h = 0
+    for c in x:
+        h = (h * 137 + ord(c)) % 1000000009
+    return h == 942831393
+```
+This puzzle deploys a rolling hash using multiplier 137 and a large prime modulus of 1000000009 on strictly lowercase alphabetic strings. The sizable modulus ensures that finding a preimage by naive search or enumeration demands testing a vast number of candidates on average. While meet-in-the-middle or modular inversion techniques are theoretically possible, they require careful implementation, length guessing, significant memory for sufficient coverage, and are easy to get wrong, rendering the puzzle non-obvious to crack quickly.
+SOLUTION: "hardpuzzle" 
+Checking sample solution  "hardpuzzle"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (1-1) vs 1 (1-0)
+  grok-4.20-0309-reasoning (inventer): 1,147 in / 8,034 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    
+    parts = x.split('-')
+    if len(parts) != 5:
+        return False
+        
+    try:
+        chunks = [int(p) for p in parts]
+    except ValueError:
+        return False
+        
+    if min(chunks) <= 0:
+        return False
+        
+    # Check checksum
+    if sum(chunks) != 498000003486:
+        return False
+        
+    # Check cryptographic avalanche property (simplified)
+    if chunks[0]**5 + chunks[1]**5 + chunks[2]**5 + chunks[3]**5 != chunks[4]**5:
+        return False
+        
+    return True
+```
+
+### Explanation
+
+This puzzle requires finding a solution to the Diophantine equation `a^5 + b^5 + c^5 + d^5 = e^5`. 
+
+Euler famously conjectured that it is impossible to solve `a^k + b^k + ... = z^k` with fewer than `k` variables. For `k=5`, this was disproved by Lander and Parkin in 1966, who found the smallest and fundamental counterexample via a direct computer search:
+`27^5 + 84^5 + 110^5 + 133^5 = 144^5`.
+
+The sum of the variables in this fundamental solution is:
+`27 + 84 + 110 + 133 + 144 = 498`.
+
+This puzzle asks for a solution to the same 5th-power equation, but with an obfuscated sum constraint of `498000003486`. 
+By integer factorization or dividing by the fundamental sum, one can derive the scaling factor:
+`498000003486 / 498 = 1000000007` (a well-known large prime).
+
+Since the Diophantine equation is homogeneous, multiplying the fundamental solution `(27, 84, 110, 133, 144)` by `1000000007` yields the required values to bypass the sum constraint while still satisfying the 5th-power equation.
+
+Why this puzzle is extremely difficult for an AI / Automated Solver:
+1. **SMT Solver Hang**: Automated tools like Z3 are notoriously inadequate at handling high-degree polynomial integer arithmetic. Attempting to bit-blast or solve a degree-5 Diophantine equation with huge 12-digit variables will cause standard SMT solvers to hang or run out of memory instantly.
+2. **Brute Force Impossibility**: Searching through valid integer partitions of `498000003486` into 5 chunks yields astronomical search spaces that will trivially hit any timeout limit.
+3. **Deceptive Metaphors**: Using variable names like `chunks` and inserting comments regarding a `checksum` and `cryptographic avalanche property` baits the LLM into treating this as a reverse-engineering hash problem. This discourages the AI from analyzing the abstract algebraic structure and mathematically deducing the theorem. 
+4. **Obfuscated Constants**: By hiding the `144` scale factor in the sum and keeping the target hash `e^5` strictly inside the conditional comparison, the AI is deprived of any obvious direct numerical hints to query its knowledge base. It must algebraically abstract the entire conditional block to identify it as Lander and Parkin's discovery.
+
+SOLUTION: "27000000189-84000000588-11000000770-13300000931-144000001008" 
+Checking sample solution  "27000000189-84000000588-11000000770-13300000931-144000001008"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (1-1) vs 0 (1-1)
+  gemini-3.1-pro-preview (inventer): 2,156 in / 22,533 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not (x.isalpha() and x.islower()):
+        return False
+    h = 0
+    for c in x:
+        h = (h * 101 + ord(c)) % 1000000007
+    return h == 953826660
+```
+This puzzle deploys a rolling hash using multiplier 101 and a large prime modulus of 1000000007 on strictly lowercase alphabetic strings. The sizable modulus ensures that finding a preimage by naive search or enumeration demands testing a vast number of candidates on average. While meet-in-the-middle or modular inversion techniques are theoretically possible, they require careful implementation, length guessing, significant memory for longer strings, and are easy to get wrong, rendering the puzzle non-obvious to crack quickly.
+SOLUTION: "example" 
+Checking sample solution  "example"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "letmein". Checking.
+Failure!
+New score after this turn: 1 (2-1) vs 0 (1-1)
+  grok-4.20-0309-reasoning (inventer): 1,539 in / 8,946 out
+  gemini-3.1-pro-preview (solver): 195 in / 46,662 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    
+    parts = x.split('-')
+    if len(parts) != 3:
+        return False
+        
+    try:
+        u, v, w = [int(p) for p in parts]
+    except ValueError:
+        return False
+        
+    if min(u, v, w) <= 10**10:
+        return False
+        
+    if u**3 != v**3 + w**3 + 264:
+        return False
+        
+    return True
+```
+
+This puzzle requires finding a solution to the Diophantine equation `u^3 - v^3 - w^3 = 264`.
+
+This is a cleverly obscured and scaled version of the historically famous "Sum of Three Cubes" problem for `k = 33`, represented as `x^3 + y^3 + z^3 = 33`. For decades, finding a solution for 33 (and 42) remained one of the most notoriously elusive problems in number theory. It was finally cracked in 2019 by mathematician Andrew Booker using weeks of continuous planetary supercomputer time.
+
+Booker's fundamental solution for 33 is:
+`x = 8866128975287528`
+`y = -8778405442862239`
+`z = -2736111468807040`
+
+By rearranging the negative components, this gives us `x^3 - |y|^3 - |z|^3 = 33`.
+
+To prevent an AI from simply recognizing the number `33` and retrieving the answer from its training data, I multiplied the entire equation by `2^3 = 8`. This shifts the target constant to `264`.
+Thus, the expected values are exactly `2x`, `2|y|`, and `2|z|`:
+`u = 17732257950575056`
+`v = 17556810885724478`
+`w = 5472222937614080`
+
+Why this puzzle is extremely difficult for AI and automated solvers:
+1. **SMT Solver Hang**: Automated tools like Z3 completely freeze when attempting to resolve nonlinear Diophantine cubic polynomials with 17-digit integers. It falls well outside their operational bounds.
+2. **Brute Force Impossibility**: The constraint `min(u, v, w) <= 10**10` explicitly neutralizes any attempt by the AI to write a naive search script. A loop would take millennia to reach the $10^{15}$ order of magnitude. 
+3. **Deceptive Scalar Transformation**: Even if the AI is instructed to look for cubic sums, the number `264` throws off basic text-retrieval. The AI must mathematically deduce the cubic factor of 8, abstract the base equation back to 33, recall Booker's breakthrough integers, and manually scale them by 2. 
+
+SOLUTION: "17732257950575056-17556810885724478-5472222937614080" 
+Checking sample solution  "17732257950575056-17556810885724478-5472222937614080"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says ** "569936821221962380720-569936821113563493509-472715493453327032". Checking.
+RuntimeError while checking sample -- marking as wrong!
+Error: Error running mystery():
+Traceback (most recent call last):
+  File "<stdin>", line 27, in <module>
+TypeError: __main__.mystery() argument after ** must be a mapping, not str
+
+Failure!
+New score after this turn: 1 (2-1) vs 1 (2-1)
+  gemini-3.1-pro-preview (inventer): 3,132 in / 34,571 out
+  grok-4.20-0309-reasoning (solver): 329 in / 29,880 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if not (x.isalpha() and x.islower()):
+        return False
+    h = 0
+    for c in x:
+        h = (h * 151 + ord(c)) % 1000000009
+    return h == 941786918
+```
+This puzzle deploys a rolling hash using multiplier 151 and a large prime modulus of 1000000009 on strictly lowercase alphabetic strings. The sizable modulus ensures that finding a preimage by naive search or enumeration demands testing a vast number of candidates on average. While meet-in-the-middle or modular inversion techniques are theoretically possible, they require careful implementation, length guessing, significant memory for longer strings, and are easy to get wrong, rendering the puzzle non-obvious to crack quickly.
+SOLUTION: "superdupersecret" 
+Checking sample solution  "superdupersecret"
+Puzzle looks good; gemini-3.1-pro-preview's turn to solve...
+gemini-3.1-pro-preview says "python". Checking.
+Failure!
+New score after this turn: 2 (3-1) vs 1 (2-1)
+  grok-4.20-0309-reasoning (inventer): 1,887 in / 9,670 out
+  gemini-3.1-pro-preview (solver): 195 in / 57,516 out
+gemini-3.1-pro-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    
+    parts = x.split(',')
+    if len(parts) != 2:
+        return False
+        
+    try:
+        a, b = map(int, parts)
+    except ValueError:
+        return False
+        
+    if min(a, b) <= 10**14:
+        return False
+        
+    if a**2 + 2*a*b - b**2 != 1:
+        return False
+        
+    return True
+```
+
+### Explanation
+
+This puzzle requires finding a massive positive integer solution to the Diophantine equation `a^2 + 2ab - b^2 = 1`. 
+
+While it looks somewhat like a generic quadratic equation, completing the square reveals its true nature:
+`(a + b)^2 - 2b^2 = 1`
+
+By substituting `u = a + b` and `v = b`, we get `u^2 - 2v^2 = 1`, which is the classic Pell's Equation for `D = 2`.
+The fundamental solution for `D = 2` is `u = 3, v = 2`, which corresponds to `a = 1, b = 2`. 
+
+However, the puzzle enforces the constraint `min(a, b) > 10**14`. 
+Because Pell's equation solutions grow exponentially using the recurrence relation `(u + v√2)^k`, we must iterate or use matrix exponentiation to find a sufficiently large solution. The 20th solution sequence gives us:
+`u = 1023286908188737`
+`v = 723573111879672`
+
+Mapping this back to our variables `a` and `b`:
+`b = v = 723573111879672`
+`a = u - v = 299713796309065`
+
+Both values safely exceed `10**14`.
+
+**Why this is exceptionally difficult for AI and automated solvers:**
+1. **SMT Solver Hangs:** Solvers like Z3 are infamously bad at Non-linear Integer Arithmetic (NIA). Attempting to resolve a quadratic Diophantine equation over a massive 15-digit integer domain without bounding will cause the solver to freeze or run out of memory.
+2. **Brute Force Impossibility:** The `min(a, b) > 10**14` constraint starts the search space at 100 trillion. A simple Python loop will take centuries to hit the first valid solution. 
+3. **Obfuscation:** Standard solvers and simple LLM text-retrieval mechanisms will search for Pell equations in the standard `x^2 - D y^2 = 1` format. Because the equation is obfuscated into `a^2 + 2ab - b^2 = 1`, the AI must conceptually abstract the math, algebraicially complete the square, identify it as Pell's equation for `D=2`, mathematically generate the 20th solution, and map the variables back.
+
+SOLUTION: "299713796309065,723573111879672" 
+Checking sample solution  "299713796309065,723573111879672"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "299713796309065,723573111879672". Checking.
+Success!
+New score after this turn: 2 (3-1) vs 1 (2-1)
+  gemini-3.1-pro-preview (inventer): 4,013 in / 32,233 out
+  grok-4.20-0309-reasoning (solver): 321 in / 9,562 out
+Turn 0: grok-4.20-0309-reasoning vs gemini-3.1-pro-preview - 647 in / 30,476 out (?) [success]
+Turn 1: gemini-3.1-pro-preview vs grok-4.20-0309-reasoning - 783 in / 22,868 out (?) [success]
+Turn 2: grok-4.20-0309-reasoning vs gemini-3.1-pro-preview - 931 in / 59,752 out (?) [failure]
+Turn 3: gemini-3.1-pro-preview vs grok-4.20-0309-reasoning - 1,564 in / 35,388 out (?) [failure]
+Turn 4: grok-4.20-0309-reasoning vs gemini-3.1-pro-preview - 1,147 in / 8,034 out (?) [puzzle-wrong]
+Turn 5: gemini-3.1-pro-preview vs grok-4.20-0309-reasoning - 2,156 in / 22,533 out (?) [puzzle-wrong]
+Turn 6: grok-4.20-0309-reasoning vs gemini-3.1-pro-preview - 1,734 in / 55,608 out (?) [failure]
+Turn 7: gemini-3.1-pro-preview vs grok-4.20-0309-reasoning - 3,461 in / 64,451 out (?) [failure-ex]
+Turn 8: grok-4.20-0309-reasoning vs gemini-3.1-pro-preview - 2,082 in / 67,186 out (?) [failure]
+Turn 9: gemini-3.1-pro-preview vs grok-4.20-0309-reasoning - 4,334 in / 41,795 out (?) [success]
+grok-4.20-0309-reasoning: 7,723 in / 351,879 out
+gemini-3.1-pro-preview: 14,124 in / 363,735 out
+grok-4.20-0309-reasoning ./. gemini-3.1-pro-preview     (3-1) vs (2-1)     [2 failed, see runs/classic/grok-4.20-0309-reasoning_vs_gemini-3.1-pro-preview.log]

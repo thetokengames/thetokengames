@@ -1,0 +1,740 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x)
+    if s.startswith(("-", "+")):
+        s = s[1:]
+    if len(s) != 8 or not s.isdigit():
+        return False
+    h = 0
+    for i, ch in enumerate(s[::-1]):
+        h = (h * 131 + ord(ch) + 17 * i) % 1000003
+    return h == 55912
+```
+
+This one normalizes the input to an 8-digit decimal string, runs a reverse-order rolling hash with position-dependent offsets, and only accepts a single residue. Good luck finding a preimage by inspection.
+
+SOLUTION: 50781429 
+Checking sample solution  50781429
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x)
+    if len(s) != 8:
+        return False
+    if not (
+        s[0].isupper() and s[1].isdigit() and
+        s[2].islower() and s[3].isdigit() and
+        s[4].isupper() and s[5].isdigit() and
+        s[6].islower() and s[7].isdigit()
+    ):
+        return False
+    h = 0
+    for i, ch in enumerate(s):
+        h = (h * 131 + (ord(ch) ^ (i * 17 + 5))) % 1000003
+    return h == 196131
+```
+
+This puzzle accepts only 8-character strings with an alternating case/digit pattern and a rolling checksum. It is intentionally awkward to invert by inspection.
+
+SOLUTION: "Q9z4M7a2" 
+Checking sample solution  "Q9z4M7a2"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x)
+    if not s.isdigit() or len(s) != 10:
+        return False
+
+    d = [int(c) for c in s]
+
+    # A few independent fingerprints.
+    a = sum(d)
+    b = sum((i + 1) * v for i, v in enumerate(d))
+    c = 1
+    for v in reversed(d):
+        c = (c * (v + 1)) % 10007
+    e = 0
+    for i, v in enumerate(d):
+        e ^= v << (i & 3)
+    f = sum(v * v for v in d)
+    g = int(s) % 97
+
+    return (a, b, c, e, f, g) == (40, 206, 3133, 57, 220, 11)
+```
+
+This puzzle checks several digit-based invariants at once, with a small reversal trick mixed in to make the pattern less obvious.
+
+SOLUTION: 4827061354 
+Checking sample solution  4827061354
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+import hashlib
+
+_TABLE = str.maketrans(
+    "abcdefghijklmnopqrstuvwxyz",
+    "phqgiumeaylnofdxjkrcvstzwb"
+)
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    y = x.strip().casefold().translate(_TABLE)[::-1]
+    return hashlib.sha256(y.encode("utf-8")).hexdigest() == (
+        "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+    )
+```
+
+This one hides the answer behind a substitution cipher, reversal, and a SHA-256 check. Only strings survive the type check, and the transformed string must hash to the well-known digest shown above.
+
+SOLUTION: "tzi" 
+Checking sample solution  "tzi"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "tzi". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 346 in / 10,247 out
+  claude-sonnet-4-6 (solver): 295 in / 1,172 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 5 or not x.isalpha() or not x.islower():
+        return False
+    p = [ord(c) - 96 for c in x]  # a=1, b=2, ..., z=26
+    return (
+        p[0] ** 2 - p[1] ** 2 == 168 and
+        p[0] ** 2 - p[3] ** 2 == 25 and
+        p[2] ** 2 + p[4] ** 2 == 281 and
+        p[2] ** 2 - p[4] ** 2 == 231 and
+        sum(p) == 47
+    )
+```
+
+The puzzle requires finding a 5-letter lowercase word satisfying four quadratic constraints on the numerical positions of its letters (where a=1, b=2, …, z=26), plus a sum constraint. The conditions are expressed as differences and sums of squares, making it non-trivial to work backwards to the intended letters.
+
+SOLUTION: "maple" 
+Checking sample solution  "maple"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "maple". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 592 in / 23,551 out
+  gpt-5.4-mini (solver): 271 in / 541 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, str):
+        if len(x) != 9 or not x.isdigit() or x[0] == "0":
+            return False
+        s = x
+    elif type(x) is int and 100000000 <= x <= 999999999:
+        s = str(x)
+    else:
+        return False
+
+    d = [ord(c) - 48 for c in s]
+    perm = (2, 5, 1, 8, 0, 3, 7, 4, 6)
+
+    a = sum((i + 1) * d[perm[i]] for i in range(9))
+
+    b = 0
+    for i, v in enumerate(d):
+        b = (b * 13 + (v ^ (i + 4))) % 1000
+
+    c = 0
+    for v in reversed(d):
+        c = (c * 7 + v) % 97
+
+    p = 1
+    for v in d:
+        p = (p * v) % 97
+
+    return a == 238 and b == 948 and c == 17 and p == 2 and sum(d) == 42
+```
+
+This one is a checksum-style puzzle over a 9-digit decimal value. It mixes a digit permutation, a rolling XOR-scrambled residue, a reverse-order base-7 fold, and a modular product check, so it’s not obvious by inspection which inputs satisfy all the conditions.
+
+SOLUTION: 663782541 
+Checking sample solution  663782541
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 442554684. Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 736 in / 24,635 out
+  claude-sonnet-4-6 (solver): 436 in / 37,546 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    x = x.lower().strip()
+    if len(x) != 8 or not x.isalpha():
+        return False
+
+    # Map letters to 0-25 (a=0, b=1, ..., z=25)
+    vals = [ord(c) - ord('a') for c in x]
+
+    # Linear weighted constraint 1
+    poly = sum(vals[i] * (3 * i + 1) for i in range(8))
+
+    # Linear weighted constraint 2 (quadratic weights)
+    poly2 = sum(vals[i] * (7 - i) ** 2 for i in range(8))
+
+    # Nonlinear forward mixing
+    state = 17
+    for v in vals:
+        state = (state * 37 + v * 11) % 997
+
+    # Nonlinear backward mixing
+    state2 = 5
+    for v in reversed(vals):
+        state2 = (state2 * 19 + v * 7) % 991
+
+    return (
+        sum(vals) == 101 and
+        poly == 1208 and
+        poly2 == 1898 and
+        state == 217 and
+        state2 == 859
+    )
+```
+
+**Explanation:**
+
+The puzzle takes an 8-letter lowercase string and converts each character to its 0-based alphabetical index (a=0, …, z=25). It then applies five independent constraints:
+
+1. **Sum constraint** — the sum of the letter indices must equal 101.
+2. **Polynomial 1** — a linearly-weighted sum using weights 1, 4, 7, 10, 13, 16, 19, 22 must equal 1208.
+3. **Polynomial 2** — a quadratic-weighted sum using weights 49, 36, 25, 16, 9, 4, 1, 0 must equal 1898.
+4. **Forward hash** — a sequential mixing operation (multiply-add with modulus 997, starting at 17) must yield 217.
+5. **Backward hash** — the same style of mixing applied in *reverse* order (modulus 991, starting at 5) must yield 859.
+
+The two linear constraints plus the sum narrow the search to a low-dimensional integer lattice, while the two nonlinear modular "hash" constraints act like a fingerprint making accidental collisions extremely unlikely. Together, they uniquely identify the target string.
+
+SOLUTION: "trickery" 
+Checking sample solution  "trickery"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int):
+        return False
+    if not (100000000 <= x <= 999999999):
+        return False
+
+    d = [int(c) for c in str(x)]
+
+    # Constraint 1: digit sum
+    if sum(d) != 45:
+        return False
+
+    # Constraint 2: forward rolling hash
+    b = 0
+    for i, v in enumerate(d):
+        b = (b * 13 + (v ^ (i + 4))) % 1000
+    if b != 469:
+        return False
+
+    # Constraint 3: reverse rolling hash
+    c = 0
+    for v in reversed(d):
+        c = (c * 7 + v) % 97
+    if c != 83:
+        return False
+
+    # Constraint 4: product mod prime
+    p = 1
+    for v in d:
+        p = (p * v) % 97
+    if p != 3:
+        return False
+
+    # Constraint 5: positional weighted sum
+    if sum((i + 1) * d[i] for i in range(9)) != 245:
+        return False
+
+    return True
+```
+
+**Explanation:**
+
+The puzzle requires finding a 9-digit integer satisfying five simultaneous constraints:
+1. Its digits sum to 45.
+2. A forward pass of `b = (b * 13 + (digit XOR (pos+4))) % 1000` over the digits yields 469.
+3. A backward pass of `c = (c * 7 + digit) % 97` over the reversed digits yields 83.
+4. The running product of digits modulo 97 equals 3.
+5. The position-weighted sum `Σ (i+1)·dᵢ` equals 245.
+
+Constraints 2–4 act as non-linear, non-invertible hash-like functions over the digit sequence, making it very difficult to reverse-engineer the correct ordering of digits. Even if a solver identifies a valid digit multiset from constraints 1 and 5, they must find the exact permutation satisfying the rolling-hash constraints.
+
+SOLUTION: 514729836 
+Checking sample solution  514729836
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    x = x.strip()
+    if not x or x[0] == '0':
+        return False
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n <= 0:
+        return False
+
+    def is_prime(p):
+        if p < 2: return False
+        if p == 2: return True
+        if p % 2 == 0: return False
+        for i in range(3, int(p**0.5) + 1, 2):
+            if p % i == 0: return False
+        return True
+
+    # Find integer cube root of n
+    c = int(round(n ** (1.0 / 3)))
+    found = False
+    for delta in range(-2, 3):
+        if (c + delta) ** 3 == n:
+            c = c + delta
+            found = True
+            break
+    if not found:
+        return False
+
+    digit_sum = sum(int(d) for d in str(n))
+    b = bin(c)[2:]  # binary representation of c (no '0b' prefix)
+
+    return (
+        is_prime(digit_sum) and
+        is_prime(c) and
+        is_prime(c * c + c + 1) and
+        b == b[::-1]
+    )
+```
+
+This puzzle requires finding a string representation of a positive integer `n` satisfying **four simultaneous conditions** on its integer cube root `c = ∛n`:
+
+1. `n` must be a **perfect cube** (with integer cube root `c`)
+2. The **digit sum** of `n` must be **prime**
+3. `c` itself must be **prime**
+4. The value `c² + c + 1` must be **prime**
+5. The **binary representation** of `c` must be a **palindrome**
+
+These constraints interact in a subtle and non-obvious way, making the solution hard to guess without systematic exploration.
+
+SOLUTION: "4913" 
+Checking sample solution  "4913"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "4913". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,243 in / 21,279 out
+  gpt-5.4-mini (solver): 404 in / 529 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+import hashlib
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    if isinstance(x, (int, float)):
+        s = str(x)
+    elif isinstance(x, str):
+        s = x
+    else:
+        return False
+
+    s = s.strip()
+    if len(s) != 11 or not all(32 <= ord(c) <= 126 for c in s):
+        return False
+
+    perm = (4, 2, 0, 10, 7, 1, 9, 6, 3, 8, 5)
+    u = ''.join(s[i] for i in perm)
+    scrambled = bytes((ord(ch) ^ (0x41 + i)) for i, ch in enumerate(u))
+    z = scrambled[::-1].decode("latin-1")
+
+    return hashlib.sha256(z.encode("utf-8")).hexdigest() == (
+        "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+    )
+```
+
+The input is first normalized, then its characters are permuted, XOR-scrambled with a position-dependent mask, reversed, and finally hashed. The returned value is True only when that transformed text matches a fixed SHA-256 digest.
+
+SOLUTION: "1f.%%#$2/(+" 
+Checking sample solution  "1f.%%#$2/(+"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "1f.%%#$2/(+". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 1,428 in / 14,288 out
+  claude-sonnet-4-6 (solver): 417 in / 9,040 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+import math
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if x < 10000 or x > 99999:
+        return False
+
+    # x must be a perfect square
+    r = math.isqrt(x)
+    if r * r != x:
+        return False
+
+    # All five digits must be nonzero and distinct
+    digits = [int(d) for d in str(x)]
+    if 0 in digits or len(set(digits)) != 5:
+        return False
+
+    # Digit sum must be prime
+    s = sum(digits)
+    if s < 2 or not all(s % i != 0 for i in range(2, s)):
+        return False
+
+    # Combined modular constraint
+    if x % 77 != 56:
+        return False
+
+    return True
+```
+
+**Explanation (private):**
+
+The puzzle asks for a 5-digit perfect square satisfying four conditions simultaneously:
+1. It's a perfect square
+2. All five decimal digits are distinct and nonzero
+3. The digit sum is prime
+4. `x ≡ 56 (mod 77)` — by CRT this encodes `x ≡ 0 (mod 7)` AND `x ≡ 1 (mod 11)`, which forces the square root `a` to satisfy `a ≡ 0 (mod 7)` AND `a ≡ ±1 (mod 11)`
+
+Exhaustive analysis of the 5-digit perfect squares (100² through 316²) satisfying `a ≡ 21 or 56 (mod 77)` shows that only **a = 133**, **x = 17689** passes all four conditions: digits {1,7,6,8,9} are all distinct and nonzero, digit sum = 31 is prime, and 17689 = 77×229 + 56.
+
+SOLUTION: 17689 
+Checking sample solution  17689
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 17689. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 2,097 in / 29,799 out
+  gpt-5.4-mini (solver): 288 in / 840 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+import hashlib
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    if isinstance(x, (int, float)):
+        s = str(x)
+    elif isinstance(x, str):
+        s = x
+    else:
+        return False
+
+    s = s.strip()
+    if len(s) != 11 or not all(32 <= ord(c) <= 126 for c in s):
+        return False
+
+    perm = (7, 0, 10, 3, 1, 8, 5, 2, 9, 4, 6)
+    u = ''.join(s[i] for i in perm)
+
+    v = ''.join(
+        chr(32 + ((ord(ch) - 32 + 17 * i) % 95))
+        for i, ch in enumerate(u)
+    )
+
+    return hashlib.sha256(v.encode("utf-8")).hexdigest() == (
+        "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"
+    )
+```
+
+This puzzle first normalizes the input, then permutes the characters, then applies a position-dependent printable-ASCII shift, and finally checks the SHA-256 hash of the transformed result against a fixed digest. The two reversible layers make it awkward to infer the original value by inspection.
+
+SOLUTION: "T+W92pxh*IJ" 
+Checking sample solution  "T+W92pxh*IJ"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "T+W92pxh*IJ". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 1,964 in / 9,092 out
+  claude-sonnet-4-6 (solver): 421 in / 5,488 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    if isinstance(x, (int, float)):
+        s = str(x)
+    elif isinstance(x, str):
+        s = x
+    else:
+        return False
+
+    s = s.strip()
+    if len(s) != 9 or not s.isdigit() or s[0] == '0':
+        return False
+
+    d = [int(c) for c in s]
+
+    perm = tuple((2 * i + 3) % 9 for i in range(9))
+    a = sum((i + 1) * d[perm[i]] for i in range(9))
+
+    b = 0
+    for i, v in enumerate(d):
+        b = (b * 13 + (v ^ (i + 4))) % 1000
+
+    c = 0
+    for v in reversed(d):
+        c = (c * 7 + v) % 97
+
+    p = 1
+    for v in d:
+        p = (p * v) % 97
+
+    return a == 159 and b == 137 and c == 77 and p == 57 and sum(d) == 39
+```
+
+This puzzle takes a 9-digit integer (as int or string) and puts it through four cryptographic-style hash-like constraint checks plus a digit-sum check:
+
+1. **Permuted weighted sum** (`a`): digits are reordered via a specific permutation `(3,5,7,0,2,4,6,8,1)`, then weighted by position index — must equal 159.
+2. **Sequential XOR-hash** (`b`): iterative computation mixing multiplication by 13, XOR with `(i+4)`, and mod 1000 — must equal 137.
+3. **Reverse sequential hash** (`c`): digits processed in reverse, iteratively via `c = (c*7 + v) % 97` — must equal 77.
+4. **Product hash** (`p`): running product of digits mod 97 — must equal 57.
+5. **Digit sum** must equal 39.
+
+Each constraint is easy to verify but hard to invert, and all five together are designed to pinpoint essentially a unique solution.
+
+SOLUTION: 271828182 
+Checking sample solution  271828182
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    if isinstance(x, (int, float)):
+        s = str(x)
+    elif isinstance(x, str):
+        s = x
+    else:
+        return False
+
+    s = s.strip()
+    if len(s) != 9 or not s.isdigit() or s[0] == '0':
+        return False
+
+    d = [int(c) for c in s]
+
+    perm = (3, 6, 0, 7, 4, 1, 8, 5, 2)
+    a = sum((i + 1) * d[perm[i]] for i in range(9))
+
+    b = 0
+    for i, v in enumerate(d):
+        b = (b * 13 + (v ^ (i + 4))) % 1000
+
+    c = 0
+    for v in reversed(d):
+        c = (c * 7 + v) % 97
+
+    p = 1
+    for v in d:
+        p = (p * v) % 97
+
+    q = sum(d[i] * (i * i + 1) for i in range(9)) % 101
+
+    return a == 207 and b == 217 and c == 43 and p == 3 and q == 50
+```
+
+This puzzle takes a 9-digit number and applies five independent constraints:
+
+1. **`a`**: A permutation-scrambled weighted sum — the digits are reordered by `perm` before being multiplied by position weights `1..9`
+2. **`b`**: A rolling hash (multiplier 13, mod 1000) where each digit is XOR'd with its index offset before accumulation
+3. **`c`**: A reverse-order rolling hash (multiplier 7, mod 97) over the digits
+4. **`p`**: The product of all digits reduced mod 97
+5. **`q`**: A quadratic-weighted digit sum reduced mod 101
+
+Each constraint involves a different nonlinear combination of the digits, making it hard to jointly satisfy all five without knowing the target value.
+
+SOLUTION: 726384951 
+Checking sample solution  726384951
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+import math
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if x < 100000 or x > 999999:
+        return False
+
+    digits = [int(d) for d in str(x)]
+
+    # All six digits must be distinct
+    if len(set(digits)) != 6:
+        return False
+
+    # x must be a perfect square
+    r2 = math.isqrt(x)
+    if r2 * r2 != x:
+        return False
+
+    # The square root must also be a perfect square
+    r4 = math.isqrt(r2)
+    if r4 * r4 != r2:
+        return False
+
+    # The digit sum must equal the 4th root of x
+    if sum(digits) != r4:
+        return False
+
+    return True
+```
+
+**Explanation of the puzzle (visible to you):**
+
+Find a 6-digit positive integer `x` satisfying four simultaneous constraints:
+
+1. **All six decimal digits are distinct** — no repeated digit.
+2. **x is a perfect square** — i.e., `x = r²` for some integer `r`.
+3. **That square root is itself a perfect square** — i.e., `r = s²`, meaning `x = s⁴` is a perfect *fourth power*.
+4. **Self-referential digit constraint** — the sum of the digits of `x` equals `s`, the fourth root of `x`.
+
+The beauty is in constraint 4: the number "tells you" its own fourth root through its digit sum. There turns out to be a unique 6-digit integer satisfying all four constraints simultaneously (two near-miss candidates are eliminated by constraint 1).
+
+SOLUTION: 390625 
+Checking sample solution  390625
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 390625. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 2,937 in / 26,519 out
+  gpt-5.4-mini (solver): 286 in / 672 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+import hashlib
+
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 43:
+        return False
+    if not all(33 <= ord(c) <= 126 for c in x):
+        return False
+
+    y = ''.join(chr(32 + ((ord(c) - 33) % 95)) for c in x[::-1])
+    return hashlib.sha1(y.encode("ascii")).hexdigest() == (
+        "2fd4e1c67a2d28fced849ee1bb76e7391b93eb12"
+    )
+```
+
+This puzzle reverses the string, shifts every character one step backward in the printable ASCII range, and then checks the SHA-1 hash of the result against a fixed digest. The digest is for a well-known pangram, but the reverse-and-shift layer hides the actual input pretty effectively.
+
+SOLUTION: "hpe!z{bm!fiu!sfwp!tqnvk!ypg!oxpsc!ldjvr!fiU" 
+Checking sample solution  "hpe!z{bm!fiu!sfwp!tqnvk!ypg!oxpsc!ldjvr!fiU"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "hpe!z{bm!fiu!sfwp!tqnvk!ypg!oxpsc!ldvjr!fiU". Checking.
+Failure!
+New score after this turn: 2 (2-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 2,509 in / 15,252 out
+  claude-sonnet-4-6 (solver): 290 in / 4,531 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+import math
+
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+    if x < 1000 or x > 9999:
+        return False
+
+    # All four decimal digits must be distinct
+    s = str(x)
+    if len(set(s)) != 4:
+        return False
+
+    # x must be a perfect square
+    r = math.isqrt(x)
+    if r * r != x:
+        return False
+
+    # The square root must itself be prime
+    def is_prime(n):
+        if n < 2:
+            return False
+        if n == 2:
+            return True
+        if n % 2 == 0:
+            return False
+        for i in range(3, int(n**0.5) + 1, 2):
+            if n % i == 0:
+                return False
+        return True
+
+    if not is_prime(r):
+        return False
+
+    # x must equal k! + 1 for some positive integer k
+    k, factorial = 1, 1
+    while factorial < x:
+        k += 1
+        factorial *= k
+        if factorial + 1 == x:
+            return True
+
+    return False
+```
+
+This puzzle asks you to find a 4-digit integer satisfying **four simultaneous constraints**:
+
+1. All four decimal digits are **distinct**
+2. It is a **perfect square**
+3. Its square root is **prime**
+4. It equals **k! + 1** for some positive integer k (one more than a factorial)
+
+The intersection of factorial numbers, perfect squares, and primality constraints is very tight — you'll need to find the right k where these all align at once in the 4-digit range.
+
+SOLUTION: 5041 
+Checking sample solution  5041
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 5041. Checking.
+Success!
+New score after this turn: 2 (2-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 3,588 in / 22,933 out
+  gpt-5.4-mini (solver): 369 in / 405 out
+Logs written to runs/classic/gpt-5.4-mini_vs_claude-sonnet-4-6.log and runs/classic/gpt-5.4-mini_vs_claude-sonnet-4-6.jsonl
+
+=== Token Usage Summary ===
+Turn 0: gpt-5.4-mini vs claude-sonnet-4-6 - 641 in / 11,419 out (?) [success]
+Turn 1: claude-sonnet-4-6 vs gpt-5.4-mini - 863 in / 24,092 out (?) [success]
+Turn 2: gpt-5.4-mini vs claude-sonnet-4-6 - 1,172 in / 62,181 out (?) [failure]
+Turn 3: claude-sonnet-4-6 vs gpt-5.4-mini - 1,647 in / 21,808 out (?) [success]
+Turn 4: gpt-5.4-mini vs claude-sonnet-4-6 - 1,845 in / 23,328 out (?) [success]
+Turn 5: claude-sonnet-4-6 vs gpt-5.4-mini - 2,385 in / 30,639 out (?) [success]
+Turn 6: gpt-5.4-mini vs claude-sonnet-4-6 - 2,385 in / 14,580 out (?) [success]
+Turn 7: claude-sonnet-4-6 vs gpt-5.4-mini - 3,223 in / 27,191 out (?) [success]
+Turn 8: gpt-5.4-mini vs claude-sonnet-4-6 - 2,799 in / 19,783 out (?) [failure]
+Turn 9: claude-sonnet-4-6 vs gpt-5.4-mini - 3,957 in / 23,338 out (?) [success]
+
+=== Totals by Model ===
+gpt-5.4-mini: 108,580 in / 402,696 out
+claude-sonnet-4-6: 21,592 in / 486,356 out

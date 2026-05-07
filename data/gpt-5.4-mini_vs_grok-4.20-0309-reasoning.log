@@ -1,0 +1,357 @@
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x).lower()
+    if not (len(s) == 8 and s.isalpha() and s.islower()):
+        return False
+
+    p = (5, 3, 7, 1, 6, 0, 4, 2)
+    shifts = (11, 4, 15, 1, 12, 6, 18, 3)
+
+    t = ''.join(
+        chr((ord(s[::-1][p[i]]) - 97 + shifts[i]) % 26 + 97)
+        for i in range(8)
+    )
+
+    goal = ''.join(
+        chr(((n * 7) + 3) % 26 + 97)
+        for n in (9, 5, 22, 23, 21, 18, 4, 12)
+    )
+
+    return t == goal
+```
+
+This puzzle hides the answer behind a reverse, a position permutation, and per-letter Caesar shifts.
+
+SOLUTION: "midnight" 
+Checking sample solution  "midnight"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "midnight". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 346 in / 13,695 out
+  grok-4.20-0309-reasoning (solver): 413 in / 2,075 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x).lower()
+    if not (len(s) == 8 and s.isalpha() and s.islower()):
+        return False
+    if sum(ord(c) for c in s) % 9 != 4:
+        return False
+    p = (2, 0, 7, 5, 3, 6, 1, 4)
+    shifts = (3, 12, 8, 19, 5, 14, 22, 7)
+    t = ''.join(
+        chr((ord(s[::-1][p[i]]) - 97 + shifts[i]) % 26 + 97)
+        for i in range(8)
+    )
+    goal = ''.join(
+        chr(((n * 4) + 9) % 26 + 97)
+        for n in (13, 8, 22, 17, 4, 19, 5, 11)
+    )
+    return t == goal
+```
+This puzzle layers a modular checksum on the input's character codes with a multi-step string cipher (reverse + permute + per-position shifts) that must match an obfuscated goal string generated via linear congruential expansion from a hidden numeric seed. Inversion requires deriving the exact preimage by reversing each transformation in sequence while satisfying the filter.  
+SOLUTION: "ltguughd" 
+Checking sample solution  "ltguughd"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "ltguughd". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 683 in / 8,605 out
+  gpt-5.4-mini (solver): 318 in / 971 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x).lower()
+    if len(s) != 8 or any(c < "a" or c > "z" for c in s):
+        return False
+
+    M = 26 ** 4
+
+    def pack(n):
+        return "".join(chr(97 + (n // (26 ** i)) % 26) for i in range(4))
+
+    a = sum((ord(s[i]) - 97) * (26 ** (i // 2)) for i in range(0, 8, 2))
+    b = sum((ord(s[i]) - 97) * (26 ** (i // 2)) for i in range(1, 8, 2))
+
+    for _ in range(2):
+        a, b = ((17 * a + 5 * b + 12345) % M,
+                (4 * a + 11 * b + 54321) % M)
+
+    return pack(a) == "yvrw" and pack(b) == "ectt"
+```
+
+This one hides the answer by splitting the 8-letter input into even/odd base-26 chunks, applying a 2×2 affine map twice modulo \(26^4\), and then comparing the packed outputs to two target 4-letter blocks. The preimage is unique if you unwind the modular transform.
+
+SOLUTION: "nebulaxy" 
+Checking sample solution  "nebulaxy"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "nebulaxy". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 834 in / 13,944 out
+  grok-4.20-0309-reasoning (solver): 444 in / 8,851 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+UNHANDLED EXCEPTION, error: Inventer message format wrong.
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x).lower()
+    if not (len(s) == 8 and s.isalpha() and s.islower()):
+        return False
+    if sum(ord(c) for c in s) % 9 != 6:
+        return False
+    p = (3, 1, 6, 4, 0, 7, 2, 5)
+    shifts = (10, 5, 15, 7, 20, 3, 12, 8)
+    t = ''.join(
+        chr((ord(s[::-1][p[i]]) - 97 + shifts[i]) % 26 + 97)
+        for i in range(8)
+    )
+    goal = ''.join(
+        chr(((n * 7) + 3) % 26 + 97)
+        for n in (15, 12, 0, 25, 16, 4, 4, 21)
+    )
+    return t == goal
+```
+This puzzle applies a modular checksum to the ordinal sum of the input characters, then composes reversal, a non-obvious permutation, and per-character modular shifts on the candidate string. The result must exactly match a target obfuscated via linear-congruential generation over a hidden coefficient vector, so that algebraic inversion or exhaustive search over the 26^8 space (pruned by the filter) is required to recover a preimage.  
+SOLUTION: "computer" 
+Checking sample solution  "computer"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "computer". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,258 in / 5,265 out
+  gpt-5.4-mini (solver): 318 in / 892 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x).lower()
+    if not (len(s) == 12 and s.isalpha() and s.islower()):
+        return False
+
+    if sum((i + 1) * (ord(c) - 96) for i, c in enumerate(s)) % 11 != 1:
+        return False
+
+    u = s[4:8] + s[8:12] + s[:4]
+    M = 26 ** 4
+
+    def val(t):
+        n = 0
+        for ch in t:
+            n = n * 26 + (ord(ch) - 97)
+        return n
+
+    def pack(n):
+        return ''.join(chr(97 + (n // p) % 26) for p in (26**3, 26**2, 26, 1))
+
+    a, b, c = map(val, (u[:4], u[4:8], u[8:12]))
+
+    for _ in range(2):
+        a, b, c = (
+            (9 * a + 2 * b + 5 * c + 12345) % M,
+            (7 * b + 4 * c + 23456) % M,
+            (5 * c + 34567) % M,
+        )
+
+    return pack(a) == "oimm" and pack(b) == "qmba" and pack(c) == "luva"
+```
+
+This puzzle hides the input behind a block rotation, a base-26 interpretation, and two rounds of an invertible affine update modulo \(26^4\). The extra weighted-sum check is just a decoy filter.
+
+SOLUTION: "aaaabbbbcccc" 
+Checking sample solution  "aaaabbbbcccc"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "aaaabbbbcccc". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 1,405 in / 21,902 out
+  grok-4.20-0309-reasoning (solver): 529 in / 8,873 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x).lower()
+    if not (len(s) == 8 and s.isalpha() and s.islower()):
+        return False
+    if sum(ord(c) for c in s) % 9 != 7:
+        return False
+    p = (4, 2, 6, 0, 7, 3, 1, 5)
+    shifts = (4, 13, 9, 22, 6, 15, 1, 17)
+    t = ''.join(
+        chr((ord(s[::-1][p[i]]) - 97 + shifts[i]) % 26 + 97)
+        for i in range(8)
+    )
+    goal = ''.join(
+        chr(((n * 5) + 11) % 26 + 97)
+        for n in (2, 14, 7, 19, 5, 22, 11, 8)
+    )
+    return t == goal
+```
+This puzzle enforces a length-8 lowercase alphabetic constraint plus a modular checksum on ordinal sums, then composes a reversal, a fixed permutation, and per-position modular shifts whose output must match a target string that has been generated from an opaque linear-congruential sequence. Recovering a preimage requires inverting the entire chain of bijections in reverse order while satisfying the checksum filter.  
+SOLUTION: "elircqng" 
+Checking sample solution  "elircqng"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "elircqng". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,937 in / 5,335 out
+  gpt-5.4-mini (solver): 318 in / 1,372 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x).lower()
+    if not (len(s) == 12 and s.isascii() and s.isalpha() and s.islower()):
+        return False
+
+    if sum((i + 1) * (ord(c) - 96) for i, c in enumerate(s)) % 17 != 10:
+        return False
+    if sum(ord(c) for c in s) % 13 != 7:
+        return False
+
+    t = (
+        s[8] + s[1] + s[10] + s[3] +
+        s[6] + s[11] + s[0] + s[5] +
+        s[2] + s[9] + s[4] + s[7]
+    )
+
+    M = 26 ** 3
+
+    def pack(chunk):
+        n = 0
+        for ch in chunk:
+            n = n * 26 + (ord(ch) - 97)
+        return n
+
+    a, b, c, d = map(pack, (t[:3], t[3:6], t[6:9], t[9:12]))
+
+    for k in (5, 17, 9, 14, 23):
+        a, b, c, d = (
+            (3 * a + 5 * b + 7 * c + 11 * d + k) % M,
+            a,
+            b,
+            c,
+        )
+
+    return (a, b, c, d) == (2749, 599, 130, 32)
+```
+
+This one hides the solution behind two checksum gates, a strange fixed permutation, and a shift-register-style recurrence on four base-26 blocks. The final tuple is the only thing you need to match.
+
+SOLUTION: "aaaaaaaaaaaa" 
+Checking sample solution  "aaaaaaaaaaaa"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "aaaaaaaaaaaa". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 2,043 in / 16,315 out
+  grok-4.20-0309-reasoning (solver): 563 in / 4,317 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x).lower()
+    if not (len(s) == 8 and s.isalpha() and s.islower()):
+        return False
+    if sum(ord(c) for c in s) % 9 != 5:
+        return False
+    p = (5, 1, 4, 0, 7, 2, 6, 3)
+    shifts = (13, 8, 17, 4, 21, 9, 2, 15)
+    t = ''.join(
+        chr((ord(s[::-1][p[i]]) - 97 + shifts[i]) % 26 + 97)
+        for i in range(8)
+    )
+    goal = ''.join(
+        chr(((n * 6) + 7) % 26 + 97)
+        for n in (4, 19, 8, 22, 11, 0, 17, 5)
+    )
+    return t == goal
+```
+This puzzle enforces an alphabetic length-8 lowercase constraint plus a modular checksum on character ordinals, followed by a composition of string reversal, a non-trivial fixed permutation, and position-dependent modular Caesar shifts. The transformed result must match a fixed target string that was itself produced via an affine expansion over a concealed coefficient vector. A solver must fully invert the bijections (unshift, unpermute, unreverse) in reverse while satisfying the checksum, which prunes the search space but still requires precise algebraic reversal rather than brute force.  
+SOLUTION: "adsmwyjf" 
+Checking sample solution  "adsmwyjf"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "adsmwyjf". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 2,639 in / 6,706 out
+  gpt-5.4-mini (solver): 318 in / 4,543 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    A = "0123456789abcdefghijklmnopqrstuvwxyz"
+    idx = {c: i for i, c in enumerate(A)}
+
+    s = str(x).lower()
+    if len(s) != 14 or any(c not in idx for c in s):
+        return False
+
+    v = [idx[c] for c in s]
+
+    if sum(v) % 19 != 7:
+        return False
+    if sum((i + 1) * v[i] for i in range(14)) % 23 != 11:
+        return False
+    if (v[0] + 2 * v[6] + 3 * v[13]) % 17 != 3:
+        return False
+
+    u = v[5:] + v[:5]
+    u = [(u[i] + 7 * i + 3) % 36 for i in range(14)]
+    w = [(u[i] + 2 * u[(i + 1) % 14] + u[(i + 7) % 14]) % 36 for i in range(14)]
+
+    goal = (3, 31, 26, 19, 7, 35, 27, 29, 27, 24, 9, 33, 25, 1)
+    return tuple(w) == goal
+```
+
+This puzzle works in base 36 instead of just letters: it first applies three checksum gates, then rotates the 14-symbol input, adds an index-dependent offset, and finally does a wrap-around neighbor mix. The target pattern is fixed, but not obvious without unwinding the transformation.
+
+SOLUTION: 34000000000000 
+Checking sample solution  34000000000000
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "3vqj7zrtro9xp1". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 2,708 in / 15,793 out
+  grok-4.20-0309-reasoning (solver): 509 in / 60,044 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    s = str(x).lower()
+    if not (len(s) == 10 and s.isalpha() and s.islower()):
+        return False
+    if sum(ord(c) for c in s) % 11 != 2:
+        return False
+    if sum((i + 1) * (ord(c) - 96) for i, c in enumerate(s)) % 17 != 12:
+        return False
+    p = (4, 2, 7, 9, 0, 5, 1, 8, 3, 6)
+    shifts = (11, 4, 15, 1, 12, 6, 18, 3, 9, 7)
+    t = ''.join(
+        chr((ord(s[::-1][p[i]]) - 97 + shifts[i]) % 26 + 97)
+        for i in range(10)
+    )
+    goal = ''.join(
+        chr(((n * 7) + 4) % 26 + 97)
+        for n in (9, 16, 7, 11, 12, 13, 1, 13, 4, 10)
+    )
+    return t == goal
+```
+This puzzle layers dual modular checksums (plain ordinal sum mod 11 and position-weighted values mod 17) atop strict length-10 lowercase alphabetic constraints, then composes reversal + a fixed non-obvious permutation + per-position modular shifts. The result must match a target string itself produced by an affine modular expansion from a hidden coefficient vector, so that a solver must algebraically invert the full chain of bijections in reverse (unshift, inverse-permute, unreverse) while satisfying both filters to recover a preimage. 
+SOLUTION: "complexity" 
+Checking sample solution  "complexity"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "complexity". Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 3,318 in / 6,539 out
+  gpt-5.4-mini (solver): 373 in / 2,833 out
+Turn 0: gpt-5.4-mini vs grok-4.20-0309-reasoning - 759 in / 15,770 out (?) [success]
+Turn 1: grok-4.20-0309-reasoning vs gpt-5.4-mini - 1,001 in / 9,576 out (?) [success]
+Turn 2: gpt-5.4-mini vs grok-4.20-0309-reasoning - 1,278 in / 22,795 out (?) [success]
+Turn 3: grok-4.20-0309-reasoning vs gpt-5.4-mini - 1,576 in / 6,157 out (?) [success]
+Turn 4: gpt-5.4-mini vs grok-4.20-0309-reasoning - 1,934 in / 30,775 out (?) [success]
+Turn 5: grok-4.20-0309-reasoning vs gpt-5.4-mini - 2,255 in / 6,707 out (?) [success]
+Turn 6: gpt-5.4-mini vs grok-4.20-0309-reasoning - 2,606 in / 20,632 out (?) [success]
+Turn 7: grok-4.20-0309-reasoning vs gpt-5.4-mini - 2,957 in / 11,249 out (?) [success]
+Turn 8: gpt-5.4-mini vs grok-4.20-0309-reasoning - 3,217 in / 75,837 out (?) [failure]
+Turn 9: grok-4.20-0309-reasoning vs gpt-5.4-mini - 3,691 in / 9,372 out (?) [success]
+gpt-5.4-mini: 8,981 in / 92,260 out
+grok-4.20-0309-reasoning: 13,551 in / 126,719 out
+gpt-5.4-mini ./. grok-4.20-0309-reasoning     (1-0) vs (0-0)     [1 failed, see runs/classic/gpt-5.4-mini_vs_grok-4.20-0309-reasoning.log]

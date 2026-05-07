@@ -1,0 +1,490 @@
+gpt-5.5's turn to invent a puzzle...
+```python
+import hashlib
+import hmac
+
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    try:
+        raw = x.encode("latin-1")
+    except UnicodeEncodeError:
+        return False
+
+    mask = b"ed\x7fT\x7fcnTynjgTjex|ny4"
+    if len(raw) != len(mask):
+        return False
+
+    key = bytes(a ^ b for a, b in zip(raw, mask))
+    target = bytes.fromhex(
+        "f7cf322e6c37e926a73d83c900c21d882bf10bafceafa85c5338dbd8614c34b0"
+    )[::-1]
+
+    return hmac.compare_digest(
+        hmac.new(key, b"Hi There", hashlib.sha256).digest(),
+        target,
+    )
+```
+
+The puzzle accepts a Latin-1 string, transforms it bytewise into an HMAC key, and checks that key against a SHA-256 HMAC target.
+
+SOLUTION: "not_the_real_answer?" 
+Checking sample solution  "not_the_real_answer?"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "not_the_real_answer?". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 346 in / 10,593 out
+  claude-sonnet-4-6 (solver): 359 in / 7,444 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+
+    if x <= 0 or x > 100000:
+        return False
+
+    # Condition A
+    count = 0
+    i = 1
+    while i * i <= x:
+        if x % i == 0:
+            count += 2 if i * i < x else 1
+        i += 1
+    if count != 48:
+        return False
+
+    # Condition B
+    if any(x % k != 0 for k in range(1, 11)):
+        return False
+
+    return True
+```
+
+**Explanation (hidden from solver):**
+
+Condition A counts the number of divisors of `x` and requires exactly 48.
+
+Condition B requires that `x` be divisible by every integer from 1 to 10 — meaning `x` must be a multiple of LCM(1, 2, …, 10) = **2520**.
+
+Multiples of 2520 within (0, 100000]: 2520, 5040, 7560, 10080, … Only **2520 = 2³ · 3² · 5 · 7** has exactly (3+1)(2+1)(1+1)(1+1) = **48** divisors. Every larger multiple introduces additional prime factors or higher prime powers, pushing the divisor count well above 48. So 2520 is the unique solution.
+
+SOLUTION: 2520 
+Checking sample solution  2520
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 2520. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 656 in / 29,302 out
+  gpt-5.5 (solver): 241 in / 410 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+    import hmac
+
+    if type(x) is not str:
+        return False
+
+    try:
+        b = x.encode("utf-8")
+    except UnicodeEncodeError:
+        return False
+
+    if len(b) != 24:
+        return False
+
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    s = 0x6A09E667F3BCC909
+    t = 0xBB67AE8584CAA73B
+
+    for i, c in enumerate(b):
+        s ^= (c + 0x9E3779B97F4A7C15 + ((s << 6) & ((1 << 64) - 1)) + (s >> 2)) & ((1 << 64) - 1)
+        s = ((s << 13) | (s >> 51)) & ((1 << 64) - 1)
+        t = (t + ((c ^ i) * 0x100000001B3)) & ((1 << 64) - 1)
+        t ^= t >> 29
+
+    if (s, t) != (0x87349B423C33C73D, 0x8F5D7F6AA22DF047):
+        return False
+
+    p = bytes((c ^ ((i * 73 + 41) & 255)) for i, c in enumerate(b))
+    q = bytes(sorted(p[::2] + p[1::2]))
+
+    return hmac.compare_digest(
+        hashlib.blake2s(q, digest_size=16, person=b"mystery!").hexdigest(),
+        "c070da728f47d8c9057eeff9c3e91249",
+    )
+```
+
+This puzzle accepts only a 24-byte printable UTF-8 string. It first runs the bytes through two intertwined 64-bit rolling state checks, then permutes and masks the bytes before comparing a short personalized BLAKE2s digest.
+
+SOLUTION: "raven-42:under-glass!" 
+Checking sample solution  "raven-42:under-glass!"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gpt-5.5 (inventer): 761 in / 1,493 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+
+    if x <= 0 or x > 10**9:
+        return False
+
+    import math
+
+    # Condition A: x must be a perfect square
+    r = math.isqrt(x)
+    if r * r != x:
+        return False
+
+    # Condition B: the square root of x must itself be a triangular number
+    # T_n = n*(n+1)/2 = r  iff  1 + 8r is a perfect square
+    disc = 1 + 8 * r
+    s = math.isqrt(disc)
+    if s * s != disc or (s - 1) % 2 != 0:
+        return False
+
+    # Condition C: factorize x and inspect its prime factors
+    n, primes = x, set()
+    d = 2
+    while d * d <= n:
+        if n % d == 0:
+            primes.add(d)
+            while n % d == 0:
+                n //= d
+        d += 1
+    if n > 1:
+        primes.add(n)
+
+    # Must have exactly 5 distinct prime factors
+    if len(primes) != 5:
+        return False
+
+    # The distinct prime factors must sum to exactly 34
+    if sum(primes) != 34:
+        return False
+
+    return True
+```
+
+**Puzzle explanation (private):**
+
+Three layered mathematical conditions:
+
+- **Condition A**: `x` is a perfect square — `x = r²`
+- **Condition B**: `r = √x` must be a *triangular number* — i.e., `r = n(n+1)/2` for some positive integer `n`. This is detected by checking whether `1 + 8r` is a perfect square.
+- **Condition C**: `x` must have *exactly 5 distinct prime factors* whose *sum is 34*.
+
+The unique set of 5 distinct primes summing to 34 that produces a valid solution is `{2, 3, 5, 7, 17}`, giving `r = 2·3·5·7·17 = 3570`. Indeed, `3570 = T_{84} = 84·85/2` is the 84th triangular number, and `x = 3570² = 12,744,900`.
+
+Verification:
+- `isqrt(12744900) = 3570`, `3570² = 12744900` ✓  
+- `disc = 1 + 8·3570 = 28561 = 169²`, `(169−1)/2 = 84`, `T_{84} = 3570` ✓  
+- Prime factors of `12744900 = 2²·3²·5²·7²·17²`: `{2,3,5,7,17}`, count = 5, sum = 34 ✓
+
+SOLUTION: 12744900 
+Checking sample solution  12744900
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 12744900. Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,533 in / 28,763 out
+  gpt-5.5 (solver): 410 in / 1,127 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+    import hmac
+
+    if type(x) is not str:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if len(b) != 24:
+        return False
+
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    tweak = [
+        57, 11, 242, 140, 124, 98, 20, 164,
+        50, 245, 196, 94, 29, 31, 230, 72,
+        40, 242, 235, 105, 117, 91, 255, 62,
+    ]
+
+    p = bytes(((7 * c + tweak[i]) & 255) for i, c in enumerate(b))
+
+    dk = hashlib.pbkdf2_hmac(
+        "sha1",
+        p,
+        b"saltSALTsaltSALTsaltSALTsaltSALTsalt",
+        4096,
+        25,
+    )
+
+    masked = bytes(v ^ ((29 * i + 7) & 255) for i, v in enumerate(dk))
+
+    return hmac.compare_digest(
+        masked,
+        bytes.fromhex("3a0aad119f8431496fc4f170014079f05cdd0bb8079a75d287"),
+    )
+```
+
+This puzzle uses an affine byte transform on a printable 24-character ASCII input, then feeds the transformed bytes into PBKDF2-HMAC-SHA1. The derived key is masked before comparison, so the visible target is not the raw PBKDF2 output.
+
+SOLUTION: "Qz7!mK2@rT9#vP4$xY8&nL5*" 
+Checking sample solution  "Qz7!mK2@rT9#vP4$xY8&nL5*"
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says "passwordPASSWORDpassword". Checking.
+Failure!
+New score after this turn: 0 (1-1) vs 0 (0-0)
+  gpt-5.5 (inventer): 1,578 in / 21,633 out
+  claude-sonnet-4-6 (solver): 502 in / 19,978 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+
+    if x <= 0 or x > 10**6:
+        return False
+
+    # Condition 1
+    s = 0
+    k = 1
+    while k * k <= x:
+        if x % k == 0:
+            s += k
+            if k != x // k:
+                s += x // k
+        k += 1
+    if s != 2 * x:
+        return False
+
+    # Condition 2
+    b = bin(x)[2:]
+    if b.count('1') * 2 <= len(b):
+        return False
+
+    # Condition 3
+    ds = sum(int(c) for c in str(x))
+    if ds < 2:
+        return False
+    if any(ds % i == 0 for i in range(2, ds)):
+        return False
+
+    # Condition 4
+    m, cnt = x, 0
+    d = 2
+    while d * d <= m:
+        if m % d == 0:
+            if d >= 100:
+                cnt += 1
+            while m % d == 0:
+                m //= d
+        d += 1
+    if m > 1 and m >= 100:
+        cnt += 1
+    if cnt != 1:
+        return False
+
+    return True
+```
+
+Four conditions are layered here:
+
+- **Condition 1** checks a specific arithmetic relationship between `x` and its divisors.
+- **Condition 2** examines the structure of `x`'s binary representation.
+- **Condition 3** involves the decimal digits of `x`.
+- **Condition 4** constrains `x`'s prime factorization in a particular way.
+
+All four must hold simultaneously. Good luck!
+
+SOLUTION: 8128 
+Checking sample solution  8128
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 8128. Checking.
+Success!
+New score after this turn: 0 (1-1) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 2,705 in / 26,262 out
+  gpt-5.5 (solver): 408 in / 537 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = 392318858461667547569595655490009919272404068553904357377
+
+    if not (1 < x < n - 1):
+        return False
+
+    if x.bit_length() != 185:
+        return False
+
+    if (x & 1) != 1:
+        return False
+
+    if x % 65537 != 15064:
+        return False
+
+    return pow(x, 2, n) == 1
+```
+
+This puzzle asks for a carefully selected nontrivial square root of 1 modulo a large semiprime. The range, bit-length, parity, and small-residue checks eliminate the obvious roots and select the intended CRT branch.
+
+SOLUTION: 1 + ((1 << 127) - 1) * 148764065110560900 
+Checking sample solution  1 + ((1 << 127) - 1) * 148764065110560900
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 24703861291110461907211605617780200895. Checking.
+Failure!
+New score after this turn: 1 (2-1) vs 0 (0-0)
+  gpt-5.5 (inventer): 2,313 in / 22,989 out
+  claude-sonnet-4-6 (solver): 269 in / 39,497 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+
+    s = str(x)
+    if len(s) != 10:
+        return False
+
+    counts = [0] * 10
+    for ch in s:
+        counts[int(ch)] += 1
+
+    for i in range(10):
+        if counts[i] != int(s[i]):
+            return False
+
+    return True
+```
+
+**Explanation:**
+
+The function checks a special structural property of a 10-digit integer. It tallies how many times each decimal digit (0–9) appears in the number, then verifies that those tallies match the number's own digits — position by position.
+
+In other words, the i-th digit of `x` (0-indexed from the left) must equal the total count of occurrences of the digit `i` throughout `x`. This is a very tight self-referential constraint that only one 10-digit integer satisfies.
+
+There's a unique 10-digit number with this property, and finding it requires either knowing about this class of numbers or carefully analyzing what the code demands.
+
+SOLUTION: 6210001000 
+Checking sample solution  6210001000
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 6210001000. Checking.
+Success!
+New score after this turn: 1 (2-1) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 3,364 in / 18,866 out
+  gpt-5.5 (solver): 196 in / 257 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    if not (10**63 < x < 10**64):
+        return False
+
+    n = int(
+        "114381625757888867669235779976146612010218296721242362562561842935"
+        "706935245733897830597123563958705058989075147599290026879543541"
+    )
+
+    return n % x == 0
+```
+
+This puzzle asks for a very specific nontrivial divisor of a large RSA-style semiprime. The range restriction selects the 64-digit factor.
+
+SOLUTION: 3490529510847650949147849619903898133417764638493387843990820577 
+Checking sample solution  3490529510847650949147849619903898133417764638493387843990820577
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 3490529510847650949147849619903898133417764638493387843990820577. Checking.
+Success!
+New score after this turn: 1 (2-1) vs 0 (0-0)
+  gpt-5.5 (inventer): 2,641 in / 13,634 out
+  claude-sonnet-4-6 (solver): 249 in / 1,536 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or isinstance(x, bool):
+        return False
+
+    if x <= 1 or x > 10**9:
+        return False
+
+    import math
+
+    # Condition A
+    if (x * x - 1) % 2 != 0:
+        return False
+    half = (x * x - 1) // 2
+    sq = math.isqrt(half)
+    if sq * sq != half:
+        return False
+
+    # Condition B
+    if x < 2:
+        return False
+    for i in range(2, math.isqrt(x) + 1):
+        if x % i == 0:
+            return False
+
+    # Condition C
+    ds = sum(int(c) for c in str(x))
+    if ds < 2:
+        return False
+    for i in range(2, ds):
+        if ds % i == 0:
+            return False
+
+    # Condition D
+    if x <= 100:
+        return False
+
+    return True
+```
+
+**Explanation (hidden from you):**
+
+Three mathematical conditions combine here:
+
+- **Condition A** secretly encodes the **Pell equation** x² − 2y² = 1: it checks whether (x²−1)/2 is a perfect square. The positive integer solutions are x = 1, 3, 17, 99, 577, 3363, 19601, 114243, 665857, … (growing exponentially via the recurrence xₙ₊₁ = 6xₙ − xₙ₋₁).
+- **Condition B** requires x to be **prime**. Checking Pell solutions: 3 ✓, 17 ✓, 99 = 9×11 ✗, 577 ✓, 3363 = 3×1121 ✗, 19601 = 17×1153 ✗, 114243 = 3×38081 ✗, 665857 ✓ (prime).
+- **Condition C** requires the **digit sum of x to be prime**. 577 → 5+7+7 = 19 (prime) ✓. 665857 → 6+6+5+8+5+7 = 37 (prime) ✓.
+- **Condition D** excludes x ≤ 100, ruling out x = 3.
+
+The smallest solution is **577**: 577² − 1 = 332928 = 2 × 408², 577 is prime, digit sum 19 is prime.
+
+SOLUTION: 577 
+Checking sample solution  577
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 577. Checking.
+Success!
+New score after this turn: 1 (2-1) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 3,823 in / 25,805 out
+  gpt-5.5 (solver): 328 in / 633 out
+Turn 0: gpt-5.5 vs claude-sonnet-4-6 - 705 in / 18,037 out (?) [success]
+Turn 1: claude-sonnet-4-6 vs gpt-5.5 - 897 in / 29,712 out (?) [success]
+Turn 2: gpt-5.5 vs claude-sonnet-4-6 - 761 in / 1,493 out (?) [puzzle-wrong]
+Turn 3: claude-sonnet-4-6 vs gpt-5.5 - 1,943 in / 29,890 out (?) [success]
+Turn 4: gpt-5.5 vs claude-sonnet-4-6 - 2,080 in / 41,611 out (?) [failure]
+Turn 5: claude-sonnet-4-6 vs gpt-5.5 - 3,113 in / 26,799 out (?) [success]
+Turn 6: gpt-5.5 vs claude-sonnet-4-6 - 2,582 in / 62,486 out (?) [failure]
+Turn 7: claude-sonnet-4-6 vs gpt-5.5 - 3,560 in / 19,123 out (?) [success]
+Turn 8: gpt-5.5 vs claude-sonnet-4-6 - 2,890 in / 15,170 out (?) [success]
+Turn 9: claude-sonnet-4-6 vs gpt-5.5 - 4,151 in / 26,438 out (?) [success]
+gpt-5.5: 9,222 in / 73,306 out
+claude-sonnet-4-6: 13,460 in / 197,453 out
+gpt-5.5 ./. claude-sonnet-4-6     (2-1) vs (0-0)     [0 failed, see runs/classic/gpt-5.5_vs_claude-sonnet-4-6.log]

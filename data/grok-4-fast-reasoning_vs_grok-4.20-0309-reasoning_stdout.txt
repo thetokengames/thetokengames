@@ -1,0 +1,338 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) != 4:
+        return False
+    power = len(s)
+    total = sum(int(d) ** power for d in s)
+    return total == n
+```
+This puzzle involves finding a 4-digit number with a specific mathematical property related to its digits, which might not be immediately obvious but can be deduced from the code logic. The function checks a condition on the digits raised to a power equal to the number of digits.
+
+SOLUTION: 1634 
+Checking sample solution  1634
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 1634. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4-fast-reasoning (inventer): 491 in / 7,094 out
+  grok-4.20-0309-reasoning (solver): 288 in / 720 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 10:
+        return False
+    d = [int(c) for c in str(n)]
+    while True:
+        s = sum(d)
+        if s == n: return True
+        if s > n: return False
+        d = d[1:] + [s]
+```
+This puzzle implements a check for a lesser-known mathematical property of integers (a recursive digit-based sequence). It is designed to be non-obvious at a glance what the exact condition is or which inputs will pass, requiring either deep code analysis or systematic search to discover a working value. 
+SOLUTION: 197 
+Checking sample solution  197
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says 14. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 558 in / 7,294 out
+  grok-4-fast-reasoning (solver): 338 in / 2,589 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if not s:
+        return False
+    t = str(n * 2)
+    if len(t) != len(s):
+        return False
+    return t in (s + s)
+```
+
+### Explanation
+This puzzle checks for a number n such that twice n, when written as a string, is a rotation of the digits of n (and has the same number of digits). A known such number is 142857, since 142857 * 2 = 285714, and 285714 is a rotation of 142857.
+
+SOLUTION: 142857 
+Checking sample solution  142857
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 142857. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4-fast-reasoning (inventer): 757 in / 3,528 out
+  grok-4.20-0309-reasoning (solver): 289 in / 6,277 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def fact(k):
+        if k == 0 or k == 1: return 1
+        r = 1
+        for i in range(2, k + 1):
+            r *= i
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        total += fact(m % 10)
+        m //= 10
+    return total == n and n > 100
+```
+This puzzle implements an obfuscated check for factorions (numbers equal to the sum of factorials of their digits) with a nested factorial function and manual digit extraction to obscure the core property. The added length filter and multi-step computation make it non-obvious what inputs satisfy the condition without either carefully reverse-engineering the math or performing a systematic (but bounded) search. 
+SOLUTION: 40585 
+Checking sample solution  40585
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says 145. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 837 in / 6,872 out
+  grok-4-fast-reasoning (solver): 369 in / 488 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    s = str(n)
+    if len(s) < 4:
+        return False
+    sq = str(n * n)
+    return sq.endswith(s)
+```
+### Explanation
+This puzzle involves finding a number with at least 4 digits that has a particular property concerning its own square and its decimal representation. The condition can be deduced by examining the code, and such numbers are quite rare, requiring some mathematical insight or systematic checking to identify.
+
+SOLUTION: 9376 
+Checking sample solution  9376
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 9376. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4-fast-reasoning (inventer): 1,081 in / 2,955 out
+  grok-4.20-0309-reasoning (solver): 276 in / 1,410 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def weird_pow(b, e):
+        r = 1
+        while e > 0:
+            r *= b
+            e -= 1
+        return r
+    total = 0
+    m = n
+    while m > 0:
+        d = m % 10
+        total += weird_pow(d, d)
+        m //= 10
+    return total == n and n > 1000
+```
+This puzzle uses an inner function with a loop-based multiplication to indirectly compute a digit-power contribution, combined with a standard digit extraction loop and an equality check plus a size filter. The particular combination of operations is intended to be non-obvious, so that the exact set of passing values is difficult to infer without either carefully deconstructing the arithmetic or performing a guided search over a bounded but non-trivial range of integers. 
+SOLUTION: 3435 
+Checking sample solution  3435
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says 3435. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,151 in / 5,415 out
+  grok-4-fast-reasoning (solver): 365 in / 4,510 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 1000:
+        return False
+    count = 0
+    max_k = int(n ** (1/3)) + 2
+    for i in range(1, max_k):
+        i3 = i ** 3
+        if i3 >= n:
+            break
+        for j in range(i + 1, max_k):
+            j3 = j ** 3
+            if i3 + j3 > n:
+                break
+            if i3 + j3 == n:
+                count += 1
+                if count >= 2:
+                    return True
+    return False
+```
+This puzzle involves finding a number that can be expressed as the sum of the cubes of two positive integers in at least two distinct ways (considering unordered pairs, but enforced by i < j). Such numbers are rare and known as taxicab numbers, with 1729 being the smallest.
+
+SOLUTION: 1729 
+Checking sample solution  1729
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 1729. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4-fast-reasoning (inventer): 1,373 in / 2,598 out
+  grok-4.20-0309-reasoning (solver): 373 in / 956 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def weird_mult(a, b):
+        result = 0
+        while b > 0:
+            result += a
+            b -= 1
+        return result
+    def weird_cube(k):
+        return weird_mult(weird_mult(k, k), k)
+    cubes = []
+    k = 1
+    while True:
+        c = weird_cube(k)
+        if c >= n:
+            break
+        cubes.append(c)
+        k += 1
+    count = 0
+    for i in range(len(cubes)):
+        i3 = cubes[i]
+        for j in range(i + 1, len(cubes)):
+            total = i3 + cubes[j]
+            if total == n:
+                count += 1
+                if count >= 3:
+                    return True
+            if total > n:
+                break
+    return False
+```
+This puzzle uses repeated-addition loops inside helper functions to compute products and cubes without using the * or ** operators, precomputes a list of cubes below n via incremental search, then counts distinct pairs from that list summing to n. The property checked (at least three distinct ways to write n as sum of two positive cubes) is heavily obscured by the low-level arithmetic and lack of obvious mathematical primitives, making the accepting values very difficult to infer without extensive analysis; brute-force search over candidate n is also impractical due to the scale of the smallest solution.  
+SOLUTION: 87539319 
+Checking sample solution  87539319
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says 87539319. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 1,567 in / 11,571 out
+  grok-4-fast-reasoning (solver): 453 in / 1,318 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    def divisor_sum(m):
+        if m < 2:
+            return 0
+        total = 1
+        sqrt_m = int(m ** 0.5) + 1
+        for i in range(2, sqrt_m):
+            if m % i == 0:
+                total += i
+                j = m // i
+                if j != i and j != m:
+                    total += j
+        return total
+    s = divisor_sum(n)
+    if s == n or s < n:  # Exclude perfect numbers and cases where s < n to avoid trivial
+        return False
+    t = divisor_sum(s)
+    return t == n
+```
+### Explanation
+This puzzle involves identifying a number that forms part of an amicable pair, where the sum of the proper divisors of one equals the other, and vice versa. These numbers are rare and require computing divisor sums, making it challenging to spot without careful analysis of the code logic. The function excludes perfect numbers and ensures the pair is properly formed.
+
+SOLUTION: 220 
+Checking sample solution  220
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says 220. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4-fast-reasoning (inventer): 1,852 in / 4,275 out
+  grok-4.20-0309-reasoning (solver): 383 in / 1,766 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except ValueError:
+        return False
+    if n < 10000:
+        return False
+    def weird_mult(a, b):
+        res = 0
+        while b > 0:
+            res += a
+            b -= 1
+        return res
+    def weird_sqrt(m):
+        s = 0
+        while weird_mult(s + 1, s + 1) <= m:
+            s += 1
+        return s
+    def divisor_sum(m):
+        if m < 2:
+            return 0
+        total = 1
+        sqrtm = weird_sqrt(m) + 1
+        for i in range(2, sqrtm):
+            if m % i == 0:
+                total += i
+                j = m // i
+                if j != i and j != m:
+                    total += j
+        return total
+    return divisor_sum(n) == n
+```
+This puzzle relies on deeply nested helper functions that simulate multiplication and integer square root via looped addition only (avoiding all * and ** operators), which are then used to compute a divisor sum via an incremental search up to the approximated square root. A size filter excludes small inputs, and the final equality test checks a non-obvious numeric invariant. The combination of low-level arithmetic primitives and bounded-but-costly per-input work makes the accepting values very difficult to discover without extensive static analysis or a search that quickly becomes impractical at scale.  
+SOLUTION: 33550336 
+Checking sample solution  33550336
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says 33550336. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 2,110 in / 10,387 out
+  grok-4-fast-reasoning (solver): 460 in / 1,191 out
+Logs written to runs/classic/grok-4-fast-reasoning_vs_grok-4.20-0309-reasoning.log and runs/classic/grok-4-fast-reasoning_vs_grok-4.20-0309-reasoning.jsonl
+
+=== Token Usage Summary ===
+Turn 0: grok-4-fast-reasoning vs grok-4.20-0309-reasoning - 779 in / 7,814 out (?) [success]
+Turn 1: grok-4.20-0309-reasoning vs grok-4-fast-reasoning - 896 in / 9,883 out (?) [success]
+Turn 2: grok-4-fast-reasoning vs grok-4.20-0309-reasoning - 1,046 in / 9,805 out (?) [success]
+Turn 3: grok-4.20-0309-reasoning vs grok-4-fast-reasoning - 1,206 in / 7,360 out (?) [success]
+Turn 4: grok-4-fast-reasoning vs grok-4.20-0309-reasoning - 1,357 in / 4,365 out (?) [success]
+Turn 5: grok-4.20-0309-reasoning vs grok-4-fast-reasoning - 1,516 in / 9,925 out (?) [success]
+Turn 6: grok-4-fast-reasoning vs grok-4.20-0309-reasoning - 1,746 in / 3,554 out (?) [success]
+Turn 7: grok-4.20-0309-reasoning vs grok-4-fast-reasoning - 2,020 in / 12,889 out (?) [success]
+Turn 8: grok-4-fast-reasoning vs grok-4.20-0309-reasoning - 2,235 in / 6,041 out (?) [success]
+Turn 9: grok-4.20-0309-reasoning vs grok-4-fast-reasoning - 2,570 in / 11,578 out (?) [success]
+
+=== Totals by Model ===
+grok-4-fast-reasoning: 7,539 in / 30,546 out
+grok-4.20-0309-reasoning: 7,832 in / 52,668 out

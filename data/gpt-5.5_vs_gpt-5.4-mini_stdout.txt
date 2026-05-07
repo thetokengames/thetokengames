@@ -1,0 +1,491 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str):
+        return False
+
+    try:
+        b = x.encode("utf-8")
+    except Exception:
+        return False
+
+    if len(b) != 37:
+        return False
+
+    h = hashlib.sha256(b).hexdigest()
+
+    return (
+        h[:16] == "80f4f9f5f0d5c5f8"
+        and h[16:32] == "c9081b8e4fd9bb58"
+        and h[32:48] == "ef3f9a84b7d09b09"
+        and h[48:] == "5f6dbe1e4bb67d2f"
+    )
+```
+
+This puzzle is a preimage hunt: the input must be a 37-byte UTF-8 string whose SHA-256 digest matches the split target.
+
+SOLUTION: "violet-otter-7139:glass-circuit-moon" 
+Checking sample solution  "violet-otter-7139:glass-circuit-moon"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gpt-5.5 (inventer): 346 in / 2,808 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+    if len(x) != 12:
+        return False
+    if any(ord(c) < 33 or ord(c) > 126 for c in x):
+        return False
+
+    y = x[::2] + x[1::2]
+    y = y[::-1]
+
+    out = "".join(
+        chr(33 + ((ord(ch) - 33 + 47) % 94))
+        for ch in y
+    )
+
+    return out == 'RgodPaE">{5#'
+```
+
+This puzzle is a reversible character-transformation check:
+
+- first it takes the even-indexed characters, then the odd-indexed ones,
+- then reverses that combined string,
+- then applies ROT47 across printable ASCII,
+- and finally compares against a fixed target.
+
+The trick is that the target is not the input itself, so the obvious path is to undo the transformations.
+
+SOLUTION: "R2d!L5m@Q8t#" 
+Checking sample solution  "R2d!L5m@Q8t#"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "R2d!L5m@Q8t#". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 544 in / 16,935 out
+  gpt-5.5 (solver): 227 in / 1,056 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    try:
+        b = x.encode("utf-8")
+    except Exception:
+        return False
+
+    t = (
+        5, 46, 74, 37, 93, 62, 6, 233, 2, 240,
+        0, 251, 231, 249, 220, 166, 202, 240, 210,
+        166, 107, 177, 122, 92, 107, 18, 105, 10, 43
+    )
+
+    if len(b) != len(t):
+        return False
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    import hashlib, hmac
+
+    y = bytearray(len(t))
+    for i, q in enumerate(t):
+        j = ((i << 3) + 3 * i + 7) % len(t)
+        y[j] = q ^ (((j << 6) + (j << 3) + j + 41) & 255)
+
+    def F(s):
+        w = list(s)
+        st = [0x243F6A88, 0x85A308D3, 0x13198A2E, 0x03707344]
+        for r in range(9):
+            carry = (0x9E3779B9 ^ ((r + 1) * 0x7F4A7C15)) & 0xffffffff
+            for i, z in enumerate(w):
+                k = (i + r) & 3
+                carry = (carry + z + ((i + 1) * 0x45D9F3B)) & 0xffffffff
+                carry = ((carry << 5) | (carry >> 27)) & 0xffffffff
+                st[k] = (
+                    st[k]
+                    ^ carry
+                    ^ ((st[(k - 1) & 3] << 7) & 0xffffffff)
+                    ^ (st[(k + 1) & 3] >> 3)
+                ) & 0xffffffff
+                w[i] = (z ^ st[k] ^ (st[k] >> 8) ^ (carry >> 16)) & 255
+            w = w[-3:] + w[:-3]
+        trailer = b"".join(n.to_bytes(4, "little") for n in st)
+        return hashlib.blake2b(
+            bytes(w) + trailer,
+            digest_size=32,
+            key=b"twelve angry bytes"
+        ).digest()
+
+    return hmac.compare_digest(F(b), F(y))
+```
+
+Private explanation: the tuple is a permuted, XOR-masked target string. The function reconstructs that hidden byte string, then compares a deterministic BLAKE2b-based fingerprint of the input against the reconstructed target’s fingerprint.
+
+SOLUTION: "crimson-sphinx-vexed-42_jazzy" 
+Checking sample solution  "crimson-sphinx-vexed-42_jazzy"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "crimson-sphinx-vexed-42_jazzy". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gpt-5.5 (inventer): 727 in / 16,374 out
+  gpt-5.4-mini (solver): 684 in / 1,793 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+    if len(x) != 12:
+        return False
+    if any(c < "a" or c > "z" for c in x):
+        return False
+
+    p = [8, 3, 10, 1, 6, 11, 0, 5, 2, 7, 4, 9]
+    y = [x[i] for i in p]
+
+    # Split into even/odd positions in the permuted string
+    y = y[::2] + y[1::2]
+
+    # Position-dependent Caesar shift
+    y = [
+        chr(97 + ((ord(ch) - 97 + (i * i + 3 * i + 7)) % 26))
+        for i, ch in enumerate(y)
+    ]
+
+    # Reverse, then shift again
+    y = y[::-1]
+    y = [
+        chr(97 + ((ord(ch) - 97 + 13 - i) % 26))
+        for i, ch in enumerate(y)
+    ]
+
+    return "".join(y) == "stwbircpevoj"
+```
+
+This puzzle is built from a fixed permutation, a split/recombine step, two index-based Caesar shifts, and a reversal. The checks are all reversible in principle, but the layered indexing makes it annoying to work backward by inspection.
+
+SOLUTION: "aaaaaaaaaaaa" 
+Checking sample solution  "aaaaaaaaaaaa"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "aaaaaaaaaaaa". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 1,393 in / 10,610 out
+  gpt-5.5 (solver): 355 in / 1,424 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    try:
+        raw = x.encode("latin-1")
+    except UnicodeEncodeError:
+        return False
+
+    if len(raw) != 20:
+        return False
+    if any(c < 32 or c > 126 for c in raw):
+        return False
+
+    import hashlib
+    import hmac
+
+    mask = (
+        98, 106, 127, 101, 104,
+        113, 115, 96, 42, 68,
+        90, 88, 109, 126, 123,
+        73, 106, 99, 103, 121,
+    )
+
+    key = bytes(
+        raw[(7 * i + 3) % 20] ^ mask[i]
+        for i in range(20)
+    )
+
+    tag = hmac.new(
+        key,
+        bytes((72, 105, 32, 84, 104, 101, 114, 101)),
+        hashlib.sha256,
+    ).hexdigest()
+
+    return hmac.compare_digest(
+        tag,
+        "b0344c61d8db38535ca8afceaf0bf12b"
+        "881dc200c9833da726e9376c2e32cff7",
+    )
+```
+
+This puzzle combines a hidden permutation/XOR layer with a full HMAC-SHA256 equality check. Without noticing the structure, the final condition behaves like a cryptographic preimage search over 20 printable bytes.
+
+SOLUTION: "SphinxOfBlackQuartz!" 
+Checking sample solution  "SphinxOfBlackQuartz!"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "SphinxOfBlackQuartz!". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gpt-5.5 (inventer): 1,675 in / 10,189 out
+  gpt-5.4-mini (solver): 390 in / 4,147 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    try:
+        raw = x.encode("latin-1")
+    except UnicodeEncodeError:
+        return False
+
+    if len(raw) != 18:
+        return False
+    if any(c < 33 or c > 126 for c in raw):
+        return False
+
+    s = list(raw)
+
+    for r in range(8):
+        k = r + 1
+        s = s[k:] + s[:k]
+        s = s[::2] + s[1::2]
+        s.reverse()
+        s = [((c + (38 * r + 10)) * 129) & 255 for c in s]
+        s = [s[(7 * i + 3 * r + 5) % 18] for i in range(18)]
+
+    return bytes(s) == bytes([168] * 18)
+```
+
+This one is built from a few reversible-looking layers: rotations, a split/recombine step, reversals, a byte-wise affine map, and a modular permutation. The trick is that a uniform string of even ASCII bytes stays uniform through the shuffles, and the multiply-by-129 step collapses to the identity on even values. So the whole loop reduces to a simple per-round increment on that special input.
+
+SOLUTION: "000000000000000000" 
+Checking sample solution  "000000000000000000"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "000000000000000000". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 2,047 in / 21,172 out
+  gpt-5.5 (solver): 300 in / 1,063 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+    if x <= 1 or x.bit_length() != 329:
+        return False
+    return pow(2, 1 << 9, x) == x - 1
+```
+
+This is a number-theory puzzle: the visible condition asks for a 329-bit divisor of \(2^{512}+1\), since `pow(2, 512, x) == x - 1` is equivalent to \(2^{512} \equiv -1 \pmod{x}\).
+
+SOLUTION: 741640062627530801524787141901937474059940781097519023905821316144415759504705008092818711693940737 
+Checking sample solution  741640062627530801524787141901937474059940781097519023905821316144415759504705008092818711693940737
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says (2**512 + 1) // (2424833 * 7455602825647884208337395736200454918783366342657). Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gpt-5.5 (inventer): 2,270 in / 14,606 out
+  gpt-5.4-mini (solver): 160 in / 26,618 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if len(b) != 12:
+        return False
+    if any(c < 65 or c > 90 for c in b):
+        return False
+
+    b = list(b)
+
+    # Rotate left by 4
+    b = b[4:] + b[:4]
+
+    # Even positions, then odd positions
+    b = b[::2] + b[1::2]
+
+    # Index-dependent Caesar shift
+    b = [(c - 65 + i * i + 3 * i + 7) % 26 for i, c in enumerate(b)]
+
+    # Reverse
+    b = b[::-1]
+
+    # Modular permutation of indices
+    b = [b[(5 * i + 1) % 12] for i in range(12)]
+
+    # Final linear shift
+    b = [(c + 13 - i) % 26 for i, c in enumerate(b)]
+
+    return "".join(chr(65 + c) for c in b) == "VJWQIEQOTVDL"
+```
+
+This puzzle accepts only 12-letter uppercase strings, then subjects them to a rotation, an even/odd recombination, a quadratic position-based shift, a reversal, a modular permutation, and one last linear shift before comparing to a fixed target.
+
+The intended sample solution is the string that maps through all of those steps to the target above.
+
+SOLUTION: "ABCDEFGHIJKL" 
+Checking sample solution  "ABCDEFGHIJKL"
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says "ABCDEFGHIJKL". Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 2,453 in / 15,359 out
+  gpt-5.5 (solver): 361 in / 2,602 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    n = 24
+    if len(b) != n:
+        return False
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    enc = (0x327763496a326e415e79285d6f767c3e5d45584674656b5e).to_bytes(n, "big")
+
+    ref = bytes(
+        33 + ((83 * (enc[(7 * i + 11) % n] - i * (i + 3) - 74)) % 94)
+        for i in range(n)
+    )
+
+    import hashlib
+    import hmac
+
+    def crush(data):
+        data = bytearray(data)
+        mask = (1 << 64) - 1
+        st = [
+            0x243F6A8885A308D3,
+            0x13198A2E03707344,
+            0xA4093822299F31D0,
+            0x082EFA98EC4E6C89,
+        ]
+
+        for r in range(10):
+            carry = (0x9E3779B97F4A7C15 ^ (r * 0xD1B54A32D192ED03)) & mask
+
+            for i, c in enumerate(data):
+                k = (i + r) & 3
+                carry = (carry + c + ((i + 1) * 0xBF58476D1CE4E5B9)) & mask
+                carry = ((carry << 13) | (carry >> 51)) & mask
+
+                st[k] ^= carry
+                st[k] = (st[k] * 0x94D049BB133111EB + 0x2545F4914F6CDD1D) & mask
+                st[(k + 1) & 3] ^= ((st[k] << 17) | (st[k] >> 47)) & mask
+
+                data[i] = (c + (st[k] >> ((i & 7) * 8)) + r + i) & 255
+
+            cut = st[r & 3] % n
+            data = data[cut:] + data[:cut]
+            data.reverse()
+
+        trailer = b"".join(z.to_bytes(8, "little") for z in st)
+        return hashlib.blake2s(
+            bytes(data) + trailer,
+            digest_size=32,
+            person=b"riddle42",
+        ).digest()
+
+    return hmac.compare_digest(crush(b), crush(ref))
+```
+
+Private explanation: the large integer encodes a permuted affine transform of the hidden printable target string modulo 94. The `crush` function is only a noisy fingerprinting layer; the intended solution is the decoded reference string.
+
+SOLUTION: "jovian-riddle-cabinet-47" 
+Checking sample solution  "jovian-riddle-cabinet-47"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "jovian+riddle+cabinet+47". Checking.
+Failure!
+New score after this turn: 0 (1-1) vs 0 (0-0)
+  gpt-5.5 (inventer): 2,718 in / 16,718 out
+  gpt-5.4-mini (solver): 694 in / 3,515 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not str:
+        return False
+
+    try:
+        raw = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if len(raw) != 15:
+        return False
+    if any(c < 97 or c > 122 for c in raw):
+        return False
+
+    b = [c - 97 for c in raw]
+
+    # 3x5 transpose: read columns instead of rows
+    rows = [b[i:i + 5] for i in range(0, 15, 5)]
+    b = [rows[r][c] for c in range(5) for r in range(3)]
+
+    # rotate left by 7
+    b = b[7:] + b[:7]
+
+    # index-dependent Caesar shift modulo 26
+    b = [(v + (2 * i * i + 3 * i + 5)) % 26 for i, v in enumerate(b)]
+
+    # reverse each 5-character block
+    b = b[0:5][::-1] + b[5:10][::-1] + b[10:15][::-1]
+
+    # final fixed permutation
+    p = [4, 1, 14, 3, 8, 0, 11, 6, 13, 2, 9, 5, 12, 7, 10]
+    b = [b[i] for i in p]
+
+    return bytes(b) == b"jrddflsultkgilb"
+```
+
+This puzzle is a fully reversible 15-letter lowercase string transform:
+
+- it first transposes the input as a 3×5 grid,
+- then rotates,
+- then applies a quadratic per-position shift modulo 26,
+- then reverses each 5-letter chunk,
+- and finally permutes the positions one last time.
+
+Because every step is invertible, there is exactly one string that passes.  
+The intended sample solution is `treasurelocator`.
+
+SOLUTION: 'treasurelocator' 
+Checking sample solution  'treasurelocator'
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (1-1) vs -1 (0-1)
+  gpt-5.4-mini (inventer): 3,440 in / 18,052 out
+Logs written to runs/classic/gpt-5.5_vs_gpt-5.4-mini.log and runs/classic/gpt-5.5_vs_gpt-5.4-mini.jsonl
+
+=== Token Usage Summary ===
+Turn 0: gpt-5.5 vs gpt-5.4-mini - 346 in / 2,808 out (?) [puzzle-wrong]
+Turn 1: gpt-5.4-mini vs gpt-5.5 - 771 in / 17,991 out (?) [success]
+Turn 2: gpt-5.5 vs gpt-5.4-mini - 1,411 in / 18,167 out (?) [success]
+Turn 3: gpt-5.4-mini vs gpt-5.5 - 1,748 in / 12,034 out (?) [success]
+Turn 4: gpt-5.5 vs gpt-5.4-mini - 2,065 in / 14,336 out (?) [success]
+Turn 5: gpt-5.4-mini vs gpt-5.5 - 2,347 in / 22,235 out (?) [success]
+Turn 6: gpt-5.5 vs gpt-5.4-mini - 2,430 in / 41,224 out (?) [success]
+Turn 7: gpt-5.4-mini vs gpt-5.5 - 2,814 in / 17,961 out (?) [success]
+Turn 8: gpt-5.5 vs gpt-5.4-mini - 3,412 in / 20,233 out (?) [failure]
+Turn 9: gpt-5.4-mini vs gpt-5.5 - 3,440 in / 18,052 out (?) [puzzle-wrong]
+
+=== Totals by Model ===
+gpt-5.5: 8,979 in / 66,840 out
+gpt-5.4-mini: 11,805 in / 118,201 out

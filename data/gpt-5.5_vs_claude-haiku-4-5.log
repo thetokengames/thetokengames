@@ -1,0 +1,411 @@
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if isinstance(x, bool):
+            return False
+        y = int(x)
+    except Exception:
+        return False
+
+    h = "3" + "f" * 319 + "7" + "f" * 230 + "8" + "0" * 318 + "1"
+    n = int(h, 16)
+
+    return 1 < y < n and n % y == 0
+```
+
+This puzzle asks for a nontrivial divisor of the integer `n`. The number is intentionally constructed in a compact hexadecimal form rather than revealing its factorization directly.
+
+SOLUTION: 2**1279 - 1 
+Checking sample solution  2**1279 - 1
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 7. Checking.
+Failure!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 346 in / 14,135 out
+  claude-haiku-4-5 (solver): 249 in / 21,848 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if isinstance(x, bool):
+            return False
+        y = int(x)
+    except Exception:
+        return False
+    
+    if y <= 1:
+        return False
+    
+    n = 1000000007 * 1000000009
+    return n % y == 0 and y < n
+```
+
+This puzzle requires finding a divisor of a large semiprime number. The function constructs n as a product of two large integers and returns True only when the input y divides n evenly and satisfies the bounds (1 < y < n). The challenge for the solver is to either recognize the structure of n from the code or use factorization techniques to discover valid divisors. Since n is a semiprime (product of exactly two prime numbers), the set of valid solutions is limited but computationally difficult to find without recognizing the specific factors in the code.
+
+SOLUTION: 1000000007 
+Checking sample solution  1000000007
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 1000000007. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 546 in / 13,646 out
+  gpt-5.5 (solver): 175 in / 285 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if isinstance(x, bool):
+            return False
+        nonce = int(x)
+    except Exception:
+        return False
+
+    if not (0 <= nonce <= 0xffffffff):
+        return False
+
+    import hashlib
+
+    def le32(n):
+        return n.to_bytes(4, "little")
+
+    bits = 0x1D00FFFF
+
+    header = (
+        le32(1)
+        + bytes(32)
+        + bytes.fromhex(
+            "4a5e1e4baab89f3a32518a88c31bc87f618f76673e2cc77ab2127b7afdeda33b"
+        )[::-1]
+        + le32(1231006505)
+        + le32(bits)
+        + le32(nonce)
+    )
+
+    h = hashlib.sha256(hashlib.sha256(header).digest()).digest()
+    target = (bits & 0xFFFFFF) << (8 * ((bits >> 24) - 3))
+
+    return int.from_bytes(h, "little") <= target
+```
+
+This is a compact proof-of-work style puzzle. The input is interpreted as a 32-bit nonce and placed into a fixed 80-byte header. The function double-hashes the header and checks whether the resulting integer is below a difficulty target.
+
+SOLUTION: 2083236893 
+Checking sample solution  2083236893
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 2083236893. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 610 in / 10,136 out
+  claude-haiku-4-5 (solver): 417 in / 11,344 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if isinstance(x, bool):
+            return False
+        y = int(x)
+    except Exception:
+        return False
+    
+    if y <= 0 or y >= 10**9:
+        return False
+    
+    # System of modular constraints
+    return ((y % 7 == 3) and (y % 11 == 5) and 
+            (y % 13 == 2) and (y % 17 == 8))
+```
+
+This puzzle requires finding a positive integer less than one billion that simultaneously satisfies four independent modular arithmetic constraints. The input must leave specific remainders when divided by 7, 11, 13, and 17 respectively.
+
+A solver can approach this in multiple ways:
+- Recognize this as a system of linear congruences solvable via the Chinese Remainder Theorem
+- Look for patterns by finding numbers satisfying each constraint individually, then seeking overlaps
+- Attempt computational search through the constraint space
+
+The constraints are algebraic rather than cryptographic, but the large search space and requirement to satisfy all four conditions simultaneously makes this non-trivial to solve without recognizing the underlying mathematical structure.
+
+SOLUTION: 9817 
+Checking sample solution  9817
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 9817. Checking.
+Success!
+New score after this turn: 1 (1-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,118 in / 14,963 out
+  gpt-5.5 (solver): 204 in / 536 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+
+    alphabet = " ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    if not x or x[0] == " " or any(ch not in alphabet for ch in x):
+        return False
+
+    m = int("".join(f"{alphabet.index(ch):02d}" for ch in x))
+
+    n = 114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+    e = 9007
+    c = 96869613754622061477140922254355882905759991124574319874695120930816298225145708356931476622883989628013391990551829945157815154
+
+    return 0 < m < n and pow(m, e, n) == c
+```
+
+This puzzle encodes an uppercase message using a two-digit alphabet code, then checks whether its RSA encryption matches a fixed ciphertext. Solving it requires recovering the plaintext corresponding to the ciphertext under the given public key.
+
+SOLUTION: "THE MAGIC WORDS ARE SQUEAMISH OSSIFRAGE" 
+Checking sample solution  "THE MAGIC WORDS ARE SQUEAMISH OSSIFRAGE"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "HELLO WORLD". Checking.
+Failure!
+New score after this turn: 2 (2-0) vs 0 (0-0)
+  gpt-5.5 (inventer): 1,058 in / 7,511 out
+  claude-haiku-4-5 (solver): 357 in / 18,234 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if isinstance(x, bool):
+            return False
+        y = int(x)
+    except Exception:
+        return False
+    
+    if y <= 0 or y >= 10**8:
+        return False
+    
+    def sum_of_proper_divisors(n):
+        if n <= 1:
+            return 0
+        total = 1
+        i = 2
+        while i * i <= n:
+            if n % i == 0:
+                total += i
+                if i != n // i:
+                    total += n // i
+            i += 1
+        return total
+    
+    return sum_of_proper_divisors(y) == y
+```
+
+## Explanation
+
+This puzzle asks you to find a **perfect number** — a positive integer that equals the sum of its proper divisors (all divisors except the number itself).
+
+The function computes the sum of all proper divisors of the input and returns `True` if this sum equals the input itself.
+
+For example:
+- 6 has divisors {1, 2, 3, 6}. Proper divisors: {1, 2, 3}. Sum: 1 + 2 + 3 = 6 ✓
+- 28 has proper divisors {1, 2, 4, 7, 14}. Sum: 1 + 2 + 4 + 7 + 14 = 28 ✓
+- 496 and 8128 are also perfect numbers within the range
+
+The solver must either:
+1. Recognize this as a perfect number check (requiring number theory knowledge)
+2. Write a brute-force program to test values in the range
+3. Search for "numbers equal to sum of their proper divisors"
+
+Perfect numbers are rare and elegant mathematical objects, making this a non-obvious but solvable puzzle.
+
+SOLUTION: 6 
+Checking sample solution  6
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 6. Checking.
+Success!
+New score after this turn: 2 (2-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,693 in / 13,361 out
+  gpt-5.5 (solver): 250 in / 195 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if isinstance(x, bool):
+            return False
+        y = int(x)
+    except Exception:
+        return False
+
+    if not (0 <= y < (1 << 400)):
+        return False
+
+    raw = y.to_bytes(50, "big")
+    data = bytes(((17 * b + 23 * i + 7) & 0xff) for i, b in enumerate(raw))
+
+    import hashlib
+    import hmac
+
+    key = bytes([0xaa]) * 20
+    tag = hmac.new(key, data, hashlib.sha256).digest()[::-1]
+
+    return hmac.compare_digest(
+        tag,
+        bytes.fromhex(
+            "fe0ed686298f17c62edb0fe19f0e5929a78191d0ebb84d85460e80361ea93e77"
+        ),
+    )
+```
+
+This puzzle interprets the input as a 400-bit integer, transforms its 50-byte big-endian representation with an index-dependent affine map modulo 256, then checks a full HMAC-SHA256 tag. Inverting the visible predicate without the sample requires finding a preimage for the MAC after undoing the byte transform.
+
+SOLUTION: int.from_bytes(bytes((((0xdd - 23*i - 7) * 241) & 0xff) for i in range(50)), "big") 
+Checking sample solution  int.from_bytes(bytes((((0xdd - 23*i - 7) * 241) & 0xff) for i in range(50)), "big")
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 1 (2-1) vs 0 (0-0)
+  gpt-5.5 (inventer): 1,515 in / 21,022 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if isinstance(x, bool):
+            return False
+        y = int(x)
+    except Exception:
+        return False
+    
+    if y <= 0 or y > 10**6:
+        return False
+    
+    def is_happy(n):
+        seen = set()
+        while n != 1 and n not in seen:
+            seen.add(n)
+            n = sum(int(digit) ** 2 for digit in str(n))
+        return n == 1
+    
+    return is_happy(y)
+```
+
+This puzzle asks you to find a **happy number** — a number where if you repeatedly replace it with the sum of the squares of its digits, you eventually reach 1.
+
+For example, the number 7 is happy because:
+- 7 → 7² = 49
+- 49 → 4² + 9² = 97
+- 97 → 9² + 7² = 130
+- 130 → 1² + 3² + 0² = 10
+- 10 → 1² + 0² = 1 ✓
+
+Numbers that don't eventually reach 1 enter cycles (like 2 → 4 → 16 → 37 → 58 → 89 → 145 → 42 → 20 → 4...) and return False.
+
+The solver must either recognize this as the happy number concept or trace through the algorithm to discover which values satisfy it. Happy numbers are less commonly known than perfect numbers but follow a clear mathematical pattern.
+
+SOLUTION: 7 
+Checking sample solution  7
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 1. Checking.
+Success!
+New score after this turn: 1 (2-1) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 2,456 in / 6,441 out
+  gpt-5.5 (solver): 214 in / 156 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str):
+        return False
+
+    try:
+        raw = x.encode("latin-1")
+    except UnicodeEncodeError:
+        return False
+
+    if len(raw) != 56:
+        return False
+
+    import hashlib
+    import hmac
+
+    msg = bytes((b + 1) & 0xFF for b in raw)
+    target = bytes.fromhex(
+        "248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1"
+    )
+
+    return hmac.compare_digest(hashlib.sha256(msg).digest(), target)
+```
+
+This puzzle applies a bytewise shift to a Latin-1 string and then checks a SHA-256 digest. Solving it directly requires finding a preimage for the displayed hash after accounting for the transformation.
+
+SOLUTION: "\x60abcabcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnop" 
+Checking sample solution  "\x60abcabcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnop"
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says "passwordpasswordpasswordpasswordpasswordpasswordpassword". Checking.
+Failure!
+New score after this turn: 2 (3-1) vs 0 (0-0)
+  gpt-5.5 (inventer): 1,957 in / 14,731 out
+  claude-haiku-4-5 (solver): 309 in / 13,208 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        if isinstance(x, bool):
+            return False
+        y = int(x)
+    except Exception:
+        return False
+    
+    if y <= 0 or y > 10**12:
+        return False
+    
+    import math
+    
+    # Check if y is a triangular number: y = n(n+1)/2
+    # This means 8y + 1 must be a perfect square
+    discriminant = 8 * y + 1
+    sqrt_disc = int(math.isqrt(discriminant))
+    
+    if sqrt_disc * sqrt_disc != discriminant:
+        return False
+    
+    # sqrt_disc must be odd for the triangular number formula to work
+    if sqrt_disc % 2 == 0:
+        return False
+    
+    # Check if y is also a perfect square
+    sqrt_y = int(math.isqrt(y))
+    return sqrt_y * sqrt_y == y
+```
+
+## Explanation
+
+This puzzle asks you to find a **square triangular number** — a positive integer that is simultaneously both a triangular number AND a perfect square.
+
+**Triangular numbers** are sums of consecutive integers starting from 1: 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, ... (these follow the formula n(n+1)/2).
+
+**Perfect squares** are: 1, 4, 9, 16, 25, 36, 49, 64, 81, ...
+
+A **square triangular number** satisfies both properties. The first few are: 1, 36, 1225, 41616, ...
+
+For example:
+- 36 is triangular: 1+2+3+4+5+6+7+8 = 36
+- 36 is also a perfect square: 6² = 36
+
+The function checks both conditions using efficient mathematical tests:
+- For triangular numbers: uses the formula that y is triangular if 8y+1 is a perfect square
+- For perfect squares: checks if the integer square root squared equals y
+
+A solver would need to either:
+1. Recognize this as the square triangular number concept
+2. Brute-force test values to find which ones satisfy both conditions
+3. Look for the mathematical pattern in the code and search for known sequences
+
+SOLUTION: 36 
+Checking sample solution  36
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 1. Checking.
+Success!
+New score after this turn: 2 (3-1) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 3,085 in / 8,790 out
+  gpt-5.5 (solver): 294 in / 168 out
+Turn 0: gpt-5.5 vs claude-haiku-4-5 - 595 in / 35,983 out (?) [failure]
+Turn 1: claude-haiku-4-5 vs gpt-5.5 - 721 in / 13,931 out (?) [success]
+Turn 2: gpt-5.5 vs claude-haiku-4-5 - 1,027 in / 21,480 out (?) [success]
+Turn 3: claude-haiku-4-5 vs gpt-5.5 - 1,322 in / 15,499 out (?) [success]
+Turn 4: gpt-5.5 vs claude-haiku-4-5 - 1,415 in / 25,745 out (?) [failure]
+Turn 5: claude-haiku-4-5 vs gpt-5.5 - 1,943 in / 13,556 out (?) [success]
+Turn 6: gpt-5.5 vs claude-haiku-4-5 - 1,515 in / 21,022 out (?) [puzzle-wrong]
+Turn 7: claude-haiku-4-5 vs gpt-5.5 - 2,670 in / 6,597 out (?) [success]
+Turn 8: gpt-5.5 vs claude-haiku-4-5 - 2,266 in / 27,939 out (?) [failure]
+Turn 9: claude-haiku-4-5 vs gpt-5.5 - 3,379 in / 8,958 out (?) [success]
+gpt-5.5: 6,623 in / 68,875 out
+claude-haiku-4-5: 10,230 in / 121,835 out
+gpt-5.5 ./. claude-haiku-4-5     (3-1) vs (0-0)     [0 failed, see runs/classic/gpt-5.5_vs_claude-haiku-4-5.log]

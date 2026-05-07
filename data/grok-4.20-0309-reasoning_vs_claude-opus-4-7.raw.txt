@@ -1,0 +1,1609 @@
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+None, this is the first turn.
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    n = 1000000016000000063
+    return isinstance(x, int) and x > 1 and x != n and n % x == 0
+```
+The function returns True precisely when x is a non-trivial prime factor of the 19-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) is feasible but slow in pure Python; faster factorization is possible but non-obvious at a glance. 
+SOLUTION: 1000000007
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at n = 1000000016000000063, I notice this looks like it could be (10^9 + a)(10^9 + b) where a+b = 16 and ab = 63. That gives a=7, b=9.
+
+So n = (10^9 + 7)(10^9 + 9) = 1000000007 × 1000000009.
+
+SOLUTION: 1000000007
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000016000000063
+    return isinstance(x, int) and x > 1 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want a puzzle that has structure (so solving by pure brute force is impractical) but isn't impossible.
+
+```python
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**32: return False
+    # Bit-reverse x within 32 bits
+    y = 0
+    n = x
+    for _ in range(32):
+        y = (y << 1) | (n & 1)
+        n >>= 1
+    return (x ^ y) == 0xA5A5A5A5 and bin(x).count('1') == 16
+```
+
+The puzzle: find a 32-bit integer `x` such that XOR with its bit-reversal equals `0xA5A5A5A5`, and `x` has exactly 16 set bits.
+
+A naive brute force scans all 2^32 ≈ 4 billion values. Smarter solvers will notice the bit-reversal constraint pairs up bits (i, 31-i), reducing the search space — but figuring out the right combination with the exact popcount constraint still takes work.
+
+SOLUTION: 1509991935
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+After analyzing the bit conditions imposed by the XOR with the bit-reversed value and the popcount constraint, one valid 32-bit integer x is 0xFFA5005A.
+SOLUTION: 0xFFA5005A
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000016000000063
+    return isinstance(x, int) and x > 1 and x != n and n % x == 0
+
+```
+### Explanation
+
+The function returns True precisely when x is a non-trivial prime factor of the 19-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) is feasible but slow in pure Python; faster factorization is possible but non-obvious at a glance. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**32: return False
+    # Bit-reverse x within 32 bits
+    y = 0
+    n = x
+    for _ in range(32):
+        y = (y << 1) | (n & 1)
+        n >>= 1
+    return (x ^ y) == 0xA5A5A5A5 and bin(x).count('1') == 16
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    n = 1000000007037000000259
+    return isinstance(x, int) and x > 10**9 and x != n and n % x == 0
+```
+The function returns True precisely when x is a large non-trivial factor of the 22-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) (~3e10) is completely impractical in pure Python; faster factorization requires implementing a nontrivial algorithm such as Pollard Rho or quadratic sieve, which is non-obvious and involved. 
+SOLUTION: 1000000007
+*** END
+*** END
+*** solver claude-opus-4-7
+Looking at this, I need to find a divisor of n = 1000000007037000000259 that's greater than 10^9 and not equal to n itself.
+
+Let me try n = 1000000007 × k:
+- 1000000007 × 10^12 = 1000000007000000000000
+- n - that = 37000000259
+- 1000000007 × 37 = 37000000259 ✓
+
+So n = 1000000007 × 1000000000037, both factors exceed 10^9.
+
+SOLUTION: 1000000007
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000016000000063
+    return isinstance(x, int) and x > 1 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**32: return False
+    # Bit-reverse x within 32 bits
+    y = 0
+    n = x
+    for _ in range(32):
+        y = (y << 1) | (n & 1)
+        n >>= 1
+    return (x ^ y) == 0xA5A5A5A5 and bin(x).count('1') == 16
+
+```
+### Explanation
+
+
+The puzzle: find a 32-bit integer `x` such that XOR with its bit-reversal equals `0xA5A5A5A5`, and `x` has exactly 16 set bits.
+
+A naive brute force scans all 2^32 ≈ 4 billion values. Smarter solvers will notice the bit-reversal constraint pairs up bits (i, 31-i), reducing the search space — but figuring out the right combination with the exact popcount constraint still takes work.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000007037000000259
+    return isinstance(x, int) and x > 10**9 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want a puzzle that requires non-trivial search and reasoning, but is small enough to verify by hand. I'll create a digit-pattern puzzle with overlapping divisibility constraints — the search space is 10! = 3.6M, but the structure forces a delicate combinatorial search.
+
+```python
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 10**9 or x >= 10**10: return False
+    s = str(x)
+    if len(set(s)) != 10: return False
+    ds = [int(c) for c in s]
+    P = [17, 13, 11, 7, 5, 3, 2]
+    for i in range(7):
+        n = ds[7-i] * 100 + ds[8-i] * 10 + ds[9-i]
+        if n % P[i] != 0:
+            return False
+    return True
+```
+
+The number must use all 10 digits exactly once, and various overlapping 3-digit windows must satisfy specific divisibility relations.
+
+SOLUTION: 1406357289
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+SOLUTION: 1406357289
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000016000000063
+    return isinstance(x, int) and x > 1 and x != n and n % x == 0
+
+```
+### Explanation
+
+The function returns True precisely when x is a non-trivial prime factor of the 19-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) is feasible but slow in pure Python; faster factorization is possible but non-obvious at a glance. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**32: return False
+    # Bit-reverse x within 32 bits
+    y = 0
+    n = x
+    for _ in range(32):
+        y = (y << 1) | (n & 1)
+        n >>= 1
+    return (x ^ y) == 0xA5A5A5A5 and bin(x).count('1') == 16
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000007037000000259
+    return isinstance(x, int) and x > 10**9 and x != n and n % x == 0
+
+```
+### Explanation
+
+The function returns True precisely when x is a large non-trivial factor of the 22-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) (~3e10) is completely impractical in pure Python; faster factorization requires implementing a nontrivial algorithm such as Pollard Rho or quadratic sieve, which is non-obvious and involved. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 10**9 or x >= 10**10: return False
+    s = str(x)
+    if len(set(s)) != 10: return False
+    ds = [int(c) for c in s]
+    P = [17, 13, 11, 7, 5, 3, 2]
+    for i in range(7):
+        n = ds[7-i] * 100 + ds[8-i] * 10 + ds[9-i]
+        if n % P[i] != 0:
+            return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    n = 1000000000000128000003367
+    return isinstance(x, int) and x > 10**12 and x != n and n % x == 0
+```
+The function returns True precisely when x is a large non-trivial factor (>10^12) of the 25-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) (~10^12.5) is completely impractical in pure Python; faster factorization requires implementing a nontrivial algorithm such as Pollard Rho, elliptic curve method or quadratic sieve, which is non-obvious and involved.
+SOLUTION: 1000000000037
+*** END
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000016000000063
+    return isinstance(x, int) and x > 1 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**32: return False
+    # Bit-reverse x within 32 bits
+    y = 0
+    n = x
+    for _ in range(32):
+        y = (y << 1) | (n & 1)
+        n >>= 1
+    return (x ^ y) == 0xA5A5A5A5 and bin(x).count('1') == 16
+
+```
+### Explanation
+
+
+The puzzle: find a 32-bit integer `x` such that XOR with its bit-reversal equals `0xA5A5A5A5`, and `x` has exactly 16 set bits.
+
+A naive brute force scans all 2^32 ≈ 4 billion values. Smarter solvers will notice the bit-reversal constraint pairs up bits (i, 31-i), reducing the search space — but figuring out the right combination with the exact popcount constraint still takes work.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000007037000000259
+    return isinstance(x, int) and x > 10**9 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 10**9 or x >= 10**10: return False
+    s = str(x)
+    if len(set(s)) != 10: return False
+    ds = [int(c) for c in s]
+    P = [17, 13, 11, 7, 5, 3, 2]
+    for i in range(7):
+        n = ds[7-i] * 100 + ds[8-i] * 10 + ds[9-i]
+        if n % P[i] != 0:
+            return False
+    return True
+
+```
+### Explanation
+
+
+The number must use all 10 digits exactly once, and various overlapping 3-digit windows must satisfy specific divisibility relations.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000000000128000003367
+    return isinstance(x, int) and x > 10**12 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want a puzzle that's hard to brute-force but where I can verify my solution by hand.
+
+```python
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**60: return False
+    # Count set bits
+    if bin(x).count('1') != 30: return False
+    # Specific bit patterns at the ends
+    if (x & 0xF) != 0xA: return False
+    if ((x >> 56) & 0xF) != 0x5: return False
+    # Sum of set bit positions
+    s = 0
+    for i in range(60):
+        if (x >> i) & 1:
+            s += i
+    return s == 900
+```
+
+The puzzle: find a 60-bit integer with exactly 30 set bits, where the lowest nibble is `A`, the top nibble (bits 56-59) is `5`, and the positions of the set bits sum to exactly 900.
+
+Naive brute force is C(60,30) ≈ 1.18 × 10^17 — far too many. The constraints interact in non-obvious ways, requiring the solver to reason about which bit patterns are possible.
+
+My construction (hex):
+- Top nibble `5` (bits 56, 58 set) → contributes positions 56+58 = 114, popcount 2
+- Bottom nibble `A` (bits 1, 3 set) → contributes 1+3 = 4, popcount 2
+- Need 26 more bits summing to 782 from positions 4..55
+- Use positions 13..31 (sum 418, count 19) + positions 49..55 (sum 364, count 7) → sum 782, count 26 ✓
+
+This gives x = `0x5FE0000FFFFE000A`.
+
+SOLUTION: 431782618569105418
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+396327762193750346
+SOLUTION: 396327762193750346
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000016000000063
+    return isinstance(x, int) and x > 1 and x != n and n % x == 0
+
+```
+### Explanation
+
+The function returns True precisely when x is a non-trivial prime factor of the 19-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) is feasible but slow in pure Python; faster factorization is possible but non-obvious at a glance. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**32: return False
+    # Bit-reverse x within 32 bits
+    y = 0
+    n = x
+    for _ in range(32):
+        y = (y << 1) | (n & 1)
+        n >>= 1
+    return (x ^ y) == 0xA5A5A5A5 and bin(x).count('1') == 16
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000007037000000259
+    return isinstance(x, int) and x > 10**9 and x != n and n % x == 0
+
+```
+### Explanation
+
+The function returns True precisely when x is a large non-trivial factor of the 22-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) (~3e10) is completely impractical in pure Python; faster factorization requires implementing a nontrivial algorithm such as Pollard Rho or quadratic sieve, which is non-obvious and involved. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 10**9 or x >= 10**10: return False
+    s = str(x)
+    if len(set(s)) != 10: return False
+    ds = [int(c) for c in s]
+    P = [17, 13, 11, 7, 5, 3, 2]
+    for i in range(7):
+        n = ds[7-i] * 100 + ds[8-i] * 10 + ds[9-i]
+        if n % P[i] != 0:
+            return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000000000128000003367
+    return isinstance(x, int) and x > 10**12 and x != n and n % x == 0
+
+```
+### Explanation
+
+The function returns True precisely when x is a large non-trivial factor (>10^12) of the 25-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) (~10^12.5) is completely impractical in pure Python; faster factorization requires implementing a nontrivial algorithm such as Pollard Rho, elliptic curve method or quadratic sieve, which is non-obvious and involved.
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**60: return False
+    # Count set bits
+    if bin(x).count('1') != 30: return False
+    # Specific bit patterns at the ends
+    if (x & 0xF) != 0xA: return False
+    if ((x >> 56) & 0xF) != 0x5: return False
+    # Sum of set bit positions
+    s = 0
+    for i in range(60):
+        if (x >> i) & 1:
+            s += i
+    return s == 900
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    n = 100000000023600000007363
+    return isinstance(x, int) and x > 10**12 and x != n and n % x == 0
+```
+The function returns True precisely when x is a large non-trivial factor (>10**12) of the 25-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) (~3e12) is completely impractical in pure Python; faster factorization requires implementing a nontrivial algorithm such as Pollard Rho, elliptic curve method or quadratic sieve, which is non-obvious and involved.
+SOLUTION: 1000000000037
+*** END
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000016000000063
+    return isinstance(x, int) and x > 1 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**32: return False
+    # Bit-reverse x within 32 bits
+    y = 0
+    n = x
+    for _ in range(32):
+        y = (y << 1) | (n & 1)
+        n >>= 1
+    return (x ^ y) == 0xA5A5A5A5 and bin(x).count('1') == 16
+
+```
+### Explanation
+
+
+The puzzle: find a 32-bit integer `x` such that XOR with its bit-reversal equals `0xA5A5A5A5`, and `x` has exactly 16 set bits.
+
+A naive brute force scans all 2^32 ≈ 4 billion values. Smarter solvers will notice the bit-reversal constraint pairs up bits (i, 31-i), reducing the search space — but figuring out the right combination with the exact popcount constraint still takes work.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000007037000000259
+    return isinstance(x, int) and x > 10**9 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 10**9 or x >= 10**10: return False
+    s = str(x)
+    if len(set(s)) != 10: return False
+    ds = [int(c) for c in s]
+    P = [17, 13, 11, 7, 5, 3, 2]
+    for i in range(7):
+        n = ds[7-i] * 100 + ds[8-i] * 10 + ds[9-i]
+        if n % P[i] != 0:
+            return False
+    return True
+
+```
+### Explanation
+
+
+The number must use all 10 digits exactly once, and various overlapping 3-digit windows must satisfy specific divisibility relations.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000000000128000003367
+    return isinstance(x, int) and x > 10**12 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**60: return False
+    # Count set bits
+    if bin(x).count('1') != 30: return False
+    # Specific bit patterns at the ends
+    if (x & 0xF) != 0xA: return False
+    if ((x >> 56) & 0xF) != 0x5: return False
+    # Sum of set bit positions
+    s = 0
+    for i in range(60):
+        if (x >> i) & 1:
+            s += i
+    return s == 900
+
+```
+### Explanation
+
+
+The puzzle: find a 60-bit integer with exactly 30 set bits, where the lowest nibble is `A`, the top nibble (bits 56-59) is `5`, and the positions of the set bits sum to exactly 900.
+
+Naive brute force is C(60,30) ≈ 1.18 × 10^17 — far too many. The constraints interact in non-obvious ways, requiring the solver to reason about which bit patterns are possible.
+
+My construction (hex):
+- Top nibble `5` (bits 56, 58 set) → contributes positions 56+58 = 114, popcount 2
+- Bottom nibble `A` (bits 1, 3 set) → contributes 1+3 = 4, popcount 2
+- Need 26 more bits summing to 782 from positions 4..55
+- Use positions 13..31 (sum 418, count 19) + positions 49..55 (sum 364, count 7) → sum 782, count 26 ✓
+
+This gives x = `0x5FE0000FFFFE000A`.
+
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 100000000023600000007363
+    return isinstance(x, int) and x > 10**12 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at this, I want to create a puzzle that's hard to brute-force but where I can construct a verified solution by hand.
+
+```python
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**100: return False
+    bits = [(x >> i) & 1 for i in range(100)]
+    if sum(bits) != 50: return False
+    primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
+    for p in primes:
+        if bits[p] != 1: return False
+    s1 = sum(i for i, b in enumerate(bits) if b == 1)
+    s2 = sum(i*i for i, b in enumerate(bits) if b == 1)
+    return s1 == 2500 and s2 == 151372
+```
+
+The puzzle: find a 100-bit integer with exactly 50 set bits, where every prime position < 100 must be set, the positions of set bits sum to 2500, AND the sum of squares of those positions equals 151372.
+
+There are 25 primes < 100 (forced set, contributing sum 1060 and sum-sq 65796), so we need to pick 25 of the 75 non-prime positions in [0,99] such that their sum is 1440 AND their sum of squares is 85576. This is a constrained 2D subset-sum — naive enumeration is C(75, 25) ≈ 5×10^19, and even DP requires tracking both sum and sum-of-squares jointly, making it nontrivial.
+
+My construction picks non-prime positions: {40,42,44,45,46,48,49,51,52,54,55,56,57,58,60,62,63,64,66,68,69,70,72,74,75}, verified to sum to 1440 with squared sum 85576.
+
+SOLUTION: 0x202088FFDFFFBFF20A08A28AC
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+The function requires `x` to be a non-negative integer less than `2**100` with exactly 50 bits set in its binary representation (i.e., Hamming weight of 50). Moreover, bits at each of the 25 listed prime positions must be set, the sum of all set bit positions must equal exactly 2500, and the sum of squares of all set bit positions must equal exactly 151372.
+
+The 25 required prime positions are: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97. Their positions sum to 1060 and their squares sum to 65796.
+
+This implies the remaining 25 set positions (non-primes in [0, 99]) must sum to 1440 with squares summing to 85576.
+
+The non-prime positions in [40, 75] are exactly 27 values summing to 1555 with squares summing to 92301. Removing a pair summing to 115 from this collection yields a valid sum of 1440. The only such pair with squares also summing to exactly 6725 is (50, 65). Removing this pair yields squares summing to exactly 85576.
+
+The full set of 50 positions with bits set is therefore: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 79, 83, 89, 97.
+
+The unique `x` with precisely these bits set (and satisfying all other conditions in the function) is obtained by summing `2**p` over all positions `p` in the set above.
+
+SOLUTION: 159085646438607200580140673196
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000016000000063
+    return isinstance(x, int) and x > 1 and x != n and n % x == 0
+
+```
+### Explanation
+
+The function returns True precisely when x is a non-trivial prime factor of the 19-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) is feasible but slow in pure Python; faster factorization is possible but non-obvious at a glance. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**32: return False
+    # Bit-reverse x within 32 bits
+    y = 0
+    n = x
+    for _ in range(32):
+        y = (y << 1) | (n & 1)
+        n >>= 1
+    return (x ^ y) == 0xA5A5A5A5 and bin(x).count('1') == 16
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000007037000000259
+    return isinstance(x, int) and x > 10**9 and x != n and n % x == 0
+
+```
+### Explanation
+
+The function returns True precisely when x is a large non-trivial factor of the 22-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) (~3e10) is completely impractical in pure Python; faster factorization requires implementing a nontrivial algorithm such as Pollard Rho or quadratic sieve, which is non-obvious and involved. 
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 10**9 or x >= 10**10: return False
+    s = str(x)
+    if len(set(s)) != 10: return False
+    ds = [int(c) for c in s]
+    P = [17, 13, 11, 7, 5, 3, 2]
+    for i in range(7):
+        n = ds[7-i] * 100 + ds[8-i] * 10 + ds[9-i]
+        if n % P[i] != 0:
+            return False
+    return True
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000000000128000003367
+    return isinstance(x, int) and x > 10**12 and x != n and n % x == 0
+
+```
+### Explanation
+
+The function returns True precisely when x is a large non-trivial factor (>10^12) of the 25-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) (~10^12.5) is completely impractical in pure Python; faster factorization requires implementing a nontrivial algorithm such as Pollard Rho, elliptic curve method or quadratic sieve, which is non-obvious and involved.
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**60: return False
+    # Count set bits
+    if bin(x).count('1') != 30: return False
+    # Specific bit patterns at the ends
+    if (x & 0xF) != 0xA: return False
+    if ((x >> 56) & 0xF) != 0x5: return False
+    # Sum of set bit positions
+    s = 0
+    for i in range(60):
+        if (x >> i) & 1:
+            s += i
+    return s == 900
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 100000000023600000007363
+    return isinstance(x, int) and x > 10**12 and x != n and n % x == 0
+
+```
+### Explanation
+
+The function returns True precisely when x is a large non-trivial factor (>10**12) of the 25-digit semiprime n embedded in the code. Brute-force search up to sqrt(n) (~3e12) is completely impractical in pure Python; faster factorization requires implementing a nontrivial algorithm such as Pollard Rho, elliptic curve method or quadratic sieve, which is non-obvious and involved.
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**100: return False
+    bits = [(x >> i) & 1 for i in range(100)]
+    if sum(bits) != 50: return False
+    primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
+    for p in primes:
+        if bits[p] != 1: return False
+    s1 = sum(i for i, b in enumerate(bits) if b == 1)
+    s2 = sum(i*i for i, b in enumerate(bits) if b == 1)
+    return s1 == 2500 and s2 == 151372
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**64: return False
+    bits = [(x >> i) & 1 for i in range(64)]
+    if sum(bits) != 32: return False
+    primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61]
+    for p in primes:
+        if bits[p] != 1: return False
+    s1 = sum(i for i, b in enumerate(bits) if b)
+    s2 = sum(i*i for i, b in enumerate(bits) if b)
+    xor_val = 0
+    for i, b in enumerate(bits):
+        if b: xor_val ^= i
+    return s1 == 655 and s2 == 22761 and xor_val == 57
+```
+The function returns True for a 64-bit int with popcount exactly 32, where all prime indices <64 must be set, plus additional constraints on the sum of set-bit positions, sum of their squares, and XOR of the positions. Satisfying the full set of constraints requires solving a constrained subset-sum variant over the remaining candidate positions (46 choose 14 search space), which is nontrivial to do by hand or without custom search code. 
+SOLUTION: 2891462833512382463
+*** END
+*** END
+*** inventor prompt claude-opus-4-7
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000016000000063
+    return isinstance(x, int) and x > 1 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**32: return False
+    # Bit-reverse x within 32 bits
+    y = 0
+    n = x
+    for _ in range(32):
+        y = (y << 1) | (n & 1)
+        n >>= 1
+    return (x ^ y) == 0xA5A5A5A5 and bin(x).count('1') == 16
+
+```
+### Explanation
+
+
+The puzzle: find a 32-bit integer `x` such that XOR with its bit-reversal equals `0xA5A5A5A5`, and `x` has exactly 16 set bits.
+
+A naive brute force scans all 2^32 ≈ 4 billion values. Smarter solvers will notice the bit-reversal constraint pairs up bits (i, 31-i), reducing the search space — but figuring out the right combination with the exact popcount constraint still takes work.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000007037000000259
+    return isinstance(x, int) and x > 10**9 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 10**9 or x >= 10**10: return False
+    s = str(x)
+    if len(set(s)) != 10: return False
+    ds = [int(c) for c in s]
+    P = [17, 13, 11, 7, 5, 3, 2]
+    for i in range(7):
+        n = ds[7-i] * 100 + ds[8-i] * 10 + ds[9-i]
+        if n % P[i] != 0:
+            return False
+    return True
+
+```
+### Explanation
+
+
+The number must use all 10 digits exactly once, and various overlapping 3-digit windows must satisfy specific divisibility relations.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 1000000000000128000003367
+    return isinstance(x, int) and x > 10**12 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**60: return False
+    # Count set bits
+    if bin(x).count('1') != 30: return False
+    # Specific bit patterns at the ends
+    if (x & 0xF) != 0xA: return False
+    if ((x >> 56) & 0xF) != 0x5: return False
+    # Sum of set bit positions
+    s = 0
+    for i in range(60):
+        if (x >> i) & 1:
+            s += i
+    return s == 900
+
+```
+### Explanation
+
+
+The puzzle: find a 60-bit integer with exactly 30 set bits, where the lowest nibble is `A`, the top nibble (bits 56-59) is `5`, and the positions of the set bits sum to exactly 900.
+
+Naive brute force is C(60,30) ≈ 1.18 × 10^17 — far too many. The constraints interact in non-obvious ways, requiring the solver to reason about which bit patterns are possible.
+
+My construction (hex):
+- Top nibble `5` (bits 56, 58 set) → contributes positions 56+58 = 114, popcount 2
+- Bottom nibble `A` (bits 1, 3 set) → contributes 1+3 = 4, popcount 2
+- Need 26 more bits summing to 782 from positions 4..55
+- Use positions 13..31 (sum 418, count 19) + positions 49..55 (sum 364, count 7) → sum 782, count 26 ✓
+
+This gives x = `0x5FE0000FFFFE000A`.
+
+
+
+### Outcome
+Not solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    n = 100000000023600000007363
+    return isinstance(x, int) and x > 10**12 and x != n and n % x == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**100: return False
+    bits = [(x >> i) & 1 for i in range(100)]
+    if sum(bits) != 50: return False
+    primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]
+    for p in primes:
+        if bits[p] != 1: return False
+    s1 = sum(i for i, b in enumerate(bits) if b == 1)
+    s2 = sum(i*i for i, b in enumerate(bits) if b == 1)
+    return s1 == 2500 and s2 == 151372
+
+```
+### Explanation
+
+
+The puzzle: find a 100-bit integer with exactly 50 set bits, where every prime position < 100 must be set, the positions of set bits sum to 2500, AND the sum of squares of those positions equals 151372.
+
+There are 25 primes < 100 (forced set, contributing sum 1060 and sum-sq 65796), so we need to pick 25 of the 75 non-prime positions in [0,99] such that their sum is 1440 AND their sum of squares is 85576. This is a constrained 2D subset-sum — naive enumeration is C(75, 25) ≈ 5×10^19, and even DP requires tracking both sum and sum-of-squares jointly, making it nontrivial.
+
+My construction picks non-prime positions: {40,42,44,45,46,48,49,51,52,54,55,56,57,58,60,62,63,64,66,68,69,70,72,74,75}, verified to sum to 1440 with squared sum 85576.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**64: return False
+    bits = [(x >> i) & 1 for i in range(64)]
+    if sum(bits) != 32: return False
+    primes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61]
+    for p in primes:
+        if bits[p] != 1: return False
+    s1 = sum(i for i, b in enumerate(bits) if b)
+    s2 = sum(i*i for i, b in enumerate(bits) if b)
+    xor_val = 0
+    for i, b in enumerate(bits):
+        if b: xor_val ^= i
+    return s1 == 655 and s2 == 22761 and xor_val == 57
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor claude-opus-4-7
+Looking at past puzzles, I want a constraint puzzle with multiple interacting conditions but in a larger search space.
+
+```python
+def mystery(x):
+    if not isinstance(x, int): return False
+    if x < 0 or x >= 2**80: return False
+    bits = [(x >> i) & 1 for i in range(80)]
+    if sum(bits) != 40: return False
+    s = sum(i for i, b in enumerate(bits) if b)
+    s2 = sum(i*i for i, b in enumerate(bits) if b)
+    s3 = sum(i*i*i for i, b in enumerate(bits) if b)
+    xor_val = 0
+    for i, b in enumerate(bits):
+        if b: xor_val ^= i
+    return s == 1580 and s2 == 67740 and s3 == 3096800 and xor_val == 0
+```
+
+The puzzle: pick 40 distinct positions from {0,...,79} such that the sum of positions is 1580, sum of squares is 67740, sum of cubes is 3096800, and XOR of positions is 0.
+
+Naive search is C(80,40) ≈ 10^23. Even DP requires tracking sum, sum-sq, sum-cubes, and xor jointly — a massive state space.
+
+SOLUTION: 1152921504605798400
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+The function requires an 80-bit integer `x` with exactly 40 bits set. The positions of the set bits (indices 0..79) must satisfy four conditions simultaneously: their sum is 1580, sum of squares is 67740, sum of cubes is 3096800, and their XOR is 0.
+
+The sum from 0 to 79 is 3160, so any valid set `S` of 40 positions summing to 1580 implies that the complement also sums to 1580. The sum of squares from 0 to 79 is 167480, and the target of 67740 for `S` implies a complement sum of squares equal to 99740. The sum of cubes from 0 to 79 is 9985600, and the target of 3096800 for `S` implies a complement sum of cubes equal to 6888800.
+
+The consecutive integers from 20 to 59 (40 values) have sum `(20 + 59) * 40 / 2 = 1580`. Their sum of squares is `(sum of squares from 0 to 59) - (sum of squares from 0 to 19) = 70210 - 2470 = 67740`. Their sum of cubes is `(sum of cubes from 0 to 59) - (sum of cubes from 0 to 19) = 3132900 - 36100 = 3096800`.
+
+The XOR from 0 to `n` is `n` if `n % 4 == 0`, `1` if `n % 4 == 1`, `n + 1` if `n % 4 == 2`, and `0` if `n % 4 == 3`. Thus, XOR from 0 to 59 is 0 (since `59 % 4 == 3`) and XOR from 0 to 19 is also 0 (since `19 % 4 == 3`), so XOR from 20 to 59 is `0 ^ 0 = 0`.
+
+The positions 20..59 therefore satisfy all conditions. The corresponding `x` has exactly those bits set, which is equivalent to `2**60 - 2**20`.
+
+SOLUTION: 1152921504605798400
+*** END

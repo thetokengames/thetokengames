@@ -1,0 +1,554 @@
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+
+    if n < 100:
+        return False
+
+    # Condition A
+    s = str(n)
+    if s != s[::-1]:
+        return False
+
+    # Condition B
+    b = bin(n)[2:]
+    if b != b[::-1]:
+        return False
+
+    # Condition C
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+
+    return True
+```
+
+**Puzzle Explanation:**
+
+The function checks three separate properties of the integer `n` (converted from `x`). It also requires `n ≥ 100`. Each condition filters out most candidates, and satisfying all three simultaneously is non-trivial. Good luck figuring out what the three conditions are from the code!
+
+SOLUTION: 313 
+Checking sample solution  313
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 313. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 395 in / 24,474 out
+  claude-haiku-4-5 (solver): 291 in / 3,006 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    
+    if n < 0:
+        return False
+    
+    s = str(n)
+    
+    # Calculate sum and product of digits
+    digit_sum = sum(int(d) for d in s)
+    digit_product = 1
+    for d in s:
+        digit = int(d)
+        digit_product *= digit
+    
+    # If product is 0, return False
+    if digit_product == 0:
+        return False
+    
+    # Check if digit_sum is a perfect square
+    sqrt_sum = int(digit_sum ** 0.5)
+    is_perfect_square = (sqrt_sum * sqrt_sum == digit_sum)
+    
+    # Check if digit_product is a perfect cube
+    cube_root = int(round(digit_product ** (1/3)))
+    is_perfect_cube = False
+    for cr in [cube_root - 1, cube_root, cube_root + 1]:
+        if cr >= 0 and cr ** 3 == digit_product:
+            is_perfect_cube = True
+            break
+    
+    return is_perfect_square and is_perfect_cube
+```
+
+## Explanation
+
+Your task is to find a number where two different mathematical properties of its digits must *both* be satisfied. 
+
+Consider what you can calculate from the individual digits of a number. Two specific mathematical properties must hold simultaneously for the function to return True. One property involves combining the digits one way, and another involves combining them differently.
+
+Think about perfect powers and what makes a number "perfect" in the mathematical sense.
+
+SOLUTION: 18 
+Checking sample solution  18
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 1. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 588 in / 11,104 out
+  claude-sonnet-4-6 (solver): 438 in / 547 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+
+    if n <= 1000:
+        return False
+
+    # Part A
+    lo, hi = 0, n
+    while lo < hi:
+        mid = (lo + hi + 1) // 2
+        if mid * mid <= n:
+            lo = mid
+        else:
+            hi = mid - 1
+    if lo * lo != n:
+        return False
+
+    # Part B
+    p, q = lo, 0
+    while p:
+        q = (q << 1) | (p & 1)
+        p >>= 1
+    if q != lo:
+        return False
+
+    # Part C
+    t, r = n, 0
+    while t:
+        r += t % 10
+        t //= 10
+    if n % r != 0:
+        return False
+
+    return True
+```
+
+This puzzle combines three separate hidden conditions on the integer `n`. Part A performs a well-known algorithmic technique on `n`. Part B applies bit-level operations to a derived value. Part C extracts numerical properties from `n`'s digits. All three must hold simultaneously, and `n` must exceed 1000. Good luck!
+
+**Private explanation (hidden from solver):**
+- Part A: Binary search to compute `isqrt(n)`; checks that `n` is a perfect square (`lo = sqrt(n)`).
+- Part B: Reverses the bits of `lo` (= √n) and checks it equals itself — i.e., √n is a **binary palindrome**.
+- Part C: Computes digit sum `r` of `n`, then checks `n % r == 0` — i.e., `n` is a **Harshad (Niven) number**.
+
+So `n` must be: a perfect square > 1000, whose square root is a binary palindrome, and which is divisible by its own digit sum.
+
+Verification of solution 2025:
+- √2025 = 45, 45² = 2025 ✓
+- 45 in binary = `101101`, reversed = `101101` ✓ (palindrome)
+- Digit sum of 2025 = 2+0+2+5 = 9, 2025 / 9 = 225 ✓
+
+SOLUTION: 2025 
+Checking sample solution  2025
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 2025. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 997 in / 22,515 out
+  claude-haiku-4-5 (solver): 361 in / 7,057 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    
+    if n < 100:
+        return False
+    
+    s = str(n)
+    
+    # Condition 1: length must be even
+    if len(s) % 2 != 0:
+        return False
+    
+    # Condition 2: sum of first half equals sum of second half
+    mid = len(s) // 2
+    first_half_sum = sum(int(d) for d in s[:mid])
+    second_half_sum = sum(int(d) for d in s[mid:])
+    
+    if first_half_sum != second_half_sum:
+        return False
+    
+    # Condition 3: n is a perfect square
+    sqrt_n = int(n ** 0.5)
+    if sqrt_n * sqrt_n != n:
+        return False
+    
+    return True
+```
+
+## Puzzle Explanation
+
+Your puzzle requires finding a number that simultaneously satisfies three distinct properties:
+
+1. **Magnitude**: The number must be at least 100
+2. **Structure**: The number must have an even number of digits, and when split in half, the sum of digits in the first half must equal the sum of digits in the second half
+3. **Arithmetic**: The number itself must be a perfect square
+
+These conditions work together in a non-obvious way. Most perfect squares don't have this balanced digit property, and most numbers with balanced digits aren't perfect squares. You'll need to think about what perfect squares look like and test whether they exhibit this peculiar digit symmetry property.
+
+SOLUTION: 5041 
+Checking sample solution  5041
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 5041. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,287 in / 13,566 out
+  claude-sonnet-4-6 (solver): 368 in / 1,405 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    
+    if n <= 1000:
+        return False
+    
+    s = str(n)
+    
+    # Part I
+    prev = int(s[0])
+    for i in range(1, len(s)):
+        curr = int(s[i])
+        if abs(prev - curr) > 2:
+            return False
+        prev = curr
+    
+    # Part II
+    sq_sum = 0
+    for c in s:
+        sq_sum += int(c) ** 2
+    r = 1
+    while r * r < sq_sum:
+        r += 1
+    if r * r != sq_sum:
+        return False
+    
+    # Part III
+    ds = sum(int(c) for c in s)
+    if ds == 0:
+        return False
+    if n % ds != 0:
+        return False
+    
+    return True
+```
+
+This puzzle combines three separate conditions on an integer `n > 1000`. Part I examines consecutive digit relationships. Part II accumulates a value from the digits and applies an iterative test. Part III checks a classic divisibility property. All three must hold simultaneously, and their interaction makes the search space quite narrow. Good luck!
+
+SOLUTION: 1224 
+Checking sample solution  1224
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 2000. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 1,871 in / 31,798 out
+  claude-haiku-4-5 (solver): 378 in / 6,719 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    
+    if n < 10:
+        return False
+    
+    s = str(n)
+    num_digits = len(s)
+    
+    # Condition A: Armstrong/Narcissistic number
+    # (sum of each digit raised to the power of number of digits equals n)
+    power_sum = sum(int(d) ** num_digits for d in s)
+    if power_sum != n:
+        return False
+    
+    # Condition B: All digits are odd
+    for d in s:
+        if int(d) % 2 == 0:
+            return False
+    
+    # Condition C: The digit sum itself is odd
+    digit_sum = sum(int(d) for d in s)
+    if digit_sum % 2 == 0:
+        return False
+    
+    return True
+```
+
+## Puzzle Explanation
+
+Your task is to find a number that satisfies three interconnected conditions simultaneously:
+
+1. **Self-referential structure**: The number must equal the sum of its digits each raised to the power of how many digits it has (this is known as an Armstrong or Narcissistic number). For instance, if a number has 3 digits, each digit cubed and summed should equal the original number.
+
+2. **Odd digit constraint**: Every single digit in the number must be odd (1, 3, 5, 7, or 9). This is a surprisingly restrictive constraint when combined with the first condition.
+
+3. **Odd sum property**: The sum of all the digits must itself be an odd number.
+
+These three conditions are rare when combined together. Most Armstrong numbers don't satisfy the all-odd-digits requirement, and adding the final constraint about digit sums makes the search space very small. You'll need to think about what numbers could possibly satisfy such stringent requirements.
+
+SOLUTION: 153 
+Checking sample solution  153
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 153. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 1,992 in / 14,763 out
+  claude-sonnet-4-6 (solver): 362 in / 871 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+
+    if n <= 1000:
+        return False
+
+    # Part A
+    temp = n
+    prime_factors = []
+    d = 2
+    while d * d <= temp:
+        cnt = 0
+        while temp % d == 0:
+            cnt += 1
+            temp //= d
+        if cnt == 1:
+            prime_factors.append(d)
+        elif cnt > 1:
+            return False
+        d += 1
+    if temp > 1:
+        prime_factors.append(temp)
+    if len(prime_factors) != 3:
+        return False
+
+    # Part B
+    digits_b5 = []
+    t = n
+    while t > 0:
+        digits_b5.append(t % 5)
+        t //= 5
+    if digits_b5 != digits_b5[::-1]:
+        return False
+
+    # Part C
+    ds = sum(int(c) for c in str(n))
+    if ds < 2:
+        return False
+    for i in range(2, int(ds ** 0.5) + 1):
+        if ds % i == 0:
+            return False
+
+    return True
+```
+
+**Explanation:**
+
+This puzzle applies three independent conditions to an integer `n > 1000`. Part A performs a prime-factorization procedure and examines the resulting list. Part B converts `n` to a different base and applies a symmetry test. Part C extracts a classic digit property and runs a standard mathematical check on it. All three must hold simultaneously — finding numbers in the overlap of these three constraints is non-trivial. Good luck!
+
+SOLUTION: 1066 
+Checking sample solution  1066
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 1066. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 2,490 in / 16,434 out
+  claude-haiku-4-5 (solver): 451 in / 8,952 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    
+    if n < 100:
+        return False
+    
+    n_squared = n * n
+    s_squared = str(n_squared)
+    
+    # Check if n is a Kaprekar number
+    # A Kaprekar number is one where its square can be split into two parts
+    # that add up to the original number
+    for i in range(1, len(s_squared)):
+        left = int(s_squared[:i])
+        right = int(s_squared[i:])
+        
+        if left + right == n:
+            return True
+    
+    return False
+```
+
+## Explanation
+
+Your puzzle requires finding a **Kaprekar number** greater than 100.
+
+A Kaprekar number is a special integer with a remarkable property: when you square it and split the resulting number into two parts (a left part and a right part), those two parts add up to equal the original number.
+
+For example, if the number is n, then n² can be written as a concatenation of two numbers whose sum equals n.
+
+This property is rare and non-obvious. While there are some well-known Kaprekar numbers like 9 (9² = 81, and 8+1=9) and 45 (45² = 2025, and 20+25=45), finding them requires either mathematical knowledge of this specific property or systematic computational search. The constraint that n > 100 eliminates the most common small examples, making the puzzle appropriately challenging.
+
+SOLUTION: 297 
+Checking sample solution  297
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 297. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 2,833 in / 18,410 out
+  claude-sonnet-4-6 (solver): 307 in / 301 out
+claude-sonnet-4-6's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+
+    if n <= 1000:
+        return False
+
+    # Part A
+    lo, hi = 0, n
+    while lo < hi:
+        mid = (lo + hi + 1) // 2
+        if mid * mid <= n:
+            lo = mid
+        else:
+            hi = mid - 1
+    if lo * lo != n:
+        return False
+
+    p, q = 0, lo
+    while p < q:
+        mid2 = (p + q + 1) // 2
+        if mid2 * mid2 <= lo:
+            p = mid2
+        else:
+            q = mid2 - 1
+    if p * p != lo:
+        return False
+
+    # Part B
+    s = str(n)
+    acc = 0
+    for c in s:
+        acc += int(c)
+    if acc % len(s) != 0:
+        return False
+
+    # Part C
+    b = bin(n)[2:]
+    bl = len(b)
+    if bl < 2:
+        return False
+    is_prime = True
+    for i in range(2, int(bl**0.5) + 1):
+        if bl % i == 0:
+            is_prime = False
+            break
+    if not is_prime:
+        return False
+
+    return True
+```
+
+**Explanation:**
+
+This puzzle applies three independent conditions to an integer `n > 1000`. Part A runs two sequential iterative procedures on `n` and a derived value, checking structural properties of the result. Part B accumulates a quantity from `n`'s decimal digits and checks a divisibility property against another digit-based measure. Part C converts `n` to a different representation and applies a classic mathematical test to a derived count. All three conditions must hold simultaneously — their intersection is surprisingly narrow. Good luck!
+
+SOLUTION: 65536 
+Checking sample solution  65536
+Puzzle looks good; claude-haiku-4-5's turn to solve...
+claude-haiku-4-5 says 65536. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-sonnet-4-6 (inventer): 3,155 in / 9,916 out
+  claude-haiku-4-5 (solver): 483 in / 8,295 out
+claude-haiku-4-5's turn to invent a puzzle...
+```python
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    
+    if n <= 500:
+        return False
+    
+    # Condition A: Binary representation has equal number of 1s and 0s
+    b = bin(n)[2:]  # Remove '0b' prefix
+    if b.count('1') != b.count('0'):
+        return False
+    
+    # Condition B: Digit sum (base 10) is even
+    digit_sum = sum(int(d) for d in str(n))
+    if digit_sum % 2 != 0:
+        return False
+    
+    # Condition C: Divisible by 8
+    if n % 8 != 0:
+        return False
+    
+    return True
+```
+
+## Puzzle Explanation
+
+Your task is to find a number that satisfies three interconnected conditions simultaneously, combining properties across different number bases:
+
+1. **Magnitude threshold**: The number must be greater than 500.
+
+2. **Binary symmetry**: When the number is converted to binary (base 2), the count of 1-bits must equal the count of 0-bits. This is surprisingly rare - most numbers have an imbalance in their binary representations.
+
+3. **Decimal digit property**: The sum of the decimal digits (base 10) must be even.
+
+4. **Divisibility**: The number must be divisible by 8 (which in binary means the last 3 bits are zero).
+
+These four conditions work together in a non-obvious way. The binary balance requirement is the most restrictive - combined with needing the number to be > 500 (which already requires at least 10 binary bits), divisible by 8, and have an even digit sum, the solution set becomes quite small. You'll need to think systematically about which numbers could possibly satisfy all these constraints across both binary and decimal representations.
+
+SOLUTION: 992 
+Checking sample solution  992
+Puzzle looks good; claude-sonnet-4-6's turn to solve...
+claude-sonnet-4-6 says 992. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  claude-haiku-4-5 (inventer): 3,630 in / 15,789 out
+  claude-sonnet-4-6 (solver): 331 in / 1,640 out
+Turn 0: claude-sonnet-4-6 vs claude-haiku-4-5 - 686 in / 27,480 out (?) [success]
+Turn 1: claude-haiku-4-5 vs claude-sonnet-4-6 - 1,026 in / 11,651 out (?) [success]
+Turn 2: claude-sonnet-4-6 vs claude-haiku-4-5 - 1,358 in / 29,572 out (?) [success]
+Turn 3: claude-haiku-4-5 vs claude-sonnet-4-6 - 1,655 in / 14,971 out (?) [success]
+Turn 4: claude-sonnet-4-6 vs claude-haiku-4-5 - 2,249 in / 38,517 out (?) [success]
+Turn 5: claude-haiku-4-5 vs claude-sonnet-4-6 - 2,354 in / 15,634 out (?) [success]
+Turn 6: claude-sonnet-4-6 vs claude-haiku-4-5 - 2,941 in / 25,386 out (?) [success]
+Turn 7: claude-haiku-4-5 vs claude-sonnet-4-6 - 3,140 in / 18,711 out (?) [success]
+Turn 8: claude-sonnet-4-6 vs claude-haiku-4-5 - 3,638 in / 18,211 out (?) [success]
+Turn 9: claude-haiku-4-5 vs claude-sonnet-4-6 - 3,961 in / 17,429 out (?) [success]
+claude-sonnet-4-6: 10,714 in / 109,901 out
+claude-haiku-4-5: 12,294 in / 107,661 out
+claude-sonnet-4-6 ./. claude-haiku-4-5     (0-0) vs (0-0)     [0 failed, see runs/classic/claude-sonnet-4-6_vs_claude-haiku-4-5.log]

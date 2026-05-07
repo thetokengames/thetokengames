@@ -1,0 +1,406 @@
+True
+Before we start, let's ensure Python works.
+If this fails, try "docker run  --rm   --network none   --memory=256m   --pids-limit=64   --cpus=1   --read-only -i  python:3.12 python --version"
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or x <= 0:
+        return False
+    if x.bit_length() != 32:
+        return False
+    
+    # Obfuscation steps
+    y = ((x << 13) | (x >> 19)) & 0xFFFFFFFF
+    y = (y ^ 0x6A09E667)
+    y = (y + 0xBB67AE85) & 0xFFFFFFFF
+    y = y ^ (y >> 16)
+    
+    return y == 0xF93B350C
+```
+
+This puzzle is a bitwise challenge where an integer `x` undergoes several reversible transformations: a bitwise rotation, an XOR operation with a constant, an addition with a constant, and a final self-dependent XOR. To find the solution, one must either reverse each step systematically or explore the 32-bit integer space.
+
+SOLUTION: 0xDEADBEEF 
+Checking sample solution  0xDEADBEEF
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 346 in / 13,995 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+
+    if type(x) is not str:
+        return False
+    if len(x) != 1_000_000:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    return hashlib.sha256(b).hexdigest() == (
+        "cdc76e5c9914fb9281a1c7e284d73e67"
+        "f1809a48a497200e046d39ccc7112cd0"
+    )
+```
+
+This puzzle only accepts a very specific ASCII string of length 1,000,000, verified through a SHA-256 digest. Without recognizing the digest, finding a valid preimage should be computationally infeasible.
+
+SOLUTION: "a"*1000000 
+Checking sample solution  "a"*1000000
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "a" * 1000000. Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gpt-5.5 (inventer): 509 in / 11,857 out
+  gemini-3-flash-preview (solver): 260 in / 15,124 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 0x100000000):
+        return False
+    
+    # Unpack 32-bit integer into a state of two 16-bit values
+    s = [(x >> 16) & 0xFFFF, x & 0xFFFF]
+    
+    # Round keys for the transformation
+    k = [0x1234, 0x5678, 0x9ABC, 0xDEF0]
+    
+    for i in range(4):
+        # A round function: 16-bit left rotation by 5 and XOR with key
+        # The state is mixed based on a Feistel-like network structure
+        r = (((s[1] << 5) | (s[1] >> 11)) & 0xFFFF) ^ k[i]
+        s[0], s[1] = s[1], (s[0] ^ r) & 0xFFFF
+        
+    # Re-pack the resulting state into a 32-bit integer and compare to target
+    res = (s[0] << 16) | s[1]
+    return res == 758011221
+```
+
+This puzzle implements a 4-round Feistel network, a structure commonly used in block ciphers like DES. The input `x` is treated as a 32-bit integer and split into two 16-bit halves. In each round, the right half of the state is transformed using a round function (incorporating a 16-bit bitwise rotation and an XOR with a constant key) and then XORed into the left half. The halves are then swapped.
+
+Finding the value `x` for which the function returns `True` requires reversing the four rounds of the network in the opposite order, using the properties of XOR and bitwise rotation to backtrack from the target value `758011221` (0x2D2E5555 in hexadecimal) to the initial input.
+
+SOLUTION: 927075063 
+Checking sample solution  927075063
+Puzzle looks good; gpt-5.5's turn to solve...
+gpt-5.5 says 0x37420AF7. Checking.
+Success!
+New score after this turn: -1 (0-1) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 791 in / 14,958 out
+  gpt-5.5 (solver): 357 in / 2,086 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hashlib
+    import unicodedata
+
+    if type(x) is not str:
+        return False
+    if len(x) != 43:
+        return False
+    if any(ord(ch) < 128 for ch in x):
+        return False
+
+    s = unicodedata.normalize("NFKC", x)
+
+    try:
+        b = s.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if len(b) != 43:
+        return False
+
+    def r13(c):
+        if 65 <= c <= 90:
+            return ((c - 65 + 13) % 26) + 65
+        if 97 <= c <= 122:
+            return ((c - 97 + 13) % 26) + 97
+        return c
+
+    b = bytes(r13(c) for c in b)
+
+    return int.from_bytes(hashlib.sha256(b).digest(), "little") == (
+        0x92e5c937bfd0022d76db3c6de451568d4f2e08b0bc9aca699480d707b3fba8d7
+    )
+```
+
+This puzzle combines Unicode compatibility normalization, an ASCII-range transformation, and a SHA-256 check with the digest stored little-endian to make the target less directly recognizable.
+
+SOLUTION: "\uff27\uff55\uff52\u3000\uff44\uff48\uff56\uff50\uff58\u3000\uff4f\uff45\uff42\uff4a\uff41\u3000\uff53\uff42\uff4b\u3000\uff57\uff48\uff5a\uff43\uff46\u3000\uff42\uff49\uff52\uff45\u3000\uff47\uff55\uff52\u3000\uff59\uff4e\uff4d\uff4c\u3000\uff51\uff42\uff54" 
+Checking sample solution  "\uff27\uff55\uff52\u3000\uff44\uff48\uff56\uff50\uff58\u3000\uff4f\uff45\uff42\uff4a\uff41\u3000\uff53\uff42\uff4b\u3000\uff57\uff48\uff5a\uff43\uff46\u3000\uff42\uff49\uff52\uff45\u3000\uff47\uff55\uff52\u3000\uff59\uff4e\uff4d\uff4c\u3000\uff51\uff42\uff54"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "Ｔｈｅ　ｑｕｉｃｋ　ｂｒｏｗｎ　ｆｏｘ　ｊｕｍｐｓ　ｏｖｅｒ　ｔｈｅ　ｌａｚｙ　ｄｏｇ". Checking.
+Failure!
+New score after this turn: -1 (0-1) vs 1 (1-0)
+  gpt-5.5 (inventer): 992 in / 23,695 out
+  gemini-3-flash-preview (solver): 419 in / 22,384 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 0x100000000):
+        return False
+    
+    # Transformation parameters
+    p = [15, 30, 10, 25, 2, 17, 7, 22, 12, 27, 5, 20, 0, 18, 9, 24,
+         14, 31, 11, 26, 3, 16, 6, 21, 13, 28, 4, 19, 1, 29, 8, 23]
+    
+    # Phase 1: Confusion (XOR)
+    x = (x ^ 0xDEADBEEF) & 0xFFFFFFFF
+    
+    # Phase 2: Diffusion (Bit-level Permutation)
+    res = 0
+    for i in range(32):
+        if (x >> i) & 1:
+            res |= (1 << p[i])
+    
+    # Phase 3: Mixing (Modular Addition and Circular Shift)
+    x = (res + 0x1337C0DE) & 0xFFFFFFFF
+    x = ((x << 7) | (x >> 25)) & 0xFFFFFFFF
+    
+    # Phase 4: Final XOR
+    x ^= 0x5CA1AB1E
+    
+    return x == 0xBAADF00D
+```
+
+This puzzle represents a simple Substitution-Permutation Network (SPN) compressed into a single round of operations. The function `mystery(x)` takes a 32-bit integer and applies four distinct transformations:
+1.  A bitwise XOR with the constant `0xDEADBEEF`.
+2.  A bit-level permutation (P-box) where each bit is moved to a new position defined by the table `p`.
+3.  Modular addition with the constant `0x1337C0DE` followed by a circular left shift (rotation) of 7 bits.
+4.  A final XOR with the constant `0x5CA1AB1E`.
+
+Finding the correct input `x` requires reversing these operations in the opposite order. Starting from the target value `0xBAADF00D`, you must XOR it with the final constant, perform a circular right shift, subtract the mixing constant, apply the inverse bit permutation, and finally XOR with the initial constant.
+
+SOLUTION: 417633707 
+Checking sample solution  417633707
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -2 (0-2) vs 1 (1-0)
+  gemini-3-flash-preview (inventer): 1,654 in / 16,472 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    if type(x) is not int:
+        return False
+
+    n = int(
+        "109417386415705274218097073220403576120037329454492059909138421314763499842889"
+        "34784717997257891267332497625752899781833797076537244027146743531593354333897"
+    )
+
+    if not (1 < x < n - 1):
+        return False
+
+    return pow(x, 2, n) == 1
+```
+
+This puzzle asks for a nontrivial square root of 1 modulo a large composite number. The obvious roots, 1 and n−1, are explicitly excluded. For a semiprime modulus, finding another such root is essentially equivalent to factoring the modulus.
+
+SOLUTION: (lambda p,q: 1 + p*((-2*pow(p, -1, q)) % q))(102639592829741105772054196573991675900716567808038066803341933521790711307779,106603488380168454820927220360012878679207958575989291522270608237193062808643) 
+Checking sample solution  (lambda p,q: 1 + p*((-2*pow(p, -1, q)) % q))(102639592829741105772054196573991675900716567808038066803341933521790711307779,106603488380168454820927220360012878679207958575989291522270608237193062808643)
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 447141624461051515254245647573614661706692994474744747802872362543023307525287114843793437119008953153527217316712398501253011403063533814420313885623041. Checking.
+Failure!
+New score after this turn: -2 (0-2) vs 2 (2-0)
+  gpt-5.5 (inventer): 1,661 in / 12,170 out
+  gemini-3-flash-preview (solver): 326 in / 31,784 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 0x10000000000000000):
+        return False
+    
+    # Phase 1: Modular arithmetic and XOR-based confusion
+    # The input integer is mixed using a constant XOR and a 
+    # modular multiplication with a large odd constant.
+    x ^= 0x5555555555555555
+    x = (x * 0x9E3779B97F4A7C15) & 0xFFFFFFFFFFFFFFFF
+    
+    # Phase 2: Multi-step XOR-shift diffusion
+    # These operations are inspired by common pseudo-random number 
+    # generators and are designed to diffuse the bits across the 
+    # 64-bit integer. Each step is a reversible bijection.
+    x ^= (x >> 32)
+    x = (x ^ (x << 16)) & 0xFFFFFFFFFFFFFFFF
+    x ^= (x >> 8)
+    
+    return x == 0xa7382bb8d29258dd
+```
+
+### Explanation
+
+This puzzle is based on a sequence of reversible transformations over a 64-bit integer space. The function `mystery(x)` applies five main operations to the input `x`:
+
+1.  **Bitwise XOR**: The input is XORed with a fixed 64-bit pattern (`0x5555555555555555`).
+2.  **Modular Multiplication**: The result is multiplied by an odd 64-bit constant (`0x9E3779B97F4A7C15`) modulo $2^{64}$. This step is reversible because any odd number has a unique modular multiplicative inverse modulo $2^n$.
+3.  **XOR-Shift Right (32)**: The state is XORed with a version of itself shifted right by 32 bits.
+4.  **XOR-Shift Left (16)**: The state is XORed with a version of itself shifted left by 16 bits, with the result masked to 64 bits.
+5.  **XOR-Shift Right (8)**: The state is XORed with a version of itself shifted right by 8 bits.
+
+Because each individual operation is a bijection on the set of 64-bit integers, the entire function is a permutation of the 64-bit space. Finding the unique solution `x` involves starting with the target value `0xa7382bb8d29258dd` and systematically reversing each operation in the opposite order:
+
+1.  Reverse `x ^= (x >> 8)`
+2.  Reverse `x = (x ^ (x << 16)) & MASK`
+3.  Reverse `x ^= (x >> 32)`
+4.  Reverse the modular multiplication by multiplying with the modular inverse of the constant.
+5.  Reverse the initial XOR.
+
+The constants used are chosen to ensure full diffusion, making it difficult to deduce the solution without reversing the sequence.
+
+SOLUTION: 1234567890123456789 
+Checking sample solution  1234567890123456789
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -3 (0-3) vs 2 (2-0)
+  gemini-3-flash-preview (inventer): 2,535 in / 21,797 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hmac
+
+    if type(x) is not str:
+        return False
+    if len(x) != 28:
+        return False
+    if any(ch not in "abcdefghijklmnopqrstuvwxyz ?" for ch in x):
+        return False
+
+    table = str.maketrans(
+        "abcdefghijklmnopqrstuvwxyz",
+        "nopqrstuvwxyzabcdefghijklm",
+    )
+    msg = x.translate(table)
+
+    digest = hmac.new(b"Jefe", msg.encode("ascii"), "sha256").digest()
+
+    return digest[::-1].hex() == (
+        "4338ec64b958ec9d8339279d083f005a"
+        "c77595082624046a4e7560bf46c1dc5b"
+    )
+```
+
+This puzzle applies a simple-looking character substitution before checking a full HMAC-SHA256 value under a fixed key. Without recognizing or inverting the transformed target, finding a preimage should be computationally infeasible.
+
+SOLUTION: "jung qb ln jnag sbe abguvat?" 
+Checking sample solution  "jung qb ln jnag sbe abguvat?"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "jung qb ln jnag sbe abguvat?". Checking.
+Success!
+New score after this turn: -3 (0-3) vs 2 (2-0)
+  gpt-5.5 (inventer): 2,124 in / 13,176 out
+  gemini-3-flash-preview (solver): 314 in / 21,473 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, int) or not (0 <= x < 0x10000000000000000):
+        return False
+    
+    # Transformation parameters
+    mask = 0xFFFFFFFFFFFFFFFF
+    
+    # Step 1: Initial XOR confusion
+    x = (x ^ 0x123456789ABCDEF0) & mask
+    
+    # Step 2: Multiplicative diffusion using a large odd constant
+    x = (x * 0x3141592653589793) & mask
+    
+    # Step 3: XOR-shift right
+    x = (x ^ (x >> 17)) & mask
+    
+    # Step 4: XOR-shift left
+    x = (x ^ (x << 33)) & mask
+    
+    # Step 5: Secondary multiplicative diffusion
+    x = (x * 0x2718281828459045) & mask
+    
+    # Step 6: Final XOR-shift for bit avalanche
+    x = (x ^ (x >> 29)) & mask
+    
+    return x == 11405786438676216239
+```
+
+This puzzle is based on a sequence of reversible transformations applied to a 64-bit integer. The `mystery(x)` function utilizes techniques common in hashing and pseudorandom number generation to ensure that every bit of the input influences every bit of the output.
+
+The operations are as follows:
+1.  **Bitwise XOR**: The input is XORed with a 64-bit constant.
+2.  **Modular Multiplication**: The value is multiplied by a large odd constant modulo $2^{64}$. This is a bijective operation because every odd number has a unique modular multiplicative inverse modulo $2^n$.
+3.  **XOR-Shifts**: The value is XORed with shifted versions of itself (both right and left shifts are used). These operations are also reversible.
+4.  **Secondary Multiplication**: A second multiplication step with a different odd constant further diffuses the bits.
+5.  **Final XOR-Shift**: A final right shift ensures that the highest bits affect the lower ones.
+
+To solve the puzzle, one must reverse each step in the opposite order:
+1.  Reverse the final XOR-shift (Step 6).
+2.  Reverse the secondary modular multiplication (Step 5) by multiplying with its modular inverse.
+3.  Reverse the left XOR-shift (Step 4).
+4.  Reverse the right XOR-shift (Step 3).
+5.  Reverse the first modular multiplication (Step 2) by multiplying with its modular inverse.
+6.  Reverse the initial XOR (Step 1).
+
+SOLUTION: 16045690984833331213 
+Checking sample solution  16045690984833331213
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -4 (0-4) vs 2 (2-0)
+  gemini-3-flash-preview (inventer): 3,534 in / 26,545 out
+gpt-5.5's turn to invent a puzzle...
+```python
+def mystery(x):
+    import hmac
+    import hashlib
+
+    if type(x) is not str:
+        return False
+
+    if len(x) != 50:
+        return False
+
+    try:
+        raw = x.encode("latin-1")
+    except UnicodeEncodeError:
+        return False
+
+    msg = bytes((b ^ 0x57) for b in raw)
+
+    if any(c in b"\x00\r\n" for c in msg):
+        return False
+
+    key = bytes((0xAA ^ ((i * 31337) & 0)) for i in range(20))
+
+    digest = hmac.new(key, msg, hashlib.sha256).digest()
+
+    target = bytes.fromhex(
+        "fe65d5ce145563d922c1f83e8b095929"
+        "a78191d0ebb84d85460e80361ea93e77"
+    )[::-1]
+
+    return digest == target
+```
+
+This puzzle asks for a 50-character Latin-1 string whose XOR-transformed byte representation matches a full HMAC-SHA256 target. Without recognizing the hidden structure or the test-vector-like target, finding a valid preimage should be computationally infeasible.
+
+SOLUTION: "\x8a"*50 
+Checking sample solution  "\x8a"*50
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "\x8a" * 50. Checking.
+Success!
+New score after this turn: -4 (0-4) vs 2 (2-0)
+  gpt-5.5 (inventer): 2,637 in / 11,668 out
+  gemini-3-flash-preview (solver): 360 in / 20,559 out
+Logs written to runs/classic/gemini-3-flash-preview_vs_gpt-5.5.log and runs/classic/gemini-3-flash-preview_vs_gpt-5.5.jsonl
+
+=== Token Usage Summary ===
+Turn 0: gemini-3-flash-preview vs gpt-5.5 - 346 in / 13,995 out (?) [puzzle-wrong]
+Turn 1: gpt-5.5 vs gemini-3-flash-preview - 769 in / 26,981 out (?) [success]
+Turn 2: gemini-3-flash-preview vs gpt-5.5 - 1,148 in / 17,044 out (?) [success]
+Turn 3: gpt-5.5 vs gemini-3-flash-preview - 1,411 in / 46,079 out (?) [failure]
+Turn 4: gemini-3-flash-preview vs gpt-5.5 - 1,654 in / 16,472 out (?) [puzzle-wrong]
+Turn 5: gpt-5.5 vs gemini-3-flash-preview - 1,987 in / 43,954 out (?) [failure]
+Turn 6: gemini-3-flash-preview vs gpt-5.5 - 2,535 in / 21,797 out (?) [puzzle-wrong]
+Turn 7: gpt-5.5 vs gemini-3-flash-preview - 2,438 in / 34,649 out (?) [success]
+Turn 8: gemini-3-flash-preview vs gpt-5.5 - 3,534 in / 26,545 out (?) [puzzle-wrong]
+Turn 9: gpt-5.5 vs gemini-3-flash-preview - 2,997 in / 32,227 out (?) [success]
+
+=== Totals by Model ===
+gemini-3-flash-preview: 10,539 in / 205,091 out
+gpt-5.5: 8,280 in / 74,652 out

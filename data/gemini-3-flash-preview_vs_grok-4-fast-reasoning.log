@@ -1,0 +1,510 @@
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 10:
+        return False
+    
+    v = [ord(c) for c in x]
+    
+    # Condition 1: ASCII sum check
+    if sum(v) != 1000:
+        return False
+        
+    # Condition 2: A relationship between the first three characters
+    if v[0] * v[1] - v[2] != 6917:
+        return False
+        
+    # Condition 3: Bitwise constraint on characters 4, 5, and 6
+    if (v[3] ^ v[4]) != (122 ^ v[5]):
+        return False
+        
+    # Condition 4: A relationship between characters 7, 8, and 9
+    if (v[6] + v[7]) * v[8] != 24200:
+        return False
+        
+    # Condition 5: Linking several characters together
+    if v[0] + v[3] + v[6] != 293:
+        return False
+        
+    # Condition 6: The final character
+    return v[9] == 68
+```
+
+This puzzle requires solving a small system of nonlinear and bitwise equations over the ASCII values of a 10-character string. The constraints involve different operations (multiplication, XOR, and basic arithmetic) to make the solution space harder to explore through simple intuition.
+
+The `v[0] * v[1] - v[2] != 6917` part creates a dependency between the first three characters, while `v[3] ^ v[4] ^ v[5] == 122` constrains the next three. The character values are further linked by the `sum(v)` constraint and a cross-position check `v[0] + v[3] + v[6] == 293`.
+
+SOLUTION: 'DgWhi{yydD' 
+Checking sample solution  'DgWhi{yydD'
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says "ST7z{{X\x9adD". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gemini-3-flash-preview (inventer): 346 in / 16,831 out
+  grok-4-fast-reasoning (solver): 499 in / 13,817 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 5:
+        return False
+    
+    v = [ord(c) for c in x]
+    
+    if any(c < 65 or c > 122 for c in v):
+        return False
+    
+    if sum(v) != 455:
+        return False
+    
+    if v[0] * v[4] != 5850:
+        return False
+    
+    if v[1] + v[2] != 220:
+        return False
+    
+    if v[0] ^ v[4] != 27:
+        return False
+    
+    if v[1] ^ v[2] != 28:
+        return False
+    
+    if v[2] * v[3] != 9600:
+        return False
+    
+    return True
+```
+
+This puzzle involves finding a 5-character string consisting of letters (A-Z, a-z) such that the ASCII values satisfy a system of arithmetic, multiplicative, and bitwise conditions. The conditions are interdependent, making it challenging to solve without systematically testing possible values within the constrained range.
+
+SOLUTION: AdxPZ 
+Checking sample solution  AdxPZ
+RuntimeError while checking sample -- penalizing!
+Error: Error running mystery():
+Traceback (most recent call last):
+  File "<stdin>", line 35, in <module>
+NameError: name 'AdxPZ' is not defined
+
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4-fast-reasoning (inventer): 769 in / 4,791 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    v = [ord(c) for c in x]
+    
+    # Check 1: A system of equations for the first three characters
+    if (v[0] + v[1] + v[2] != 250) or (v[0] * v[1] - v[2] != 6448):
+        return False
+        
+    # Check 2: Bitwise and arithmetic relations for characters 4 and 5
+    if (v[3] + v[4] != 175) or (v[3] ^ v[4] != 47):
+        return False
+        
+    # Check 3: Multiplicative relation for characters 6 and 7
+    if (v[5] * v[6] != 8000) or (v[6] - v[5] != 20):
+        return False
+        
+    # Check 4: Character 8 depends on characters 1, 4, and 6
+    if v[7] != (v[0] + v[3] + v[5]) // 3:
+        return False
+        
+    # Check 5: A final rolling checksum
+    res = 0
+    for i in range(8):
+        res = (res + (v[i] << (i % 3))) % 500
+    
+    return res == 440
+```
+
+### Explanation
+
+This puzzle is designed to be solved by breaking it into several independent or semi-independent parts:
+
+1.  **Algebraic Constraints**: The first three characters' ASCII values ($v_0, v_1, v_2$) are constrained by two equations: $v_0 + v_1 + v_2 = 250$ and $v_0 \cdot v_1 - v_2 = 6448$. This system can be reduced to a quadratic-like problem $(v_0+1)(v_1+1) = 6699$, where only one factor pair resides within the printable ASCII range.
+2.  **Bitwise-Arithmetic Mix**: Characters 4 and 5 ($v_3, v_4$) must satisfy both a sum and an XOR condition. This limits the possible values to a small set of pairs where the bits are distributed specifically to satisfy both properties.
+3.  **Quadratic Relationship**: Characters 6 and 7 ($v_5, v_6$) are determined by their product and their difference, leading to a quadratic equation with a single valid integer solution.
+4.  **Character Dependency**: The final character is derived from the values of three previous characters.
+5.  **Checksum Loop**: A rolling checksum using bitwise shifts (`<<`) and modular arithmetic ensures that only the specific permutation and combination of the previous values satisfy the final condition.
+
+SOLUTION: "LVXdKPdU" 
+Checking sample solution  "LVXdKPdU"
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says "LVXbMPdT". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 1,075 in / 15,534 out
+  grok-4-fast-reasoning (solver): 564 in / 5,956 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    
+    v = [ord(c) for c in x]
+    
+    if any(c < 32 or c > 126 for c in v):
+        return False
+    
+    # Multiplication on first two
+    if v[0] * v[1] != 9680:
+        return False
+    
+    # XOR on 3 and 4
+    if v[2] ^ v[3] != 28:
+        return False
+    
+    # Sum on last two
+    if v[4] + v[5] != 221:
+        return False
+    
+    # Sum linking 1st, 4th, 6th
+    if v[0] + v[3] + v[5] != 294:
+        return False
+    
+    # Multiplication on 2nd and 3rd
+    if v[1] * v[2] != 14036:
+        return False
+    
+    # XOR linking 1st and 5th
+    if v[4] ^ v[0] != 63:
+        return False
+    
+    return True
+```
+This puzzle requires finding a 6-character string of printable ASCII characters where the ordinal values satisfy a interconnected system of multiplicative, additive, and bitwise XOR constraints across the positions. The conditions are designed to form a tight web of dependencies, requiring careful solving of equations (potentially with trial and error within the 32-126 range) to isolate possible values step by step, such as starting from factorizations of the products and propagating through the relations.
+
+SOLUTION: "Python" 
+Checking sample solution  "Python"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "Python". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4-fast-reasoning (inventer): 1,381 in / 2,572 out
+  gemini-3-flash-preview (solver): 393 in / 8,392 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 9:
+        return False
+    
+    v = [ord(c) for c in x]
+    
+    # Rule 1: An algebraic relation between the first three characters
+    if (v[0] * v[1] + v[2]) != 10000:
+        return False
+        
+    # Rule 2: A bitwise transformation for the middle three characters
+    if ((v[3] << 1) ^ v[4] ^ v[5]) != 200:
+        return False
+        
+    # Rule 3: A modular property for the last three characters
+    if (v[6]**2 + v[7]) % v[8] != 13:
+        return False
+        
+    # Rule 4: Positional sums that interleave the characters
+    if (v[0] + v[3] + v[6] != 285 or 
+        v[1] + v[4] + v[7] != 296 or 
+        v[2] + v[5] + v[8] != 264):
+        return False
+        
+    # Rule 5: A global checksum for all character values
+    return sum(v) == 845
+```
+
+This puzzle requires finding a 9-character string that satisfies several interlocking mathematical constraints. The string is conceptually divided into three groups of three characters. Each group must satisfy an internal rule: the first group follows a multiplication/addition pattern, the second follows a bitwise shift/XOR pattern, and the third follows a quadratic-modular pattern. 
+
+Furthermore, the characters are linked by "cross-position" sums, where characters from different groups are added together. Finally, a global sum constraint ensures that only a specific set of ASCII values will satisfy the entire system. Solving it typically requires setting up a system of equations or using a constrained search.
+
+SOLUTION: "dcdPQ9itk" 
+Checking sample solution  "dcdPQ9itk"
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says "dcddwwUN-". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 2,095 in / 12,671 out
+  grok-4-fast-reasoning (solver): 519 in / 5,234 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 7:
+        return False
+    
+    v = [ord(c) for c in x]
+    
+    if any(c < 33 or c > 126 for c in v):
+        return False
+    
+    # Total sum constraint
+    if sum(v) != 683:
+        return False
+    
+    # Product of first two characters
+    if v[0] * v[1] != 9360:
+        return False
+    
+    # XOR of third and fourth
+    if v[2] ^ v[3] != 0:
+        return False
+    
+    # Sum of last three
+    if v[4] + v[5] + v[6] != 242:
+        return False
+    
+    # Linking sum: positions 1,4,7 (0-indexed: 0,3,6)
+    if v[0] + v[3] + v[6] != 235:
+        return False
+    
+    # Product linking second and fifth
+    if v[1] * v[4] != 12636:
+        return False
+    
+    # Modulo condition on sum of third and sixth
+    if (v[2] + v[5]) % 100 != 23:
+        return False
+    
+    # Final bitwise shift and sum check across even positions
+    shifted_sum = ((v[0] << 2) + (v[2] << 1) + (v[4] << 3) + (v[6] << 0)) % 500
+    if shifted_sum != 421:
+        return False
+    
+    return True
+```
+
+This puzzle requires finding a 7-character string of printable ASCII characters (excluding space) where the ordinal values satisfy a series of interdependent sum, product, XOR, and modular arithmetic constraints, along with a final weighted shifted sum modulo condition that ties the even-positioned characters together. The constraints form a chain of dependencies, such as products that limit factor pairs within the ASCII range, XORs that suggest equality or specific differences, and linking sums that propagate values across positions, necessitating a systematic approach like solving subsystems of equations or targeted brute-force within narrow ranges.
+
+SOLUTION: "Puzzle!" 
+Checking sample solution  "Puzzle!"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -2 (0-2)
+  grok-4-fast-reasoning (inventer): 2,052 in / 1,368 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 8:
+        return False
+    
+    v = [ord(c) for c in x]
+    
+    # Check printable ASCII range
+    if any(c < 33 or c > 126 for c in v):
+        return False
+        
+    # Constraint 1: Linking the first and last characters through their product and difference
+    if (v[6] * v[7] != 4617) or (v[0] - v[7] != 41):
+        return False
+        
+    # Constraint 2: A non-linear and bitwise combination for the first three characters
+    if (v[0] * v[1] + v[2] != 9202) or ((v[0] << 1) ^ (v[1] >> 1) != 209):
+        return False
+        
+    # Constraint 3: A bitwise XOR checksum for the middle characters
+    if (v[3] ^ v[4] ^ v[5]) != 124:
+        return False
+        
+    # Constraint 4: Interleaved arithmetic constraints
+    if (v[1] + v[3] + v[5] != 160) or (v[2] + v[4] + v[6] != 218):
+        return False
+        
+    # Constraint 5: Final global sum
+    return sum(v) == 581
+```
+
+This puzzle requires finding an 8-character string that satisfies several interlocking mathematical and bitwise constraints. The string's ASCII values are linked through a system of equations:
+
+1.  **Non-linear and Bitwise dependency**: The first two characters are tightly bound by a multiplication-addition rule (`v[0] * v[1] + v[2]`) and a bitwise transformation (`(v[0] << 1) ^ (v[1] >> 1)`). This limits the search space for the prefix.
+2.  **Product-Difference link**: The first and last characters are linked by a difference, while the last two are linked by a product. Since 4617 has limited integer factors in the printable ASCII range, this provides a clear starting point for the solver.
+3.  **XOR and Arithmetic interweaving**: The middle characters are constrained by both an XOR sum and positional arithmetic sums (`v[1] + v[3] + v[5]` and `v[2] + v[4] + v[6]`).
+4.  **Global Checksum**: A final `sum(v)` ensures that all characters must exactly match the expected set of ASCII values.
+
+To solve it, one must typically factorize the product, deduce the potential values for the first and last characters, and then propagate those values through the bitwise and arithmetic constraints to determine the middle of the string.
+
+SOLUTION: "zK4#m29Q" 
+Checking sample solution  "zK4#m29Q"
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says "zK4#m29Q". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -2 (0-2)
+  gemini-3-flash-preview (inventer): 3,025 in / 12,020 out
+  grok-4-fast-reasoning (solver): 555 in / 3,921 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 6:
+        return False
+    
+    v = [ord(c) for c in x]
+    
+    if any(c < 33 or c > 126 for c in v):
+        return False
+    
+    if sum(v) != 450:
+        return False
+    
+    if v[0] * v[1] != 9000:
+        return False
+    
+    if v[2] ^ v[3] != 22:
+        return False
+    
+    if v[4] + v[5] != 110:
+        return False
+    
+    if v[0] + v[3] + v[5] != 220:
+        return False
+    
+    if v[1] * v[4] != 5400:
+        return False
+    
+    if v[1] ^ v[4] != 102:
+        return False
+    
+    if (v[2] + v[5]) % 100 != 30:
+        return False
+    
+    weighted = sum(i * v[i] for i in range(6))
+    if weighted != 950:
+        return False
+    
+    return True
+```
+This puzzle requires finding a 6-character string of printable ASCII characters (codes 33-126) where the ordinal values satisfy a network of interdependent constraints: a total sum, two pairwise products, an XOR pair, two additive sums (one linking non-adjacent positions), a cross-XOR, a modular sum condition, and a final weighted positional sum. The multiplicative constraints limit possibilities to specific factor pairs within the range, while bitwise and modular conditions further restrict and interlink the values, demanding a step-by-step elimination or equation-solving approach to pinpoint the unique solution.
+
+SOLUTION: 'dZPF<2' 
+Checking sample solution  'dZPF<2'
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "dZPF<2". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -2 (0-2)
+  grok-4-fast-reasoning (inventer): 2,886 in / 2,146 out
+  gemini-3-flash-preview (solver): 412 in / 11,551 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 9:
+        return False
+    
+    v = [ord(c) for c in x]
+    
+    # Standard printable ASCII range check
+    if any(c < 33 or c > 126 for c in v):
+        return False
+        
+    # Constraint group 1: The prefix values are linked by multiplication and bitwise XOR
+    if v[0] * v[1] != 8217 or (v[0] ^ v[1]) != 48:
+        return False
+        
+    # Constraint group 2: The middle characters satisfy a mix of addition and multiplication
+    if (v[2] + v[3]) * v[4] != 15000 or (v[2] ^ v[3]) != 4:
+        return False
+        
+    # Constraint group 3: These three characters form a linear system with a bitwise constraint
+    if (v[5] + v[6] + v[7] != 263) or (v[6] - v[7] != 10) or (v[5] ^ v[6] != 33):
+        return False
+        
+    # Constraint group 4: Character 8 is derived from characters 0, 2, and 5
+    if v[8] != (v[0] + v[2] + v[5]) // 3:
+        return False
+        
+    # Constraint group 5: A weighted positional checksum for all character values
+    return sum((i + 1) * v[i] for i in range(9)) == 3921
+```
+
+### Explanation
+
+This puzzle is designed to be solved by breaking it into several interconnected mathematical segments:
+
+1.  **Prefix Constraints**: The first two characters' ASCII values ($v_0, v_1$) are constrained by their product ($v_0 \cdot v_1 = 8217$) and their XOR ($v_0 \oplus v_1 = 48$). Since 8217 has very few factors within the printable ASCII range, this significantly narrows down the possible starting characters.
+2.  **Middle Segment**: The characters $v_2, v_3, v_4$ are linked through an algebraic equation and a bitwise XOR. The product $(v_2 + v_3) \cdot v_4 = 15000$ requires $v_4$ to be a specific factor of 15000, while the XOR constraint $v_2 \oplus v_3 = 4$ ensures a tight relationship between the remaining two values.
+3.  **Linear and Bitwise System**: Characters $v_5, v_6, v_7$ satisfy a small system of equations: a sum, a difference, and a bitwise XOR. This ensures only one specific set of values can satisfy this part of the string.
+4.  **Cross-Position Dependency**: The value of the final character $v_8$ is not independent; it is derived from the values of three previous characters ($v_0, v_2, v_5$), linking the different groups together.
+5.  **Global Weighted Checksum**: Finally, a weighted sum ($\sum (i+1) \cdot v_i$) acts as a final verification, ensuring that the specific permutation and combination of all characters are correct.
+
+To solve this, one would typically start by factoring the prefix product, testing those values against the bitwise XOR, and then propagating the results through the subsequent constraints.
+
+SOLUTION: "ScMIdqPF[" 
+Checking sample solution  "ScMIdqPF["
+Puzzle looks good; grok-4-fast-reasoning's turn to solve...
+grok-4-fast-reasoning says "ScMIdqPF[". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -2 (0-2)
+  gemini-3-flash-preview (inventer): 4,062 in / 16,878 out
+  grok-4-fast-reasoning (solver): 598 in / 7,170 out
+grok-4-fast-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not isinstance(x, str) or len(x) != 7:
+        return False
+    
+    v = [ord(c) for c in x]
+    
+    if any(c < 33 or c > 126 for c in v):
+        return False
+    
+    # Constraint 1: Overall checksum of all values
+    if sum(v) != 570:
+        return False
+    
+    # Constraint 2: Multiplicative relation for the opening pair
+    if v[0] * v[1] != 7200:
+        return False
+    
+    # Constraint 3: Bitwise XOR between positions 3 and 4
+    if v[2] ^ v[3] != 72:
+        return False
+    
+    # Constraint 4: Additive sum for the closing triplet
+    if v[4] + v[5] + v[6] != 240:
+        return False
+    
+    # Constraint 5: Distributed sum across positions 1, 4, and 7
+    if v[0] + v[3] + v[6] != 230:
+        return False
+    
+    # Constraint 6: Cross-multiplication between positions 2 and 5
+    if v[1] * v[4] != 6300:
+        return False
+    
+    # Constraint 7: Another multiplicative link involving positions 3 and 6
+    if v[2] * v[5] != 8000:
+        return False
+    
+    # Constraint 8: Modular arithmetic on the sum of positions 3 and 6
+    if (v[2] + v[5]) % 100 != 80:
+        return False
+    
+    # Constraint 9: Bitwise XOR connecting positions 5 and 7
+    if v[4] ^ v[6] != 28:
+        return False
+    
+    # Constraint 10: Positional shifted accumulation modulo check
+    shifted = 0
+    for i in range(7):
+        shifted += (v[i] << (i % 3))
+    if shifted % 500 != 270:
+        return False
+    
+    return True
+```
+This puzzle requires finding a 7-character string of printable ASCII characters (codes 33-126) where the ordinal values satisfy an intricate network of constraints including a total sum, multiple pairwise and cross-position products with limited factorizations in the range, several bitwise XOR relations, additive sums linking specific non-adjacent positions, a modular condition on a partial sum, and a final verification via a position-dependent left-shifted accumulation modulo 500. The dependencies between multiplicative, additive, and bitwise conditions create a constrained system that demands iterative solving of subsystems (e.g., identifying valid factor pairs and propagating through XOR equalities or differences) combined with checking the interlocking sums and the terminal checksum to isolate the solution.
+
+SOLUTION: "PZd<FPZ" 
+Checking sample solution  "PZd<FPZ"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -3 (0-3)
+  grok-4-fast-reasoning (inventer): 3,660 in / 3,852 out
+Turn 0: gemini-3-flash-preview vs grok-4-fast-reasoning - 845 in / 30,648 out (?) [success]
+Turn 1: grok-4-fast-reasoning vs gemini-3-flash-preview - 769 in / 4,791 out (?) [puzzle-wrong-ex]
+Turn 2: gemini-3-flash-preview vs grok-4-fast-reasoning - 1,639 in / 21,490 out (?) [success]
+Turn 3: grok-4-fast-reasoning vs gemini-3-flash-preview - 1,774 in / 10,964 out (?) [success]
+Turn 4: gemini-3-flash-preview vs grok-4-fast-reasoning - 2,614 in / 17,905 out (?) [success]
+Turn 5: grok-4-fast-reasoning vs gemini-3-flash-preview - 2,052 in / 1,368 out (?) [puzzle-wrong]
+Turn 6: gemini-3-flash-preview vs grok-4-fast-reasoning - 3,580 in / 15,941 out (?) [success]
+Turn 7: grok-4-fast-reasoning vs gemini-3-flash-preview - 3,298 in / 13,697 out (?) [success]
+Turn 8: gemini-3-flash-preview vs grok-4-fast-reasoning - 4,660 in / 24,048 out (?) [success]
+Turn 9: grok-4-fast-reasoning vs gemini-3-flash-preview - 3,660 in / 3,852 out (?) [puzzle-wrong]
+gemini-3-flash-preview: 11,408 in / 93,877 out
+grok-4-fast-reasoning: 13,483 in / 50,827 out
+gemini-3-flash-preview ./. grok-4-fast-reasoning     (0-0) vs (0-3)     [0 failed, see runs/classic/gemini-3-flash-preview_vs_grok-4-fast-reasoning.log]

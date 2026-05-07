@@ -1,0 +1,383 @@
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    key = 'Z2VuZXJhdGVkX2tleQ=='
+    import base64
+    decoded = base64.b64decode(key).decode()[:6]
+    target = len(decoded) * 7
+    return x == target
+```
+This puzzle encodes a target value using base64 and string operations before comparing; determining the exact input requires unpacking the obfuscated derivation (or clever guessing across a large space).  
+SOLUTION: 42 
+Checking sample solution  42
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says 42. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  grok-4.20-0309-reasoning (inventer): 459 in / 7,109 out
+  gemini-3-flash-preview (solver): 167 in / 7,385 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 8):
+        return False
+    v = [ord(c) for c in x]
+    return [((v[i] >> 1) | (v[i] << 7 & 255)) ^ v[(i+1)%8] for i in range(8)] == \
+           list(bytes.fromhex('f6717569f6726f60')) and sum(v) == 642
+```
+
+The function `mystery(x)` takes an input `x` and performs a series of checks:
+1. It validates that `x` is a string of exactly 8 characters.
+2. It converts the string into its corresponding ASCII integer values.
+3. It performs a bitwise transformation on each character: a right circular shift by 1 bit, followed by a cyclic XOR with the ASCII value of the next character in the string.
+4. It compares the resulting transformed sequence against a hidden target (hex-encoded `f6717569f6726f60`).
+5. Finally, it ensures that the sum of the original ASCII values matches a specific target (642).
+
+To solve this, one must reverse the cyclic XOR and bit-rotation operations while satisfying the sum constraint, which narrows the potential solutions down to a single 8-character string.
+
+SOLUTION: "AVZXMPZB" 
+Checking sample solution  "AVZXMPZB"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 447 in / 17,779 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 4):
+        return False
+    v = [ord(c) for c in x]
+    rotated = [((val << 4) | (val >> 4)) & 255 for val in v]
+    transformed = [rotated[i] ^ v[(i + 1) % 4] for i in range(4)]
+    return transformed == [89, 146, 35, 53] and sum(v) == 411 and max(v) - min(v) == 12
+```
+This puzzle requires recovering a specific 4-byte input that simultaneously satisfies a cyclic bit-rotation + XOR relation (each byte rotated left 4 bits, then XORed with the next byte), an exact sum, and a range constraint. The relations form a tightly coupled system that is laborious to solve by hand or naive search.  
+SOLUTION: "code" 
+Checking sample solution  "code"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "code". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 720 in / 9,346 out
+  gemini-3-flash-preview (solver): 247 in / 12,864 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 6):
+        return False
+    
+    # Convert string characters to their ASCII values
+    v = [ord(c) for c in x]
+    
+    # Check if all characters are in the printable ASCII range
+    if any(c < 32 or c > 126 for c in v):
+        return False
+    
+    # Perform a series of bitwise rotations and cyclic XOR operations
+    # (v[i] << i | v[i] >> (8 - i)) & 0xFF performs a circular left shift by i bits.
+    transformed = [
+        ((v[i] << i | v[i] >> (8 - i)) & 0xFF) ^ v[(i + 1) % 6]
+        for i in range(6)
+    ]
+    
+    # The target resulting values
+    target_transformed = [9, 134, 185, 44, 152, 189]
+    
+    # A weighted sum to ensure a unique solution
+    weighted_sum = sum(v[i] * (i + 1) for i in range(6))
+    
+    return transformed == target_transformed and weighted_sum == 2333
+```
+
+The function `mystery(x)` takes a string `x` of length 6 and performs a custom transformation on its ASCII values. 
+
+1.  **Bitwise Rotation**: Each character's ASCII value `v[i]` is bitwise rotated to the left by `i` positions (where `i` is the index of the character).
+2.  **Cyclic XOR**: Each rotated value is then XORed with the ASCII value of the *next* character in the string (wrapping around to the first character at the end).
+3.  **Verification**: The result of these operations is compared against a fixed target list: `[9, 134, 185, 44, 152, 189]`.
+4.  **Checksum**: Finally, the function checks a weighted sum of the ASCII values: $\sum_{i=0}^{5} v_i \times (i + 1) = 2333$.
+
+To solve this, one must reverse the bitwise operations while ensuring each character remains a valid printable ASCII character and satisfies the weighted sum constraint.
+
+SOLUTION: "python" 
+Checking sample solution  "python"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "python". Checking.
+Success!
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 987 in / 24,647 out
+  grok-4.20-0309-reasoning (solver): 479 in / 15,151 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 6):
+        return False
+    v = [ord(c) for c in x]
+    if any(c < 32 or c > 126 for c in v):
+        return False
+    shifts = [(i % 3 + 2) for i in range(6)]
+    temp = [(((v[i] << shifts[i]) | (v[i] >> (8 - shifts[i]))) & 255) ^ v[(i + 1) % 6] for i in range(6)]
+    transformed = [(t * (i + 3)) % 256 for i, t in enumerate(temp)]
+    target = list(bytes.fromhex('a87ce16689b0'))
+    return transformed == target and sum(v[i] * (i + 1) for i in range(6)) == 1890
+```
+This puzzle requires a 6-character printable string satisfying a multi-stage transformation: per-character variable-bit rotations, chained XOR with the next character, followed by position-dependent modular scaling. The output vector is obfuscated via bytes.fromhex, and a weighted sum constraint tightly couples the bytes into a system that is nonlinear and non-trivial to invert by hand or simple search.  
+SOLUTION: "PyTh0n" 
+Checking sample solution  "PyTh0n"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "Z!V&0n". Checking.
+Failure!
+New score after this turn: 1 (1-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 1,237 in / 9,880 out
+  gemini-3-flash-preview (solver): 328 in / 50,787 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 7):
+        return False
+    v = [ord(c) for c in x]
+    if any(c < 32 or c > 126 for c in v):
+        return False
+    
+    # Each character's ASCII value is bitwise rotated to the left by 3 bits
+    r = [((v[i] << 3) | (v[i] >> 5)) & 255 for i in range(7)]
+    
+    # Each rotated value is XORed with the next character's original ASCII value,
+    # then an index-dependent linear offset is added before taking modulo 256.
+    transformed = [((r[i] ^ v[(i + 1) % 7]) + (i * 11)) % 256 for i in range(7)]
+    
+    # Comparison against the final sequence and a weighted sum check.
+    target = [251, 202, 225, 148, 27, 137, 155]
+    weighted_sum = sum(v[i] * (i + 1) for i in range(7))
+    
+    return transformed == target and weighted_sum == 2217
+```
+
+### Explanation
+
+The function `mystery(x)` processes a 7-character string using a series of bitwise and arithmetic operations:
+
+1.  **Bitwise Rotation**: For each character's ASCII value, it performs an 8-bit circular left shift by 3 bits.
+2.  **Circular XOR Dependency**: Each rotated value at index `i` is XORed with the original ASCII value of the *next* character at index `(i + 1) % 7`. This creates a cyclic chain of dependencies across the entire string.
+3.  **Linear Transformation**: After the XOR operation, an offset of `i * 11` is added to each result, and the value is wrapped within the 0-255 range using the modulo operator.
+4.  **Verification**: The resulting sequence is compared against the target list `[251, 202, 225, 148, 27, 137, 155]`.
+5.  **Checksum**: A weighted sum of the original ASCII values ($\sum v_i \times (i + 1)$) is checked against the value `2217` to ensure a unique solution.
+
+To solve this, one can treat the bitwise operations as a linear system of equations over GF(2) across the 7 bytes. Since the rotation and the loop length (7) are coprime with the bit-width (8), the circular dependency results in a single valid sequence of ASCII values.
+
+SOLUTION: "Pyth0n!" 
+Checking sample solution  "Pyth0n!"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "Pyth0n!". Checking.
+Success!
+New score after this turn: 1 (1-0) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 1,831 in / 20,242 out
+  grok-4.20-0309-reasoning (solver): 472 in / 3,620 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 8):
+        return False
+    v = [ord(c) for c in x]
+    if any(c < 32 or c > 126 for c in v):
+        return False
+    rotated = [((v[i] << (i % 5 + 2)) | (v[i] >> (8 - (i % 5 + 2)))) & 255 for i in range(8)]
+    xored = [rotated[i] ^ rotated[(i + 1) % 8] ^ v[(i - 1) % 8] for i in range(8)]
+    transformed = [((xored[i] * (i + 1) + 17) ^ 0x55) % 256 for i in range(8)]
+    target = list(bytes.fromhex('4358f5d04fc22104'))
+    wsum = sum(v[i] * (i + 1) for i in range(8))
+    return transformed == target and wsum == 3728
+```
+This puzzle requires finding an 8-character printable string that survives a multi-stage pipeline of position-dependent rotations, cross-linked XORs drawing from both rotated and original values at offsets, followed by scaling, constant XOR, and modular reduction. The resulting vector (obfuscated via hex) must match exactly, and a linear weighted sum must hit a precise value; the nonlinear mixing makes direct inversion or naive brute-force impractical.  
+SOLUTION: "CodeWars" 
+Checking sample solution  "CodeWars"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "hghhhghg". Checking.
+Failure!
+New score after this turn: 2 (2-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 1,824 in / 6,683 out
+  gemini-3-flash-preview (solver): 372 in / 44,746 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 8):
+        return False
+    
+    # Get ASCII values for each character
+    v = [ord(c) for c in x]
+    
+    # Ensure characters are within the printable ASCII range
+    if any(c < 32 or c > 126 for c in v):
+        return False
+    
+    # Step 1: Multiplicative transformation using a multiplier coprime to 256
+    m = [(v[i] * 157) % 256 for i in range(8)]
+    
+    # Step 2: Cyclic bitwise rotation (left shift by i % 4 + 1 bits)
+    r = [((m[i] << (i % 4 + 1)) | (m[i] >> (8 - (i % 4 + 1)))) & 255 for i in range(8)]
+    
+    # Step 3: Circular XOR dependency (XOR rotated value with the next multiplied value)
+    xored = [r[i] ^ m[(i + 1) % 8] for i in range(8)]
+    
+    # Step 4: Final linear addition and constant XOR transformation
+    transformed = [((xored[i] + i * 13) % 256) ^ 0xAA for i in range(8)]
+    
+    # Target values for comparison
+    target = [10, 72, 244, 146, 251, 142, 76, 247]
+    
+    # Checksum to ensure the unique correct solution
+    checksum = sum(v[i] * pow(3, i) for i in range(8))
+    
+    return transformed == target and checksum == 344569
+```
+
+### Explanation
+
+The function `mystery(x)` takes an 8-character string and applies a series of cryptographic-style transformations to its ASCII values:
+
+1.  **Multiplicative Transformation**: Each character's ASCII value is multiplied by `157` and taken modulo `256`. Since `157` is coprime to `256`, this is a reversible operation (a modular multiplication cipher).
+2.  **Bitwise Rotation**: Each multiplied value is then bitwise rotated to the left. The number of bits to shift is index-dependent: `(index % 4 + 1)`.
+3.  **Cyclic XOR Dependency**: The rotated result at each index `i` is XORed with the multiplied value of the *next* character in the sequence (index `(i + 1) % 8`). This creates a cyclic chain of dependencies, making the entire string interconnected.
+4.  **Final Linear/XOR Step**: Each intermediate result is offset by `index * 13` (modulo 256) and then XORed with the constant `0xAA` (170).
+5.  **Verification**: The final list is compared against the target `[10, 72, 244, 146, 251, 142, 76, 247]`.
+6.  **Checksum**: To guarantee that only one specific string satisfies the potential ambiguity in the cyclic XOR system, a weighted sum (using powers of 3) is verified against the value `344569`.
+
+To solve this, one must reverse the XOR and addition steps, solve the cyclic system of bit-rotations, and invert the modular multiplication while ensuring all resulting characters are valid printable ASCII.
+
+SOLUTION: "puzzling" 
+Checking sample solution  "puzzling"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+grok-4.20-0309-reasoning says "puzzling". Checking.
+Success!
+New score after this turn: 2 (2-0) vs -1 (0-1)
+  gemini-3-flash-preview (inventer): 2,812 in / 20,130 out
+  grok-4.20-0309-reasoning (solver): 583 in / 24,551 out
+grok-4.20-0309-reasoning's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 8):
+        return False
+    v = [ord(c) for c in x]
+    if any(c < 32 or c > 126 for c in v):
+        return False
+    a = [(v[i] * 131) % 256 for i in range(8)]
+    b = [((a[i] << (i + 1)) | (a[i] >> (8 - (i + 1)))) & 255 for i in range(8)]
+    c = [b[i] ^ b[(i - 1) % 8] ^ v[(i + 1) % 8] for i in range(8)]
+    transformed = [((c[i] + i * 17) % 256) ^ 0x7F for i in range(8)]
+    target = list(bytes.fromhex('1990ca617906856b'))
+    checksum = sum(v[i] * (3 ** i) for i in range(8))
+    return transformed == target and checksum == 183783
+```
+This puzzle chains modular multiplication (by 131), position-dependent left rotations, cyclic XORs mixing transformed and original values at offset indices, then an affine transform (additive bias mod 256 followed by XOR with 0x7F). The target is obfuscated via bytes.fromhex and a base-3 exponential checksum tightly constrains the solution space, producing a system of nonlinear equations that is laborious to invert by hand or brute force.  
+SOLUTION: "Enigma42" 
+Checking sample solution  "Enigma42"
+Puzzle looks good; gemini-3-flash-preview's turn to solve...
+gemini-3-flash-preview says "O>y.u6S!". Checking.
+Failure!
+New score after this turn: 3 (3-0) vs -1 (0-1)
+  grok-4.20-0309-reasoning (inventer): 2,573 in / 10,175 out
+  gemini-3-flash-preview (solver): 385 in / 47,077 out
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 8):
+        return False
+    v = [ord(c) for c in x]
+    if any(c < 32 or c > 126 for c in v):
+        return False
+    
+    # Step 1: Linear congruential mapping
+    s = [(v[i] * 53 + 17) % 256 for i in range(8)]
+    
+    # Step 2: Cyclic XOR dependency
+    t = [s[i] ^ s[(i - 1) % 8] for i in range(8)]
+    
+    # Step 3: Bitwise rotation with variable shift amount
+    res = []
+    for i in range(8):
+        # Shift amount is dynamic, based on the previous character's value
+        shift = (v[(i - 1) % 8] % 5) + 1
+        res.append(((t[i] << shift) | (t[i] >> (8 - shift))) & 255)
+        
+    # Step 4: Circular neighbor dependency and linear offset
+    transformed = [(res[i] ^ (v[(i + 1) % 8] + i * 13)) % 256 for i in range(8)]
+    
+    # Verification sequence
+    target = [1, 80, 92, 115, 147, 6, 67, 2]
+    
+    # Quadratic weighted checksum to ensure a unique solution
+    checksum = sum(v[i] * (i + 1)**2 for i in range(8))
+    
+    return transformed == target and checksum == 15032
+```
+
+### Explanation
+
+The function `mystery(x)` processes an 8-character string through a sequence of multi-layered transformations:
+
+1.  **Linear Transformation**: Each character's ASCII value is mapped to a new byte using a modular linear function: `(v[i] * 53 + 17) % 256`. Since 53 is coprime to 256, this step is a simple substitution cipher.
+2.  **Cyclic XOR dependency**: Each byte is XORed with its predecessor in the sequence (with the first byte XORed with the last), creating a circular chain of dependencies.
+3.  **Dynamic Bitwise Rotation**: Each intermediate byte is bitwise rotated to the left. The number of bits shifted is not constant; it depends on the ASCII value of the *previous* character in the input string, introducing further non-linear complexity.
+4.  **Neighbor Dependency and Offset**: The rotated results are XORed with a combination of the *next* character's ASCII value and an index-dependent linear offset (`index * 13`).
+5.  **Final Verification**: The resulting list is compared against the target `[1, 80, 92, 115, 147, 6, 67, 2]`. To resolve any potential ambiguities arising from the bitwise and cyclic operations, a quadratic weighted checksum (`sum(v[i] * (i+1)^2)`) is verified against the value `15032`.
+
+To solve the puzzle, one must carefully undo the dependency chain while ensuring that all recovered values are valid printable ASCII characters.
+
+SOLUTION: "PuzzL3r!" 
+Checking sample solution  "PuzzL3r!"
+Puzzle looks good; grok-4.20-0309-reasoning's turn to solve...
+UNHANDLED EXCEPTION, error: No SOLUTION line found in the input string.
+gemini-3-flash-preview's turn to invent a puzzle...
+```python
+def mystery(x):
+    if not (isinstance(x, str) and len(x) == 8):
+        return False
+    v = [ord(c) for c in x]
+    if any(c < 32 or c > 126 for c in v):
+        return False
+    
+    # Step 1: Linear modular mapping
+    m = [(v[i] * 199 + 123) % 256 for i in range(8)]
+    
+    # Step 2: Cyclic bitwise rotation (left shift by i % 3 + 1 bits)
+    r = [((m[i] << (i % 3 + 1)) | (m[i] >> (8 - (i % 3 + 1)))) & 255 for i in range(8)]
+    
+    # Step 3: Triple XOR dependency across rotated and modular values
+    xored = [r[i] ^ m[(i + 1) % 8] ^ r[(i - 1) % 8] for i in range(8)]
+    
+    # Step 4: Final linear shift and constant XOR
+    transformed = [((xored[i] + i * 23) % 256) ^ 0x3C for i in range(8)]
+    
+    # Target transformed sequence and weighted quadratic checksum
+    target = list(bytes.fromhex('8dea6cb001bc79d2'))
+    checksum = sum(v[i] * (i + 1)**2 for i in range(8))
+    
+    return transformed == target and checksum == 16946
+```
+
+### Explanation
+The `mystery(x)` function processes an 8-character string through several stages:
+1.  **Linear Modular Mapping**: Each ASCII value is multiplied by 199 (coprime to 256) and offset by 123, then taken modulo 256. This is a reversible substitution cipher.
+2.  **Bitwise Rotation**: Each transformed byte is bitwise rotated to the left by a variable amount `(i % 3 + 1)`.
+3.  **Triple XOR Dependency**: A diffusion step where each element at index `i` is XORed with the modular value of the next character and the rotated value of the previous character. This creates a cyclic system of equations.
+4.  **Final Transformation**: A linear offset `i * 23` is added, and the result is XORed with the constant `0x3C`.
+5.  **Checksum**: A weighted quadratic sum `sum(v[i] * (i + 1)^2)` ensures that only one specific permutation of printable ASCII characters satisfies the result.
+
+To solve the puzzle, one can reverse the final transformation, solve the cyclic XOR system (either by bit-level linear algebra or by testing the 256 possible values of the first character), and then invert the linear modular mapping.
+
+SOLUTION: "Puzzled!" 
+Checking sample solution  "Puzzled!"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 3 (3-0) vs -2 (0-2)
+  gemini-3-flash-preview (inventer): 3,983 in / 29,899 out
+Turn 0: grok-4.20-0309-reasoning vs gemini-3-flash-preview - 626 in / 14,494 out (?) [success]
+Turn 1: gemini-3-flash-preview vs grok-4.20-0309-reasoning - 447 in / 17,779 out (?) [puzzle-wrong]
+Turn 2: grok-4.20-0309-reasoning vs gemini-3-flash-preview - 967 in / 22,210 out (?) [success]
+Turn 3: gemini-3-flash-preview vs grok-4.20-0309-reasoning - 1,466 in / 39,798 out (?) [success]
+Turn 4: grok-4.20-0309-reasoning vs gemini-3-flash-preview - 1,565 in / 60,667 out (?) [failure]
+Turn 5: gemini-3-flash-preview vs grok-4.20-0309-reasoning - 2,303 in / 23,862 out (?) [success]
+Turn 6: grok-4.20-0309-reasoning vs gemini-3-flash-preview - 2,196 in / 51,429 out (?) [failure]
+Turn 7: gemini-3-flash-preview vs grok-4.20-0309-reasoning - 3,395 in / 44,681 out (?) [success]
+Turn 8: grok-4.20-0309-reasoning vs gemini-3-flash-preview - 2,958 in / 57,252 out (?) [failure]
+Turn 9: gemini-3-flash-preview vs grok-4.20-0309-reasoning - 3,983 in / 29,899 out (?) [puzzle-wrong]
+grok-4.20-0309-reasoning: 8,919 in / 115,241 out
+gemini-3-flash-preview: 15,542 in / 293,176 out
+grok-4.20-0309-reasoning ./. gemini-3-flash-preview     (3-0) vs (0-2)     [1 failed, see runs/classic/grok-4.20-0309-reasoning_vs_gemini-3-flash-preview.log]

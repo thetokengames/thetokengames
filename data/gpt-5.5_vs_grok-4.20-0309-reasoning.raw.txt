@@ -1,0 +1,1998 @@
+*** inventor prompt gpt-5.5
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+None, this is the first turn.
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.5
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    N = 114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+
+    return 1 < y and y * y < N and N % y == 0
+```
+
+This puzzle accepts exactly a smaller nontrivial divisor of the large integer hidden in the function.
+
+SOLUTION: 3490529510847650949147849619903898133417764638493387843990820577
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+The mystery function is checking whether its input is a non-boolean value that converts to an integer factor y of the famous RSA-129 semiprime N (with 1 < y and y being the smaller prime factor).  
+SOLUTION: 3490529510847650949147849619903898133417764638493387843990820577
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    N = 114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1329227995784915870021503298763226137
+    return 1 < y and y * y < N and N % y == 0
+```
+This puzzle requires finding a nontrivial divisor of a 37-digit semiprime N (product of two primes near 2^59 and 2^61). Brute-force trial division is impractical due to the size; advanced factoring methods or clever insight are needed to locate a valid y without prior knowledge of the factors. The boolean returns True precisely for the smaller prime factor (and rejects bools and non-integers).
+SOLUTION: 576460752303423487
+*** END
+*** END
+*** inventor prompt gpt-5.5
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    N = 114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+
+This puzzle accepts exactly a smaller nontrivial divisor of the large integer hidden in the function.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1329227995784915870021503298763226137
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.5
+```python
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 43:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    def flip(c):
+        return c if c == 32 else 33 + ((c - 33 + 47) % 94)
+
+    y = bytes(flip(b[(17 * i + 5) % 43]) for i in range(43))
+
+    return hashlib.sha256(y).hexdigest() == (
+        "d7a8fbb307d7809469ca9abcb0082e4f"
+        "8d5651e46d3cdb762d02d0bf37c9e592"
+    )
+```
+
+The function permutes the input characters, applies a printable-ASCII involution, and then checks a SHA-256 digest. The sample solution is a string that maps to the hidden digest preimage.
+
+SOLUTION: " ; 3F%J66AIH< @2E@F7C:9  CD ? B8K9G>@@465= "
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+ ; 3F%J66AIH< @2E@F7C:9  CD ? B8K9G>@@465= 
+SOLUTION: " ; 3F%J66AIH< @2E@F7C:9  CD ? B8K9G>@@465= "
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    N = 114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1329227995784915870021503298763226137
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+This puzzle requires finding a nontrivial divisor of a 37-digit semiprime N (product of two primes near 2^59 and 2^61). Brute-force trial division is impractical due to the size; advanced factoring methods or clever insight are needed to locate a valid y without prior knowledge of the factors. The boolean returns True precisely for the smaller prime factor (and rejects bools and non-integers).
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 43:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    def flip(c):
+        return c if c == 32 else 33 + ((c - 33 + 47) % 94)
+
+    y = bytes(flip(b[(17 * i + 5) % 43]) for i in range(43))
+
+    return hashlib.sha256(y).hexdigest() == (
+        "d7a8fbb307d7809469ca9abcb0082e4f"
+        "8d5651e46d3cdb762d02d0bf37c9e592"
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1522605027922533360535618378132637429718068114961380688657908494580122963258952897654000350692006139
+    return 1 < y and y * y < N and N % y == 0
+```
+This puzzle is a semiprime factoring challenge using RSA-100 (a well-known but non-trivial 100-digit modulus). The boolean is True exactly for the smaller prime factor (and rejects non-integers and bools). Locating the factor requires non-trivial computational effort or insight, as naive trial division is intractable and advanced methods (quadratic sieve, ECM, etc.) are needed.  
+SOLUTION: 37975227936943673922808872755445627854565536638199
+*** END
+*** END
+*** solver gpt-5.5
+A valid factor is the smaller prime factor of `N`.
+
+SOLUTION: 37975227936943673922808872755445627854565536638199
+*** END
+*** inventor prompt gpt-5.5
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    N = 114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+
+This puzzle accepts exactly a smaller nontrivial divisor of the large integer hidden in the function.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1329227995784915870021503298763226137
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 43:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    def flip(c):
+        return c if c == 32 else 33 + ((c - 33 + 47) % 94)
+
+    y = bytes(flip(b[(17 * i + 5) % 43]) for i in range(43))
+
+    return hashlib.sha256(y).hexdigest() == (
+        "d7a8fbb307d7809469ca9abcb0082e4f"
+        "8d5651e46d3cdb762d02d0bf37c9e592"
+    )
+
+```
+### Explanation
+
+
+The function permutes the input characters, applies a printable-ASCII involution, and then checks a SHA-256 digest. The sample solution is a string that maps to the hidden digest preimage.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1522605027922533360535618378132637429718068114961380688657908494580122963258952897654000350692006139
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.5
+```python
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 24:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    n = 24
+    out = bytearray()
+    k = 23
+    for i in range(n):
+        j = (7 * i + 11) % n
+        out.append(33 + ((b[j] - 33 + k) % 94))
+        k = (k + 37) % 94
+
+    salt = ((b"salt" + b"SALT") * 4) + b"salt"
+    target = (
+        "3d2eec4fe41c849b80c8d83662c0e44a"
+        "8b291a964cf2f07038"
+    )
+
+    return hashlib.pbkdf2_hmac("sha1", bytes(out), salt, 4096, 25).hex() == target
+```
+
+The input is first constrained to printable ASCII and then permuted/shifted modulo the printable ASCII range. The transformed bytes are checked against a PBKDF2-HMAC-SHA1 test-vector-derived digest.
+
+SOLUTION: "/pU=H9-lKBgYdi?*{T%+6{[Z"
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+The provided `mystery` function verifies a transformed version of the input against a known PBKDF2 test vector (from the PBKDF2 specification, using password `b'passwordPASSWORDpassword'`, the given salt construction, 4096 iterations, and dklen of 25). The input `x` is permuted and shifted during transformation, so the correct `x` is found by inverting the known permutation, modular shifts, and `k` updates to produce exactly that 24-byte value for `out`.
+
+This yields the 24-character printable ASCII string below.
+
+SOLUTION: "/pU=H9-lKBgYdi?*{T%+6{[Z"
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    N = 114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1329227995784915870021503298763226137
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+This puzzle requires finding a nontrivial divisor of a 37-digit semiprime N (product of two primes near 2^59 and 2^61). Brute-force trial division is impractical due to the size; advanced factoring methods or clever insight are needed to locate a valid y without prior knowledge of the factors. The boolean returns True precisely for the smaller prime factor (and rejects bools and non-integers).
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 43:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    def flip(c):
+        return c if c == 32 else 33 + ((c - 33 + 47) % 94)
+
+    y = bytes(flip(b[(17 * i + 5) % 43]) for i in range(43))
+
+    return hashlib.sha256(y).hexdigest() == (
+        "d7a8fbb307d7809469ca9abcb0082e4f"
+        "8d5651e46d3cdb762d02d0bf37c9e592"
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1522605027922533360535618378132637429718068114961380688657908494580122963258952897654000350692006139
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+This puzzle is a semiprime factoring challenge using RSA-100 (a well-known but non-trivial 100-digit modulus). The boolean is True exactly for the smaller prime factor (and rejects non-integers and bools). Locating the factor requires non-trivial computational effort or insight, as naive trial division is intractable and advanced methods (quadratic sieve, ECM, etc.) are needed.  
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 24:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    n = 24
+    out = bytearray()
+    k = 23
+    for i in range(n):
+        j = (7 * i + 11) % n
+        out.append(33 + ((b[j] - 33 + k) % 94))
+        k = (k + 37) % 94
+
+    salt = ((b"salt" + b"SALT") * 4) + b"salt"
+    target = (
+        "3d2eec4fe41c849b80c8d83662c0e44a"
+        "8b291a964cf2f07038"
+    )
+
+    return hashlib.pbkdf2_hmac("sha1", bytes(out), salt, 4096, 25).hex() == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = (2**107 - 1) * (2**127 - 1)
+    return 1 < y and y * y < N and N % y == 0
+```
+This puzzle requires factoring a 70-digit semiprime N formed as the product of the Mersenne primes (2^107-1) and (2^127-1). The function returns True exactly for the smaller prime factor (while rejecting bools and non-integers). Trial division is intractable; solving it demands non-trivial effort with algorithms such as ECM, quadratic sieve, or GNFS.  
+SOLUTION: 162259276829213363391578010288127
+*** END
+*** END
+*** solver gpt-5.5
+A valid choice is \(2^{107}-1\), since it is a factor of `N` and is smaller than the other factor.
+
+SOLUTION: 162259276829213363391578010288127
+*** END
+*** inventor prompt gpt-5.5
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    N = 114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+
+This puzzle accepts exactly a smaller nontrivial divisor of the large integer hidden in the function.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1329227995784915870021503298763226137
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 43:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    def flip(c):
+        return c if c == 32 else 33 + ((c - 33 + 47) % 94)
+
+    y = bytes(flip(b[(17 * i + 5) % 43]) for i in range(43))
+
+    return hashlib.sha256(y).hexdigest() == (
+        "d7a8fbb307d7809469ca9abcb0082e4f"
+        "8d5651e46d3cdb762d02d0bf37c9e592"
+    )
+
+```
+### Explanation
+
+
+The function permutes the input characters, applies a printable-ASCII involution, and then checks a SHA-256 digest. The sample solution is a string that maps to the hidden digest preimage.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1522605027922533360535618378132637429718068114961380688657908494580122963258952897654000350692006139
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 24:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    n = 24
+    out = bytearray()
+    k = 23
+    for i in range(n):
+        j = (7 * i + 11) % n
+        out.append(33 + ((b[j] - 33 + k) % 94))
+        k = (k + 37) % 94
+
+    salt = ((b"salt" + b"SALT") * 4) + b"salt"
+    target = (
+        "3d2eec4fe41c849b80c8d83662c0e44a"
+        "8b291a964cf2f07038"
+    )
+
+    return hashlib.pbkdf2_hmac("sha1", bytes(out), salt, 4096, 25).hex() == target
+
+```
+### Explanation
+
+
+The input is first constrained to printable ASCII and then permuted/shifted modulo the printable ASCII range. The transformed bytes are checked against a PBKDF2-HMAC-SHA1 test-vector-derived digest.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = (2**107 - 1) * (2**127 - 1)
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.5
+```python
+def mystery(x):
+    import hashlib
+
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    if not (0 <= y < (1 << 32)):
+        return False
+
+    nonce = y ^ 0xA5A5A5A5
+
+    header = (
+        (1).to_bytes(4, "little")
+        + bytes(32)
+        + bytes.fromhex(
+            "4a5e1e4baab89f3a32518a88c31bc87f"
+            "618f76673e2cc77ab2127b7afdeda33b"
+        )[::-1]
+        + (1231006505).to_bytes(4, "little")
+        + (486604799).to_bytes(4, "little")
+        + nonce.to_bytes(4, "little")
+    )
+
+    h = hashlib.sha256(hashlib.sha256(header).digest()).digest()[::-1].hex()
+
+    return h == (
+        "000000000019d6689c085ae165831e93"
+        "4ff763ae46a2a6c172b3f1b60a8ce26f"
+    )
+```
+
+This checks a disguised double-SHA-256 proof-of-work style condition over a structured 80-byte header. The accepted input is transformed by XOR before being used as the nonce.
+
+SOLUTION: 0xD98E09B8
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+SOLUTION: 3649964472
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    N = 114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1329227995784915870021503298763226137
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+This puzzle requires finding a nontrivial divisor of a 37-digit semiprime N (product of two primes near 2^59 and 2^61). Brute-force trial division is impractical due to the size; advanced factoring methods or clever insight are needed to locate a valid y without prior knowledge of the factors. The boolean returns True precisely for the smaller prime factor (and rejects bools and non-integers).
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 43:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    def flip(c):
+        return c if c == 32 else 33 + ((c - 33 + 47) % 94)
+
+    y = bytes(flip(b[(17 * i + 5) % 43]) for i in range(43))
+
+    return hashlib.sha256(y).hexdigest() == (
+        "d7a8fbb307d7809469ca9abcb0082e4f"
+        "8d5651e46d3cdb762d02d0bf37c9e592"
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1522605027922533360535618378132637429718068114961380688657908494580122963258952897654000350692006139
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+This puzzle is a semiprime factoring challenge using RSA-100 (a well-known but non-trivial 100-digit modulus). The boolean is True exactly for the smaller prime factor (and rejects non-integers and bools). Locating the factor requires non-trivial computational effort or insight, as naive trial division is intractable and advanced methods (quadratic sieve, ECM, etc.) are needed.  
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 24:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    n = 24
+    out = bytearray()
+    k = 23
+    for i in range(n):
+        j = (7 * i + 11) % n
+        out.append(33 + ((b[j] - 33 + k) % 94))
+        k = (k + 37) % 94
+
+    salt = ((b"salt" + b"SALT") * 4) + b"salt"
+    target = (
+        "3d2eec4fe41c849b80c8d83662c0e44a"
+        "8b291a964cf2f07038"
+    )
+
+    return hashlib.pbkdf2_hmac("sha1", bytes(out), salt, 4096, 25).hex() == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = (2**107 - 1) * (2**127 - 1)
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+This puzzle requires factoring a 70-digit semiprime N formed as the product of the Mersenne primes (2^107-1) and (2^127-1). The function returns True exactly for the smaller prime factor (while rejecting bools and non-integers). Trial division is intractable; solving it demands non-trivial effort with algorithms such as ECM, quadratic sieve, or GNFS.  
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    if not (0 <= y < (1 << 32)):
+        return False
+
+    nonce = y ^ 0xA5A5A5A5
+
+    header = (
+        (1).to_bytes(4, "little")
+        + bytes(32)
+        + bytes.fromhex(
+            "4a5e1e4baab89f3a32518a88c31bc87f"
+            "618f76673e2cc77ab2127b7afdeda33b"
+        )[::-1]
+        + (1231006505).to_bytes(4, "little")
+        + (486604799).to_bytes(4, "little")
+        + nonce.to_bytes(4, "little")
+    )
+
+    h = hashlib.sha256(hashlib.sha256(header).digest()).digest()[::-1].hex()
+
+    return h == (
+        "000000000019d6689c085ae165831e93"
+        "4ff763ae46a2a6c172b3f1b60a8ce26f"
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = (2**89 - 1) * (2**107 - 1)
+    return 1 < y and y * y < N and N % y == 0
+```
+This puzzle requires factoring a 59-digit semiprime N formed as the product of two Mersenne primes. The function returns True exactly for the smaller prime factor (while rejecting bools and non-integers). Trial division is intractable; solving it demands non-trivial effort with algorithms such as ECM, quadratic sieve, or GNFS.
+SOLUTION: 618970019642690137449562111
+*** END
+*** END
+*** solver gpt-5.5
+`x = 2**89 - 1` works because it is a nontrivial divisor of `N` and is smaller than `sqrt(N)`.
+
+SOLUTION: 618970019642690137449562111
+*** END
+*** inventor prompt gpt-5.5
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    N = 114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+
+This puzzle accepts exactly a smaller nontrivial divisor of the large integer hidden in the function.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1329227995784915870021503298763226137
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 43:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    def flip(c):
+        return c if c == 32 else 33 + ((c - 33 + 47) % 94)
+
+    y = bytes(flip(b[(17 * i + 5) % 43]) for i in range(43))
+
+    return hashlib.sha256(y).hexdigest() == (
+        "d7a8fbb307d7809469ca9abcb0082e4f"
+        "8d5651e46d3cdb762d02d0bf37c9e592"
+    )
+
+```
+### Explanation
+
+
+The function permutes the input characters, applies a printable-ASCII involution, and then checks a SHA-256 digest. The sample solution is a string that maps to the hidden digest preimage.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1522605027922533360535618378132637429718068114961380688657908494580122963258952897654000350692006139
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 24:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    n = 24
+    out = bytearray()
+    k = 23
+    for i in range(n):
+        j = (7 * i + 11) % n
+        out.append(33 + ((b[j] - 33 + k) % 94))
+        k = (k + 37) % 94
+
+    salt = ((b"salt" + b"SALT") * 4) + b"salt"
+    target = (
+        "3d2eec4fe41c849b80c8d83662c0e44a"
+        "8b291a964cf2f07038"
+    )
+
+    return hashlib.pbkdf2_hmac("sha1", bytes(out), salt, 4096, 25).hex() == target
+
+```
+### Explanation
+
+
+The input is first constrained to printable ASCII and then permuted/shifted modulo the printable ASCII range. The transformed bytes are checked against a PBKDF2-HMAC-SHA1 test-vector-derived digest.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = (2**107 - 1) * (2**127 - 1)
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    if not (0 <= y < (1 << 32)):
+        return False
+
+    nonce = y ^ 0xA5A5A5A5
+
+    header = (
+        (1).to_bytes(4, "little")
+        + bytes(32)
+        + bytes.fromhex(
+            "4a5e1e4baab89f3a32518a88c31bc87f"
+            "618f76673e2cc77ab2127b7afdeda33b"
+        )[::-1]
+        + (1231006505).to_bytes(4, "little")
+        + (486604799).to_bytes(4, "little")
+        + nonce.to_bytes(4, "little")
+    )
+
+    h = hashlib.sha256(hashlib.sha256(header).digest()).digest()[::-1].hex()
+
+    return h == (
+        "000000000019d6689c085ae165831e93"
+        "4ff763ae46a2a6c172b3f1b60a8ce26f"
+    )
+
+```
+### Explanation
+
+
+This checks a disguised double-SHA-256 proof-of-work style condition over a structured 80-byte header. The accepted input is transformed by XOR before being used as the nonce.
+
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = (2**89 - 1) * (2**107 - 1)
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor gpt-5.5
+```python
+def mystery(x):
+    import hashlib
+    import hmac
+
+    if not isinstance(x, str) or len(x) != 28:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    msg = bytes((b[(11 * i + 5) % 28] ^ 0x5A) for i in range(28))
+    key = bytes(c ^ 0x2A for c in b"`OLO")
+
+    target = (
+        "4338ec64b958ec9d8339279d083f005a"
+        "c77595082624046a4e7560bf46c1dc5b"
+    )
+
+    return hmac.new(key, msg, hashlib.sha256).digest()[::-1].hex() == target
+```
+
+The input is constrained to printable ASCII, then permuted and XOR-transformed into the message for a disguised HMAC-SHA256 check. The key and digest are lightly obfuscated, including byte reversal of the MAC before comparison.
+
+SOLUTION: "44zz>-2(4#.=5<-523z.;ze.5;z;"
+*** END
+*** END
+*** solver grok-4.20-0309-reasoning
+The function requires a string `x` of length exactly 28 consisting only of printable ASCII characters (! through ~). This string is transformed via a specific permutation of its bytes combined with an XOR of each byte against `0x5A`; the result becomes the `msg` argument to an HMAC-SHA256 computation under a derived key of `b"Jefe"`. The function returns `True` precisely when that HMAC (with its digest bytes reversed prior to hex encoding) matches the embedded target value.
+
+This matches the standard HMAC test vector construction where the underlying message (prior to permutation/XOR) is `"what do ya want for nothing?"`. To recover the corresponding `x`, apply the inverse transformation: for each position `i` in the test vector message, compute `pos = (11 * i + 5) % 28` and set `x[pos] = msg[i] ^ 0x5A`. This yields a string satisfying all constraints and producing an HMAC match.
+
+SOLUTION: "44zz>-2(4#.=5<-523z.;ze.5;z;"
+*** END
+*** inventor prompt grok-4.20-0309-reasoning
+Let's play a game.
+
+# Rules
+We take turns. One player, the proposer, gives the other a code puzzle with a Python function called `mystery` that takes a value x (either string or number) and returns a boolean. The other player, the solver, have to find a value x for which the function returns True. The proposer's job is to make the puzzle as hard as they can, i.e. it should be very difficult to find out which values the function returns True for. To prove that the puzzle is solvable, the proposer must give a sample solution. If the sample solution turns out to be wrong, the proposer is penalized.
+
+# Instructions
+You are the proposer. I am the solver.
+
+Respond with a Python code block first, then explain your puzzle. Everything outside the code block is private -- I cannot see it.
+The last line of your response should contain only: `SOLUTION: x` where x is the value of a sample solution for your puzzle. Ensure that `mystery(x)` is valid Python code given your x. For example, it is very important to use quotes if you believe `x` is a string.
+
+Please make sure that your sample solution works -- you will be penalized if not. Do not give multiple code blocks or puzzles.
+
+# History
+Here are some puzzles from past turns of the game. You should NOT repeat them, but you can learn from them to ensure your puzzle is difficult enough.
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    N = 114381625757888867669235779976146612010218296721242362562561842935706935245733897830597123563958705058989075147599290026879543541
+
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1329227995784915870021503298763226137
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+This puzzle requires finding a nontrivial divisor of a 37-digit semiprime N (product of two primes near 2^59 and 2^61). Brute-force trial division is impractical due to the size; advanced factoring methods or clever insight are needed to locate a valid y without prior knowledge of the factors. The boolean returns True precisely for the smaller prime factor (and rejects bools and non-integers).
+
+
+### Outcome
+Sample solution wrong -- penalized
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 43:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    def flip(c):
+        return c if c == 32 else 33 + ((c - 33 + 47) % 94)
+
+    y = bytes(flip(b[(17 * i + 5) % 43]) for i in range(43))
+
+    return hashlib.sha256(y).hexdigest() == (
+        "d7a8fbb307d7809469ca9abcb0082e4f"
+        "8d5651e46d3cdb762d02d0bf37c9e592"
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = 1522605027922533360535618378132637429718068114961380688657908494580122963258952897654000350692006139
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+This puzzle is a semiprime factoring challenge using RSA-100 (a well-known but non-trivial 100-digit modulus). The boolean is True exactly for the smaller prime factor (and rejects non-integers and bools). Locating the factor requires non-trivial computational effort or insight, as naive trial division is intractable and advanced methods (quadratic sieve, ECM, etc.) are needed.  
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if not isinstance(x, str) or len(x) != 24:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    n = 24
+    out = bytearray()
+    k = 23
+    for i in range(n):
+        j = (7 * i + 11) % n
+        out.append(33 + ((b[j] - 33 + k) % 94))
+        k = (k + 37) % 94
+
+    salt = ((b"salt" + b"SALT") * 4) + b"salt"
+    target = (
+        "3d2eec4fe41c849b80c8d83662c0e44a"
+        "8b291a964cf2f07038"
+    )
+
+    return hashlib.pbkdf2_hmac("sha1", bytes(out), salt, 4096, 25).hex() == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = (2**107 - 1) * (2**127 - 1)
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+This puzzle requires factoring a 70-digit semiprime N formed as the product of the Mersenne primes (2^107-1) and (2^127-1). The function returns True exactly for the smaller prime factor (while rejecting bools and non-integers). Trial division is intractable; solving it demands non-trivial effort with algorithms such as ECM, quadratic sieve, or GNFS.  
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+
+    if isinstance(x, bool):
+        return False
+
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+
+    if not (0 <= y < (1 << 32)):
+        return False
+
+    nonce = y ^ 0xA5A5A5A5
+
+    header = (
+        (1).to_bytes(4, "little")
+        + bytes(32)
+        + bytes.fromhex(
+            "4a5e1e4baab89f3a32518a88c31bc87f"
+            "618f76673e2cc77ab2127b7afdeda33b"
+        )[::-1]
+        + (1231006505).to_bytes(4, "little")
+        + (486604799).to_bytes(4, "little")
+        + nonce.to_bytes(4, "little")
+    )
+
+    h = hashlib.sha256(hashlib.sha256(header).digest()).digest()[::-1].hex()
+
+    return h == (
+        "000000000019d6689c085ae165831e93"
+        "4ff763ae46a2a6c172b3f1b60a8ce26f"
+    )
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is YOUR puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = (2**89 - 1) * (2**107 - 1)
+    return 1 < y and y * y < N and N % y == 0
+
+```
+### Explanation
+
+This puzzle requires factoring a 59-digit semiprime N formed as the product of two Mersenne primes. The function returns True exactly for the smaller prime factor (while rejecting bools and non-integers). Trial division is intractable; solving it demands non-trivial effort with algorithms such as ECM, quadratic sieve, or GNFS.
+
+
+### Outcome
+Solved
+
+## Puzzle
+
+### Proposer
+This is MY puzzle.
+
+### Code and Explanation
+```python
+
+def mystery(x):
+    import hashlib
+    import hmac
+
+    if not isinstance(x, str) or len(x) != 28:
+        return False
+
+    try:
+        b = x.encode("ascii")
+    except UnicodeEncodeError:
+        return False
+
+    if any(c < 33 or c > 126 for c in b):
+        return False
+
+    msg = bytes((b[(11 * i + 5) % 28] ^ 0x5A) for i in range(28))
+    key = bytes(c ^ 0x2A for c in b"`OLO")
+
+    target = (
+        "4338ec64b958ec9d8339279d083f005a"
+        "c77595082624046a4e7560bf46c1dc5b"
+    )
+
+    return hmac.new(key, msg, hashlib.sha256).digest()[::-1].hex() == target
+
+```
+### Explanation
+(Hidden to you, since this is my puzzle.)
+
+### Outcome
+Solved
+
+
+
+# Reminder
+Please ensure your response ends with this line: `SOLUTION: x` where x is the value of a sample solution for your puzzle.
+
+*** END
+*** inventor grok-4.20-0309-reasoning
+```python
+def mystery(x):
+    if isinstance(x, bool):
+        return False
+    try:
+        y = int(x)
+    except (TypeError, ValueError, OverflowError):
+        return False
+    N = (2**61 - 1) * (2**89 - 1)
+    return 1 < y and y * y < N and N % y == 0
+```
+This puzzle requires finding a nontrivial factor of the 46-digit semiprime N (product of Mersenne primes 2^61-1 and 2^89-1). The function returns True exactly for the smaller prime factor (rejecting bools and non-integers). Brute-force or naive trial division up to sqrt(N) is impractical by hand; it demands insight, a computer algebra system, or nontrivial factoring algorithms like ECM or quadratic sieve.  
+SOLUTION: 2305843009213693951
+*** END
+*** END
+*** solver gpt-5.5
+A valid value is the smaller factor, `2**61 - 1`.
+
+SOLUTION: 2305843009213693951
+*** END

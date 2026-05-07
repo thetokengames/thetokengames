@@ -1,0 +1,514 @@
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+import math
+
+def mystery(x):
+    try:
+        n = int(x)
+    except:
+        return False
+    if n <= 1:
+        return False
+    # Check if n is prime
+    for i in range(2, int(math.isqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    # Check if 2*n+1 is prime (Sophie Germain)
+    m = 2 * n + 1
+    for i in range(2, int(math.isqrt(m)) + 1):
+        if m % i == 0:
+            return False
+    # Sum of digits
+    s = sum(int(d) for d in str(n))
+    # Check if s is a perfect cube
+    cr = round(s ** (1/3))
+    return cr ** 3 == s
+```
+
+SOLUTION: 53 
+Checking sample solution  53
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 233. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 357 in / 12,100 out
+  gpt-5.4-mini (solver): 285 in / 582 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy arithmetic: it looks important, but it doesn't affect the result.
+    junk = 1
+    for i, ch in enumerate(s, 1):
+        junk = (junk * (ord(ch) + i) + (junk >> 3)) & 0xFFFFFFFF
+
+    # Another harmless no-op to make the path look less obvious.
+    s = ''.join(chr(ord(c) ^ (junk & 0)) for c in s)
+
+    return hashlib.new("sha" + "256", s.encode("utf-8")).digest() == bytes.fromhex(
+        "ba7816bf8f01cfea414140de5dae2223"
+        "b00361a396177a9cb410ff61f20015ad"
+    )
+```
+
+This puzzle is a disguised SHA-256 preimage check. The arithmetic is just noise; the real condition is whether the string form of `x` hashes to a specific 32-byte digest.
+
+SOLUTION: "abc" 
+Checking sample solution  "abc"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "abc". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 560 in / 11,117 out
+  deepseek-v3.2-thinking (solver): 301 in / 495 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+import hashlib
+import math
+
+def mystery(x):
+    s = str(x)
+    if not s.isdigit():
+        return False
+    if len(s) != 5:
+        return False
+    if s == s[::-1]:
+        return False
+    n = int(s)
+    if n <= 10000:
+        return False
+    if n % 2 == 0:
+        return False
+    h = hashlib.sha256(s.encode()).hexdigest()
+    if h == "0" * 64:
+        return False
+    if n > 1:
+        for i in range(2, int(math.isqrt(n)) + 1):
+            if n % i == 0:
+                break
+        else:
+            return False
+    f = [1, 1]
+    for i in range(2, 10):
+        f.append(f[-1] * i)
+    t = 0
+    for c in s:
+        t += f[int(c)]
+    return t == n
+```
+
+SOLUTION: 40585 
+Checking sample solution  40585
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 40585. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 797 in / 14,124 out
+  gpt-5.4-mini (solver): 314 in / 1,872 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+import hashlib
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    n = len(s)
+
+    # Decoy state machine: noisy, but irrelevant.
+    wobble = 0x6A09E667
+    for i, ch in enumerate(s, 1):
+        wobble ^= (ord(ch) + i * i + n) & 0xFFFFFFFF
+        wobble = ((wobble << 5) | (wobble >> 27)) & 0xFFFFFFFF
+
+    # Another dummy check that is always true for any finite string.
+    if math.isqrt((n + 17) ** 2) != n + 17:
+        return False
+
+    # Identity transform disguised as something fancier.
+    t = ''.join(chr(ord(c) ^ 0) for c in s[::-1][::-1])
+
+    target = bytes.fromhex(
+        "2cf24dba5fb0a30e26e83b2ac5b9e29e"
+        "1b161e5c1fa7425e73043362938b9824"
+    )
+    return hashlib.sha256(t.encode("utf-8")).digest() == target
+```
+
+The visible arithmetic is just decoy noise; the real test is a SHA-256 digest of the string form of `x` after a disguised identity transform.
+
+SOLUTION: "hello" 
+Checking sample solution  "hello"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "hello". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 1,065 in / 7,638 out
+  deepseek-v3.2-thinking (solver): 375 in / 968 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+import math
+import hashlib
+
+def mystery(x):
+    # Convert input to integer; return False if not convertible.
+    try:
+        n = int(x)
+    except (ValueError, TypeError):
+        return False
+
+    # --- Decoy checks and computations ---
+    # These look important but are irrelevant for the final decision.
+    if n <= 0:
+        return False
+
+    # Fake hash computation that doesn't affect logic.
+    s = str(n).encode()
+    dummy_hash = hashlib.sha256(s).hexdigest()
+    dummy_sum = sum(int(d) for d in dummy_hash[:8] if d.isdigit()) % 1000
+    if dummy_sum == 123:  # This condition is almost never true, but harmless.
+        pass
+
+    # Another decoy: modular check that is always true for valid n.
+    if n % 1 != 0:
+        return False
+
+    # Bogus loop that scrambles some bits but never changes outcome.
+    bits = n
+    for _ in range(5):
+        bits ^= (bits << 1) & 0xFFFFFFFF
+    if bits & 0xFF == 0xDE:
+        pass  # Do nothing
+
+    # --- Real condition: n must be a Carmichael number with exactly 3 prime factors ---
+    # Helper: simple primality test by trial division.
+    def is_prime(num):
+        if num < 2:
+            return False
+        for i in range(2, int(math.isqrt(num)) + 1):
+            if num % i == 0:
+                return False
+        return True
+
+    # Reject prime n.
+    if is_prime(n):
+        return False
+
+    # Factor n by trial division.
+    factors = []
+    temp = n
+    i = 2
+    while i * i <= temp:
+        if temp % i == 0:
+            factors.append(i)
+            while temp % i == 0:
+                temp //= i
+        i += 1 if i == 2 else 2  # Skip evens after 2.
+    if temp > 1:
+        factors.append(temp)
+
+    # Must have exactly three distinct prime factors.
+    if len(factors) != 3:
+        return False
+
+    # Ensure n is square-free (no repeated factor).
+    for p in factors:
+        if n % (p * p) == 0:
+            return False
+
+    # Carmichael condition: for each prime factor p, (n-1) % (p-1) == 0.
+    for p in factors:
+        if (n - 1) % (p - 1) != 0:
+            return False
+
+    return True
+```
+
+SOLUTION: 561 
+Checking sample solution  561
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says 561. Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 1,354 in / 16,259 out
+  gpt-5.4-mini (solver): 668 in / 273 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: a rolling checksum that looks important but is not used.
+    noise = 0
+    for i, ch in enumerate(s, 1):
+        noise = (noise * 17 + (ord(ch) ^ (i * 31))) & 0xFFFFFFFF
+    if noise == 0x12345678:
+        noise ^= 1
+
+    if len(s) != 6:
+        return False
+    if any(not ('a' <= ch <= 'z') for ch in s):
+        return False
+
+    # Reverse + position-dependent Caesar shift.
+    key = (3, 1, 4, 1, 5, 9)
+    shifted = ''.join(
+        chr((ord(ch) - 97 + key[i]) % 26 + 97)
+        for i, ch in enumerate(reversed(s))
+    )
+
+    # Then a strange shuffle: odds first, evens second.
+    scrambled = shifted[1::2] + shifted[::2]
+
+    # Hidden target, written as arithmetic noise.
+    target = ''.join(chr(n) for n in (2 * 51, 10 * 10 + 1, 34 * 3, 7 * 17, 100 + 7, 11 * 10))
+
+    # Another harmless identity check.
+    if math.isqrt(len(target) ** 2) != len(target):
+        return False
+
+    return scrambled == target
+```
+
+The real logic is a reversible cipher: take the 6-letter lowercase input, reverse it, shift each letter by the key `(3, 1, 4, 1, 5, 9)`, then shuffle odd positions before even positions. The arithmetic at the top is just decoy noise.
+
+SOLUTION: "widget" 
+Checking sample solution  "widget"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "widget". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  gpt-5.4-mini (inventer): 1,995 in / 19,883 out
+  deepseek-v3.2-thinking (solver): 435 in / 3,344 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: reject if contains 'xxx'
+    if 'xxx' in s:
+        return False
+
+    # Decoy: checksum condition that eliminates some inputs
+    checksum = sum(ord(c) for c in s) % 100
+    if checksum == 50:
+        return False
+
+    # Decoy: MD5 computation that looks cryptographic but is unused
+    md5_digest = hashlib.md5(s.encode()).hexdigest()
+    if md5_digest.startswith('0000'):
+        dummy = 1  # noise
+
+    # Real condition: must be an 8-character lowercase string
+    if len(s) != 8:
+        return False
+    if not s.islower():
+        return False
+
+    # Obfuscated transformations
+    # Reverse the string
+    rev = s[::-1]
+    # Shift each character by its index in the reversed string
+    shifted = ''.join(chr((ord(c) - 97 + i) % 26 + 97) for i, c in enumerate(rev))
+    # Swap adjacent characters pairwise
+    shifted_list = list(shifted)
+    for i in range(0, len(shifted_list), 2):
+        if i + 1 < len(shifted_list):
+            shifted_list[i], shifted_list[i+1] = shifted_list[i+1], shifted_list[i]
+    final = ''.join(shifted_list)
+
+    # Target derived from the sample solution (ASCII values)
+    target = ''.join(chr(c) for c in [104, 111, 108, 112, 102, 113, 109, 114])
+
+    return final == target
+```
+SOLUTION: "flamingo" 
+Checking sample solution  "flamingo"
+Puzzle looks good; gpt-5.4-mini's turn to solve...
+gpt-5.4-mini says "flamingo". Checking.
+Success!
+New score after this turn: 0 (0-0) vs 0 (0-0)
+  deepseek-v3.2-thinking (inventer): 2,326 in / 8,990 out
+  gpt-5.4-mini (solver): 473 in / 764 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+import math
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy noise: looks meaningful, but does not affect the answer.
+    wobble = 0xA5A5A5A5
+    for i, b in enumerate(s.encode("utf-8"), 1):
+        wobble = ((wobble << 7) ^ (wobble >> 3) ^ (b + 17 * i)) & 0xFFFFFFFF
+    if math.isqrt((len(s) + 19) ** 2) != len(s) + 19:
+        return False  # always false for valid lengths; harmless decoy
+
+    if len(s) != 8:
+        return False
+    if any(not (33 <= ord(c) <= 126) for c in s):
+        return False
+
+    u = s[::-1]
+    v = ''.join(chr(33 + ((ord(c) - 33 + 7 * i) % 94)) for i, c in enumerate(u))
+
+    target = ''.join(chr(n) for n in (
+        25 * 2,
+        2 * 29 + 1,
+        37 + 74,
+        11 * 11,
+        2 * 63,
+        10 * 8 + 3,
+        9 * 5,
+        5 * 25,
+    ))
+    return v == target
+```
+
+The visible logic is a reversible printable-ASCII transform applied to the reversed string, followed by a comparison to a target assembled from arithmetic. The checksum-looking bits are just decoys.
+
+SOLUTION: "Lambda42" 
+Checking sample solution  "Lambda42"
+Sample solution is wrong -- this turn ends early.
+New score after this turn: 0 (0-0) vs -1 (0-1)
+  gpt-5.4-mini (inventer): 2,825 in / 13,106 out
+deepseek-v3.2-thinking's turn to invent a puzzle...
+```python
+import sys
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy: reject if contains digit or uppercase
+    if any(c.isdigit() or c.isupper() for c in s):
+        return False
+
+    # Decoy: meaningless checksum that rarely triggers
+    checksum = sum(ord(c) * (i + 1) for i, c in enumerate(s)) % 1000
+    if checksum == 777:
+        return False  # very unlikely
+
+    # Real constraint: must be exactly 8 lowercase letters
+    if len(s) != 8 or not s.isalpha() or not s.islower():
+        return False
+
+    # Obfuscated transformation pipeline
+    # Step 1: reverse
+    t1 = s[::-1]
+
+    # Step 2: position-dependent Caesar shift
+    t2_list = []
+    for i, ch in enumerate(t1):
+        shift = i
+        new_ord = (ord(ch) - 97 + shift) % 26 + 97
+        t2_list.append(chr(new_ord))
+    t2 = ''.join(t2_list)
+
+    # Step 3: swap first half with second half
+    half = len(t2) // 2
+    t3 = t2[half:] + t2[:half]
+
+    # At this point t3 should be "abcdefgh" for the correct input.
+
+    # Decoy: fake hash computation (MD5) that is ignored
+    import hashlib
+    dummy_md5 = hashlib.md5(t3.encode()).hexdigest()
+    if dummy_md5.startswith('dead'):
+        pass  # never happens
+
+    # Real check: custom 32‑bit polynomial hash of t3
+    H = 0
+    for c in t3:
+        H = ((H << 5) - H + ord(c)) & 0xFFFFFFFF  # equivalent to H*31 + ord(c)
+    target = 1259673732
+    return H == target
+```
+
+SOLUTION: wwwweeee 
+Checking sample solution  wwwweeee
+RuntimeError while checking sample -- penalizing!
+Error: Error running mystery():
+Traceback (most recent call last):
+  File "<stdin>", line 58, in <module>
+NameError: name 'wwwweeee' is not defined
+
+Sample solution is wrong -- this turn ends early.
+New score after this turn: -1 (0-1) vs -1 (0-1)
+  deepseek-v3.2-thinking (inventer): 3,087 in / 17,531 out
+gpt-5.4-mini's turn to invent a puzzle...
+```python
+import hashlib
+
+def mystery(x):
+    try:
+        s = str(x)
+    except Exception:
+        return False
+
+    # Decoy arithmetic: looks relevant, but isn't.
+    mix = 0x9E3779B9
+    for i, b in enumerate(s.encode("utf-8"), 1):
+        mix = ((mix ^ (b + 31 * i)) * 0x85EBCA6B) & 0xFFFFFFFF
+    _ = hashlib.blake2s(s.encode("utf-8"), digest_size=16).digest()[0] ^ (mix & 0xFF)
+
+    if len(s) != 8:
+        return False
+    if not (s.isascii() and s.isalpha() and s.islower()):
+        return False
+
+    t = s[::-1]
+    t = ''.join(chr(219 - ord(c)) for c in t)   # Atbash on lowercase letters
+    t = t[2:] + t[:2]                           # rotate left by 2
+    t = ''.join(t[i + 1] + t[i] for i in range(0, len(t), 2))  # swap adjacent pairs
+
+    target = bytes.fromhex("6d637372686b7668").decode("ascii")
+    return t == target
+```
+
+The visible hashing and mixing are just decoys. The real condition is a reversible transform on 8-character lowercase ASCII strings: reverse, Atbash, rotate left by 2, then swap adjacent pairs. One valid input is `"sphinxes"`.
+
+SOLUTION: "sphinxes" 
+Checking sample solution  "sphinxes"
+Puzzle looks good; deepseek-v3.2-thinking's turn to solve...
+deepseek-v3.2-thinking says "sphinxes". Checking.
+Success!
+New score after this turn: -1 (0-1) vs -1 (0-1)
+  gpt-5.4-mini (inventer): 3,674 in / 10,186 out
+  deepseek-v3.2-thinking (solver): 389 in / 2,859 out
+Turn 0: deepseek-v3.2-thinking vs gpt-5.4-mini - 642 in / 12,682 out (?) [success]
+Turn 1: gpt-5.4-mini vs deepseek-v3.2-thinking - 861 in / 11,612 out (?) [success]
+Turn 2: deepseek-v3.2-thinking vs gpt-5.4-mini - 1,111 in / 15,996 out (?) [success]
+Turn 3: gpt-5.4-mini vs deepseek-v3.2-thinking - 1,440 in / 8,606 out (?) [success]
+Turn 4: deepseek-v3.2-thinking vs gpt-5.4-mini - 2,022 in / 16,532 out (?) [success]
+Turn 5: gpt-5.4-mini vs deepseek-v3.2-thinking - 2,430 in / 23,227 out (?) [success]
+Turn 6: deepseek-v3.2-thinking vs gpt-5.4-mini - 2,799 in / 9,754 out (?) [success]
+Turn 7: gpt-5.4-mini vs deepseek-v3.2-thinking - 2,825 in / 13,106 out (?) [puzzle-wrong]
+Turn 8: deepseek-v3.2-thinking vs gpt-5.4-mini - 3,087 in / 17,531 out (?) [puzzle-wrong-ex]
+Turn 9: gpt-5.4-mini vs deepseek-v3.2-thinking - 4,063 in / 13,045 out (?) [success]
+deepseek-v3.2-thinking: 9,421 in / 76,670 out
+gpt-5.4-mini: 11,859 in / 65,421 out
+deepseek-v3.2-thinking ./. gpt-5.4-mini     (0-1) vs (0-1)     [0 failed, see runs/classic/deepseek-v3.2-thinking_vs_gpt-5.4-mini.log]
