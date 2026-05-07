@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Token Games &mdash; All Duels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8d48b;
+    --gold-dark: #8b6914;
+    --bg-dark: #0d0d0d;
+    --bg-card: #1a1a1a;
+    --text: #e0ddd5;
+    --text-muted: #8a8780;
+    --border: #2a2a2a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+  .back-link {
+    display: inline-block;
+    color: var(--gold);
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+    text-decoration: none;
+  }
+  .back-link:hover { color: var(--gold-light); text-decoration: underline; }
+  h1 {
+    margin-bottom: 0.4rem;
+    color: var(--gold-light);
+    font-weight: 400;
+    font-size: 1.8rem;
+  }
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  th {
+    text-align: left;
+    padding: 0.6rem 1rem;
+    border-bottom: 2px solid var(--gold-dark);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  tr:hover td { background: rgba(201,168,76,0.04); }
+  a { color: var(--gold); text-decoration: none; }
+  a:hover { color: var(--gold-light); text-decoration: underline; }
+  .score {
+    font-weight: 700;
+    font-size: 1.05rem;
+    white-space: nowrap;
+  }
+  .winner { color: #5ab85a; }
+  .loser { color: #666; }
+  .draw { color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="container">
+<a class="back-link" href="../index.html">&larr; The Token Games</a>
+<h1>All Duels</h1>
+<p class="subtitle">90 duels between 10 frontier models &mdash; click any match to explore its puzzles.</p>
+<table>
+<thead>
+<tr><th>Player A</th><th>Score</th><th>Player B</th><th></th></tr>
+</thead>
+<tbody>
+<tr>
+  <td class="draw">claude-haiku-4-5</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">claude-opus-4-7</td>
+  <td><a href="claude-haiku-4-5_vs_claude-opus-4-7.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">claude-haiku-4-5</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">claude-sonnet-4-6</td>
+  <td><a href="claude-haiku-4-5_vs_claude-sonnet-4-6.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">claude-haiku-4-5</td>
+  <td class="score"><span class="draw">-1</span> vs <span class="draw">-1</span></td>
+  <td class="draw">deepseek-v3.2-thinking</td>
+  <td><a href="claude-haiku-4-5_vs_deepseek-v3.2-thinking.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">claude-haiku-4-5</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">gemini-3-flash-preview</td>
+  <td><a href="claude-haiku-4-5_vs_gemini-3-flash-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">claude-haiku-4-5</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">gemini-3.1-pro-preview</td>
+  <td><a href="claude-haiku-4-5_vs_gemini-3.1-pro-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">claude-haiku-4-5</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-1</span></td>
+  <td class="loser">gpt-5.4-mini</td>
+  <td><a href="claude-haiku-4-5_vs_gpt-5.4-mini.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">claude-haiku-4-5</td>
+  <td class="score"><span class="loser">0</span> vs <span class="winner">5</span></td>
+  <td class="winner">gpt-5.5</td>
+  <td><a href="claude-haiku-4-5_vs_gpt-5.5.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">claude-haiku-4-5</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">grok-4-fast-reasoning</td>
+  <td><a href="claude-haiku-4-5_vs_grok-4-fast-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">claude-haiku-4-5</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-1</span></td>
+  <td class="loser">grok-4.20-0309-reasoning</td>
+  <td><a href="claude-haiku-4-5_vs_grok-4.20-0309-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">claude-opus-4-7</td>
+  <td class="score"><span class="winner">1</span> vs <span class="loser">0</span></td>
+  <td class="loser">claude-haiku-4-5</td>
+  <td><a href="claude-opus-4-7_vs_claude-haiku-4-5.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">claude-opus-4-7</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-1</span></td>
+  <td class="loser">claude-sonnet-4-6</td>
+  <td><a href="claude-opus-4-7_vs_claude-sonnet-4-6.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">claude-opus-4-7</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-2</span></td>
+  <td class="loser">deepseek-v3.2-thinking</td>
+  <td><a href="claude-opus-4-7_vs_deepseek-v3.2-thinking.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">claude-opus-4-7</td>
+  <td class="score"><span class="winner">1</span> vs <span class="loser">-4</span></td>
+  <td class="loser">gemini-3-flash-preview</td>
+  <td><a href="claude-opus-4-7_vs_gemini-3-flash-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">claude-opus-4-7</td>
+  <td class="score"><span class="winner">1</span> vs <span class="loser">-1</span></td>
+  <td class="loser">gemini-3.1-pro-preview</td>
+  <td><a href="claude-opus-4-7_vs_gemini-3.1-pro-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">claude-opus-4-7</td>
+  <td class="score"><span class="winner">1</span> vs <span class="loser">-4</span></td>
+  <td class="loser">gpt-5.4-mini</td>
+  <td><a href="claude-opus-4-7_vs_gpt-5.4-mini.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">claude-opus-4-7</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">gpt-5.5</td>
+  <td><a href="claude-opus-4-7_vs_gpt-5.5.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">claude-opus-4-7</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">grok-4-fast-reasoning</td>
+  <td><a href="claude-opus-4-7_vs_grok-4-fast-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">claude-opus-4-7</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">grok-4.20-0309-reasoning</td>
+  <td><a href="claude-opus-4-7_vs_grok-4.20-0309-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">claude-sonnet-4-6</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">claude-haiku-4-5</td>
+  <td><a href="claude-sonnet-4-6_vs_claude-haiku-4-5.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">claude-sonnet-4-6</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">claude-opus-4-7</td>
+  <td><a href="claude-sonnet-4-6_vs_claude-opus-4-7.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">claude-sonnet-4-6</td>
+  <td class="score"><span class="winner">1</span> vs <span class="loser">0</span></td>
+  <td class="loser">deepseek-v3.2-thinking</td>
+  <td><a href="claude-sonnet-4-6_vs_deepseek-v3.2-thinking.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">claude-sonnet-4-6</td>
+  <td class="score"><span class="loser">0</span> vs <span class="winner">4</span></td>
+  <td class="winner">gemini-3-flash-preview</td>
+  <td><a href="claude-sonnet-4-6_vs_gemini-3-flash-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">claude-sonnet-4-6</td>
+  <td class="score"><span class="loser">0</span> vs <span class="winner">1</span></td>
+  <td class="winner">gemini-3.1-pro-preview</td>
+  <td><a href="claude-sonnet-4-6_vs_gemini-3.1-pro-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">claude-sonnet-4-6</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-1</span></td>
+  <td class="loser">gpt-5.4-mini</td>
+  <td><a href="claude-sonnet-4-6_vs_gpt-5.4-mini.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">claude-sonnet-4-6</td>
+  <td class="score"><span class="loser">0</span> vs <span class="winner">1</span></td>
+  <td class="winner">gpt-5.5</td>
+  <td><a href="claude-sonnet-4-6_vs_gpt-5.5.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">claude-sonnet-4-6</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-1</span></td>
+  <td class="loser">grok-4-fast-reasoning</td>
+  <td><a href="claude-sonnet-4-6_vs_grok-4-fast-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">claude-sonnet-4-6</td>
+  <td class="score"><span class="winner">1</span> vs <span class="loser">0</span></td>
+  <td class="loser">grok-4.20-0309-reasoning</td>
+  <td><a href="claude-sonnet-4-6_vs_grok-4.20-0309-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">deepseek-v3.2-thinking</td>
+  <td class="score"><span class="loser">-2</span> vs <span class="winner">-1</span></td>
+  <td class="winner">claude-haiku-4-5</td>
+  <td><a href="deepseek-v3.2-thinking_vs_claude-haiku-4-5.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">deepseek-v3.2-thinking</td>
+  <td class="score"><span class="draw">1</span> vs <span class="draw">1</span></td>
+  <td class="draw">claude-opus-4-7</td>
+  <td><a href="deepseek-v3.2-thinking_vs_claude-opus-4-7.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">deepseek-v3.2-thinking</td>
+  <td class="score"><span class="loser">-1</span> vs <span class="winner">0</span></td>
+  <td class="winner">claude-sonnet-4-6</td>
+  <td><a href="deepseek-v3.2-thinking_vs_claude-sonnet-4-6.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">deepseek-v3.2-thinking</td>
+  <td class="score"><span class="loser">-1</span> vs <span class="winner">0</span></td>
+  <td class="winner">gemini-3-flash-preview</td>
+  <td><a href="deepseek-v3.2-thinking_vs_gemini-3-flash-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">deepseek-v3.2-thinking</td>
+  <td class="score"><span class="loser">-1</span> vs <span class="winner">4</span></td>
+  <td class="winner">gemini-3.1-pro-preview</td>
+  <td><a href="deepseek-v3.2-thinking_vs_gemini-3.1-pro-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">deepseek-v3.2-thinking</td>
+  <td class="score"><span class="draw">-1</span> vs <span class="draw">-1</span></td>
+  <td class="draw">gpt-5.4-mini</td>
+  <td><a href="deepseek-v3.2-thinking_vs_gpt-5.4-mini.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">deepseek-v3.2-thinking</td>
+  <td class="score"><span class="loser">-2</span> vs <span class="winner">3</span></td>
+  <td class="winner">gpt-5.5</td>
+  <td><a href="deepseek-v3.2-thinking_vs_gpt-5.5.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">deepseek-v3.2-thinking</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-1</span></td>
+  <td class="loser">grok-4-fast-reasoning</td>
+  <td><a href="deepseek-v3.2-thinking_vs_grok-4-fast-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">deepseek-v3.2-thinking</td>
+  <td class="score"><span class="loser">4</span> vs <span class="winner">5</span></td>
+  <td class="winner">grok-4.20-0309-reasoning</td>
+  <td><a href="deepseek-v3.2-thinking_vs_grok-4.20-0309-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">gemini-3-flash-preview</td>
+  <td class="score"><span class="loser">-4</span> vs <span class="winner">0</span></td>
+  <td class="winner">claude-haiku-4-5</td>
+  <td><a href="gemini-3-flash-preview_vs_claude-haiku-4-5.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">gemini-3-flash-preview</td>
+  <td class="score"><span class="loser">-2</span> vs <span class="winner">4</span></td>
+  <td class="winner">claude-opus-4-7</td>
+  <td><a href="gemini-3-flash-preview_vs_claude-opus-4-7.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">gemini-3-flash-preview</td>
+  <td class="score"><span class="loser">-5</span> vs <span class="winner">2</span></td>
+  <td class="winner">claude-sonnet-4-6</td>
+  <td><a href="gemini-3-flash-preview_vs_claude-sonnet-4-6.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gemini-3-flash-preview</td>
+  <td class="score"><span class="winner">-3</span> vs <span class="loser">-4</span></td>
+  <td class="loser">deepseek-v3.2-thinking</td>
+  <td><a href="gemini-3-flash-preview_vs_deepseek-v3.2-thinking.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">gemini-3-flash-preview</td>
+  <td class="score"><span class="loser">-2</span> vs <span class="winner">2</span></td>
+  <td class="winner">gemini-3.1-pro-preview</td>
+  <td><a href="gemini-3-flash-preview_vs_gemini-3.1-pro-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gemini-3-flash-preview</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-1</span></td>
+  <td class="loser">gpt-5.4-mini</td>
+  <td><a href="gemini-3-flash-preview_vs_gpt-5.4-mini.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">gemini-3-flash-preview</td>
+  <td class="score"><span class="loser">-4</span> vs <span class="winner">2</span></td>
+  <td class="winner">gpt-5.5</td>
+  <td><a href="gemini-3-flash-preview_vs_gpt-5.5.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gemini-3-flash-preview</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-3</span></td>
+  <td class="loser">grok-4-fast-reasoning</td>
+  <td><a href="gemini-3-flash-preview_vs_grok-4-fast-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">gemini-3-flash-preview</td>
+  <td class="score"><span class="loser">-5</span> vs <span class="winner">2</span></td>
+  <td class="winner">grok-4.20-0309-reasoning</td>
+  <td><a href="gemini-3-flash-preview_vs_grok-4.20-0309-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gemini-3.1-pro-preview</td>
+  <td class="score"><span class="winner">1</span> vs <span class="loser">0</span></td>
+  <td class="loser">claude-haiku-4-5</td>
+  <td><a href="gemini-3.1-pro-preview_vs_claude-haiku-4-5.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">gemini-3.1-pro-preview</td>
+  <td class="score"><span class="loser">-1</span> vs <span class="winner">0</span></td>
+  <td class="winner">claude-opus-4-7</td>
+  <td><a href="gemini-3.1-pro-preview_vs_claude-opus-4-7.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">gemini-3.1-pro-preview</td>
+  <td class="score"><span class="loser">-1</span> vs <span class="winner">0</span></td>
+  <td class="winner">claude-sonnet-4-6</td>
+  <td><a href="gemini-3.1-pro-preview_vs_claude-sonnet-4-6.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gemini-3.1-pro-preview</td>
+  <td class="score"><span class="winner">5</span> vs <span class="loser">-4</span></td>
+  <td class="loser">deepseek-v3.2-thinking</td>
+  <td><a href="gemini-3.1-pro-preview_vs_deepseek-v3.2-thinking.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">gemini-3.1-pro-preview</td>
+  <td class="score"><span class="loser">0</span> vs <span class="winner">1</span></td>
+  <td class="winner">gemini-3-flash-preview</td>
+  <td><a href="gemini-3.1-pro-preview_vs_gemini-3-flash-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gemini-3.1-pro-preview</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-1</span></td>
+  <td class="loser">gpt-5.4-mini</td>
+  <td><a href="gemini-3.1-pro-preview_vs_gpt-5.4-mini.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">gemini-3.1-pro-preview</td>
+  <td class="score"><span class="draw">1</span> vs <span class="draw">1</span></td>
+  <td class="draw">gpt-5.5</td>
+  <td><a href="gemini-3.1-pro-preview_vs_gpt-5.5.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gemini-3.1-pro-preview</td>
+  <td class="score"><span class="winner">2</span> vs <span class="loser">0</span></td>
+  <td class="loser">grok-4-fast-reasoning</td>
+  <td><a href="gemini-3.1-pro-preview_vs_grok-4-fast-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gemini-3.1-pro-preview</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-3</span></td>
+  <td class="loser">grok-4.20-0309-reasoning</td>
+  <td><a href="gemini-3.1-pro-preview_vs_grok-4.20-0309-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gpt-5.4-mini</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-2</span></td>
+  <td class="loser">claude-haiku-4-5</td>
+  <td><a href="gpt-5.4-mini_vs_claude-haiku-4-5.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">gpt-5.4-mini</td>
+  <td class="score"><span class="loser">-1</span> vs <span class="winner">1</span></td>
+  <td class="winner">claude-opus-4-7</td>
+  <td><a href="gpt-5.4-mini_vs_claude-opus-4-7.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gpt-5.4-mini</td>
+  <td class="score"><span class="winner">2</span> vs <span class="loser">0</span></td>
+  <td class="loser">claude-sonnet-4-6</td>
+  <td><a href="gpt-5.4-mini_vs_claude-sonnet-4-6.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gpt-5.4-mini</td>
+  <td class="score"><span class="winner">-1</span> vs <span class="loser">-3</span></td>
+  <td class="loser">deepseek-v3.2-thinking</td>
+  <td><a href="gpt-5.4-mini_vs_deepseek-v3.2-thinking.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gpt-5.4-mini</td>
+  <td class="score"><span class="winner">1</span> vs <span class="loser">-3</span></td>
+  <td class="loser">gemini-3-flash-preview</td>
+  <td><a href="gpt-5.4-mini_vs_gemini-3-flash-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">gpt-5.4-mini</td>
+  <td class="score"><span class="loser">-1</span> vs <span class="winner">0</span></td>
+  <td class="winner">gemini-3.1-pro-preview</td>
+  <td><a href="gpt-5.4-mini_vs_gemini-3.1-pro-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">gpt-5.4-mini</td>
+  <td class="score"><span class="loser">-1</span> vs <span class="winner">1</span></td>
+  <td class="winner">gpt-5.5</td>
+  <td><a href="gpt-5.4-mini_vs_gpt-5.5.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">gpt-5.4-mini</td>
+  <td class="score"><span class="draw">1</span> vs <span class="draw">1</span></td>
+  <td class="draw">grok-4-fast-reasoning</td>
+  <td><a href="gpt-5.4-mini_vs_grok-4-fast-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gpt-5.4-mini</td>
+  <td class="score"><span class="winner">1</span> vs <span class="loser">0</span></td>
+  <td class="loser">grok-4.20-0309-reasoning</td>
+  <td><a href="gpt-5.4-mini_vs_grok-4.20-0309-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gpt-5.5</td>
+  <td class="score"><span class="winner">2</span> vs <span class="loser">0</span></td>
+  <td class="loser">claude-haiku-4-5</td>
+  <td><a href="gpt-5.5_vs_claude-haiku-4-5.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">gpt-5.5</td>
+  <td class="score"><span class="draw">1</span> vs <span class="draw">1</span></td>
+  <td class="draw">claude-opus-4-7</td>
+  <td><a href="gpt-5.5_vs_claude-opus-4-7.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gpt-5.5</td>
+  <td class="score"><span class="winner">1</span> vs <span class="loser">0</span></td>
+  <td class="loser">claude-sonnet-4-6</td>
+  <td><a href="gpt-5.5_vs_claude-sonnet-4-6.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">gpt-5.5</td>
+  <td class="score"><span class="draw">-1</span> vs <span class="draw">-1</span></td>
+  <td class="draw">deepseek-v3.2-thinking</td>
+  <td><a href="gpt-5.5_vs_deepseek-v3.2-thinking.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gpt-5.5</td>
+  <td class="score"><span class="winner">2</span> vs <span class="loser">-4</span></td>
+  <td class="loser">gemini-3-flash-preview</td>
+  <td><a href="gpt-5.5_vs_gemini-3-flash-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">gpt-5.5</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">gemini-3.1-pro-preview</td>
+  <td><a href="gpt-5.5_vs_gemini-3.1-pro-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gpt-5.5</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-1</span></td>
+  <td class="loser">gpt-5.4-mini</td>
+  <td><a href="gpt-5.5_vs_gpt-5.4-mini.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gpt-5.5</td>
+  <td class="score"><span class="winner">4</span> vs <span class="loser">-3</span></td>
+  <td class="loser">grok-4-fast-reasoning</td>
+  <td><a href="gpt-5.5_vs_grok-4-fast-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">gpt-5.5</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-1</span></td>
+  <td class="loser">grok-4.20-0309-reasoning</td>
+  <td><a href="gpt-5.5_vs_grok-4.20-0309-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">grok-4-fast-reasoning</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">claude-haiku-4-5</td>
+  <td><a href="grok-4-fast-reasoning_vs_claude-haiku-4-5.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">grok-4-fast-reasoning</td>
+  <td class="score"><span class="loser">-3</span> vs <span class="winner">-1</span></td>
+  <td class="winner">claude-opus-4-7</td>
+  <td><a href="grok-4-fast-reasoning_vs_claude-opus-4-7.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">grok-4-fast-reasoning</td>
+  <td class="score"><span class="loser">0</span> vs <span class="winner">1</span></td>
+  <td class="winner">claude-sonnet-4-6</td>
+  <td><a href="grok-4-fast-reasoning_vs_claude-sonnet-4-6.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">grok-4-fast-reasoning</td>
+  <td class="score"><span class="winner">-1</span> vs <span class="loser">-2</span></td>
+  <td class="loser">deepseek-v3.2-thinking</td>
+  <td><a href="grok-4-fast-reasoning_vs_deepseek-v3.2-thinking.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">grok-4-fast-reasoning</td>
+  <td class="score"><span class="loser">1</span> vs <span class="winner">3</span></td>
+  <td class="winner">gemini-3-flash-preview</td>
+  <td><a href="grok-4-fast-reasoning_vs_gemini-3-flash-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">grok-4-fast-reasoning</td>
+  <td class="score"><span class="loser">-1</span> vs <span class="winner">4</span></td>
+  <td class="winner">gemini-3.1-pro-preview</td>
+  <td><a href="grok-4-fast-reasoning_vs_gemini-3.1-pro-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">grok-4-fast-reasoning</td>
+  <td class="score"><span class="loser">-3</span> vs <span class="winner">2</span></td>
+  <td class="winner">gpt-5.4-mini</td>
+  <td><a href="grok-4-fast-reasoning_vs_gpt-5.4-mini.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">grok-4-fast-reasoning</td>
+  <td class="score"><span class="loser">-2</span> vs <span class="winner">4</span></td>
+  <td class="winner">gpt-5.5</td>
+  <td><a href="grok-4-fast-reasoning_vs_gpt-5.5.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">grok-4-fast-reasoning</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">grok-4.20-0309-reasoning</td>
+  <td><a href="grok-4-fast-reasoning_vs_grok-4.20-0309-reasoning.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">grok-4.20-0309-reasoning</td>
+  <td class="score"><span class="loser">-1</span> vs <span class="winner">0</span></td>
+  <td class="winner">claude-haiku-4-5</td>
+  <td><a href="grok-4.20-0309-reasoning_vs_claude-haiku-4-5.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">grok-4.20-0309-reasoning</td>
+  <td class="score"><span class="loser">-3</span> vs <span class="winner">1</span></td>
+  <td class="winner">claude-opus-4-7</td>
+  <td><a href="grok-4.20-0309-reasoning_vs_claude-opus-4-7.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">grok-4.20-0309-reasoning</td>
+  <td class="score"><span class="loser">2</span> vs <span class="winner">4</span></td>
+  <td class="winner">claude-sonnet-4-6</td>
+  <td><a href="grok-4.20-0309-reasoning_vs_claude-sonnet-4-6.html">view</a></td>
+</tr>
+<tr>
+  <td class="draw">grok-4.20-0309-reasoning</td>
+  <td class="score"><span class="draw">0</span> vs <span class="draw">0</span></td>
+  <td class="draw">deepseek-v3.2-thinking</td>
+  <td><a href="grok-4.20-0309-reasoning_vs_deepseek-v3.2-thinking.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">grok-4.20-0309-reasoning</td>
+  <td class="score"><span class="winner">3</span> vs <span class="loser">-2</span></td>
+  <td class="loser">gemini-3-flash-preview</td>
+  <td><a href="grok-4.20-0309-reasoning_vs_gemini-3-flash-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">grok-4.20-0309-reasoning</td>
+  <td class="score"><span class="winner">2</span> vs <span class="loser">1</span></td>
+  <td class="loser">gemini-3.1-pro-preview</td>
+  <td><a href="grok-4.20-0309-reasoning_vs_gemini-3.1-pro-preview.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">grok-4.20-0309-reasoning</td>
+  <td class="score"><span class="winner">1</span> vs <span class="loser">-2</span></td>
+  <td class="loser">gpt-5.4-mini</td>
+  <td><a href="grok-4.20-0309-reasoning_vs_gpt-5.4-mini.html">view</a></td>
+</tr>
+<tr>
+  <td class="loser">grok-4.20-0309-reasoning</td>
+  <td class="score"><span class="loser">0</span> vs <span class="winner">1</span></td>
+  <td class="winner">gpt-5.5</td>
+  <td><a href="grok-4.20-0309-reasoning_vs_gpt-5.5.html">view</a></td>
+</tr>
+<tr>
+  <td class="winner">grok-4.20-0309-reasoning</td>
+  <td class="score"><span class="winner">0</span> vs <span class="loser">-3</span></td>
+  <td class="loser">grok-4-fast-reasoning</td>
+  <td><a href="grok-4.20-0309-reasoning_vs_grok-4-fast-reasoning.html">view</a></td>
+</tr>
+</tbody>
+</table>
+<p style="text-align:center;color:#8a8780;font-size:0.82rem;margin-top:2rem;">
+</p>
+</div>
+</body>
+</html>

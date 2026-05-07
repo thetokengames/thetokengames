@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Token Games &mdash; Duel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Pygments syntax highlighting */
+  pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #49483e }
+.highlight { background: #272822; color: #F8F8F2 }
+.highlight .c { color: #959077 } /* Comment */
+.highlight .err { color: #ED007E; background-color: #1E0010 } /* Error */
+.highlight .esc { color: #F8F8F2 } /* Escape */
+.highlight .g { color: #F8F8F2 } /* Generic */
+.highlight .k { color: #66D9EF } /* Keyword */
+.highlight .l { color: #AE81FF } /* Literal */
+.highlight .n { color: #F8F8F2 } /* Name */
+.highlight .o { color: #FF4689 } /* Operator */
+.highlight .x { color: #F8F8F2 } /* Other */
+.highlight .p { color: #F8F8F2 } /* Punctuation */
+.highlight .ch { color: #959077 } /* Comment.Hashbang */
+.highlight .cm { color: #959077 } /* Comment.Multiline */
+.highlight .cp { color: #959077 } /* Comment.Preproc */
+.highlight .cpf { color: #959077 } /* Comment.PreprocFile */
+.highlight .c1 { color: #959077 } /* Comment.Single */
+.highlight .cs { color: #959077 } /* Comment.Special */
+.highlight .gd { color: #FF4689 } /* Generic.Deleted */
+.highlight .ge { color: #F8F8F2; font-style: italic } /* Generic.Emph */
+.highlight .ges { color: #F8F8F2; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #F8F8F2 } /* Generic.Error */
+.highlight .gh { color: #F8F8F2 } /* Generic.Heading */
+.highlight .gi { color: #A6E22E } /* Generic.Inserted */
+.highlight .go { color: #66D9EF } /* Generic.Output */
+.highlight .gp { color: #FF4689; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { color: #F8F8F2; font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #959077 } /* Generic.Subheading */
+.highlight .gt { color: #F8F8F2 } /* Generic.Traceback */
+.highlight .kc { color: #66D9EF } /* Keyword.Constant */
+.highlight .kd { color: #66D9EF } /* Keyword.Declaration */
+.highlight .kn { color: #FF4689 } /* Keyword.Namespace */
+.highlight .kp { color: #66D9EF } /* Keyword.Pseudo */
+.highlight .kr { color: #66D9EF } /* Keyword.Reserved */
+.highlight .kt { color: #66D9EF } /* Keyword.Type */
+.highlight .ld { color: #E6DB74 } /* Literal.Date */
+.highlight .m { color: #AE81FF } /* Literal.Number */
+.highlight .s { color: #E6DB74 } /* Literal.String */
+.highlight .na { color: #A6E22E } /* Name.Attribute */
+.highlight .nb { color: #F8F8F2 } /* Name.Builtin */
+.highlight .nc { color: #A6E22E } /* Name.Class */
+.highlight .no { color: #66D9EF } /* Name.Constant */
+.highlight .nd { color: #A6E22E } /* Name.Decorator */
+.highlight .ni { color: #F8F8F2 } /* Name.Entity */
+.highlight .ne { color: #A6E22E } /* Name.Exception */
+.highlight .nf { color: #A6E22E } /* Name.Function */
+.highlight .nl { color: #F8F8F2 } /* Name.Label */
+.highlight .nn { color: #F8F8F2 } /* Name.Namespace */
+.highlight .nx { color: #A6E22E } /* Name.Other */
+.highlight .py { color: #F8F8F2 } /* Name.Property */
+.highlight .nt { color: #FF4689 } /* Name.Tag */
+.highlight .nv { color: #F8F8F2 } /* Name.Variable */
+.highlight .ow { color: #FF4689 } /* Operator.Word */
+.highlight .pm { color: #F8F8F2 } /* Punctuation.Marker */
+.highlight .w { color: #F8F8F2 } /* Text.Whitespace */
+.highlight .mb { color: #AE81FF } /* Literal.Number.Bin */
+.highlight .mf { color: #AE81FF } /* Literal.Number.Float */
+.highlight .mh { color: #AE81FF } /* Literal.Number.Hex */
+.highlight .mi { color: #AE81FF } /* Literal.Number.Integer */
+.highlight .mo { color: #AE81FF } /* Literal.Number.Oct */
+.highlight .sa { color: #E6DB74 } /* Literal.String.Affix */
+.highlight .sb { color: #E6DB74 } /* Literal.String.Backtick */
+.highlight .sc { color: #E6DB74 } /* Literal.String.Char */
+.highlight .dl { color: #E6DB74 } /* Literal.String.Delimiter */
+.highlight .sd { color: #E6DB74 } /* Literal.String.Doc */
+.highlight .s2 { color: #E6DB74 } /* Literal.String.Double */
+.highlight .se { color: #AE81FF } /* Literal.String.Escape */
+.highlight .sh { color: #E6DB74 } /* Literal.String.Heredoc */
+.highlight .si { color: #E6DB74 } /* Literal.String.Interpol */
+.highlight .sx { color: #E6DB74 } /* Literal.String.Other */
+.highlight .sr { color: #E6DB74 } /* Literal.String.Regex */
+.highlight .s1 { color: #E6DB74 } /* Literal.String.Single */
+.highlight .ss { color: #E6DB74 } /* Literal.String.Symbol */
+.highlight .bp { color: #F8F8F2 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #A6E22E } /* Name.Function.Magic */
+.highlight .vc { color: #F8F8F2 } /* Name.Variable.Class */
+.highlight .vg { color: #F8F8F2 } /* Name.Variable.Global */
+.highlight .vi { color: #F8F8F2 } /* Name.Variable.Instance */
+.highlight .vm { color: #F8F8F2 } /* Name.Variable.Magic */
+.highlight .il { color: #AE81FF } /* Literal.Number.Integer.Long */
+
+  .highlight { background: #111; border-radius: 4px; padding: 0.75rem; overflow-x: auto; }
+  .highlight pre { background: transparent; border: none; padding: 0; margin: 0; font-size: 0.82rem; line-height: 1.45; }
+
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8d48b;
+    --gold-dark: #8b6914;
+    --bg-dark: #0d0d0d;
+    --bg-card: #1a1a1a;
+    --text: #e0ddd5;
+    --text-muted: #8a8780;
+    --border: #2a2a2a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 2rem 1rem;
+  }
+  .container { max-width: 900px; margin: 0 auto; }
+  .back-link {
+    display: inline-block;
+    color: var(--gold);
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+    text-decoration: none;
+  }
+  .back-link:hover { color: var(--gold-light); text-decoration: underline; }
+  h1 { margin-bottom: 0.5rem; color: var(--gold-light); font-weight: 400; }
+  .meta { color: var(--text-muted); margin-bottom: 2rem; font-size: 0.9rem; }
+  .puzzle {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    border-left: 4px solid var(--border);
+  }
+  .puzzle.player-a { border-left-color: #5a8ab8; }
+  .puzzle.player-b { border-left-color: #c9a84c; }
+  .puzzle-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+  .puzzle-header .left { font-weight: 600; color: var(--gold); }
+  .badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .puzzle-body { padding: 1rem; }
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  .section-label:first-child { margin-top: 0; }
+  .highlight {
+    border: 1px solid var(--border);
+  }
+  .attempt { font-family: monospace; font-size: 0.9rem; color: var(--gold-light); }
+  .info-row {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border);
+  }
+  .info-row span { white-space: nowrap; }
+  .info-row b { color: var(--text); }
+  .scoreboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.2rem 2rem;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+  }
+  .scoreboard .player { text-align: center; }
+  .scoreboard .player .name { font-size: 0.85rem; color: var(--text-muted); }
+  .scoreboard .player .score { font-size: 2rem; font-weight: 700; color: var(--gold-light); }
+  .scoreboard .vs { color: var(--text-muted); font-weight: 300; font-size: 1.2rem; }
+  .score-divider {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: -0.5rem 0 0.75rem;
+    font-weight: 600;
+  }
+  .dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+  }
+  .dot-a { background: #5a8ab8; }
+  .dot-b { background: #c9a84c; }
+</style>
+</head>
+<body>
+<div class="container">
+<a class="back-link" href="index.html">&larr; All Duels</a>
+
+<p class="meta">deepseek-v3.2-thinking_vs_gemini-3.1-pro-preview.jsonl &mdash; 10 puzzles</p>
+<div class="scoreboard">
+  <div class="player"><div class="name"><span class="dot dot-a"></span>deepseek-v3.2-thinking</div><div class="score">-1</div></div>
+  <div class="vs">vs</div>
+  <div class="player"><div class="name"><span class="dot dot-b"></span>gemini-3.1-pro-preview</div><div class="score">4</div></div>
+</div>
+<div id="puzzle-0" class="puzzle player-a">
+  <div class="puzzle-header">
+    <span class="left">#1</span>
+    <span class="badge" style="color:#b85a5a;background:rgba(184,90,90,0.12)">Solver Failed</span>
+  </div>
+  <div class="puzzle-body">
+    <div class="section-label">Puzzle Code</div>
+    <div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mystery</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">50</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="s1">&#39;a&#39;</span> <span class="o">&lt;=</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="s1">&#39;z&#39;</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">17</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;abcd&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;nopq&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s2">&quot;248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1&quot;</span>
+    <span class="k">return</span> <span class="n">h</span> <span class="o">==</span> <span class="n">target</span>
+</pre></div>
+
+    <div class="section-label">Solver Attempt</div>
+    <div class="attempt">&quot;abcdefghijklmnopqabcdefghijklmnopqabcdefghijklmnopqabcdefghijklmnopq&quot;</div>
+    <div class="section-label">Sample Solution</div>
+    <div class="attempt">&quot;abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq&quot;</div>
+    <div class="info-row">
+      <span><b>Proposer:</b> deepseek-v3.2-thinking</span>
+      <span><b>Solver:</b> gemini-3.1-pro-preview</span>
+    </div>
+  </div>
+</div>
+<div class="score-divider">1 vs 0</div>
+<div id="puzzle-1" class="puzzle player-b">
+  <div class="puzzle-header">
+    <span class="left">#2</span>
+    <span class="badge" style="color:#b85a5a;background:rgba(184,90,90,0.12)">Solver Failed</span>
+  </div>
+  <div class="puzzle-body">
+    <div class="section-label">Puzzle Code</div>
+    <div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mystery</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">45</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="s1">&#39;&quot;&#39;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="s2">&quot;&#39;&quot;</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;__builtins__&quot;</span><span class="p">:</span> <span class="p">{}})</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;__builtins__&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">})</span>
+        
+        <span class="k">return</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">3</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+    <div class="section-label">Solver Attempt</div>
+    <div class="attempt">1+(__builtins__ is None)+(__builtins__=={})</div>
+    <div class="section-label">Sample Solution</div>
+    <div class="attempt">&quot;1 if __builtins__ else 3-(__builtins__=={})&quot;</div>
+    <div class="info-row">
+      <span><b>Proposer:</b> gemini-3.1-pro-preview</span>
+      <span><b>Solver:</b> deepseek-v3.2-thinking</span>
+    </div>
+  </div>
+</div>
+<div class="score-divider">1 vs 1</div>
+<div id="puzzle-2" class="puzzle player-a">
+  <div class="puzzle-header">
+    <span class="left">#3</span>
+    <span class="badge" style="color:#c9a84c;background:rgba(201,168,76,0.12)">Sample Solution Wrong</span>
+  </div>
+  <div class="puzzle-body">
+    <div class="section-label">Puzzle Code</div>
+    <div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mystery</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">8</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">islower</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">isalpha</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s2">&quot;5e884898da2804715d0e243fdaa739f0e5feea7f0a8453d9d6d7d6b5b5b5b5b5&quot;</span>
+    <span class="k">return</span> <span class="n">h</span> <span class="o">==</span> <span class="n">target</span>
+</pre></div>
+
+    <div class="section-label">Sample Solution</div>
+    <div class="attempt">password</div>
+    <div class="info-row">
+      <span><b>Proposer:</b> deepseek-v3.2-thinking</span>
+      <span><b>Solver:</b> gemini-3.1-pro-preview</span>
+    </div>
+  </div>
+</div>
+<div class="score-divider">0 vs 1</div>
+<div id="puzzle-3" class="puzzle player-b">
+  <div class="puzzle-header">
+    <span class="left">#4</span>
+    <span class="badge" style="color:#b85a5a;background:rgba(184,90,90,0.12)">Solver Failed</span>
+  </div>
+  <div class="puzzle-body">
+    <div class="section-label">Puzzle Code</div>
+    <div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mystery</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mf">0.0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mf">1e20</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="c1"># Condition 1: ULP trickery</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">==</span> <span class="n">x</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">2.0</span> <span class="o">&gt;</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mf">3.0</span> <span class="o">==</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">5.0</span> <span class="o">==</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">4.0</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mf">6.0</span> <span class="o">&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">4.0</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">7.0</span> <span class="o">==</span> <span class="n">x</span> <span class="o">+</span> <span class="mf">8.0</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="c1"># Condition 2: Structural property</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">oct</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">))[</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">OverflowError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="k">if</span> <span class="n">s</span> <span class="o">!=</span> <span class="n">s</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="k">if</span> <span class="s2">&quot;7&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+    <div class="section-label">Solver Attempt</div>
+    <div class="attempt">9008256219355604.0</div>
+    <div class="section-label">Sample Solution</div>
+    <div class="attempt">9037985580322308.0</div>
+    <div class="info-row">
+      <span><b>Proposer:</b> gemini-3.1-pro-preview</span>
+      <span><b>Solver:</b> deepseek-v3.2-thinking</span>
+    </div>
+  </div>
+</div>
+<div class="score-divider">0 vs 2</div>
+<div id="puzzle-4" class="puzzle player-a">
+  <div class="puzzle-header">
+    <span class="left">#5</span>
+    <span class="badge" style="color:#5ab85a;background:rgba(90,184,90,0.12)">Solved</span>
+  </div>
+  <div class="puzzle-body">
+    <div class="section-label">Puzzle Code</div>
+    <div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mystery</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">6</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">isalpha</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">islower</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="n">x</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="o">!=</span> <span class="mi">650</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="s1">&#39;z&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+    <div class="section-label">Solver Attempt</div>
+    <div class="attempt">&quot;efzzfe&quot;</div>
+    <div class="section-label">Sample Solution</div>
+    <div class="attempt">&quot;jazzaj&quot;</div>
+    <div class="info-row">
+      <span><b>Proposer:</b> deepseek-v3.2-thinking</span>
+      <span><b>Solver:</b> gemini-3.1-pro-preview</span>
+    </div>
+  </div>
+</div>
+<div class="score-divider">0 vs 2</div>
+<div id="puzzle-5" class="puzzle player-b">
+  <div class="puzzle-header">
+    <span class="left">#6</span>
+    <span class="badge" style="color:#b85a5a;background:rgba(184,90,90,0.12)">Solver Failed</span>
+  </div>
+  <div class="puzzle-body">
+    <div class="section-label">Puzzle Code</div>
+    <div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mystery</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">35</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="c1"># Restrict common methods and sandbox escapes</span>
+    <span class="n">banned</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;extend&quot;</span><span class="p">,</span> <span class="s2">&quot;append&quot;</span><span class="p">,</span> <span class="s2">&quot;insert&quot;</span><span class="p">,</span> <span class="s2">&quot;update&quot;</span><span class="p">,</span> <span class="s2">&quot;add&quot;</span><span class="p">,</span> <span class="s2">&quot;eval&quot;</span><span class="p">,</span> <span class="s2">&quot;exec&quot;</span><span class="p">,</span> <span class="s2">&quot;import&quot;</span><span class="p">,</span> <span class="s2">&quot;__&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">banned</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+            
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Evaluate with completely empty builtins</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;__builtins__&#39;</span><span class="p">:</span> <span class="p">{}})</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="c1"># The result must be a dictionary</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="c1"># The dictionary must contain exactly one item</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="c1"># The dictionary must be perfectly self-referencing (its only value is itself)</span>
+    <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">obj</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+    <div class="section-label">Solver Attempt</div>
+    <div class="attempt">&quot;{0:(d for d in[{}]).next()}&quot;</div>
+    <div class="section-label">Sample Solution</div>
+    <div class="attempt">&quot;[a:={},a.setdefault(0,a)][0]&quot;</div>
+    <div class="info-row">
+      <span><b>Proposer:</b> gemini-3.1-pro-preview</span>
+      <span><b>Solver:</b> deepseek-v3.2-thinking</span>
+    </div>
+  </div>
+</div>
+<div class="score-divider">0 vs 3</div>
+<div id="puzzle-6" class="puzzle player-a">
+  <div class="puzzle-header">
+    <span class="left">#7</span>
+    <span class="badge" style="color:#c9a84c;background:rgba(201,168,76,0.12)">Sample Solution Wrong</span>
+  </div>
+  <div class="puzzle-body">
+    <div class="section-label">Puzzle Code</div>
+    <div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mystery</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="c1"># digit constraints</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;2&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;6&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">forbidden</span> <span class="ow">in</span> <span class="s1">&#39;345&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">forbidden</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;6&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="c1"># sum and product</span>
+    <span class="n">digits</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">digits</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">prod</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">digits</span><span class="p">:</span>
+        <span class="n">prod</span> <span class="o">*=</span> <span class="n">d</span>
+    <span class="k">if</span> <span class="n">prod</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="c1"># primality of n</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">**</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">%</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="c1"># factorial prime condition</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+    <span class="n">primes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">19</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">primes</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">factorial</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="n">f</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">n</span> <span class="o">==</span> <span class="n">f</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+    <div class="section-label">Sample Solution</div>
+    <div class="attempt">6227020799</div>
+    <div class="info-row">
+      <span><b>Proposer:</b> deepseek-v3.2-thinking</span>
+      <span><b>Solver:</b> gemini-3.1-pro-preview</span>
+    </div>
+  </div>
+</div>
+<div class="score-divider">-1 vs 3</div>
+<div id="puzzle-7" class="puzzle player-b">
+  <div class="puzzle-header">
+    <span class="left">#8</span>
+    <span class="badge" style="color:#5ab85a;background:rgba(90,184,90,0.12)">Solved</span>
+  </div>
+  <div class="puzzle-body">
+    <div class="section-label">Puzzle Code</div>
+    <div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mystery</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="n">lengths</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">upper</span><span class="p">()),</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()),</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">casefold</span><span class="p">()),</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">title</span><span class="p">())</span>
+    <span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">lengths</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="k">if</span> <span class="s1">&#39;f&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">casefold</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+
+    <div class="section-label">Solver Attempt</div>
+    <div class="attempt">&#x27;ﬄİİ&#x27;</div>
+    <div class="section-label">Sample Solution</div>
+    <div class="attempt">&#x27;\ufb03\u0130\u0130&#x27;</div>
+    <div class="info-row">
+      <span><b>Proposer:</b> gemini-3.1-pro-preview</span>
+      <span><b>Solver:</b> deepseek-v3.2-thinking</span>
+    </div>
+  </div>
+</div>
+<div class="score-divider">-1 vs 3</div>
+<div id="puzzle-8" class="puzzle player-a">
+  <div class="puzzle-header">
+    <span class="left">#9</span>
+    <span class="badge" style="color:#5ab85a;background:rgba(90,184,90,0.12)">Solved</span>
+  </div>
+  <div class="puzzle-body">
+    <div class="section-label">Puzzle Code</div>
+    <div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mystery</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">11</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39; &#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="o">.</span><span class="n">isalpha</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">x</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span><span class="o">.</span><span class="n">isalpha</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">islower</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1116</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+    <span class="k">if</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;5eb63bbbe01eeed093cb22bb8f5acdc3&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="s2">&quot;b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9&quot;</span>
+    <span class="k">return</span> <span class="n">h</span> <span class="o">==</span> <span class="n">target</span>
+</pre></div>
+
+    <div class="section-label">Solver Attempt</div>
+    <div class="attempt">&quot;hello world&quot;</div>
+    <div class="section-label">Sample Solution</div>
+    <div class="attempt">&quot;hello world&quot;</div>
+    <div class="info-row">
+      <span><b>Proposer:</b> deepseek-v3.2-thinking</span>
+      <span><b>Solver:</b> gemini-3.1-pro-preview</span>
+    </div>
+  </div>
+</div>
+<div class="score-divider">-1 vs 3</div>
+<div id="puzzle-9" class="puzzle player-b">
+  <div class="puzzle-header">
+    <span class="left">#10</span>
+    <span class="badge" style="color:#b85a5a;background:rgba(184,90,90,0.12)">Solver Failed</span>
+  </div>
+  <div class="puzzle-body">
+    <div class="section-label">Puzzle Code</div>
+    <div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mystery</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">40</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+        
+    <span class="n">banned</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;%&quot;</span><span class="p">,</span> <span class="s2">&quot;eval&quot;</span><span class="p">,</span> <span class="s2">&quot;exec&quot;</span><span class="p">,</span> <span class="s2">&quot;import&quot;</span><span class="p">,</span> <span class="s2">&quot;replace&quot;</span><span class="p">,</span> <span class="s2">&quot;lambda&quot;</span><span class="p">,</span> <span class="s2">&quot;chr&quot;</span><span class="p">,</span> <span class="s2">&quot;__&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">banned</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+            
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Self-evaluating expression in a restricted sandbox</span>
+        <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;__builtins__&quot;</span><span class="p">:</span> <span class="p">{}})</span> <span class="o">==</span> <span class="n">x</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+    <div class="section-label">Solver Attempt</div>
+    <div class="attempt">&quot;&quot;</div>
+    <div class="section-label">Sample Solution</div>
+    <div class="attempt">&quot;(a:=&#x27;(a:={0!r}).format(a)&#x27;).format(a)&quot;</div>
+    <div class="info-row">
+      <span><b>Proposer:</b> gemini-3.1-pro-preview</span>
+      <span><b>Solver:</b> deepseek-v3.2-thinking</span>
+    </div>
+  </div>
+</div>
+<div class="score-divider">-1 vs 4</div>
+</div>
+</body>
+</html>
+
